@@ -24,7 +24,6 @@ class App extends StatelessWidget {
   }
 }
 
-
 class AppView extends StatelessWidget {
   const AppView({Key? key}) : super(key: key);
 
@@ -37,10 +36,9 @@ class AppView extends StatelessWidget {
         accentColor: const Color(0xFF13B9FF),
         appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
       ),
-      darkTheme: ThemeData (
-        accentColor: Colors.lightGreenAccent,
-        appBarTheme: const AppBarTheme(color: Colors.lightGreenAccent)
-      ),
+      darkTheme: ThemeData(
+          accentColor: Colors.lightGreenAccent,
+          appBarTheme: const AppBarTheme(color: Colors.lightGreenAccent)),
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

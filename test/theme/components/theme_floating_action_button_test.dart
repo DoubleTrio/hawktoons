@@ -11,7 +11,6 @@ class MockThemeCubit extends MockCubit<ThemeMode> implements ThemeCubit {}
 
 void main() {
   group('ThemeButton render', () {
-
     testWidgets('ThemeButton is rendered', (tester) async {
       await tester.pumpApp(
         ThemeFloatingActionButton(),
