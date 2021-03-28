@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:history_app/counter/counter.dart';
+import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:history_app/theme/cubit/theme_cubit.dart';
 
@@ -44,7 +44,7 @@ class AppView extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const DailyCartoonPage(),
     );
   }
 }

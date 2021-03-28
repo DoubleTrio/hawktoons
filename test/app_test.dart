@@ -8,12 +8,22 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/app/app.dart';
 import 'package:history_app/counter/counter.dart';
+import 'package:history_app/daily_cartoon/daily_cartoon.dart';
+import 'helpers/helpers.dart';
 
 void main() {
-  group('App', () {
+  group('App - Screen #1', () {
     testWidgets('renders CounterPage', (tester) async {
+      await tester.pumpApp(const CounterPage());
+      expect(find.byType(CounterView), findsOneWidget);
+    });
+  });
+
+  group('App - Screen #2', () {
+    testWidgets('renders DailyCartoonPage', (tester) async {
       await tester.pumpWidget(const App());
-      expect(find.byType(CounterPage), findsOneWidget);
+      await tester.pumpAndSettle();
+      expect(find.byType(DailyCartoonPage), findsOneWidget);
     });
   });
 }

@@ -30,3 +30,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/images/unit5/
+    - assets/images/unit6/
+
+  fonts:
+    - family: SanFrancisco
+      fonts:
+        - asset: assets/fonts/SFNSDisplay-Regular.otf
+        - asset: assets/fonts/SFNSDisplay-Light.otf
+        - asset: assets/fonts/SFNSDisplay-Bold.otf
+        - asset: assets/fonts/SFNSText-RegularItalic.otf
