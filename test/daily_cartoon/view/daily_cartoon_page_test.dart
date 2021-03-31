@@ -21,8 +21,17 @@ void main() {
   });
 
   group('DailyCartoonView', () {
-    var loadDailyCartoonTextKey =
-        const Key('dailyCartoonView_dailyCartoonLoaded_text');
+    testWidgets('renders DailyCartoonCard', (tester) async {
+      await tester.pumpApp(const DailyCartoonPage());
+      await tester.pumpAndSettle();
+      expect(find.byType(DailyCartoonView), findsOneWidget);
+    });
+  });
+
+  group('DailyCartoonView', () {
+    var fetchDailyCartoonCardKey =
+        const Key('dailyCartoonView_dailyCartoonLoaded_card');
+
     var loadDailyCartoonErrorTextKey =
         const Key('dailyCartoonView_dailyCartoonFailure_text');
 
@@ -31,7 +40,8 @@ void main() {
         image: 'insert-image-uri-another',
         author: 'Bob',
         date: '11-20-2020',
-        description: 'Another Mock Political Cartoon');
+        description: 'Another Mock Political Cartoon'
+    );
 
     late DailyCartoonBloc dailyCartoonBloc;
 
@@ -68,7 +78,7 @@ void main() {
           child: DailyCartoonView(),
         ),
       );
-      expect(find.byKey(loadDailyCartoonTextKey), findsOneWidget);
+      expect(find.byKey(fetchDailyCartoonCardKey), findsOneWidget);
     });
 
     testWidgets(

@@ -12,21 +12,22 @@ void main() {
   group('DailyCartoonBloc', () {
     late DailyCartoonRepository dailyCartoonRepository;
     var mockDailyPoliticalCartoon = DailyCartoon(
-        id: '2',
-        image: 'insert-image-uri-another',
-        author: 'Bob',
-        date: '11-20-2020',
-        description: 'Another Mock Political Cartoon');
+      id: '2',
+      image: 'insert-image-uri-another',
+      author: 'Bob',
+      date: '11-20-2020',
+      description: 'Another Mock Political Cartoon'
+    );
 
     setUpAll(() => {
-          dailyCartoonRepository = MockCartoonRepository(),
-        });
+      dailyCartoonRepository = MockCartoonRepository(),
+    });
 
     test('initial state is DailyCartoonInProgress()', () {
-      expect(
-          DailyCartoonBloc(dailyCartoonRepository: dailyCartoonRepository)
-              .state,
-          equals(DailyCartoonInProgress()));
+      var state = DailyCartoonInProgress();
+      expect(DailyCartoonBloc(
+        dailyCartoonRepository: dailyCartoonRepository).state,
+        equals(state));
     });
 
     blocTest<DailyCartoonBloc, DailyCartoonState>(
