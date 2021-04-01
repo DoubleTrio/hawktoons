@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:history_app/daily_cartoon/repository/daily_cartoon_repository.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -12,7 +11,7 @@ class DailyCartoonPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => DailyCartoonBloc(
-          dailyCartoonRepository: FirebaseDailyCartoonRepository())
+          dailyCartoonRepository: FirebasePoliticalCartoonRepository())
         ..add(LoadDailyCartoon()),
       child: DailyCartoonView(),
     );
@@ -42,21 +41,7 @@ class _DailyCartoonViewState extends State<DailyCartoonView> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(20),
-          child: StreamBuilder<PoliticalCartoon>(
-            stream: politicalCartoon,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                print(snapshot.error);
-                throw Exception('error');
-              }
-              else if (snapshot.hasData) {
-                return Text(snapshot.data.toString());
-              }
-              else {
-                return const CircularProgressIndicator();
-              }
-            }
-          ),
+          child: PoliticalCartoonCardLoader(),
         ),
       ),
     );
@@ -95,26 +80,6 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
                 key: Key('dailyCartoonView_dailyCartoonFailure_text'),
                 style: TextStyle(color: Colors.red));
           }
-        });
-  }
-}
-
-class LatestCartoonFutureBuilder extends StatelessWidget {
-  LatestCartoonFutureBuilder({ required this.politicalCartoonEntity });
-  final Future<PoliticalCartoon> politicalCartoonEntity;
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<PoliticalCartoon>(
-      future: politicalCartoonEntity,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data.toString());
-        } else if (snapshot.hasError) {
-          print(snapshot.error);
-          return Text('${snapshot.error}');
-        }
-        return const CircularProgressIndicator();
-      },
-    );
+      });
   }
 }

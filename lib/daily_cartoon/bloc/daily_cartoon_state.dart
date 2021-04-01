@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../model/daily_cartoon.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 abstract class DailyCartoonState extends Equatable {
   const DailyCartoonState();
@@ -16,7 +16,7 @@ class DailyCartoonInProgress extends DailyCartoonState {
 class DailyCartoonLoaded extends DailyCartoonState {
   DailyCartoonLoaded({required this.dailyCartoon});
 
-  final DailyCartoon dailyCartoon;
+  final PoliticalCartoon dailyCartoon;
 
   @override
   List<Object> get props => [dailyCartoon];

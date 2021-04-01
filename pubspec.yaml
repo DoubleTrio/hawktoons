@@ -19,9 +19,7 @@ dependencies:
   hydrated_bloc: ^7.0.0-nullsafety.2
   path_provider: ^2.0.1
   political_cartoon_repository:
-    git:
-      url: https://github.com/DoubleTrio/political_cartoon_repository.git
-      ref: main
+    path: ../../repository/political_cartoon_repository
 
 dev_dependencies:
   flutter_test:

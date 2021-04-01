@@ -2,66 +2,55 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon_bloc.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MockCartoonRepository extends Mock
-    implements FirebaseDailyCartoonRepository {}
+    implements FirebasePoliticalCartoonRepository {}
 
 void main() {
   group('DailyCartoonBloc', () {
-    late DailyCartoonRepository dailyCartoonRepository;
-    var mockDailyPoliticalCartoon = DailyCartoon(
+    late FirebasePoliticalCartoonRepository politicalCartoonRepository;
+    var mockPoliticalCartoon = PoliticalCartoon(
       id: '2',
       image: 'insert-image-uri-another',
       author: 'Bob',
-      date: '11-20-2020',
+      date: Timestamp.now(),
       description: 'Another Mock Political Cartoon'
     );
 
+
     setUpAll(() => {
-      dailyCartoonRepository = MockCartoonRepository(),
+      politicalCartoonRepository = MockCartoonRepository(),
     });
 
     test('initial state is DailyCartoonInProgress()', () {
       var state = DailyCartoonInProgress();
       expect(DailyCartoonBloc(
-        dailyCartoonRepository: dailyCartoonRepository).state,
+        dailyCartoonRepository: politicalCartoonRepository).state,
         equals(state));
     });
 
     blocTest<DailyCartoonBloc, DailyCartoonState>(
-        'Emits [DailyCartoonLoaded(dailyCartoon: $mockDailyPoliticalCartoon)] '
+        'Emits [DailyCartoonLoaded(dailyCartoon: $mockPoliticalCartoon)] '
         'when LoadDailyCartoon() is added',
         build: () {
-          when(dailyCartoonRepository.fetchDailyCartoon)
-              .thenAnswer((_) async => mockDailyPoliticalCartoon);
+          when(politicalCartoonRepository.getLatestPoliticalCartoon)
+              .thenAnswer((_) =>
+              Stream.fromIterable([mockPoliticalCartoon]));
 
           return DailyCartoonBloc(
-              dailyCartoonRepository: dailyCartoonRepository);
+              dailyCartoonRepository: politicalCartoonRepository);
         },
         act: (bloc) => bloc.add(LoadDailyCartoon()),
         expect: () =>
-            [DailyCartoonLoaded(dailyCartoon: mockDailyPoliticalCartoon)],
+            [DailyCartoonLoaded(dailyCartoon: mockPoliticalCartoon)],
         verify: (_) => {
-              verify(() => dailyCartoonRepository.fetchDailyCartoon())
-                  .called(1),
-            });
-
-    blocTest<DailyCartoonBloc, DailyCartoonState>(
-        'Emits [DailyCartoonFailure()] '
-        'when error is thrown in LoadDailyCartoon',
-        build: () {
-          when(dailyCartoonRepository.fetchDailyCartoon)
-              .thenAnswer((_) async => throw Exception('Error'));
-          return DailyCartoonBloc(
-              dailyCartoonRepository: dailyCartoonRepository);
-        },
-        act: (bloc) => bloc.add(LoadDailyCartoon()),
-        expect: () => [DailyCartoonFailure()],
-        verify: (_) => {
-              verify(() => dailyCartoonRepository.fetchDailyCartoon())
-                  .called(1),
-            });
+            verify(politicalCartoonRepository.getLatestPoliticalCartoon)
+            .called(1),
+        }
+      );
   });
 }

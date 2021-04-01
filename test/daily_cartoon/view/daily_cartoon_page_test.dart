@@ -4,12 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
+import 'package:firebase_core/firebase_core.dart';
 import '../../helpers/helpers.dart';
 
 class MockDailyCartoonBloc
     extends MockBloc<DailyCartoonEvent, DailyCartoonState>
     implements DailyCartoonBloc {}
+
+class MockCartoonRepository extends Mock
+    implements FirebasePoliticalCartoonRepository {}
 
 void main() {
   group('DailyCartoonPage', () {
@@ -35,20 +40,24 @@ void main() {
     var loadDailyCartoonErrorTextKey =
         const Key('dailyCartoonView_dailyCartoonFailure_text');
 
-    var mockDailyPoliticalCartoon = DailyCartoon(
+    var mockPoliticalCartoon = PoliticalCartoon(
         id: '2',
         image: 'insert-image-uri-another',
         author: 'Bob',
-        date: '11-20-2020',
+        date: Timestamp.now(),
         description: 'Another Mock Political Cartoon'
     );
 
     late DailyCartoonBloc dailyCartoonBloc;
+    late PoliticalCartoonRepository politicalCartoonRepository;
 
-    setUpAll(() {
+    setUpAll(() async {
       registerFallbackValue<DailyCartoonState>(DailyCartoonInProgress());
       registerFallbackValue<DailyCartoonEvent>(LoadDailyCartoon());
+      TestWidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
       dailyCartoonBloc = MockDailyCartoonBloc();
+      politicalCartoonRepository = MockCartoonRepository();
     });
 
     testWidgets(
@@ -69,7 +78,7 @@ void main() {
     testWidgets(
         'renders daily political cartoon '
         'when state is DailyCartoonLoaded()', (tester) async {
-      var state = DailyCartoonLoaded(dailyCartoon: mockDailyPoliticalCartoon);
+      var state = DailyCartoonLoaded(dailyCartoon: mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
       await tester.pumpApp(
