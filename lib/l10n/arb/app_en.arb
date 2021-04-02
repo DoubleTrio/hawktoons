@@ -4,8 +4,8 @@
     "@counterAppBarTitle": {
         "description": "Text shown in the AppBar of the Counter Page"
     },
-    "dailyCartoonAppBarTitle": "Daily Cartoon",
-    "@dailyCartoonAppBarTitle": {
+    "dailyCartoonTitle": "Daily Cartoon",
+    "@dailyCartoonTitle": {
         "description": "Text shown in the AppBar of the Daily Cartoon Page"
     }
 }

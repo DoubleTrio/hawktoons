@@ -1,9 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -13,31 +16,42 @@ class MockDailyCartoonBloc
 
 void main() {
   group('DailyCartoonPage', () {
+    setupCloudFirestoreMocks();
+
+    setUpAll(() async {
+      await Firebase.initializeApp();
+    });
+
     testWidgets('renders DailyCartoonView', (tester) async {
       await tester.pumpApp(const DailyCartoonPage());
-      await tester.pumpAndSettle();
       expect(find.byType(DailyCartoonView), findsOneWidget);
+      expect(find.byType(PoliticalCartoonCardLoader), findsOneWidget);
     });
   });
 
   group('DailyCartoonView', () {
-    var loadDailyCartoonTextKey =
-        const Key('dailyCartoonView_dailyCartoonLoaded_text');
+    setupCloudFirestoreMocks();
+    var fetchDailyCartoonCardKey =
+        const Key('dailyCartoonView_DailyCartoonLoad_card');
+
     var loadDailyCartoonErrorTextKey =
         const Key('dailyCartoonView_dailyCartoonFailure_text');
 
-    var mockDailyPoliticalCartoon = DailyCartoon(
+    var mockPoliticalCartoon = PoliticalCartoon(
         id: '2',
         image: 'insert-image-uri-another',
         author: 'Bob',
-        date: '11-20-2020',
+        date: Timestamp.now(),
         description: 'Another Mock Political Cartoon');
 
     late DailyCartoonBloc dailyCartoonBloc;
 
-    setUpAll(() {
+    setUpAll(() async {
       registerFallbackValue<DailyCartoonState>(DailyCartoonInProgress());
       registerFallbackValue<DailyCartoonEvent>(LoadDailyCartoon());
+
+      await Firebase.initializeApp();
+
       dailyCartoonBloc = MockDailyCartoonBloc();
     });
 
@@ -55,11 +69,10 @@ void main() {
       );
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
-
     testWidgets(
         'renders daily political cartoon '
-        'when state is DailyCartoonLoaded()', (tester) async {
-      var state = DailyCartoonLoaded(dailyCartoon: mockDailyPoliticalCartoon);
+        'when state is DailyCartoonLoad()', (tester) async {
+      var state = DailyCartoonLoad(dailyCartoon: mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
       await tester.pumpApp(
@@ -68,7 +81,7 @@ void main() {
           child: DailyCartoonView(),
         ),
       );
-      expect(find.byKey(loadDailyCartoonTextKey), findsOneWidget);
+      expect(find.byKey(fetchDailyCartoonCardKey), findsOneWidget);
     });
 
     testWidgets(

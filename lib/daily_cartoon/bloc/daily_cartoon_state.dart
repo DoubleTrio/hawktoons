@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../model/daily_cartoon.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 abstract class DailyCartoonState extends Equatable {
   const DailyCartoonState();
@@ -8,27 +8,28 @@ abstract class DailyCartoonState extends Equatable {
 class DailyCartoonInProgress extends DailyCartoonState {
   @override
   List<Object> get props => [];
-
-  @override
-  String toString() => 'DailyCartoonInProgress { }';
 }
 
-class DailyCartoonLoaded extends DailyCartoonState {
-  DailyCartoonLoaded({required this.dailyCartoon});
+class DailyCartoonLoad extends DailyCartoonState {
+  DailyCartoonLoad({required this.dailyCartoon});
 
-  final DailyCartoon dailyCartoon;
+  final PoliticalCartoon dailyCartoon;
 
   @override
   List<Object> get props => [dailyCartoon];
 
   @override
-  String toString() => 'DailyCartoonLoaded { dailyCartoon: $dailyCartoon }';
+  String toString() => 'DailyCartoonLoad { dailyCartoon: $dailyCartoon }';
 }
 
 class DailyCartoonFailure extends DailyCartoonState {
-  @override
-  List<Object> get props => [];
+  DailyCartoonFailure({this.errorMessage = 'An error has occurred'});
+
+  final String errorMessage;
 
   @override
-  String toString() => 'DailyCartoonFailure { }';
+  List<Object> get props => [errorMessage];
+
+  @override
+  String toString() => 'DailyCartoonFailure { errorMessage: $errorMessage }';
 }
