@@ -25,8 +25,8 @@ void main() {
     group('DailyCartoonFailure', () {
       test('supports value comparisons', () {
         expect(
-          DailyCartoonFailure(errorMessage: 'Error'),
-          DailyCartoonFailure(errorMessage: 'Error'),
+          DailyCartoonFailure(errorMessage: 'Error message'),
+          DailyCartoonFailure(errorMessage: 'Error message'),
         );
       });
     });

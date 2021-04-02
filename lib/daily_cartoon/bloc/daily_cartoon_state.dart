@@ -8,9 +8,6 @@ abstract class DailyCartoonState extends Equatable {
 class DailyCartoonInProgress extends DailyCartoonState {
   @override
   List<Object> get props => [];
-
-  @override
-  String toString() => 'DailyCartoonInProgress { }';
 }
 
 class DailyCartoonLoad extends DailyCartoonState {
@@ -31,7 +28,7 @@ class DailyCartoonFailure extends DailyCartoonState {
   final String errorMessage;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [errorMessage];
 
   @override
   String toString() => 'DailyCartoonFailure { errorMessage: $errorMessage }';
