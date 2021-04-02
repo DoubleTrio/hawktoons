@@ -1,23 +1,19 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon_bloc.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class MockCartoonRepository extends Mock
     implements FirebasePoliticalCartoonRepository {}
 
+class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
+
 void main() {
   group('DailyCartoonBloc', () {
     late FirebasePoliticalCartoonRepository politicalCartoonRepository;
-    var mockPoliticalCartoon = PoliticalCartoon(
-        id: '2',
-        image: 'insert-image-uri-another',
-        author: 'Bob',
-        date: Timestamp.now(),
-        description: 'Another Mock Political Cartoon');
+    var politicalCartoon = MockPoliticalCartoon();
 
     setUpAll(() => {
           politicalCartoonRepository = MockCartoonRepository(),
@@ -32,17 +28,17 @@ void main() {
     });
 
     blocTest<DailyCartoonBloc, DailyCartoonState>(
-        'Emits [DailyCartoonLoad(dailyCartoon: $mockPoliticalCartoon)] '
+        'Emits [DailyCartoonLoad(dailyCartoon: $politicalCartoon)] '
         'when LoadDailyCartoon() is added',
         build: () {
           when(politicalCartoonRepository.getLatestPoliticalCartoon)
-              .thenAnswer((_) => Stream.fromIterable([mockPoliticalCartoon]));
+              .thenAnswer((_) => Stream.fromIterable([politicalCartoon]));
 
           return DailyCartoonBloc(
               dailyCartoonRepository: politicalCartoonRepository);
         },
         act: (bloc) => bloc.add(LoadDailyCartoon()),
-        expect: () => [DailyCartoonLoad(dailyCartoon: mockPoliticalCartoon)],
+        expect: () => [DailyCartoonLoad(dailyCartoon: politicalCartoon)],
         verify: (_) => {
               verify(politicalCartoonRepository.getLatestPoliticalCartoon)
                   .called(1),

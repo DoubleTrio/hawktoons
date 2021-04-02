@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:history_app/daily_cartoon/daily_cartoon.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
+
 import '../../helpers/helpers.dart';
 
 class MockDailyCartoonBloc
