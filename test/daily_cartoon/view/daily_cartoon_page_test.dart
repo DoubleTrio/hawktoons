@@ -13,27 +13,23 @@ class MockDailyCartoonBloc
     extends MockBloc<DailyCartoonEvent, DailyCartoonState>
     implements DailyCartoonBloc {}
 
-class MockCartoonRepository extends Mock
-    implements FirebasePoliticalCartoonRepository {}
-
 void main() {
   group('DailyCartoonPage', () {
+    setupCloudFirestoreMocks();
+
+    setUpAll(() async {
+      await Firebase.initializeApp();
+    });
+
     testWidgets('renders DailyCartoonView', (tester) async {
       await tester.pumpApp(const DailyCartoonPage());
-      await tester.pumpAndSettle();
       expect(find.byType(DailyCartoonView), findsOneWidget);
+      expect(find.byType(PoliticalCartoonCardLoader), findsOneWidget);
     });
   });
 
   group('DailyCartoonView', () {
-    testWidgets('renders DailyCartoonCard', (tester) async {
-      await tester.pumpApp(const DailyCartoonPage());
-      await tester.pumpAndSettle();
-      expect(find.byType(DailyCartoonView), findsOneWidget);
-    });
-  });
-
-  group('DailyCartoonView', () {
+    setupCloudFirestoreMocks();
     var fetchDailyCartoonCardKey =
         const Key('dailyCartoonView_dailyCartoonLoaded_card');
 
@@ -45,19 +41,18 @@ void main() {
         image: 'insert-image-uri-another',
         author: 'Bob',
         date: Timestamp.now(),
-        description: 'Another Mock Political Cartoon'
-    );
+        description: 'Another Mock Political Cartoon');
 
     late DailyCartoonBloc dailyCartoonBloc;
-    late PoliticalCartoonRepository politicalCartoonRepository;
 
     setUpAll(() async {
       registerFallbackValue<DailyCartoonState>(DailyCartoonInProgress());
       registerFallbackValue<DailyCartoonEvent>(LoadDailyCartoon());
+
       TestWidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
+
       dailyCartoonBloc = MockDailyCartoonBloc();
-      politicalCartoonRepository = MockCartoonRepository();
     });
 
     testWidgets(
@@ -74,7 +69,6 @@ void main() {
       );
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
-
     testWidgets(
         'renders daily political cartoon '
         'when state is DailyCartoonLoaded()', (tester) async {

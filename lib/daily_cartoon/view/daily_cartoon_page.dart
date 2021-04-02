@@ -29,11 +29,11 @@ class _DailyCartoonViewState extends State<DailyCartoonView> {
   @override
   void initState() {
     var politicalCartoonRepo = FirebasePoliticalCartoonRepository();
-    politicalCartoon =
-        politicalCartoonRepo.getLatestPoliticalCartoon();
+    politicalCartoon = politicalCartoonRepo.getLatestPoliticalCartoon();
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -53,33 +53,32 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
         builder: (context, state) {
-          if (state is DailyCartoonInProgress) {
-            return const CircularProgressIndicator();
-          }
-          if (state is DailyCartoonLoaded) {
-            return Container(
-              key: const Key('dailyCartoonView_dailyCartoonLoaded_card'),
-              width: 200,
-              height: 200,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      offset: Offset(0, 4),
-                      blurRadius: 5,
-                      spreadRadius: 3,
-                      color: Colors.black54
-                  )
-                ],
-              ),
-              child: Text('${state.dailyCartoon.description}'),
-            );
-          } else {
-            return const Text('Error while fetching political cartoon',
-                key: Key('dailyCartoonView_dailyCartoonFailure_text'),
-                style: TextStyle(color: Colors.red));
-          }
-      });
+      if (state is DailyCartoonInProgress) {
+        return const CircularProgressIndicator();
+      }
+      if (state is DailyCartoonLoaded) {
+        return Container(
+          key: const Key('dailyCartoonView_dailyCartoonLoaded_card'),
+          width: 200,
+          height: 200,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(0, 4),
+                  blurRadius: 5,
+                  spreadRadius: 3,
+                  color: Colors.black54)
+            ],
+          ),
+          child: Text('${state.dailyCartoon.description}'),
+        );
+      } else {
+        return const Text('Error while fetching political cartoon',
+            key: Key('dailyCartoonView_dailyCartoonFailure_text'),
+            style: TextStyle(color: Colors.red));
+      }
+    });
   }
 }

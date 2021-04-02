@@ -11,7 +11,7 @@ class LoadDailyCartoon extends DailyCartoonEvent {
 }
 
 class UpdateDailyCartoon extends DailyCartoonEvent {
-  const UpdateDailyCartoon({ required this.cartoon });
+  const UpdateDailyCartoon({required this.cartoon});
 
   final PoliticalCartoon cartoon;
 
