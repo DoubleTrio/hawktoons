@@ -31,7 +31,7 @@ void main() {
   group('DailyCartoonView', () {
     setupCloudFirestoreMocks();
     var fetchDailyCartoonCardKey =
-        const Key('dailyCartoonView_dailyCartoonLoaded_card');
+        const Key('dailyCartoonView_DailyCartoonLoad_card');
 
     var loadDailyCartoonErrorTextKey =
         const Key('dailyCartoonView_dailyCartoonFailure_text');
@@ -49,7 +49,6 @@ void main() {
       registerFallbackValue<DailyCartoonState>(DailyCartoonInProgress());
       registerFallbackValue<DailyCartoonEvent>(LoadDailyCartoon());
 
-      TestWidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
 
       dailyCartoonBloc = MockDailyCartoonBloc();
@@ -71,8 +70,8 @@ void main() {
     });
     testWidgets(
         'renders daily political cartoon '
-        'when state is DailyCartoonLoaded()', (tester) async {
-      var state = DailyCartoonLoaded(dailyCartoon: mockPoliticalCartoon);
+        'when state is DailyCartoonLoad()', (tester) async {
+      var state = DailyCartoonLoad(dailyCartoon: mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
       await tester.pumpApp(
