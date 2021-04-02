@@ -4,8 +4,8 @@
     "@counterAppBarTitle": {
         "description": "Texto mostrado en la AppBar de la página del contador"
     },
-    "dailyCartoonAppBarTitle": "Dibujos animados diarios",
-    "@dailyCartoonAppBarTitle": {
+    "dailyCartoonTitle": "Dibujos animados diarios",
+    "@dailyCartoonTitle": {
         "description": "Text shown in the AppBar of the Daily Cartoon Page"
     }
 }
