@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
@@ -11,7 +12,7 @@ class DailyCartoonPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => DailyCartoonBloc(
-          dailyCartoonRepository: FirebasePoliticalCartoonRepository())
+          dailyCartoonRepository: FirestorePoliticalCartoonRepository())
         ..add(LoadDailyCartoon()),
       child: DailyCartoonView(),
     );
@@ -24,13 +25,8 @@ class DailyCartoonView extends StatefulWidget {
 }
 
 class _DailyCartoonViewState extends State<DailyCartoonView> {
-  late Stream<PoliticalCartoon> politicalCartoon;
-
   @override
   void initState() {
-    var politicalCartoonRepo = FirebasePoliticalCartoonRepository();
-    politicalCartoon = politicalCartoonRepo.getLatestPoliticalCartoon();
-
     super.initState();
   }
 
@@ -39,9 +35,9 @@ class _DailyCartoonViewState extends State<DailyCartoonView> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(20),
-          child: PoliticalCartoonCardLoader(),
-        ),
+            width: double.infinity,
+            height: double.infinity,
+            child: Center(child: PoliticalCartoonCardLoader())),
       ),
     );
   }
@@ -51,31 +47,18 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
     return BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
         builder: (context, state) {
       if (state is DailyCartoonInProgress) {
         return const CircularProgressIndicator();
-      }
-      if (state is DailyCartoonLoad) {
+      } else if (state is DailyCartoonLoad) {
         return Column(
           children: [
             Text(l10n.dailyCartoonTitle),
-            Container(
+            Image.asset(
+              'assets/images/unit5/rail-splitter.jpg',
               key: const Key('dailyCartoonView_DailyCartoonLoad_card'),
-              width: 200,
-              height: 200,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      offset: Offset(0, 4),
-                      blurRadius: 5,
-                      spreadRadius: 3,
-                      color: Colors.black54)
-                ],
-              ),
-              child: Text('${state.dailyCartoon.description}'),
             ),
           ],
         );

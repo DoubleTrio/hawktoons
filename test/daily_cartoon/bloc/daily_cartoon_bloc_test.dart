@@ -6,13 +6,13 @@ import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class MockCartoonRepository extends Mock
-    implements FirebasePoliticalCartoonRepository {}
+    implements FirestorePoliticalCartoonRepository {}
 
 class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
 
 void main() {
   group('DailyCartoonBloc', () {
-    late FirebasePoliticalCartoonRepository politicalCartoonRepository;
+    late FirestorePoliticalCartoonRepository politicalCartoonRepository;
     var politicalCartoon = MockPoliticalCartoon();
 
     setUpAll(() => {

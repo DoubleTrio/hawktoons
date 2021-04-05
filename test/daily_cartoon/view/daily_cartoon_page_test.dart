@@ -39,10 +39,11 @@ void main() {
 
     var mockPoliticalCartoon = PoliticalCartoon(
         id: '2',
-        image: 'insert-image-uri-another',
         author: 'Bob',
         date: Timestamp.now(),
-        description: 'Another Mock Political Cartoon');
+        description: 'Another Mock Political Cartoon',
+        unitId: UnitId.unit1,
+        downloadUrl: 'downloadurl');
 
     late DailyCartoonBloc dailyCartoonBloc;
 

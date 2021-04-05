@@ -12,6 +12,8 @@ import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:history_app/theme/cubit/theme_cubit.dart';
 
+import '../theme/theme.dart';
+
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
@@ -32,10 +34,7 @@ class AppView extends StatelessWidget {
     final themeMode = context.select((ThemeCubit cubit) => cubit.state);
     return MaterialApp(
       themeMode: themeMode,
-      theme: ThemeData(
-        accentColor: const Color(0xFF13B9FF),
-        appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-      ),
+      theme: lightThemeData,
       darkTheme: ThemeData(
           accentColor: Colors.lightGreenAccent,
           appBarTheme: const AppBarTheme(color: Colors.lightGreenAccent)),
