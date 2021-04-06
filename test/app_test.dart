@@ -1,7 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/app/app.dart';
-import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'helpers/helpers.dart';
 
 void main() {
@@ -12,9 +12,9 @@ void main() {
       await Firebase.initializeApp();
     });
 
-    testWidgets('renders DailyCartoonPage', (tester) async {
+    testWidgets('renders AuthBlocBuilder', (tester) async {
       await tester.pumpWidget(const App());
-      expect(find.byType(DailyCartoonPage), findsOneWidget);
+      expect(find.byType(AuthBlocBuilder), findsOneWidget);
     });
   });
 }
