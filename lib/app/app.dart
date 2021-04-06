@@ -70,9 +70,10 @@ class AuthBlocBuilder extends StatelessWidget {
             'Unauthenticated',
             key: Key('dailyCartoonPage_Unauthenticated'),
           );
+        } else {
+          return const CircularProgressIndicator(
+              key: Key('dailyCartoonPage_Uninitialized'));
         }
-        return const CircularProgressIndicator(
-            key: Key('dailyCartoonPage_Uninitialized'));
       },
     );
   }
