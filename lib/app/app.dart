@@ -10,8 +10,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:history_app/auth/auth.dart';
 import 'package:history_app/auth/bloc/authentication_event.dart';
-import 'package:history_app/daily_cartoon/daily_cartoon.dart';
+import 'package:history_app/home/home_screen.dart';
 import 'package:history_app/l10n/l10n.dart';
+import 'package:history_app/tab/bloc/tab.dart';
 import 'package:history_app/theme/cubit/theme_cubit.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -63,8 +64,11 @@ class AuthBlocBuilder extends StatelessWidget {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state is Authenticated) {
-          return const DailyCartoonPage(
-              key: Key('dailyCartoonPage_Authenticated'));
+          return BlocProvider(
+            key: const Key('dailyCartoonPage_Authenticated'),
+            create: (context) => TabBloc(),
+            child: HomeScreen(),
+          );
         } else if (state is Unauthenticated) {
           return const Text(
             'Unauthenticated',

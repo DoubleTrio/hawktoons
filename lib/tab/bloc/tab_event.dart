@@ -7,7 +7,7 @@ abstract class TabEvent extends Equatable {
 }
 
 class UpdateTab extends TabEvent {
-  const UpdateTab(this.tab);
+  UpdateTab(this.tab);
 
   final AppTab tab;
 

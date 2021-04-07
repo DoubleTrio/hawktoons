@@ -19,26 +19,14 @@ class DailyCartoonPage extends StatelessWidget {
   }
 }
 
-class DailyCartoonView extends StatefulWidget {
-  @override
-  _DailyCartoonViewState createState() => _DailyCartoonViewState();
-}
-
-class _DailyCartoonViewState extends State<DailyCartoonView> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class DailyCartoonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Center(child: PoliticalCartoonCardLoader())),
-      ),
+    return SafeArea(
+      child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: Center(child: PoliticalCartoonCardLoader())),
     );
   }
 }

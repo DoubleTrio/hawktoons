@@ -5,7 +5,9 @@ void main() {
   group('TabEvent', () {
     group('UpdateTab', () {
       test('supports value comparisons', () {
-        expect(const UpdateTab(AppTab.all), const UpdateTab(AppTab.all));
+        expect(UpdateTab(AppTab.all), UpdateTab(AppTab.all));
+        expect(UpdateTab(AppTab.daily).toString(),
+            UpdateTab(AppTab.daily).toString());
       });
     });
   });

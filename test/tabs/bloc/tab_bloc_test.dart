@@ -13,7 +13,7 @@ void main() {
       'Emits [AppTab.all] '
       'when UpdateTab(AppTab.daily) is added',
       build: () => TabBloc(),
-      act: (bloc) => bloc.add(const UpdateTab(AppTab.all)),
+      act: (bloc) => bloc.add(UpdateTab(AppTab.all)),
       expect: () => [AppTab.all],
     );
 
@@ -22,7 +22,7 @@ void main() {
       'when UpdateTab(AppTab.daily) is added and the current tab is AppTab.all',
       build: () => TabBloc(),
       seed: () => AppTab.all,
-      act: (bloc) => bloc.add(const UpdateTab(AppTab.daily)),
+      act: (bloc) => bloc.add(UpdateTab(AppTab.daily)),
       expect: () => [AppTab.daily],
     );
   });
