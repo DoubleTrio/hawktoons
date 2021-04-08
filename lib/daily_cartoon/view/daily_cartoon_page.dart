@@ -6,7 +6,7 @@ import 'package:history_app/l10n/l10n.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DailyCartoonPage extends StatelessWidget {
-  const DailyCartoonPage({Key? key}) : super(key: key);
+  DailyCartoonPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

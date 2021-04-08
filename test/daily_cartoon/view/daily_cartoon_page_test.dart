@@ -23,7 +23,7 @@ void main() {
     });
 
     testWidgets('renders DailyCartoonView', (tester) async {
-      await tester.pumpApp(const DailyCartoonPage());
+      await tester.pumpApp(DailyCartoonPage());
       expect(find.byType(DailyCartoonView), findsOneWidget);
       expect(find.byType(PoliticalCartoonCardLoader), findsOneWidget);
     });

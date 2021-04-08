@@ -18,8 +18,12 @@ class TabSelector extends StatelessWidget {
         onTap: (index) => onTabSelected(AppTab.values[index]),
         items: [
           const BottomNavigationBarItem(
-              icon: Icon(Icons.article_outlined), label: 'Daily'),
-          const BottomNavigationBarItem(icon: Icon(Icons.list), label: 'All'),
+              icon: Icon(Icons.article_outlined,
+                  key: Key('tab_selector_DailyTab')),
+              label: 'Daily'),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.list, key: Key('tab_selector_AllTab')),
+              label: 'All'),
         ]);
   }
 }
