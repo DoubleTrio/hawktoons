@@ -29,7 +29,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
         cartoonRepository.politicalCartoons().listen((cartoons) {
       add(AllCartoonsUpdated(cartoons: cartoons));
     }, onError: (err) {
-      add(AllCartoonsErrored(errorMessage: err));
+      add(AllCartoonsErrored(err));
     });
   }
 
@@ -40,7 +40,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
 
   Stream<AllCartoonsState> _mapErrorAllCartoonsToState(
       String errorMessage) async* {
-    yield AllCartoonsLoadFailure(errorMessage: errorMessage);
+    yield AllCartoonsLoadFailure(errorMessage);
   }
 
   @override

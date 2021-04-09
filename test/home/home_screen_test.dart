@@ -21,8 +21,8 @@ void main() {
 
     late TabBloc tabBloc;
 
-    var dailyCartoonIconKey = find.byKey(const Key('tab_selector_DailyTab'));
-    var allCartoonsIconKey = find.byKey(const Key('tab_selector_AllTab'));
+    var dailyCartoonIconKey = find.byKey(const Key('TabSelector_DailyTab'));
+    var allCartoonsIconKey = find.byKey(const Key('TabSelector_AllTab'));
 
     setUpAll(() async {
       registerFallbackValue<TabEvent>(UpdateTab(AppTab.all));
@@ -48,7 +48,7 @@ void main() {
 
     testWidgets(
         'tabBloc.add(UpdateTab(AppTab.all)) '
-        'is called when the all tab is tapped', (tester) async {
+        'is called when the "All" tab is tapped', (tester) async {
       var state = AppTab.daily;
       when(() => tabBloc.state).thenReturn(state);
       await tester.pumpApp(
@@ -73,7 +73,7 @@ void main() {
 
     testWidgets(
         'tabBloc.add(UpdateTab(AppTab.daily)) '
-        'is called when the daily tab is tapped', (tester) async {
+        'is called when the "Daily" tab is tapped', (tester) async {
       var state = AppTab.all;
       when(() => tabBloc.state).thenReturn(state);
 
@@ -99,7 +99,7 @@ void main() {
 
     testWidgets(
         'tabBloc.add(UpdateTab(AppTab.daily)) '
-        'is called when swiped to daily tab', (tester) async {
+        'is called when swiped to "Daily" tab', (tester) async {
       var state = AppTab.all;
       when(() => tabBloc.state).thenReturn(state);
 
@@ -117,7 +117,7 @@ void main() {
 
     testWidgets(
         'tabBloc.add(UpdateTab(AppTab.all)) '
-        'is called when swiped to all tab', (tester) async {
+        'is called when swiped to "All" tab', (tester) async {
       var state = AppTab.daily;
       when(() => tabBloc.state).thenReturn(state);
 

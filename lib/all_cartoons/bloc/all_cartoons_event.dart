@@ -11,7 +11,7 @@ class LoadAllCartoons extends AllCartoonsEvent {
 }
 
 class AllCartoonsErrored extends AllCartoonsEvent {
-  AllCartoonsErrored({required this.errorMessage});
+  AllCartoonsErrored(this.errorMessage);
 
   final String errorMessage;
 

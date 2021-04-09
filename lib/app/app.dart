@@ -65,18 +65,18 @@ class AuthBlocBuilder extends StatelessWidget {
       builder: (context, state) {
         if (state is Authenticated) {
           return BlocProvider(
-            key: const Key('dailyCartoonPage_Authenticated'),
+            key: const Key('DailyCartoonPage_Authenticated'),
             create: (context) => TabBloc(),
             child: HomeScreen(),
           );
         } else if (state is Unauthenticated) {
           return const Text(
             'Unauthenticated',
-            key: Key('dailyCartoonPage_Unauthenticated'),
+            key: Key('DailyCartoonPage_Unauthenticated'),
           );
         } else {
           return const CircularProgressIndicator(
-              key: Key('dailyCartoonPage_Uninitialized'));
+              key: Key('DailyCartoonPage_Uninitialized'));
         }
       },
     );

@@ -23,7 +23,7 @@ class DailyCartoonLoad extends DailyCartoonState {
 }
 
 class DailyCartoonFailure extends DailyCartoonState {
-  DailyCartoonFailure({this.errorMessage = 'An error has occurred'});
+  DailyCartoonFailure(this.errorMessage);
 
   final String errorMessage;
 
@@ -31,5 +31,5 @@ class DailyCartoonFailure extends DailyCartoonState {
   List<Object> get props => [errorMessage];
 
   @override
-  String toString() => 'DailyCartoonFailure { errorMessage: $errorMessage }';
+  String toString() => 'DailyCartoonFailure($errorMessage)';
 }

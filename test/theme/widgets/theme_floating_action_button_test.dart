@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/theme/theme.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -21,7 +21,7 @@ void main() {
 
   group('ThemeFloatingActionButton', () {
     const themeFloatingActionKey = Key(
-      'changeTheme_themeFloatingActionButton',
+      'ThemeFloatingActionButton_ChangeTheme',
     );
 
     late ThemeCubit themeCubit;
@@ -31,7 +31,9 @@ void main() {
       themeCubit = MockThemeCubit();
     });
 
-    testWidgets('calls changeTheme when button is pressed', (tester) async {
+    testWidgets(
+        'calls themeCubit.changeTheme '
+        'when floating action button is pressed', (tester) async {
       const state = ThemeMode.light;
       when(() => themeCubit.state).thenReturn(state);
       when(() => themeCubit.changeTheme()).thenReturn(null);

@@ -24,11 +24,10 @@ void main() {
 
   group('AuthBlocBuilder', () {
     setupCloudFirestoreMocks();
-    var authenticatedKey = const Key('dailyCartoonPage_Authenticated');
 
-    var unauthenticatedKey = const Key('dailyCartoonPage_Unauthenticated');
-
-    var uninitializedKey = const Key('dailyCartoonPage_Uninitialized');
+    var authenticatedKey = const Key('DailyCartoonPage_Authenticated');
+    var unauthenticatedKey = const Key('DailyCartoonPage_Unauthenticated');
+    var uninitializedKey = const Key('DailyCartoonPage_Uninitialized');
 
     late AuthenticationBloc authenticationBloc;
 
@@ -42,7 +41,7 @@ void main() {
     });
 
     testWidgets(
-        'finds Key(\'dailyCartoonPage_Unauthenticated\')'
+        'finds Key(\'DailyCartoonPage_Unauthenticated\')'
         'when state is Uninitialized', (tester) async {
       var state = Uninitialized();
       when(() => authenticationBloc.state).thenReturn(state);
@@ -56,7 +55,7 @@ void main() {
       expect(find.byKey(uninitializedKey), findsOneWidget);
     });
     testWidgets(
-        'finds Key(\'dailyCartoonPage_Authenticated\')'
+        'finds Key(\'DailyCartoonPage_Authenticated\')'
         'when state is Authenticated', (tester) async {
       var state = Authenticated('user-id');
       when(() => authenticationBloc.state).thenReturn(state);
@@ -70,7 +69,7 @@ void main() {
       expect(find.byKey(authenticatedKey), findsOneWidget);
     });
     testWidgets(
-        'finds Key(\'dailyCartoonPage_Unauthenticated\')'
+        'finds Key(\'DailyCartoonPage_Unauthenticated\')'
         'when state is Unauthenticated', (tester) async {
       var state = Unauthenticated();
       when(() => authenticationBloc.state).thenReturn(state);

@@ -25,8 +25,8 @@ void main() {
     group('AllCartoonsLoadFailure', () {
       test('supports value comparisons', () {
         expect(
-          AllCartoonsLoadFailure(errorMessage: 'Error message'),
-          AllCartoonsLoadFailure(errorMessage: 'Error message'),
+          AllCartoonsLoadFailure('Error message'),
+          AllCartoonsLoadFailure('Error message'),
         );
       });
     });

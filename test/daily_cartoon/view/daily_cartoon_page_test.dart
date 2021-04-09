@@ -31,11 +31,12 @@ void main() {
 
   group('DailyCartoonView', () {
     setupCloudFirestoreMocks();
-    var fetchDailyCartoonCardKey =
-        const Key('dailyCartoonView_DailyCartoonLoad_card');
 
-    var loadDailyCartoonErrorTextKey =
-        const Key('dailyCartoonView_dailyCartoonFailure_text');
+    var dailyCartoonInProgressKey =
+        const Key('DailyCartoonView_DailyCartoonInProgress');
+    var dailyCartoonLoadKey = const Key('DailyCartoonView_DailyCartoonLoad');
+    var dailyCartoonFailureKey =
+        const Key('DailyCartoonView_DailyCartoonFailure');
 
     var mockPoliticalCartoon = PoliticalCartoon(
         id: '2',
@@ -57,7 +58,7 @@ void main() {
     });
 
     testWidgets(
-        'renders CircularProgressIndicator() '
+        'renders widget with Key(\'DailyCartoonView_DailyCartoonInProgress\') '
         'when state is DailyCartoonInProgress()', (tester) async {
       var state = DailyCartoonInProgress();
       when(() => dailyCartoonBloc.state).thenReturn(state);
@@ -68,11 +69,12 @@ void main() {
           child: DailyCartoonView(),
         ),
       );
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byKey(dailyCartoonInProgressKey), findsOneWidget);
     });
+
     testWidgets(
-        'renders daily political cartoon '
-        'when state is DailyCartoonLoad()', (tester) async {
+        'renders widget with Key(\'DailyCartoonView_DailyCartoonLoaded\') '
+        'when state is DailyCartoonLoad', (tester) async {
       var state = DailyCartoonLoad(dailyCartoon: mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
@@ -82,13 +84,13 @@ void main() {
           child: DailyCartoonView(),
         ),
       );
-      expect(find.byKey(fetchDailyCartoonCardKey), findsOneWidget);
+      expect(find.byKey(dailyCartoonLoadKey), findsOneWidget);
     });
 
     testWidgets(
-        'renders error text '
-        'when state is DailyCartoonFailure()', (tester) async {
-      var state = DailyCartoonFailure();
+        'renders widget with Key(\'DailyCartoonView_DailyCartoonFailure\') '
+        'when state is DailyCartoonFailure', (tester) async {
+      var state = DailyCartoonFailure('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
       await tester.pumpApp(
@@ -97,7 +99,7 @@ void main() {
           child: DailyCartoonView(),
         ),
       );
-      expect(find.byKey(loadDailyCartoonErrorTextKey), findsOneWidget);
+      expect(find.byKey(dailyCartoonFailureKey), findsOneWidget);
     });
   });
 }

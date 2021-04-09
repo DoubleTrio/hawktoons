@@ -23,7 +23,7 @@ class AllCartoonsLoaded extends AllCartoonsState {
 }
 
 class AllCartoonsLoadFailure extends AllCartoonsState {
-  AllCartoonsLoadFailure({this.errorMessage = 'An error has occurred'});
+  AllCartoonsLoadFailure(this.errorMessage);
 
   final String errorMessage;
 
@@ -31,5 +31,5 @@ class AllCartoonsLoadFailure extends AllCartoonsState {
   List<Object> get props => [errorMessage];
 
   @override
-  String toString() => 'AllCartoonsLoadFailure { errorMessage: $errorMessage }';
+  String toString() => 'AllCartoonsLoadFailure($errorMessage)';
 }

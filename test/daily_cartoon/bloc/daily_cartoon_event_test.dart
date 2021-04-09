@@ -18,8 +18,8 @@ void main() {
     group('DailyCartoonErrored', () {
       test('supports value comparisons', () {
         expect(
-          DailyCartoonErrored(errorMessage: 'Error message'),
-          DailyCartoonErrored(errorMessage: 'Error message'),
+          DailyCartoonErrored('Error message'),
+          DailyCartoonErrored('Error message'),
         );
       });
     });

@@ -19,10 +19,10 @@ class TabSelector extends StatelessWidget {
         items: [
           const BottomNavigationBarItem(
               icon: Icon(Icons.article_outlined,
-                  key: Key('tab_selector_DailyTab')),
+                  key: Key('TabSelector_DailyTab')),
               label: 'Daily'),
           const BottomNavigationBarItem(
-              icon: Icon(Icons.list, key: Key('tab_selector_AllTab')),
+              icon: Icon(Icons.list, key: Key('TabSelector_AllTab')),
               label: 'All'),
         ]);
   }

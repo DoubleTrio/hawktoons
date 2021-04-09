@@ -28,7 +28,7 @@ void main() {
 
     blocTest<AuthenticationBloc, AuthenticationState>(
         'Emits [Authenticated { userId: $userId }] '
-        'when AppStarted() is added and authentication is successful',
+        'when AppStarted is added and authentication is successful',
         build: () {
           when(userRepository.isAuthenticated)
               .thenAnswer((invocation) => Future.value(false));
@@ -47,8 +47,8 @@ void main() {
             });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-        'Emits [Unauthenticated()] '
-        'when AppStarted() is added and authentication is not successful',
+        'Emits [Unauthenticated] '
+        'when AppStarted is added and authentication is not successful',
         build: () {
           when(userRepository.isAuthenticated)
               .thenAnswer((invocation) => Future.value(false));
@@ -67,7 +67,7 @@ void main() {
 
     blocTest<AuthenticationBloc, AuthenticationState>(
         'Emits [Authenticated { userId: $userId }] '
-        'when AppStarted() is added and user is already authenticated',
+        'when AppStarted is added and user is already authenticated',
         build: () {
           when(userRepository.isAuthenticated)
               .thenAnswer((invocation) => Future.value(true));

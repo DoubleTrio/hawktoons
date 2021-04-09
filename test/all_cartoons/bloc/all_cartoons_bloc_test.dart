@@ -26,7 +26,7 @@ void main() {
 
     blocTest<AllCartoonsBloc, AllCartoonsState>(
       'Emits [AllCartoonsLoaded(cartoons: $politicalCartoons)] '
-      'when LoadAllCartoons() is added',
+      'when LoadAllCartoons is added',
       build: () {
         when(cartoonRepository.politicalCartoons)
             .thenAnswer((_) => Stream.value(politicalCartoons));
@@ -40,7 +40,7 @@ void main() {
 
     blocTest<AllCartoonsBloc, AllCartoonsState>(
         'Emits [DailyCartoonFailure(\'Error\')] '
-        'when LoadDailyCartoon() throws a stream error',
+        'when LoadAllCartoons throws a stream error',
         build: () {
           when(cartoonRepository.politicalCartoons)
               .thenAnswer((_) => Stream.error('Error'));
@@ -48,7 +48,7 @@ void main() {
           return AllCartoonsBloc(cartoonRepository: cartoonRepository);
         },
         act: (bloc) => bloc.add(LoadAllCartoons()),
-        expect: () => [AllCartoonsLoadFailure(errorMessage: 'Error')],
+        expect: () => [AllCartoonsLoadFailure('Error')],
         verify: (_) => verify(cartoonRepository.politicalCartoons).called(1));
   });
 }

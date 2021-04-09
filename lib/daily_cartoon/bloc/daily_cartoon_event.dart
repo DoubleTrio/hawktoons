@@ -20,7 +20,7 @@ class UpdateDailyCartoon extends DailyCartoonEvent {
 }
 
 class DailyCartoonErrored extends DailyCartoonEvent {
-  DailyCartoonErrored({required this.errorMessage});
+  DailyCartoonErrored(this.errorMessage);
 
   final String errorMessage;
 

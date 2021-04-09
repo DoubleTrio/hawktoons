@@ -18,8 +18,8 @@ void main() {
     group('AllCartoonsErrored', () {
       test('supports value comparisons', () {
         expect(
-          AllCartoonsErrored(errorMessage: 'Error message'),
-          AllCartoonsErrored(errorMessage: 'Error message'),
+          AllCartoonsErrored('Error message'),
+          AllCartoonsErrored('Error message'),
         );
       });
     });

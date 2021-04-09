@@ -10,7 +10,7 @@ void main() {
     });
 
     blocTest<TabBloc, AppTab>(
-      'Emits [AppTab.all] '
+      'emits [AppTab.all] '
       'when UpdateTab(AppTab.daily) is added',
       build: () => TabBloc(),
       act: (bloc) => bloc.add(UpdateTab(AppTab.all)),
@@ -18,7 +18,7 @@ void main() {
     );
 
     blocTest<TabBloc, AppTab>(
-      'Emits [AppTab.daily] '
+      'emits [AppTab.daily] '
       'when UpdateTab(AppTab.daily) is added and the current tab is AppTab.all',
       build: () => TabBloc(),
       seed: () => AppTab.all,

@@ -60,11 +60,10 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with $allCartoonsInProgressKey '
-        'when state is AllCartoonsInProgress()', (tester) async {
+        'renders widget with Key(\'AllCartoonsView_AllCartoonsInProgress\') '
+        'when state is AllCartoonsInProgress', (tester) async {
       var state = AllCartoonsInProgress();
       when(() => allCartoonsBloc.state).thenReturn(state);
-
       await tester.pumpApp(
         BlocProvider.value(
           value: allCartoonsBloc,
@@ -75,8 +74,8 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with $allCartoonsLoadedKey '
-        'when state is AllCartoonsLoaded()', (tester) async {
+        'renders widget with Key(\'AllCartoonsView_AllCartoonsLoaded\') '
+        'when state is AllCartoonsLoaded', (tester) async {
       var state = AllCartoonsLoaded(cartoons: mockPoliticalCartoonList);
       when(() => allCartoonsBloc.state).thenReturn(state);
 
@@ -91,9 +90,9 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with $allCartoonsLoadFailureKey '
-        'when state is AllCartoonsLoadFailure()', (tester) async {
-      var state = AllCartoonsLoadFailure(errorMessage: 'error');
+        'renders widget with Key(\'AllCartoonsView_AllCartoonsLoadFailure\'); '
+        'when state is AllCartoonsLoadFailure', (tester) async {
+      var state = AllCartoonsLoadFailure('Error');
       when(() => allCartoonsBloc.state).thenReturn(state);
 
       await tester.pumpApp(
