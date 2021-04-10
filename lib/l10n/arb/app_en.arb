@@ -7,5 +7,70 @@
     "dailyCartoonTitle": "Daily Cartoon",
     "@dailyCartoonTitle": {
         "description": "Text shown in the AppBar of the Daily Cartoon Page"
+    },
+
+    "oneWeek": "Last week",
+    "@oneWeek": {
+        "description": "Shown when the political cartoon card is a week old"
+    },
+    "oneWeekNumeric": "1 week ago",
+    "@oneWeekNumeric": {
+        "description": "Numeric date shown when the political cartoon card is a week old"
+    },
+
+    "daysAgo": "days ago",
+    "@daysAgo": {
+        "description": "Shown when the political cartoon card is days old"
+    },
+
+    "oneDay": "Yesterday",
+    "@oneDay": {
+        "description": "Shown when the political cartoon card is a day old"
+    },
+
+    "oneDayNumeric": "1 day ago",
+    "@oneDayNumeric": {
+        "description": "Numeric date shown when the political cartoon card is a day old"
+    },
+
+
+    "hoursAgo": "hours ago",
+    "@hoursAgo": {
+        "description": "Shown when the political cartoon card is hours old"
+    },
+
+    "oneHour": "An hour ago",
+    "@oneHour": {
+        "description": "Shown when the political cartoon card is an hour old"
+    },
+
+    "oneHourNumeric": "1 hour ago",
+    "@oneHourNumeric": {
+        "description": "Numeric date shown when the political cartoon card is an hour old"
+    },
+
+    "minutesAgo": "minutes ago",
+    "@minutesAgo": {
+        "description": "Shown when the political cartoon card is minutes old"
+    },
+
+    "oneMinute": "A minute ago",
+    "@oneMinute": {
+        "description": "Shown when the political cartoon card is a minute old"
+    },
+
+    "oneMinuteNumeric": "1 minute ago",
+    "@oneMinuteNumeric": {
+        "description": "Numeric date shown when the political cartoon card is a minute old"
+    },
+
+    "secondsAgo": "seconds ago",
+    "@secondsAgo": {
+        "description": "Shown when the political cartoon card is seconds old"
+    },
+
+    "justNow": "Just now",
+    "@justNow": {
+        "description": "Shown when the political cartoon card is released now"
     }
 }

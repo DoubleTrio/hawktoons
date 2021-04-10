@@ -7,5 +7,69 @@
     "dailyCartoonTitle": "Dibujos animados diarios",
     "@dailyCartoonTitle": {
         "description": "Text shown in the AppBar of the Daily Cartoon Page"
+    },
+    "oneWeek": "La semana pasada",
+    "@oneWeek": {
+        "description": "Shown when the political cartoon card is a week old"
+    },
+    "oneWeekNumeric": "Hace 1 semana",
+    "@oneWeekNumeric": {
+        "description": "Numeric date shown when the political cartoon card is a week old"
+    },
+
+    "daysAgo": "Hace días",
+    "@daysAgo": {
+        "description": "Shown when the political cartoon card is days old"
+    },
+
+    "oneDay": "Ayer",
+    "@oneDay": {
+        "description": "Shown when the political cartoon card is a day old"
+    },
+
+    "oneDayNumeric": "Hace 1 día",
+    "@oneDayNumeric": {
+        "description": "Numeric date shown when the political cartoon card is a day old"
+    },
+
+
+    "hoursAgo": "Horas atras",
+    "@hoursAgo": {
+        "description": "Shown when the political cartoon card is hours old"
+    },
+
+    "oneHour": "Hace una hora",
+    "@oneHour": {
+        "description": "Shown when the political cartoon card is an hour old"
+    },
+
+    "oneHourNumeric": "1 hora antes",
+    "@oneHourNumeric": {
+        "description": "Numeric date shown when the political cartoon card is an hour old"
+    },
+
+    "minutesAgo": "Hace minutos",
+    "@minutesAgo": {
+        "description": "Shown when the political cartoon card is minutes old"
+    },
+
+    "oneMinute": "Hace un minuto",
+    "@oneMinute": {
+        "description": "Shown when the political cartoon card is a minute old"
+    },
+
+    "oneMinuteNumeric": "Hace 1 minuto",
+    "@oneMinuteNumeric": {
+        "description": "Numeric date shown when the political cartoon card is a minute old"
+    },
+
+    "secondsAgo": "Hace segundos",
+    "@secondsAgo": {
+        "description": "Shown when the political cartoon card is seconds old"
+    },
+
+    "justNow": "Ahora",
+    "@justNow": {
+        "description": "Shown when the political cartoon card is released now"
     }
 }

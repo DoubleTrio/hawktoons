@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../helpers/helpers.dart';
@@ -79,12 +80,12 @@ void main() {
       var state = AllCartoonsLoaded(cartoons: mockPoliticalCartoonList);
       when(() => allCartoonsBloc.state).thenReturn(state);
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: allCartoonsBloc,
-          child: AllCartoonsView(),
-        ),
-      );
+      await mockNetworkImagesFor(() => tester.pumpApp(
+            BlocProvider.value(
+              value: allCartoonsBloc,
+              child: AllCartoonsView(),
+            ),
+          ));
 
       expect(find.byKey(allCartoonsLoadedKey), findsOneWidget);
     });
