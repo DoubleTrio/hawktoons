@@ -83,3 +83,69 @@
 //     );
 //   }
 // }
+
+// class CartoonCard extends StatelessWidget {
+//   CartoonCard({required this.cartoon});
+//
+//   final PoliticalCartoon cartoon;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final size = MediaQuery.of(context).size;
+//     return Container(
+//         decoration: BoxDecoration(
+//             color: Colors.white,
+//             boxShadow: [
+//               BoxShadow(
+//                 color: Colors.black54.withOpacity(0.4),
+//                 spreadRadius: 1,
+//                 blurRadius: 3,
+//                 offset: const Offset(3, 4), // changes position of shadow
+//               ),
+//             ],
+//             borderRadius: const BorderRadius.all(Radius.circular(12))),
+//         constraints: BoxConstraints(minHeight: size.height * 0.2),
+//         width: size.width * 0.9,
+//         height: size.height * 0.2,
+//         child: ClipRRect(
+//             borderRadius: const BorderRadius.all(Radius.circular(12)),
+//             child: Row(
+//               children: [
+//                 Expanded(
+//                   flex: 5,
+//                   child: Container(
+//                       decoration: BoxDecoration(
+//                         image: DecorationImage(
+//                             image: NetworkImage(cartoon.downloadUrl),
+//                             fit: BoxFit.cover),
+//                       )),
+//                 ),
+//                 Expanded(
+//                     flex: 6,
+//                     child: Container(
+//                       padding: const EdgeInsets.all(12),
+//                       child: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Text(
+//                             cartoon.dateString,
+//                             style: TextStyle(color: Colors.grey),
+//                           ),
+//                           Text(
+//                               'Unit ${cartoon.unitId.index.toString()}: ${cartoon.unitName}'),
+//                           Text('By ${cartoon.author}'),
+//                           Text(cartoon.unitName),
+//                           Text(
+//                             cartoon.description,
+//                             maxLines: 2,
+//                             softWrap: true,
+//                             overflow: TextOverflow.fade,
+//                           ),
+//                           // Text(cartoon.description)
+//                         ],
+//                       ),
+//                     )),
+//               ],
+//             )));
+//   }
+// }

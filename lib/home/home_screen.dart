@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/tab/tab.dart';
+import 'package:history_app/theme/theme.dart';
 import 'package:history_app/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,6 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, activeTab) {
         final _pageController = PageController(initialPage: activeTab.index);
         return Scaffold(
+            appBar: AppBar(title: const Text('Cartoons')),
+            floatingActionButton: ThemeFloatingActionButton(),
             bottomNavigationBar: TabSelector(
                 activeTab: activeTab,
                 onTabSelected: (tab) => {

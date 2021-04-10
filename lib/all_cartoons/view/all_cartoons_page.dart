@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:history_app/all_cartoons/bloc/all_cartoons.dart';
+import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class AllCartoonsPage extends StatelessWidget {
@@ -17,6 +20,17 @@ class AllCartoonsPage extends StatelessWidget {
 }
 
 class AllCartoonsView extends StatelessWidget {
+  final mockPoliticalCartoonList = [
+    PoliticalCartoon(
+        id: 'abcdefghijklm',
+        author: 'Harper Weekly',
+        date: Timestamp.now(),
+        description: 'Cartoon',
+        unitId: UnitId.unit1,
+        downloadUrl:
+            'https://images.unsplash.com/photo-1425321488784-32cdca45e94e?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218fHx8fHx8fHwxNjE3OTcyMzIw&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600')
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AllCartoonsBloc, AllCartoonsState>(
@@ -26,9 +40,21 @@ class AllCartoonsView extends StatelessWidget {
               key: Key('AllCartoonsView_AllCartoonsInProgress'),
               child: CircularProgressIndicator());
         } else if (state is AllCartoonsLoaded) {
-          return Center(
-              key: const Key('AllCartoonsView_AllCartoonsLoaded'),
-              child: Text(state.cartoons.first.dateString));
+          var stateDouble = [
+            ...state.cartoons,
+            ...mockPoliticalCartoonList,
+            ...mockPoliticalCartoonList
+          ];
+          return StaggeredGridView.countBuilder(
+            key: const Key('AllCartoonsView_AllCartoonsLoaded'),
+            crossAxisCount: 4,
+            mainAxisSpacing: 12.0,
+            crossAxisSpacing: 8.0,
+            itemCount: stateDouble.length,
+            itemBuilder: (context, index) =>
+                CartoonCard(cartoon: stateDouble[index]),
+            staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
+          );
         } else {
           return const Text('Error',
               key: Key('AllCartoonsView_AllCartoonsLoadFailure'));
