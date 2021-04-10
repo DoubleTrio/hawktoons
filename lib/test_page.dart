@@ -132,7 +132,7 @@
 //                             style: TextStyle(color: Colors.grey),
 //                           ),
 //                           Text(
-//                               'Unit ${cartoon.unitId.index.toString()}: ${cartoon.unitName}'),
+//            'Unit ${cartoon.unitId.index.toString()}: ${cartoon.unitName}'),
 //                           Text('By ${cartoon.author}'),
 //                           Text(cartoon.unitName),
 //                           Text(
