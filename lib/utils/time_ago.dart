@@ -12,9 +12,11 @@ class TimeAgo implements TimeConverter {
   final String locale;
 
   @override
-  String timeAgoSinceDate(Timestamp timestamp, {bool numericDates = true}) {
+  String timeAgoSinceDate(Timestamp timestamp,
+      {bool numericDates = true, DateTime? date}) {
     var notificationDate = timestamp.toDate();
-    final date2 = DateTime.now();
+
+    final date2 = date ?? DateTime.now();
     final difference = date2.difference(notificationDate);
 
     if (difference.inDays > 8) {
@@ -26,13 +28,13 @@ class TimeAgo implements TimeConverter {
     } else if (difference.inDays >= 2) {
       return '${difference.inDays} ${l10n.daysAgo}';
     } else if (difference.inDays >= 1) {
-      return (numericDates) ? l10n.oneDay : l10n.oneDayNumeric;
+      return (numericDates) ? l10n.oneDayNumeric : l10n.oneDay;
     } else if (difference.inHours >= 2) {
       return '${difference.inHours} ${l10n.hoursAgo}';
     } else if (difference.inHours >= 1) {
       return (numericDates) ? l10n.oneHourNumeric : l10n.oneHour;
     } else if (difference.inMinutes >= 2) {
-      return '${difference.inMinutes} ${l10n.hoursAgo}';
+      return '${difference.inMinutes} ${l10n.minutesAgo}';
     } else if (difference.inMinutes >= 1) {
       return (numericDates) ? l10n.oneMinuteNumeric : l10n.oneMinute;
     } else if (difference.inSeconds >= 3) {

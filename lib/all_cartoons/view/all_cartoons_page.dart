@@ -34,14 +34,58 @@ class AllCartoonsView extends StatelessWidget {
     final mockPoliticalCartoonList = [
       PoliticalCartoon(
           timeConverter: TimeAgo(l10n: l10n, locale: locale),
-          id: 'abcdefghijklm',
+          id: '1',
           author: 'Harper Weekly',
           date: Timestamp.now(),
           description: 'This a cartoon description and this will be added on'
               ' later and more text to the container',
           unitId: UnitId.unit1,
           downloadUrl:
-              'https://images.unsplash.com/photo-1425321488784-32cdca45e94e?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218fHx8fHx8fHwxNjE3OTcyMzIw&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600')
+              'https://images.unsplash.com/photo-1425321488784-32cdca45e94e?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218fHx8fHx8fHwxNjE3OTcyMzIw&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600'),
+      PoliticalCartoon(
+          timeConverter: TimeAgo(l10n: l10n, locale: locale),
+          id: '2',
+          author: 'Test Cartoon',
+          date: Timestamp.fromDate(
+              DateTime.now().subtract(const Duration(seconds: 9))),
+          description: 'This a cartoon description and this will be added on'
+              ' later and more text to the container',
+          unitId: UnitId.unit3,
+          downloadUrl:
+              'https://images.unsplash.com/photo-1515966097209-ec48f3216288?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1950&q=80'),
+      PoliticalCartoon(
+          timeConverter: TimeAgo(l10n: l10n, locale: locale),
+          id: '3',
+          author: 'Test Cartoon',
+          date: Timestamp.fromDate(DateTime.utc(2020)),
+          description:
+              'This a cartoon description and thidddds will be added on'
+              ' later and more text to the container',
+          unitId: UnitId.unit6,
+          downloadUrl:
+              'https://images.unsplash.com/photo-1617984445208-7447d026dc9d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'),
+      PoliticalCartoon(
+          timeConverter: TimeAgo(l10n: l10n, locale: locale),
+          id: '4',
+          author: 'Test Cartoon',
+          date: Timestamp.fromDate(
+              DateTime.now().subtract(const Duration(minutes: 1))),
+          description: 'This a cartoon description and this will be added on'
+              ' later and more text to the container',
+          unitId: UnitId.unit3,
+          downloadUrl:
+              'https://images.unsplash.com/photo-1515966097209-ec48f3216288?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1950&q=80'),
+      PoliticalCartoon(
+          timeConverter: TimeAgo(l10n: l10n, locale: locale),
+          id: '5',
+          author: 'Test Cartoon',
+          date: Timestamp.fromDate(
+              DateTime.now().subtract(const Duration(minutes: 2))),
+          description: 'This a cartoon description and this will be added on'
+              ' later and more text to the container',
+          unitId: UnitId.unit3,
+          downloadUrl:
+              'https://images.unsplash.com/photo-1515966097209-ec48f3216288?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1950&q=80'),
     ];
 
     return BlocBuilder<AllCartoonsBloc, AllCartoonsState>(
@@ -52,9 +96,7 @@ class AllCartoonsView extends StatelessWidget {
               child: CircularProgressIndicator());
         } else if (state is AllCartoonsLoaded) {
           var stateDouble = [
-            ...state.cartoons,
             ...mockPoliticalCartoonList,
-            ...mockPoliticalCartoonList
           ];
 
           return StaggeredGridView.countBuilder(

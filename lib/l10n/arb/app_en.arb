@@ -13,6 +13,7 @@
     "@oneWeek": {
         "description": "Shown when the political cartoon card is a week old"
     },
+
     "oneWeekNumeric": "1 week ago",
     "@oneWeekNumeric": {
         "description": "Numeric date shown when the political cartoon card is a week old"
