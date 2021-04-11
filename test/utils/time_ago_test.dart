@@ -83,5 +83,18 @@ void main() {
       expect(find.text('9 seconds ago'), findsOneWidget);
       expect(find.text('Just now'), findsOneWidget);
     });
+
+    testWidgets('TimeAgo (non-numeric) works for regular date', (tester) async {
+      await tester.pumpApp(Builder(builder: (BuildContext context) {
+        final l10n = context.l10n;
+        final timeAgo = TimeAgo(l10n: l10n, locale: 'en');
+        return Column(
+          children: [
+            Text(timeAgo.timeAgoSinceDate(timestamp)),
+          ],
+        );
+      }));
+      expect(find.text('Just now'), findsOneWidget);
+    });
   });
 }

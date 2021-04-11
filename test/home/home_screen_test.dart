@@ -23,6 +23,7 @@ void main() {
 
     var dailyCartoonIconKey = find.byKey(const Key('TabSelector_DailyTab'));
     var allCartoonsIconKey = find.byKey(const Key('TabSelector_AllTab'));
+    var filterIconKey = find.byKey(const Key('HomeScreen_FilterButton'));
 
     setUpAll(() async {
       registerFallbackValue<TabEvent>(UpdateTab(AppTab.all));
@@ -60,6 +61,9 @@ void main() {
 
       expect(find.byType(DailyCartoonPage), findsOneWidget);
       expect(find.byType(AllCartoonsPage), findsNothing);
+
+      // TODO handle what happens when the filter icon is pressed
+      await tester.tap(filterIconKey);
 
       await tester.tap(allCartoonsIconKey);
       await tester.pump(const Duration(milliseconds: 1000));

@@ -26,7 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: [
                 if (activeTab == AppTab.daily)
                   IconButton(
-                      icon: const Icon(Icons.filter_list), onPressed: () {})
+                      key: const Key('HomeScreen_FilterButton'),
+                      icon: const Icon(Icons.filter_list),
+                      onPressed: () {})
               ],
             ),
             floatingActionButton: ThemeFloatingActionButton(),
