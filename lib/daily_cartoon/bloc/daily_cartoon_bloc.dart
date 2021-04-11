@@ -19,7 +19,7 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
       yield* _mapLoadDailyCartoonToState();
     } else if (event is UpdateDailyCartoon) {
       yield* _mapUpdateDailyCartoonToState(event.cartoon);
-    } else if (event is DailyCartoonErrored) {
+    } else if (event is ErrorDailyCartoonEvent) {
       yield* _mapErrorDailyCartoonToState(event.errorMessage);
     }
   }
@@ -29,18 +29,18 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
         dailyCartoonRepository.getLatestPoliticalCartoon().listen((cartoon) {
       add(UpdateDailyCartoon(cartoon: cartoon));
     }, onError: (err) {
-      add(DailyCartoonErrored(err));
+      add(ErrorDailyCartoonEvent(err));
     });
   }
 
   Stream<DailyCartoonState> _mapUpdateDailyCartoonToState(
       PoliticalCartoon cartoon) async* {
-    yield DailyCartoonLoad(dailyCartoon: cartoon);
+    yield DailyCartoonLoaded(dailyCartoon: cartoon);
   }
 
   Stream<DailyCartoonState> _mapErrorDailyCartoonToState(
       String errorMessage) async* {
-    yield DailyCartoonFailure(errorMessage);
+    yield DailyCartoonFailed(errorMessage);
   }
 
   @override

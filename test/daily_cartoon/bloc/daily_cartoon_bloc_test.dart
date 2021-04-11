@@ -27,7 +27,7 @@ void main() {
     });
 
     blocTest<DailyCartoonBloc, DailyCartoonState>(
-        'Emits [DailyCartoonLoad(dailyCartoon: $politicalCartoon)] '
+        'Emits [DailyCartoonLoaded(dailyCartoon: $politicalCartoon)] '
         'when LoadDailyCartoon is added',
         build: () {
           when(politicalCartoonRepository.getLatestPoliticalCartoon)
@@ -37,14 +37,14 @@ void main() {
               dailyCartoonRepository: politicalCartoonRepository);
         },
         act: (bloc) => bloc.add(LoadDailyCartoon()),
-        expect: () => [DailyCartoonLoad(dailyCartoon: politicalCartoon)],
+        expect: () => [DailyCartoonLoaded(dailyCartoon: politicalCartoon)],
         verify: (_) => {
               verify(politicalCartoonRepository.getLatestPoliticalCartoon)
                   .called(1),
             });
 
     blocTest<DailyCartoonBloc, DailyCartoonState>(
-        'Emits [DailyCartoonFailure(\'Error\')] '
+        'Emits [DailyCartoonFailed(\'Error\')] '
         'when LoadDailyCartoon throws a stream error',
         build: () {
           when(politicalCartoonRepository.getLatestPoliticalCartoon)
@@ -54,7 +54,7 @@ void main() {
               dailyCartoonRepository: politicalCartoonRepository);
         },
         act: (bloc) => bloc.add(LoadDailyCartoon()),
-        expect: () => [DailyCartoonFailure('Error')],
+        expect: () => [DailyCartoonFailed('Error')],
         verify: (_) => {
               verify(politicalCartoonRepository.getLatestPoliticalCartoon)
                   .called(1),

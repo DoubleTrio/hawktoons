@@ -15,21 +15,21 @@ void main() {
         );
       });
     });
-    group('AllCartoonsErrored', () {
+    group('ErrorAllCartoonsEvent', () {
       test('supports value comparisons', () {
         expect(
-          AllCartoonsErrored('Error message'),
-          AllCartoonsErrored('Error message'),
+          ErrorAllCartoonsEvent('Error message'),
+          ErrorAllCartoonsEvent('Error message'),
         );
       });
     });
 
-    group('AllCartoonsUpdated', () {
+    group('UpdateAllCartoons', () {
       test('supports value comparisons', () {
         final cartoons = [MockPoliticalCartoon(), MockPoliticalCartoon()];
         expect(
-          AllCartoonsUpdated(cartoons: cartoons),
-          AllCartoonsUpdated(cartoons: cartoons),
+          UpdateAllCartoons(cartoons: cartoons),
+          UpdateAllCartoons(cartoons: cartoons),
         );
       });
     });

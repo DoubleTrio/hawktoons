@@ -5,7 +5,7 @@ abstract class AllCartoonsState extends Equatable {
   const AllCartoonsState();
 }
 
-class AllCartoonsInProgress extends AllCartoonsState {
+class AllCartoonsLoading extends AllCartoonsState {
   @override
   List<Object> get props => [];
 }
@@ -22,8 +22,8 @@ class AllCartoonsLoaded extends AllCartoonsState {
   String toString() => 'AllCartoonsLoaded { cartoons: $cartoons }';
 }
 
-class AllCartoonsLoadFailure extends AllCartoonsState {
-  AllCartoonsLoadFailure(this.errorMessage);
+class AllCartoonsFailed extends AllCartoonsState {
+  AllCartoonsFailed(this.errorMessage);
 
   final String errorMessage;
 
@@ -31,5 +31,5 @@ class AllCartoonsLoadFailure extends AllCartoonsState {
   List<Object> get props => [errorMessage];
 
   @override
-  String toString() => 'AllCartoonsLoadFailure($errorMessage)';
+  String toString() => 'AllCartoonsFailed($errorMessage)';
 }

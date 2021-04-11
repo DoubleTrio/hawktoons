@@ -18,8 +18,8 @@ void main() {
           cartoonRepository = MockCartoonRepository(),
         });
 
-    test('initial state is AllCartoonsInProgress', () {
-      var state = AllCartoonsInProgress();
+    test('initial state is AllCartoonsLoading', () {
+      var state = AllCartoonsLoading();
       expect(AllCartoonsBloc(cartoonRepository: cartoonRepository).state,
           equals(state));
     });
@@ -39,7 +39,7 @@ void main() {
     );
 
     blocTest<AllCartoonsBloc, AllCartoonsState>(
-        'Emits [DailyCartoonFailure(\'Error\')] '
+        'Emits [DailyCartoonFailed(\'Error\')] '
         'when LoadAllCartoons throws a stream error',
         build: () {
           when(cartoonRepository.politicalCartoons)
@@ -48,7 +48,7 @@ void main() {
           return AllCartoonsBloc(cartoonRepository: cartoonRepository);
         },
         act: (bloc) => bloc.add(LoadAllCartoons()),
-        expect: () => [AllCartoonsLoadFailure('Error')],
+        expect: () => [AllCartoonsFailed('Error')],
         verify: (_) => verify(cartoonRepository.politicalCartoons).called(1));
   });
 }

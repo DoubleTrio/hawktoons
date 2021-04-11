@@ -9,7 +9,7 @@ void main() {
   group('AllCartoonsState', () {
     group('DailyCartoonInProgress', () {
       test('supports value comparisons', () {
-        expect(AllCartoonsInProgress(), AllCartoonsInProgress());
+        expect(AllCartoonsLoading(), AllCartoonsLoading());
       });
     });
 
@@ -22,11 +22,11 @@ void main() {
         );
       });
     });
-    group('AllCartoonsLoadFailure', () {
+    group('AllCartoonsFailed', () {
       test('supports value comparisons', () {
         expect(
-          AllCartoonsLoadFailure('Error message'),
-          AllCartoonsLoadFailure('Error message'),
+          AllCartoonsFailed('Error message'),
+          AllCartoonsFailed('Error message'),
         );
       });
     });

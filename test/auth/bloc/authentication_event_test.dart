@@ -3,15 +3,15 @@ import 'package:history_app/auth/bloc/authentication_event.dart';
 
 void main() {
   group('AuthenicationEvent', () {
-    group('AppStarted', () {
+    group('StartApp', () {
       test('supports value comparisons', () {
         expect(
-          AppStarted(),
-          AppStarted(),
+          StartApp(),
+          StartApp(),
         );
         expect(
-          AppStarted().toString(),
-          AppStarted().toString(),
+          StartApp().toString(),
+          StartApp().toString(),
         );
       });
     });

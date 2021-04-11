@@ -19,8 +19,8 @@ class UpdateDailyCartoon extends DailyCartoonEvent {
   List<Object> get props => [cartoon];
 }
 
-class DailyCartoonErrored extends DailyCartoonEvent {
-  DailyCartoonErrored(this.errorMessage);
+class ErrorDailyCartoonEvent extends DailyCartoonEvent {
+  ErrorDailyCartoonEvent(this.errorMessage);
 
   final String errorMessage;
 

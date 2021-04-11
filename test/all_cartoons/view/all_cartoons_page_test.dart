@@ -33,11 +33,9 @@ void main() {
   group('AllCartoonsView', () {
     setupCloudFirestoreMocks();
 
-    var allCartoonsInProgressKey =
-        const Key('AllCartoonsView_AllCartoonsInProgress');
+    var allCartoonsLoadingKey = const Key('AllCartoonsView_AllCartoonsLoading');
     var allCartoonsLoadedKey = const Key('AllCartoonsView_AllCartoonsLoaded');
-    var allCartoonsLoadFailureKey =
-        const Key('AllCartoonsView_AllCartoonsLoadFailure');
+    var allCartoonsFailedKey = const Key('AllCartoonsView_AllCartoonsFailed');
 
     var mockPoliticalCartoonList = [
       PoliticalCartoon(
@@ -53,7 +51,7 @@ void main() {
     late AllCartoonsBloc allCartoonsBloc;
 
     setUpAll(() async {
-      registerFallbackValue<AllCartoonsState>(AllCartoonsInProgress());
+      registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
       registerFallbackValue<AllCartoonsEvent>(LoadAllCartoons());
 
       await Firebase.initializeApp();
@@ -62,9 +60,9 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with Key(\'AllCartoonsView_AllCartoonsInProgress\') '
-        'when state is AllCartoonsInProgress', (tester) async {
-      var state = AllCartoonsInProgress();
+        'renders widget with Key(\'AllCartoonsView_AllCartoonsLoading\') '
+        'when state is AllCartoonsLoading', (tester) async {
+      var state = AllCartoonsLoading();
       when(() => allCartoonsBloc.state).thenReturn(state);
       await tester.pumpApp(
         BlocProvider.value(
@@ -72,7 +70,7 @@ void main() {
           child: AllCartoonsView(),
         ),
       );
-      expect(find.byKey(allCartoonsInProgressKey), findsOneWidget);
+      expect(find.byKey(allCartoonsLoadingKey), findsOneWidget);
     });
 
     testWidgets(
@@ -92,9 +90,9 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with Key(\'AllCartoonsView_AllCartoonsLoadFailure\'); '
-        'when state is AllCartoonsLoadFailure', (tester) async {
-      var state = AllCartoonsLoadFailure('Error');
+        'renders widget with Key(\'AllCartoonsView_AllCartoonsFailed\'); '
+        'when state is AllCartoonsFailed', (tester) async {
+      var state = AllCartoonsFailed('Error');
       when(() => allCartoonsBloc.state).thenReturn(state);
 
       await tester.pumpApp(
@@ -104,7 +102,7 @@ void main() {
         ),
       );
 
-      expect(find.byKey(allCartoonsLoadFailureKey), findsOneWidget);
+      expect(find.byKey(allCartoonsFailedKey), findsOneWidget);
     });
   });
 }

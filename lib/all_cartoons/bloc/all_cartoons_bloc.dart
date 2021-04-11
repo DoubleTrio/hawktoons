@@ -6,7 +6,7 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   AllCartoonsBloc({required this.cartoonRepository})
-      : super(AllCartoonsInProgress());
+      : super(AllCartoonsLoading());
 
   final PoliticalCartoonRepository cartoonRepository;
   late StreamSubscription? _cartoonsSubscription;
@@ -17,19 +17,19 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   ) async* {
     if (event is LoadAllCartoons) {
       yield* _mapLoadAllCartoonsToState();
-    } else if (event is AllCartoonsUpdated) {
+    } else if (event is UpdateAllCartoons) {
       yield* _mapUpdateAllCartoonsToState(event.cartoons);
-    } else if (event is AllCartoonsErrored) {
-      yield* _mapErrorAllCartoonsToState(event.errorMessage);
+    } else if (event is ErrorAllCartoonsEvent) {
+      yield* _mapErrorAllCartoonsEventToState(event.errorMessage);
     }
   }
 
   Stream<AllCartoonsState> _mapLoadAllCartoonsToState() async* {
     _cartoonsSubscription =
         cartoonRepository.politicalCartoons().listen((cartoons) {
-      add(AllCartoonsUpdated(cartoons: cartoons));
+      add(UpdateAllCartoons(cartoons: cartoons));
     }, onError: (err) {
-      add(AllCartoonsErrored(err));
+      add(ErrorAllCartoonsEvent(err));
     });
   }
 
@@ -38,9 +38,9 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     yield AllCartoonsLoaded(cartoons: cartoons);
   }
 
-  Stream<AllCartoonsState> _mapErrorAllCartoonsToState(
+  Stream<AllCartoonsState> _mapErrorAllCartoonsEventToState(
       String errorMessage) async* {
-    yield AllCartoonsLoadFailure(errorMessage);
+    yield AllCartoonsFailed(errorMessage);
   }
 
   @override

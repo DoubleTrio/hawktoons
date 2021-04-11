@@ -15,11 +15,11 @@ void main() {
         );
       });
     });
-    group('DailyCartoonErrored', () {
+    group('ErrorDailyCartoonEvent', () {
       test('supports value comparisons', () {
         expect(
-          DailyCartoonErrored('Error message'),
-          DailyCartoonErrored('Error message'),
+          ErrorDailyCartoonEvent('Error message'),
+          ErrorDailyCartoonEvent('Error message'),
         );
       });
     });

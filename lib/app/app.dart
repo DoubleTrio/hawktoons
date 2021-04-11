@@ -29,7 +29,7 @@ class App extends StatelessWidget {
         BlocProvider<AuthenticationBloc>(
             create: (_) =>
                 AuthenticationBloc(userRepository: FirebaseUserRepository())
-                  ..add(AppStarted()))
+                  ..add(StartApp()))
       ],
       child: const AppView(),
     );

@@ -33,7 +33,7 @@ void main() {
 
     setUpAll(() async {
       registerFallbackValue<AuthenticationState>(Uninitialized());
-      registerFallbackValue<AuthenticationEvent>(AppStarted());
+      registerFallbackValue<AuthenticationEvent>(StartApp());
 
       await Firebase.initializeApp();
 

@@ -28,14 +28,11 @@ class AllCartoonsPage extends StatelessWidget {
 class AllCartoonsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final locale = Platform.localeName;
-
     return BlocBuilder<AllCartoonsBloc, AllCartoonsState>(
       builder: (context, state) {
-        if (state is AllCartoonsInProgress) {
+        if (state is AllCartoonsLoading) {
           return const Center(
-              key: Key('AllCartoonsView_AllCartoonsInProgress'),
+              key: Key('AllCartoonsView_AllCartoonsLoading'),
               child: CircularProgressIndicator());
         } else if (state is AllCartoonsLoaded) {
           var stateDouble = [
@@ -54,7 +51,7 @@ class AllCartoonsView extends StatelessWidget {
           );
         } else {
           return const Text('Error',
-              key: Key('AllCartoonsView_AllCartoonsLoadFailure'));
+              key: Key('AllCartoonsView_AllCartoonsFailed'));
         }
       },
     );

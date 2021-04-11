@@ -10,8 +10,8 @@ class DailyCartoonInProgress extends DailyCartoonState {
   List<Object> get props => [];
 }
 
-class DailyCartoonLoad extends DailyCartoonState {
-  DailyCartoonLoad({required this.dailyCartoon});
+class DailyCartoonLoaded extends DailyCartoonState {
+  DailyCartoonLoaded({required this.dailyCartoon});
 
   final PoliticalCartoon dailyCartoon;
 
@@ -19,11 +19,11 @@ class DailyCartoonLoad extends DailyCartoonState {
   List<Object> get props => [dailyCartoon];
 
   @override
-  String toString() => 'DailyCartoonLoad { dailyCartoon: $dailyCartoon }';
+  String toString() => 'DailyCartoonLoaded { dailyCartoon: $dailyCartoon }';
 }
 
-class DailyCartoonFailure extends DailyCartoonState {
-  DailyCartoonFailure(this.errorMessage);
+class DailyCartoonFailed extends DailyCartoonState {
+  DailyCartoonFailed(this.errorMessage);
 
   final String errorMessage;
 
@@ -31,5 +31,5 @@ class DailyCartoonFailure extends DailyCartoonState {
   List<Object> get props => [errorMessage];
 
   @override
-  String toString() => 'DailyCartoonFailure($errorMessage)';
+  String toString() => 'DailyCartoonFailed($errorMessage)';
 }

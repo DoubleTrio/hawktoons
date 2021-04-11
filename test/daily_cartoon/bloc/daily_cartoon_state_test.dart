@@ -13,20 +13,20 @@ void main() {
       });
     });
 
-    group('DailyCartoonLoad', () {
+    group('DailyCartoonLoaded', () {
       final cartoon = MockPoliticalCartoon();
       test('supports value comparisons', () {
         expect(
-          DailyCartoonLoad(dailyCartoon: cartoon),
-          DailyCartoonLoad(dailyCartoon: cartoon),
+          DailyCartoonLoaded(dailyCartoon: cartoon),
+          DailyCartoonLoaded(dailyCartoon: cartoon),
         );
       });
     });
-    group('DailyCartoonFailure', () {
+    group('DailyCartoonFailed', () {
       test('supports value comparisons', () {
         expect(
-          DailyCartoonFailure('Error message'),
-          DailyCartoonFailure('Error message'),
+          DailyCartoonFailed('Error message'),
+          DailyCartoonFailed('Error message'),
         );
       });
     });

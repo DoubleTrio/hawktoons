@@ -34,9 +34,10 @@ void main() {
 
     var dailyCartoonInProgressKey =
         const Key('DailyCartoonView_DailyCartoonInProgress');
-    var dailyCartoonLoadKey = const Key('DailyCartoonView_DailyCartoonLoad');
-    var dailyCartoonFailureKey =
-        const Key('DailyCartoonView_DailyCartoonFailure');
+    var dailyCartoonLoadedKey =
+        const Key('DailyCartoonView_DailyCartoonLoaded');
+    var dailyCartoonFailedKey =
+        const Key('DailyCartoonView_DailyCartoonFailed');
 
     var mockPoliticalCartoon = PoliticalCartoon(
         id: '2',
@@ -74,9 +75,9 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonView_DailyCartoonLoaded\') '
-        'when state is DailyCartoonLoad', (tester) async {
-      var state = DailyCartoonLoad(dailyCartoon: mockPoliticalCartoon);
+        'renders widget with Key(\'DailyCartoonView_DailyCartoonLoadeded\') '
+        'when state is DailyCartoonLoaded', (tester) async {
+      var state = DailyCartoonLoaded(dailyCartoon: mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
       await tester.pumpApp(
@@ -85,13 +86,13 @@ void main() {
           child: DailyCartoonView(),
         ),
       );
-      expect(find.byKey(dailyCartoonLoadKey), findsOneWidget);
+      expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonView_DailyCartoonFailure\') '
-        'when state is DailyCartoonFailure', (tester) async {
-      var state = DailyCartoonFailure('Error');
+        'renders widget with Key(\'DailyCartoonView_DailyCartoonFailed\') '
+        'when state is DailyCartoonFailed', (tester) async {
+      var state = DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
       await tester.pumpApp(
@@ -100,7 +101,7 @@ void main() {
           child: DailyCartoonView(),
         ),
       );
-      expect(find.byKey(dailyCartoonFailureKey), findsOneWidget);
+      expect(find.byKey(dailyCartoonFailedKey), findsOneWidget);
     });
   });
 }

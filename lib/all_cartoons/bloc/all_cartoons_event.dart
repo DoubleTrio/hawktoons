@@ -10,8 +10,8 @@ class LoadAllCartoons extends AllCartoonsEvent {
   List<Object> get props => [];
 }
 
-class AllCartoonsErrored extends AllCartoonsEvent {
-  AllCartoonsErrored(this.errorMessage);
+class ErrorAllCartoonsEvent extends AllCartoonsEvent {
+  ErrorAllCartoonsEvent(this.errorMessage);
 
   final String errorMessage;
 
@@ -19,8 +19,8 @@ class AllCartoonsErrored extends AllCartoonsEvent {
   List<Object> get props => [errorMessage];
 }
 
-class AllCartoonsUpdated extends AllCartoonsEvent {
-  AllCartoonsUpdated({required this.cartoons});
+class UpdateAllCartoons extends AllCartoonsEvent {
+  UpdateAllCartoons({required this.cartoons});
   final List<PoliticalCartoon> cartoons;
 
   @override
