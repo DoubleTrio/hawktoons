@@ -42,6 +42,7 @@ void main() {
         id: '2',
         author: 'Bob',
         date: Timestamp.now(),
+        published: Timestamp.now(),
         description: 'Another Mock Political Cartoon',
         unitId: UnitId.unit1,
         downloadUrl: 'downloadurl');

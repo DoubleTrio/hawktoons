@@ -33,6 +33,9 @@ class CartoonCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 12),
+                Text('(${cartoon.publishedString})',
+                    style: const TextStyle(color: Colors.grey)),
+                const SizedBox(height: 8),
                 RichText(
                     text: TextSpan(
                         text: 'By ',

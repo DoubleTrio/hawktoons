@@ -99,7 +99,7 @@ void main() {
 
     testWidgets(
         'tabBloc.add(UpdateTab(AppTab.daily)) '
-        'is called when swiped to "Daily" tab', (tester) async {
+        'not called when swiped to "Daily" tab', (tester) async {
       var state = AppTab.all;
       when(() => tabBloc.state).thenReturn(state);
 
@@ -112,12 +112,12 @@ void main() {
 
       await tester.fling(find.byType(Scaffold), const Offset(500, 0), 3000);
 
-      verify(() => tabBloc.add(UpdateTab(AppTab.daily))).called(1);
+      verifyNever(() => tabBloc.add(UpdateTab(AppTab.daily)));
     });
 
     testWidgets(
         'tabBloc.add(UpdateTab(AppTab.all)) '
-        'is called when swiped to "All" tab', (tester) async {
+        'not called when swiped to "All" tab', (tester) async {
       var state = AppTab.daily;
       when(() => tabBloc.state).thenReturn(state);
 
@@ -130,7 +130,7 @@ void main() {
 
       await tester.fling(find.byType(Scaffold), const Offset(-500, 0), 3000);
 
-      verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
+      verifyNever(() => tabBloc.add(UpdateTab(AppTab.all)));
     });
   });
 }
