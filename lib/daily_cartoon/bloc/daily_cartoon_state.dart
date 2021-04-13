@@ -11,7 +11,7 @@ class DailyCartoonInProgress extends DailyCartoonState {
 }
 
 class DailyCartoonLoaded extends DailyCartoonState {
-  DailyCartoonLoaded({required this.dailyCartoon});
+  DailyCartoonLoaded(this.dailyCartoon);
 
   final PoliticalCartoon dailyCartoon;
 

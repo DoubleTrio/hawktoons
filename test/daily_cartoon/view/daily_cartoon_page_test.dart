@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../helpers/helpers.dart';
@@ -45,7 +46,7 @@ void main() {
         date: Timestamp.now(),
         published: Timestamp.now(),
         description: 'Another Mock Political Cartoon',
-        unitId: UnitId.unit1,
+        unit: Unit.unit1,
         downloadUrl: 'downloadurl');
 
     late DailyCartoonBloc dailyCartoonBloc;
@@ -75,17 +76,16 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonView_DailyCartoonLoadeded\') '
+        'renders widget with Key(\'DailyCartoonView_DailyCartoonLoaded\') '
         'when state is DailyCartoonLoaded', (tester) async {
-      var state = DailyCartoonLoaded(dailyCartoon: mockPoliticalCartoon);
+      var state = DailyCartoonLoaded(mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: dailyCartoonBloc,
-          child: DailyCartoonView(),
-        ),
-      );
+      await mockNetworkImagesFor(() => tester.pumpApp(BlocProvider.value(
+            value: dailyCartoonBloc,
+            child: DailyCartoonView(),
+          )));
+
       expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
     });
 

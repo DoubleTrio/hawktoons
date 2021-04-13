@@ -28,8 +28,8 @@ void main() {
       test('supports value comparisons', () {
         final cartoon = MockPoliticalCartoon();
         expect(
-          UpdateDailyCartoon(cartoon: cartoon),
-          UpdateDailyCartoon(cartoon: cartoon),
+          UpdateDailyCartoon(cartoon),
+          UpdateDailyCartoon(cartoon),
         );
       });
     });

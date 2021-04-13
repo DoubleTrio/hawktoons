@@ -43,11 +43,14 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
             key: Key('DailyCartoonView_DailyCartoonInProgress'));
       } else if (state is DailyCartoonLoaded) {
         return Column(
+          key: const Key('DailyCartoonView_DailyCartoonLoaded'),
           children: [
             Text(l10n.dailyCartoonTitle),
-            Image.asset(
-              'assets/images/unit5/rail-splitter.jpg',
-              key: const Key('DailyCartoonView_DailyCartoonLoaded'),
+            Center(
+              child: ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(10)),
+                  child: Image.network(state.dailyCartoon.downloadUrl)),
             ),
           ],
         );

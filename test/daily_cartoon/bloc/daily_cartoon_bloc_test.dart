@@ -37,7 +37,7 @@ void main() {
               dailyCartoonRepository: politicalCartoonRepository);
         },
         act: (bloc) => bloc.add(LoadDailyCartoon()),
-        expect: () => [DailyCartoonLoaded(dailyCartoon: politicalCartoon)],
+        expect: () => [DailyCartoonLoaded(politicalCartoon)],
         verify: (_) => {
               verify(politicalCartoonRepository.getLatestPoliticalCartoon)
                   .called(1),

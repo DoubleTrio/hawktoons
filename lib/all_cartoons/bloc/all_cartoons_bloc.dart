@@ -29,7 +29,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
         cartoonRepository.politicalCartoons().listen((cartoons) {
       add(UpdateAllCartoons(cartoons: cartoons));
     }, onError: (err) {
-      add(ErrorAllCartoonsEvent(err));
+      add(ErrorAllCartoonsEvent(err.toString()));
     });
   }
 

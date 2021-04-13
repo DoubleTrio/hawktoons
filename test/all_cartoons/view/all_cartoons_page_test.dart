@@ -44,7 +44,7 @@ void main() {
           date: Timestamp.now(),
           published: Timestamp.now(),
           description: 'Another Mock Political Cartoon',
-          unitId: UnitId.unit1,
+          unit: Unit.unit1,
           downloadUrl: 'downloadurl')
     ];
 

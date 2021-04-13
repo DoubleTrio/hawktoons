@@ -1,83 +1,87 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/filtered_cartoons/bloc/filter_cartoons.dart';
 
-class FilterCartoonsBloc extends Bloc<FilteredCartoonsEvent, FilteredCartoonsState> {
+import 'package:bloc/bloc.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:history_app/filtered_cartoons/bloc/filtered_cartoons.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
+
+class FilteredCartoonsBloc
+    extends Bloc<FilteredCartoonsEvent, FilteredCartoonsState> {
   final AllCartoonsBloc _allCartoonsBloc;
   late StreamSubscription _allCartoonsSubscription;
 
-  FilteredCartoonsBloc({required AllCartoonsBloc allCartoonsBloc}) :
-      _allCartoonsBloc = allCartoonsBloc,
-      super(allCartoonsBloc.state is AllCartoonsLoading ? FilteredCartoonLoading() : FilteredCartoonLoading());
-  //
-  //       _todosBloc = todosBloc,
-  //       super(todosBloc.state is TodosLoaded
-  //         ? FilteredTodosLoaded(
-  //       (todosBloc.state as TodosLoaded).todos,
-  //       VisibilityFilter.all,
-  //     )
-  //         : FilteredTodosLoading()) {
-  //   _todosSubscription = todosBloc.listen((state) {
-  //     if (state is TodosLoaded) {
-  //       add(UpdateTodos((todosBloc.state as TodosLoaded).todos));
-  //     }
-  //   });
-  // }
+  FilteredCartoonsBloc({required AllCartoonsBloc allCartoonsBloc})
+      : _allCartoonsBloc = allCartoonsBloc,
+        super(FilteredCartoonsBloc.initialState(allCartoonsBloc)) {
+    _allCartoonsSubscription = allCartoonsBloc.stream.listen((state) {
+      if (state is AllCartoonsLoaded) {
+        add(UpdateFilteredCartoons(state.cartoons));
+      }
+    });
+  }
+
+  static FilteredCartoonsState initialState(AllCartoonsBloc allCartoonsBloc) {
+    if (allCartoonsBloc.state is AllCartoonsLoading) {
+      return FilteredCartoonsLoading();
+    } else if (allCartoonsBloc.state is AllCartoonsLoaded) {
+      return FilteredCartoonsLoaded(
+          (allCartoonsBloc.state as AllCartoonsLoaded).cartoons, Unit.all);
+    }
+
+    return FilteredCartoonsFailed(
+        (allCartoonsBloc.state as AllCartoonsFailed).errorMessage);
+  }
 
   @override
-  Stream<FilteredTodosState> mapEventToState(FilteredTodosEvent event) async* {
+  Stream<FilteredCartoonsState> mapEventToState(
+      FilteredCartoonsEvent event) async* {
     if (event is UpdateFilter) {
       yield* _mapUpdateFilterToState(event);
-    } else if (event is UpdateTodos) {
-      yield* _mapTodosUpdatedToState(event);
+    } else if (event is UpdateFilteredCartoons) {
+      yield* _mapCartoonsUpdatedToState(event);
     }
   }
 
-  Stream<FilteredTodosState> _mapUpdateFilterToState(
-      UpdateFilter event,
-      ) async* {
-    final currentState = _todosBloc.state;
-    if (currentState is TodosLoaded) {
-      yield FilteredTodosLoaded(
-        _mapTodosToFilteredTodos(currentState.todos, event.filter),
-        event.filter,
-      );
+  Stream<FilteredCartoonsState> _mapUpdateFilterToState(
+    UpdateFilter event,
+  ) async* {
+    final currentState = _allCartoonsBloc.state;
+    if (currentState is AllCartoonsLoaded) {
+      yield FilteredCartoonsLoaded(
+          _mapCartoonsToFilteredCartoons(currentState.cartoons, event.filter),
+          event.filter);
     }
   }
 
-  Stream<FilteredTodosState> _mapTodosUpdatedToState(
-      UpdateTodos event,
-      ) async* {
-    final visibilityFilter = state is FilteredTodosLoaded
-        ? (state as FilteredTodosLoaded).activeFilter
-        : VisibilityFilter.all;
-    yield FilteredTodosLoaded(
-      _mapTodosToFilteredTodos(
-        (_todosBloc.state as TodosLoaded).todos,
-        visibilityFilter,
+  Stream<FilteredCartoonsState> _mapCartoonsUpdatedToState(
+    UpdateFilteredCartoons event,
+  ) async* {
+    final unitFilter = state is FilteredCartoonsLoaded
+        ? (state as FilteredCartoonsLoaded).filter
+        : Unit.all;
+    yield FilteredCartoonsLoaded(
+      _mapCartoonsToFilteredCartoons(
+        (_allCartoonsBloc.state as AllCartoonsLoaded).cartoons,
+        unitFilter,
       ),
-      visibilityFilter,
+      unitFilter,
     );
   }
 
-  List<Todo> _mapTodosToFilteredTodos(
-      List<Todo> todos, VisibilityFilter filter) {
-    return todos.where((todo) {
-      if (filter == VisibilityFilter.all) {
+  List<PoliticalCartoon> _mapCartoonsToFilteredCartoons(
+      List<PoliticalCartoon> cartoons, Unit filter) {
+    return cartoons.where((cartoon) {
+      if (filter == Unit.all) {
         return true;
-      } else if (filter == VisibilityFilter.active) {
-        return !todo.complete;
       } else {
-        return todo.complete;
+        return cartoon.unit == filter;
       }
     }).toList();
   }
 
   @override
   Future<void> close() {
-    _todosSubscription?.cancel();
+    _allCartoonsSubscription.cancel();
     return super.close();
   }
 }

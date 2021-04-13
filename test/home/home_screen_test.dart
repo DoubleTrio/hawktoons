@@ -43,6 +43,7 @@ void main() {
           child: HomeScreen(),
         ),
       );
+
       expect(find.byType(TabSelector), findsOneWidget);
       expect(find.byType(PageView), findsOneWidget);
     });
