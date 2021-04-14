@@ -18,7 +18,7 @@ class UnitTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
         width: double.infinity,
         child: Row(
           children: [
@@ -27,18 +27,11 @@ class UnitTile extends StatelessWidget {
                 child: Checkbox(value: selected, onChanged: (_) => {})),
             Text(
               title,
-              style: TextStyle(fontSize: 16, color: Colors.black87),
+              style: const TextStyle(fontSize: 16, color: Colors.black87),
             )
           ],
         ),
       ),
-    );
-    return ListTile(
-      onTap: onTap,
-      title: Text(title),
-      selected: selected,
-      selectedTileColor: Colors.lightBlue.withOpacity(0.5),
-      visualDensity: VisualDensity.compact,
     );
   }
 }

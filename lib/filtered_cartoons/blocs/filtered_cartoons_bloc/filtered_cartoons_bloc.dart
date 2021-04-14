@@ -8,9 +8,6 @@ import 'filtered_cartoons.dart';
 
 class FilteredCartoonsBloc
     extends Bloc<FilteredCartoonsEvent, FilteredCartoonsState> {
-  final AllCartoonsBloc _allCartoonsBloc;
-  late StreamSubscription _allCartoonsSubscription;
-
   FilteredCartoonsBloc({required AllCartoonsBloc allCartoonsBloc})
       : _allCartoonsBloc = allCartoonsBloc,
         super(FilteredCartoonsBloc.initialState(allCartoonsBloc)) {
@@ -20,6 +17,9 @@ class FilteredCartoonsBloc
       }
     });
   }
+
+  final AllCartoonsBloc _allCartoonsBloc;
+  late StreamSubscription _allCartoonsSubscription;
 
   static FilteredCartoonsState initialState(AllCartoonsBloc allCartoonsBloc) {
     if (allCartoonsBloc.state is AllCartoonsLoading) {
