@@ -32,13 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
           return Scaffold(
               appBar: AppBar(
                 title: Text(activeTab == AppTab.daily ? 'Daily' : 'All'),
-                actions: [
-                  if (activeTab == AppTab.daily)
-                    IconButton(
-                        key: const Key('HomeScreen_FilterButton'),
-                        icon: const Icon(Icons.filter_list),
-                        onPressed: () {})
-                ],
               ),
               floatingActionButton: ThemeFloatingActionButton(),
               bottomNavigationBar: TabSelector(

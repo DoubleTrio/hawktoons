@@ -10,6 +10,7 @@ import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/home/home_screen.dart';
 import 'package:history_app/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../helpers/helpers.dart';
 
@@ -18,27 +19,31 @@ class MockTabBloc extends MockBloc<TabEvent, AppTab> implements TabBloc {}
 class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
     implements AllCartoonsBloc {}
 
+class MockUnitCubit extends MockCubit<Unit> implements UnitCubit {}
+
 void main() {
   group('HomeScreen', () {
     setupCloudFirestoreMocks();
 
     late TabBloc tabBloc;
     late AllCartoonsBloc allCartoonsBloc;
+    late UnitCubit unitCubit;
 
     var dailyCartoonIconKey = find.byKey(const Key('TabSelector_DailyTab'));
     var allCartoonsIconKey = find.byKey(const Key('TabSelector_AllTab'));
-    var filterIconKey = find.byKey(const Key('HomeScreen_FilterButton'));
 
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
       registerFallbackValue<AllCartoonsEvent>(LoadAllCartoons());
       registerFallbackValue<TabEvent>(UpdateTab(AppTab.all));
       registerFallbackValue<AppTab>(AppTab.daily);
+      registerFallbackValue<Unit>(Unit.all);
 
       await Firebase.initializeApp();
 
       tabBloc = MockTabBloc();
       allCartoonsBloc = MockAllCartoonsBloc();
+      unitCubit = MockUnitCubit();
     });
 
     testWidgets('finds TabSelector', (tester) async {
@@ -65,6 +70,9 @@ void main() {
 
       await tester.pumpApp(MultiBlocProvider(providers: [
         BlocProvider.value(
+          value: unitCubit,
+        ),
+        BlocProvider.value(
           value: tabBloc,
         ),
         BlocProvider.value(value: allCartoonsBloc)
@@ -72,9 +80,6 @@ void main() {
 
       expect(find.byType(DailyCartoonPage), findsOneWidget);
       expect(find.byType(FilteredCartoonsPage), findsNothing);
-
-      // TODO handle what happens when the filter icon is pressed
-      await tester.tap(filterIconKey);
 
       await tester.tap(allCartoonsIconKey);
       await tester.pump(const Duration(milliseconds: 1000));
@@ -95,6 +100,9 @@ void main() {
 
       await tester.pumpApp(MultiBlocProvider(providers: [
         BlocProvider.value(
+          value: unitCubit,
+        ),
+        BlocProvider.value(
           value: tabBloc,
         ),
         BlocProvider.value(value: allCartoonsBloc)
@@ -111,43 +119,6 @@ void main() {
 
       // Event called from onPageChanged and onTabSelect
       verify(() => tabBloc.add(UpdateTab(AppTab.daily))).called(2);
-    });
-
-    testWidgets(
-        'tabBloc.add(UpdateTab(AppTab.daily)) '
-        'not called when swiped to "Daily" tab', (tester) async {
-      var state = AppTab.all;
-      when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
-      when(() => tabBloc.state).thenReturn(state);
-
-      await tester.pumpApp(MultiBlocProvider(providers: [
-        BlocProvider.value(
-          value: tabBloc,
-        ),
-        BlocProvider.value(value: allCartoonsBloc)
-      ], child: HomeScreen()));
-
-      await tester.fling(find.byType(Scaffold), const Offset(500, 0), 3000);
-
-      verifyNever(() => tabBloc.add(UpdateTab(AppTab.daily)));
-    });
-
-    testWidgets(
-        'tabBloc.add(UpdateTab(AppTab.all)) '
-        'not called when swiped to "All" tab', (tester) async {
-      var state = AppTab.daily;
-      when(() => tabBloc.state).thenReturn(state);
-
-      await tester.pumpApp(MultiBlocProvider(providers: [
-        BlocProvider.value(
-          value: tabBloc,
-        ),
-        BlocProvider.value(value: allCartoonsBloc)
-      ], child: HomeScreen()));
-
-      await tester.fling(find.byType(Scaffold), const Offset(-500, 0), 3000);
-
-      verifyNever(() => tabBloc.add(UpdateTab(AppTab.all)));
     });
   });
 }

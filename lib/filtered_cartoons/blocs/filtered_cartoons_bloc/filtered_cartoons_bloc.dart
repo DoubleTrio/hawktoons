@@ -60,6 +60,7 @@ class FilteredCartoonsBloc
     final unitFilter = state is FilteredCartoonsLoaded
         ? (state as FilteredCartoonsLoaded).filter
         : Unit.all;
+
     yield FilteredCartoonsLoaded(
       _mapCartoonsToFilteredCartoons(
         (_allCartoonsBloc.state as AllCartoonsLoaded).cartoons,

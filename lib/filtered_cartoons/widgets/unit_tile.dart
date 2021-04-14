@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class UnitTile extends StatelessWidget {
-  UnitTile({required this.unit, required this.onTap, required this.selected});
+  UnitTile(
+      {Key? key,
+      required this.unit,
+      required this.onTap,
+      required this.selected})
+      : super(key: key);
 
   final Unit unit;
   final VoidCallback onTap;

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
+import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/filtered_cartoons/widgets/unit_tile.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class FilterPopUp extends StatelessWidget {
   final unitsList = Unit.values;
-  final Unit selUnit = Unit.all;
 
   @override
   Widget build(BuildContext context) {
     final selectedUnit = context.watch<UnitCubit>().state;
     final units = Unit.values.sublist(1);
-    final onTap = (Unit unit) =>
-        context.read<UnitCubit>().emit(selectedUnit == unit ? Unit.all : unit);
+    final onTap = (Unit unit) => context
+        .read<UnitCubit>()
+        .selectUnit(selectedUnit == unit ? Unit.all : unit);
 
     return DraggableScrollableSheet(
         initialChildSize: 0.75,
@@ -40,29 +41,21 @@ class FilterPopUp extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var unit = units[index];
                     return UnitTile(
+                        key: Key('Unit_${unit.index}_Tile'),
                         unit: unit,
                         onTap: () => onTap(unit),
                         selected: selectedUnit == unit);
                   }),
               const Spacer(),
-              Container(
-                width: double.infinity,
-                height: 50,
-                decoration: const BoxDecoration(
-                    border: Border(
-                        top: BorderSide(width: 0.2, color: Colors.grey))),
-                child: TextButton(
-                  child: const Text(
-                    'APPLY',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    context
-                        .read<FilteredCartoonsBloc>()
-                        .add(UpdateFilter(selectedUnit));
-                  },
-                ),
+              Expanded(
+                child: ApplyFilterButton(
+                    key: const Key('FilterPopUp_ApplyFilterButton'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      context
+                          .read<FilteredCartoonsBloc>()
+                          .add(UpdateFilter(selectedUnit));
+                    }),
               )
             ],
           );

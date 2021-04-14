@@ -71,6 +71,7 @@ void main() {
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
       await tester.pumpApp(MultiBlocProvider(providers: [
+        BlocProvider.value(value: unitCubit),
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: filteredCartoonsBloc)
       ], child: FilteredCartoonsPage()));
@@ -85,16 +86,40 @@ void main() {
       var filteredCartoonsState =
           FilteredCartoonsLoaded(mockPoliticalCartoonList, Unit.all);
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
+      when(() => unitCubit.state).thenReturn(Unit.all);
 
       await mockNetworkImagesFor(
         () => tester.pumpApp(MultiBlocProvider(providers: [
-          BlocProvider.value(value: unitCubit),
           BlocProvider.value(value: allCartoonsBloc),
-          BlocProvider.value(value: filteredCartoonsBloc)
+          BlocProvider.value(value: filteredCartoonsBloc),
+          BlocProvider.value(value: unitCubit),
         ], child: FilteredCartoonsPage())),
       );
 
+      var filterIconKey = const Key('FilteredCartoonsPage_FilterIcon');
       expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
+      await tester.tap(find.byKey(filterIconKey));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(FilterPopUp), findsOneWidget);
+
+      // Unit.all not included, therefore it is one less unit
+      expect(find.byType(UnitTile), findsNWidgets(Unit.values.length - 1));
+
+      var unitFiveTileKey = const Key('Unit_5_Tile');
+      await tester.tap(find.byKey(unitFiveTileKey));
+      await tester.pumpAndSettle();
+
+      verify(() => unitCubit.selectUnit(Unit.unit5)).called(1);
+
+      await tester.tap(find.byKey(unitFiveTileKey));
+      await tester.pumpAndSettle();
+
+      var applyFilterButtonKey = const Key('FilterPopUp_ApplyFilterButton');
+      await tester.tap(find.byKey(applyFilterButtonKey));
+      await tester.pumpAndSettle();
+      verify(() => filteredCartoonsBloc.add(UpdateFilter(Unit.all))).called(1);
+      expect(find.byType(FilterPopUp), findsNothing);
     });
 
     testWidgets(
@@ -105,6 +130,7 @@ void main() {
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
       await tester.pumpApp(MultiBlocProvider(providers: [
+        BlocProvider.value(value: unitCubit),
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: filteredCartoonsBloc)
       ], child: FilteredCartoonsPage()));
