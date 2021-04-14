@@ -65,6 +65,9 @@ class AuthBlocBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final locale = Platform.localeName;
+    final timeConverter = TimeAgo(l10n: l10n, locale: locale);
+    final cartoonRepo =
+        FirestorePoliticalCartoonRepository(timeConverter: timeConverter);
 
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
@@ -72,14 +75,12 @@ class AuthBlocBuilder extends StatelessWidget {
           return MultiBlocProvider(
             key: const Key('DailyCartoonPage_Authenticated'),
             providers: [
-              BlocProvider<TabBloc>(
-                create: (context) => TabBloc(),
-              ),
               BlocProvider<AllCartoonsBloc>(
-                  create: (_) => AllCartoonsBloc(
-                      cartoonRepository: FirestorePoliticalCartoonRepository(
-                          timeConverter: TimeAgo(l10n: l10n, locale: locale)))
+                  create: (_) => AllCartoonsBloc(cartoonRepository: cartoonRepo)
                     ..add(LoadAllCartoons())),
+              BlocProvider<TabBloc>(
+                create: (_) => TabBloc(),
+              ),
               BlocProvider<UnitCubit>(create: (_) => UnitCubit())
             ],
             child: HomeScreen(),
