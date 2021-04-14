@@ -3,23 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/l10n/l10n.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DailyCartoonPage extends StatelessWidget {
   DailyCartoonPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => DailyCartoonBloc(
-          dailyCartoonRepository: FirestorePoliticalCartoonRepository())
-        ..add(LoadDailyCartoon()),
-      child: DailyCartoonView(),
-    );
-  }
-}
-
-class DailyCartoonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,10 +27,10 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
         builder: (context, state) {
       if (state is DailyCartoonInProgress) {
         return const CircularProgressIndicator(
-            key: Key('DailyCartoonView_DailyCartoonInProgress'));
+            key: Key('DailyCartoonPage_DailyCartoonInProgress'));
       } else if (state is DailyCartoonLoaded) {
         return Column(
-          key: const Key('DailyCartoonView_DailyCartoonLoaded'),
+          key: const Key('DailyCartoonPage_DailyCartoonLoaded'),
           children: [
             Text(l10n.dailyCartoonTitle),
             Center(
@@ -56,7 +43,7 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
         );
       } else {
         return const Text('Error while fetching political cartoon',
-            key: Key('DailyCartoonView_DailyCartoonFailed'),
+            key: Key('DailyCartoonPage_DailyCartoonFailed'),
             style: TextStyle(color: Colors.red));
       }
     });

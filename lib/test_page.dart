@@ -85,7 +85,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return       Column(
-//       key: const Key('dailyCartoonView_DailyCartoonLoaded_card'),
+//       key: const Key('DailyCartoonPage_DailyCartoonLoaded_card'),
 //       mainAxisAlignment: MainAxisAlignment.start,
 //       children: [
 //         Text(l10n.dailyCartoonTitle),

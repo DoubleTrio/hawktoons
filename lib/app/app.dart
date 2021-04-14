@@ -5,18 +5,18 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:history_app/auth/auth.dart';
-import 'package:history_app/auth/bloc/authentication_event.dart';
+import 'package:history_app/blocs/blocs.dart';
+import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:history_app/home/home_screen.dart';
 import 'package:history_app/l10n/l10n.dart';
-import 'package:history_app/tab/bloc/tab.dart';
-import 'package:history_app/theme/cubit/theme_cubit.dart';
+import 'package:history_app/theme_data.dart';
+import 'package:history_app/utils/utils.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
-
-import '../theme/theme.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -42,6 +42,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = context.select((ThemeCubit cubit) => cubit.state);
+
     return MaterialApp(
       themeMode: themeMode,
       theme: lightThemeData,
@@ -61,12 +62,25 @@ class AppView extends StatelessWidget {
 class AuthBlocBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final locale = Platform.localeName;
+
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state is Authenticated) {
-          return BlocProvider(
+          return MultiBlocProvider(
             key: const Key('DailyCartoonPage_Authenticated'),
-            create: (context) => TabBloc(),
+            providers: [
+              BlocProvider<TabBloc>(
+                create: (context) => TabBloc(),
+              ),
+              BlocProvider<AllCartoonsBloc>(
+                  create: (_) => AllCartoonsBloc(
+                      cartoonRepository: FirestorePoliticalCartoonRepository(
+                          timeConverter: TimeAgo(l10n: l10n, locale: locale)))
+                    ..add(LoadAllCartoons())),
+              BlocProvider<UnitCubit>(create: (_) => UnitCubit())
+            ],
             child: HomeScreen(),
           );
         } else if (state is Unauthenticated) {
