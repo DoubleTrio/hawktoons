@@ -1,35 +1,36 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
+import 'package:history_app/blocs/auth/bloc/authentication_state.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
 
 void main() {
-  group('DailyCartoonEvent', () {
-    group('LoadDailyCartoon', () {
+  group('AuthenticationState', () {
+    group('Uninitialized', () {
       test('supports value comparisons', () {
         expect(
-          LoadDailyCartoon(),
-          LoadDailyCartoon(),
+          Uninitialized(),
+          Uninitialized(),
         );
+        expect(Uninitialized().toString(), Uninitialized().toString());
       });
     });
-    group('ErrorDailyCartoonEvent', () {
+    group('Authenticated', () {
+      final userId = 'user-id';
       test('supports value comparisons', () {
         expect(
-          ErrorDailyCartoonEvent('Error message'),
-          ErrorDailyCartoonEvent('Error message'),
+          Authenticated(userId),
+          Authenticated(userId),
         );
       });
     });
 
-    group('UpdateDailyCartoon', () {
+    group('Unauthenticated', () {
       test('supports value comparisons', () {
-        final cartoon = MockPoliticalCartoon();
         expect(
-          UpdateDailyCartoon(cartoon),
-          UpdateDailyCartoon(cartoon),
+          Unauthenticated(),
+          Unauthenticated(),
         );
       });
     });

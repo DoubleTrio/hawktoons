@@ -27,15 +27,15 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
   Stream<DailyCartoonState> _mapLoadDailyCartoonToState() async* {
     _dailyCartoonSubscription =
         dailyCartoonRepository.getLatestPoliticalCartoon().listen((cartoon) {
-      add(UpdateDailyCartoon(cartoon: cartoon));
+      add(UpdateDailyCartoon(cartoon));
     }, onError: (err) {
-      add(ErrorDailyCartoonEvent(err));
+      add(ErrorDailyCartoonEvent(err.toString()));
     });
   }
 
   Stream<DailyCartoonState> _mapUpdateDailyCartoonToState(
       PoliticalCartoon cartoon) async* {
-    yield DailyCartoonLoaded(dailyCartoon: cartoon);
+    yield DailyCartoonLoaded(cartoon);
   }
 
   Stream<DailyCartoonState> _mapErrorDailyCartoonToState(

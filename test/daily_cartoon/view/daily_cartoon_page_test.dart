@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../helpers/helpers.dart';
@@ -21,23 +22,17 @@ void main() {
     setUpAll(() async {
       await Firebase.initializeApp();
     });
-
-    testWidgets('renders DailyCartoonView', (tester) async {
-      await tester.pumpApp(DailyCartoonPage());
-      expect(find.byType(DailyCartoonView), findsOneWidget);
-      expect(find.byType(PoliticalCartoonCardLoader), findsOneWidget);
-    });
   });
 
-  group('DailyCartoonView', () {
+  group('DailyCartoonPage', () {
     setupCloudFirestoreMocks();
 
     var dailyCartoonInProgressKey =
-        const Key('DailyCartoonView_DailyCartoonInProgress');
+        const Key('DailyCartoonPage_DailyCartoonInProgress');
     var dailyCartoonLoadedKey =
-        const Key('DailyCartoonView_DailyCartoonLoaded');
+        const Key('DailyCartoonPage_DailyCartoonLoaded');
     var dailyCartoonFailedKey =
-        const Key('DailyCartoonView_DailyCartoonFailed');
+        const Key('DailyCartoonPage_DailyCartoonFailed');
 
     var mockPoliticalCartoon = PoliticalCartoon(
         id: '2',
@@ -45,7 +40,7 @@ void main() {
         date: Timestamp.now(),
         published: Timestamp.now(),
         description: 'Another Mock Political Cartoon',
-        unitId: UnitId.unit1,
+        unit: Unit.unit1,
         downloadUrl: 'downloadurl');
 
     late DailyCartoonBloc dailyCartoonBloc;
@@ -60,7 +55,7 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonView_DailyCartoonInProgress\') '
+        'renders widget with Key(\'DailyCartoonPage_DailyCartoonInProgress\') '
         'when state is DailyCartoonInProgress()', (tester) async {
       var state = DailyCartoonInProgress();
       when(() => dailyCartoonBloc.state).thenReturn(state);
@@ -68,29 +63,28 @@ void main() {
       await tester.pumpApp(
         BlocProvider.value(
           value: dailyCartoonBloc,
-          child: DailyCartoonView(),
+          child: DailyCartoonPage(),
         ),
       );
       expect(find.byKey(dailyCartoonInProgressKey), findsOneWidget);
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonView_DailyCartoonLoadeded\') '
+        'renders widget with Key(\'DailyCartoonPage_DailyCartoonLoaded\') '
         'when state is DailyCartoonLoaded', (tester) async {
-      var state = DailyCartoonLoaded(dailyCartoon: mockPoliticalCartoon);
+      var state = DailyCartoonLoaded(mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: dailyCartoonBloc,
-          child: DailyCartoonView(),
-        ),
-      );
+      await mockNetworkImagesFor(() => tester.pumpApp(BlocProvider.value(
+            value: dailyCartoonBloc,
+            child: DailyCartoonPage(),
+          )));
+
       expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonView_DailyCartoonFailed\') '
+        'renders widget with Key(\'DailyCartoonPage_DailyCartoonFailed\') '
         'when state is DailyCartoonFailed', (tester) async {
       var state = DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
@@ -98,7 +92,7 @@ void main() {
       await tester.pumpApp(
         BlocProvider.value(
           value: dailyCartoonBloc,
-          child: DailyCartoonView(),
+          child: DailyCartoonPage(),
         ),
       );
       expect(find.byKey(dailyCartoonFailedKey), findsOneWidget);
