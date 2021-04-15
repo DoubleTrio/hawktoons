@@ -36,8 +36,8 @@ void main() {
     });
     group('initials states', () {
       test('initial state is FilteredCartoonsFailed()', () {
-        when(() => allCartoonsBloc.state).thenReturn(
-            AllCartoonsFailed('Error'));
+        when(() => allCartoonsBloc.state)
+            .thenReturn(AllCartoonsFailed('Error'));
         var bloc = FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
         expect(bloc.state, equals(FilteredCartoonsFailed('Error')));
       });
