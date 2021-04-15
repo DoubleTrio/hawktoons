@@ -57,17 +57,19 @@ class FilteredCartoonsBloc
   Stream<FilteredCartoonsState> _mapCartoonsUpdatedToState(
     UpdateFilteredCartoons event,
   ) async* {
-    final unitFilter = state is FilteredCartoonsLoaded
-        ? (state as FilteredCartoonsLoaded).filter
-        : Unit.all;
+    if (_allCartoonsBloc.state is AllCartoonsLoaded) {
+      final unitFilter = state is FilteredCartoonsLoaded
+          ? (state as FilteredCartoonsLoaded).filter
+          : Unit.all;
 
-    yield FilteredCartoonsLoaded(
-      _mapCartoonsToFilteredCartoons(
-        (_allCartoonsBloc.state as AllCartoonsLoaded).cartoons,
+      yield FilteredCartoonsLoaded(
+        _mapCartoonsToFilteredCartoons(
+          (_allCartoonsBloc.state as AllCartoonsLoaded).cartoons,
+          unitFilter,
+        ),
         unitFilter,
-      ),
-      unitFilter,
-    );
+      );
+    }
   }
 
   List<PoliticalCartoon> _mapCartoonsToFilteredCartoons(

@@ -24,30 +24,37 @@ class FilterPopUp extends StatelessWidget {
         builder: (context, scroller) {
           return Column(
             children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(12),
-                width: double.infinity,
-                child: const Text(
-                  'Select Filters',
-                  style: TextStyle(fontSize: 25),
-                  textAlign: TextAlign.left,
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  width: double.infinity,
+                  child: const Text(
+                    'Select Filters',
+                    style: TextStyle(fontSize: 25),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ),
-              ListView.builder(
-                  itemExtent: 40,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: units.length,
-                  itemBuilder: (context, index) {
-                    var unit = units[index];
-                    return UnitTile(
-                        key: Key('Unit_${unit.index}_Tile'),
-                        unit: unit,
-                        onTap: () => onTap(unit),
-                        selected: selectedUnit == unit);
-                  }),
+              Expanded(
+                flex: 9,
+                child: ListView.builder(
+                    itemExtent: 35,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: units.length,
+                    itemBuilder: (context, index) {
+                      var unit = units[index];
+                      return UnitTile(
+                          key: Key('Unit_${unit.index}_Tile'),
+                          unit: unit,
+                          onTap: () => onTap(unit),
+                          selected: selectedUnit == unit);
+                    }),
+              ),
               const Spacer(),
               Expanded(
+                flex: 1,
                 child: ApplyFilterButton(
                     key: const Key('FilterPopUp_ApplyFilterButton'),
                     onPressed: () {

@@ -34,27 +34,29 @@ void main() {
       registerFallbackValue<FilteredCartoonsState>(FilteredCartoonsLoading());
       allCartoonsBloc = MockAllCartoonsBloc();
     });
+    group('initials states', () {
+      test('initial state is FilteredCartoonsFailed()', () {
+        when(() => allCartoonsBloc.state).thenReturn(
+            AllCartoonsFailed('Error'));
+        var bloc = FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
+        expect(bloc.state, equals(FilteredCartoonsFailed('Error')));
+      });
 
-    test('initial state is FilteredCartoonsLoading()', () {
-      when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
-      var state = FilteredCartoonsLoading();
-      expect(FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc).state,
-          equals(state));
+      test('initial state is FilteredCartoonsLoaded()', () {
+        when(() => allCartoonsBloc.state)
+            .thenReturn(AllCartoonsLoaded(cartoons: politicalCartoons));
+        var bloc = FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
+        expect(bloc.state,
+            equals(FilteredCartoonsLoaded(politicalCartoons, Unit.all)));
+      });
+
+      test('initial state is FilteredCartoonsLoading()', () {
+        when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
+        var state = FilteredCartoonsLoading();
+        expect(FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc).state,
+            equals(state));
+      });
     });
-
-    test('initial state is FilteredCartoonsLoaded()', () {
-      when(() => allCartoonsBloc.state)
-          .thenReturn(AllCartoonsLoaded(cartoons: politicalCartoons));
-      expect(FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc).state,
-          equals(FilteredCartoonsLoaded(politicalCartoons, Unit.all)));
-    });
-
-    test('initial state is FilteredCartoonsFailed()', () {
-      when(() => allCartoonsBloc.state).thenReturn(AllCartoonsFailed('Error'));
-      expect(FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc).state,
-          equals(FilteredCartoonsFailed('Error')));
-    });
-
     blocTest<FilteredCartoonsBloc, FilteredCartoonsState>(
       'Emits [AllCartoonsLoaded(cartoons: $politicalCartoons)] '
       'when LoadAllCartoons is added',
