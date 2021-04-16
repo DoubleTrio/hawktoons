@@ -23,6 +23,8 @@ class MockFilteredCartoonsBloc
 
 class MockUnitCubit extends MockCubit<Unit> implements UnitCubit {}
 
+class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
+
 void main() {
   group('FilteredCartoonsPage', () {
     setupCloudFirestoreMocks();
@@ -48,6 +50,7 @@ void main() {
     late AllCartoonsBloc allCartoonsBloc;
     late FilteredCartoonsBloc filteredCartoonsBloc;
     late UnitCubit unitCubit;
+    late SortByCubit sortByCubit;
 
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
@@ -55,12 +58,14 @@ void main() {
       registerFallbackValue<FilteredCartoonsState>(FilteredCartoonsLoading());
       registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Unit.all));
       registerFallbackValue<Unit>(Unit.all);
+      registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
       await Firebase.initializeApp();
 
       allCartoonsBloc = MockAllCartoonsBloc();
       filteredCartoonsBloc = MockFilteredCartoonsBloc();
       unitCubit = MockUnitCubit();
+      sortByCubit = MockSortByCubit();
     });
 
     testWidgets(
@@ -73,7 +78,8 @@ void main() {
       await tester.pumpApp(MultiBlocProvider(providers: [
         BlocProvider.value(value: unitCubit),
         BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: filteredCartoonsBloc)
+        BlocProvider.value(value: filteredCartoonsBloc),
+        BlocProvider.value(value: sortByCubit),
       ], child: FilteredCartoonsPage()));
 
       expect(find.byKey(filteredCartoonsLoadingKey), findsOneWidget);
@@ -87,12 +93,14 @@ void main() {
           FilteredCartoonsLoaded(mockPoliticalCartoonList, Unit.all);
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
       when(() => unitCubit.state).thenReturn(Unit.all);
+      when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
 
       await mockNetworkImagesFor(
         () => tester.pumpApp(MultiBlocProvider(providers: [
           BlocProvider.value(value: allCartoonsBloc),
           BlocProvider.value(value: filteredCartoonsBloc),
           BlocProvider.value(value: unitCubit),
+          BlocProvider.value(value: sortByCubit),
         ], child: FilteredCartoonsPage())),
       );
 
@@ -103,22 +111,31 @@ void main() {
 
       expect(find.byType(FilterPopUp), findsOneWidget);
 
-      // Unit.all not included, therefore it is one less unit
-      expect(find.byType(UnitTile), findsNWidgets(Unit.values.length - 1));
+      var resetButtonKey = const Key('ButtonRowHeader_ResetButton');
+      await tester.tap(find.byKey(resetButtonKey));
 
-      var unitFiveTileKey = const Key('Unit_5_Tile');
-      await tester.tap(find.byKey(unitFiveTileKey));
+      var unitFiveButtonKey = const Key('Unit_5_Button');
+      await tester.tap(find.byKey(unitFiveButtonKey));
       await tester.pumpAndSettle();
 
       verify(() => unitCubit.selectUnit(Unit.unit5)).called(1);
 
-      await tester.tap(find.byKey(unitFiveTileKey));
+      await tester.tap(find.byKey(unitFiveButtonKey));
       await tester.pumpAndSettle();
 
-      var applyFilterButtonKey = const Key('FilterPopUp_ApplyFilterButton');
+      var sortByModeKey = const Key('SortByMode_1');
+      await tester.tap(find.byKey(sortByModeKey));
+      await tester.pumpAndSettle();
+
+      verify(() => sortByCubit.selectSortBy(SortByMode.earliestPosted))
+          .called(1);
+
+      var applyFilterButtonKey = const Key('ButtonRowHeader_ApplyFilterButton');
       await tester.tap(find.byKey(applyFilterButtonKey));
       await tester.pumpAndSettle();
+
       verify(() => filteredCartoonsBloc.add(UpdateFilter(Unit.all))).called(1);
+
       expect(find.byType(FilterPopUp), findsNothing);
     });
 
@@ -132,12 +149,11 @@ void main() {
       await tester.pumpApp(MultiBlocProvider(providers: [
         BlocProvider.value(value: unitCubit),
         BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: filteredCartoonsBloc)
+        BlocProvider.value(value: filteredCartoonsBloc),
+        BlocProvider.value(value: sortByCubit),
       ], child: FilteredCartoonsPage()));
 
       expect(find.byKey(filteredCartoonsFailedKey), findsOneWidget);
-
-      // TODO: add tests for widgets
     });
   });
 }

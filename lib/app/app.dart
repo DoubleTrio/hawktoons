@@ -81,7 +81,8 @@ class AuthBlocBuilder extends StatelessWidget {
               BlocProvider<TabBloc>(
                 create: (_) => TabBloc(),
               ),
-              BlocProvider<UnitCubit>(create: (_) => UnitCubit())
+              BlocProvider<UnitCubit>(create: (_) => UnitCubit()),
+              BlocProvider<SortByCubit>(create: (_) => SortByCubit())
             ],
             child: HomeScreen(),
           );

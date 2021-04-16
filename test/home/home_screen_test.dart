@@ -21,6 +21,8 @@ class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
 
 class MockUnitCubit extends MockCubit<Unit> implements UnitCubit {}
 
+class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
+
 void main() {
   group('HomeScreen', () {
     setupCloudFirestoreMocks();
@@ -28,6 +30,7 @@ void main() {
     late TabBloc tabBloc;
     late AllCartoonsBloc allCartoonsBloc;
     late UnitCubit unitCubit;
+    late SortByCubit sortByCubit;
 
     var dailyCartoonIconKey = find.byKey(const Key('TabSelector_DailyTab'));
     var allCartoonsIconKey = find.byKey(const Key('TabSelector_AllTab'));
@@ -38,12 +41,14 @@ void main() {
       registerFallbackValue<TabEvent>(UpdateTab(AppTab.all));
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Unit>(Unit.all);
+      registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
       await Firebase.initializeApp();
 
       tabBloc = MockTabBloc();
       allCartoonsBloc = MockAllCartoonsBloc();
       unitCubit = MockUnitCubit();
+      sortByCubit = MockSortByCubit();
     });
 
     testWidgets('finds TabSelector', (tester) async {
@@ -75,7 +80,8 @@ void main() {
         BlocProvider.value(
           value: tabBloc,
         ),
-        BlocProvider.value(value: allCartoonsBloc)
+        BlocProvider.value(value: allCartoonsBloc),
+        BlocProvider.value(value: sortByCubit),
       ], child: HomeScreen()));
 
       expect(find.byType(DailyCartoonPage), findsOneWidget);
@@ -105,7 +111,8 @@ void main() {
         BlocProvider.value(
           value: tabBloc,
         ),
-        BlocProvider.value(value: allCartoonsBloc)
+        BlocProvider.value(value: allCartoonsBloc),
+        BlocProvider.value(value: sortByCubit),
       ], child: HomeScreen()));
 
       expect(find.byType(FilteredCartoonsPage), findsOneWidget);
