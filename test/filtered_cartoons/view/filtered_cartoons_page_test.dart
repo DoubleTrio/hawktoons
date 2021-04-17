@@ -115,6 +115,12 @@ void main() {
 
       var resetButtonKey = const Key('ButtonRowHeader_ResetButton');
       await tester.tap(find.byKey(resetButtonKey));
+
+      verifyInOrder([
+        () => unitCubit.selectUnit(Unit.all),
+        () => sortByCubit.selectSortBy(SortByMode.latestPosted)
+      ]);
+
       var unitFiveButtonKey = const Key('Unit_5_Button');
       await tester.tap(find.byKey(unitFiveButtonKey));
       await tester.pumpAndSettle();

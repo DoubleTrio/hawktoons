@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:history_app/app/auth_page.dart';
 import 'package:history_app/blocs/blocs.dart';
+import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
+import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/home/home_screen.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:history_app/theme_data.dart';
@@ -49,8 +52,27 @@ class AppView extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      routes: {},
-      home: AuthBlocBuilder(),
+      onGenerateRoute: (settings) {
+        if (settings.name == '/') {
+          return MaterialPageRoute(builder: (context) => AuthPage());
+        }
+        if (settings.name == '/daily') {
+          return MaterialPageRoute(builder: (context) => DailyCartoonPage());
+        } else if (settings.name == 'all') {
+          return MaterialPageRoute(
+              builder: (context) => FilteredCartoonsPage());
+        }
+
+        // // Handle '/details/:id'
+        // var uri = Uri.parse(settings.name!);
+        // if (uri.pathSegments.length == 2 &&
+        //     uri.pathSegments.first == 'details') {
+        //   var id = uri.pathSegments[1];
+        //   return MaterialPageRoute(
+        //       builder: (context) => FilteredCartoonsPage());
+        // }
+      },
+      initialRoute: '/',
     );
   }
 }

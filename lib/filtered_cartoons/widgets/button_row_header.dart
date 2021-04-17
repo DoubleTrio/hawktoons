@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class ButtonRowHeader extends StatelessWidget {
   @override
@@ -14,13 +15,23 @@ class ButtonRowHeader extends StatelessWidget {
           context.read<FilteredCartoonsBloc>().add(UpdateFilter(selectedUnit))
         };
 
+    final reset = () => {
+          context.read<UnitCubit>().selectUnit(Unit.all),
+          context.read<SortByCubit>().selectSortBy(SortByMode.latestPosted)
+        };
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
             key: const Key('ButtonRowHeader_ResetButton'),
-            onPressed: () {},
+            onPressed: reset,
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ))),
             child: const Text(
               'Reset',
               style: TextStyle(color: Colors.black),
