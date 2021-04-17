@@ -14,39 +14,40 @@ class SortByTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: InkWell(
-                onTap: onTap,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      header,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: selected ? Colors.orange : Colors.black38),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        child: Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    header,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: selected ? Colors.orange : Colors.black38),
+                  ),
+                  if (selected)
+                    const Icon(
+                      Icons.check,
+                      color: Colors.orange,
+                      size: 18,
                     ),
-                    if (selected)
-                      const Icon(
-                        Icons.check,
-                        color: Colors.orange,
-                        size: 18,
-                      ),
-                  ],
-                )),
-          ),
-          const Divider(
-            color: Colors.black12,
-            thickness: 1,
-            height: 22,
-          ),
-        ],
+                ],
+              ),
+            ),
+            const Divider(
+              color: Colors.black12,
+              thickness: 1,
+              height: 22,
+            ),
+          ],
+        ),
       ),
     );
   }

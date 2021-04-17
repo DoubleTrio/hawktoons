@@ -119,17 +119,17 @@ void main() {
       await tester.tap(find.byKey(unitFiveButtonKey));
       await tester.pumpAndSettle();
 
-      verify(() => unitCubit.selectUnit(Unit.unit5)).called(1);
+      verify(() => unitCubit.selectUnit(Unit.values[5])).called(1);
 
       await tester.tap(find.byKey(unitFiveButtonKey));
       await tester.pumpAndSettle();
 
       var sortByModeKey = const Key('SortByMode_2');
-      await tester.tap(find.byKey(sortByModeKey));
+      await tester.tap(find.descendant(
+          of: find.byKey(sortByModeKey), matching: find.byType(InkWell)));
       await tester.pumpAndSettle();
 
-      // TODO fix verify
-      // verify(() => sortByCubit.selectSortBy(SortByMode.values[2])).called(1);
+      verify(() => sortByCubit.selectSortBy(SortByMode.values[2])).called(1);
 
       var applyFilterButtonKey = const Key('ButtonRowHeader_ApplyFilterButton');
       await tester.tap(find.byKey(applyFilterButtonKey));
