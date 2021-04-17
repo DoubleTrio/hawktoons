@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

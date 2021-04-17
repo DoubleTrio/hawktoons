@@ -8,15 +8,15 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   AllCartoonsBloc({required this.cartoonRepository})
       : super(AllCartoonsLoading());
 
+  late StreamSubscription _cartoonsSubscription;
   final PoliticalCartoonRepository cartoonRepository;
-  late StreamSubscription? _cartoonsSubscription;
 
   @override
   Stream<AllCartoonsState> mapEventToState(
     AllCartoonsEvent event,
   ) async* {
     if (event is LoadAllCartoons) {
-      yield* _mapLoadAllCartoonsToState();
+      yield* _mapLoadAllCartoonsToState(event.sortByMode);
     } else if (event is UpdateAllCartoons) {
       yield* _mapUpdateAllCartoonsToState(event.cartoons);
     } else if (event is ErrorAllCartoonsEvent) {
@@ -24,9 +24,11 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     }
   }
 
-  Stream<AllCartoonsState> _mapLoadAllCartoonsToState() async* {
-    _cartoonsSubscription =
-        cartoonRepository.politicalCartoons().listen((cartoons) {
+  Stream<AllCartoonsState> _mapLoadAllCartoonsToState(
+      SortByMode sortByMode) async* {
+    _cartoonsSubscription = cartoonRepository
+        .politicalCartoons(sortByMode: sortByMode)
+        .listen((cartoons) {
       add(UpdateAllCartoons(cartoons: cartoons));
     }, onError: (err) {
       add(ErrorAllCartoonsEvent(err.toString()));
@@ -45,7 +47,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
 
   @override
   Future<void> close() {
-    _cartoonsSubscription?.cancel();
+    _cartoonsSubscription.cancel();
     return super.close();
   }
 }

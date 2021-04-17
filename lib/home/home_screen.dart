@@ -16,11 +16,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var _allCartoonsBloc = BlocProvider.of<AllCartoonsBloc>(context);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (_) => FilteredCartoonsBloc(
-                allCartoonsBloc: BlocProvider.of<AllCartoonsBloc>(context))),
+            create: (_) =>
+                FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc)),
         BlocProvider(
             create: (_) => DailyCartoonBloc(
                 dailyCartoonRepository: FirestorePoliticalCartoonRepository())

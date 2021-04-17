@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 
 class ButtonRowHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedUnit = context.watch<UnitCubit>().state;
+    final sortByMode = context.watch<SortByCubit>().state;
     final onFilter = () => {
           Navigator.of(context).pop(),
+          context.read<AllCartoonsBloc>().add(LoadAllCartoons(sortByMode)),
           context.read<FilteredCartoonsBloc>().add(UpdateFilter(selectedUnit))
         };
 

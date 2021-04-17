@@ -15,11 +15,6 @@ class UnitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final index = unit.index;
-    final isValidPeriod = unit.periodRange.isValidPeriod;
-    final name = unit.name;
-    final unitText = '${isValidPeriod ? 'Unit $index: ' : ''}';
-    final title = '$unitText$name';
     return TextButton(
       onPressed: onTap,
       child: Text(

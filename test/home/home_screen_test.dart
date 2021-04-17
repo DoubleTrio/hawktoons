@@ -37,7 +37,8 @@ void main() {
 
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
-      registerFallbackValue<AllCartoonsEvent>(LoadAllCartoons());
+      registerFallbackValue<AllCartoonsEvent>(
+          LoadAllCartoons(SortByMode.latestPosted));
       registerFallbackValue<TabEvent>(UpdateTab(AppTab.all));
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Unit>(Unit.all);

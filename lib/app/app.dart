@@ -1,10 +1,3 @@
-// Copyright (c) 2021, Very Good Ventures
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -25,6 +18,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<UnitCubit>(create: (_) => UnitCubit()),
+        BlocProvider<SortByCubit>(create: (_) => SortByCubit()),
         BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
         BlocProvider<AuthenticationBloc>(
             create: (_) =>
@@ -68,7 +63,7 @@ class AuthBlocBuilder extends StatelessWidget {
     final timeConverter = TimeAgo(l10n: l10n, locale: locale);
     final cartoonRepo =
         FirestorePoliticalCartoonRepository(timeConverter: timeConverter);
-
+    final sortByMode = context.read<SortByCubit>().state;
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state is Authenticated) {
@@ -77,12 +72,10 @@ class AuthBlocBuilder extends StatelessWidget {
             providers: [
               BlocProvider<AllCartoonsBloc>(
                   create: (_) => AllCartoonsBloc(cartoonRepository: cartoonRepo)
-                    ..add(LoadAllCartoons())),
+                    ..add(LoadAllCartoons(sortByMode))),
               BlocProvider<TabBloc>(
                 create: (_) => TabBloc(),
               ),
-              BlocProvider<UnitCubit>(create: (_) => UnitCubit()),
-              BlocProvider<SortByCubit>(create: (_) => SortByCubit())
             ],
             child: HomeScreen(),
           );

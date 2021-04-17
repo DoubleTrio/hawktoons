@@ -5,13 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/app/app.dart';
 import 'package:history_app/blocs/auth/auth.dart';
+import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../../helpers/helpers.dart';
 
 class MockAuthenticationBloc
     extends MockBloc<AuthenticationEvent, AuthenticationState>
     implements AuthenticationBloc {}
+
+class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 
 void main() {
   group('AuthBlocBuilder', () {
@@ -30,27 +34,34 @@ void main() {
     var uninitializedKey = const Key('DailyCartoonPage_Uninitialized');
 
     late AuthenticationBloc authenticationBloc;
+    late SortByCubit sortByCubit;
 
     setUpAll(() async {
       registerFallbackValue<AuthenticationState>(Uninitialized());
       registerFallbackValue<AuthenticationEvent>(StartApp());
-
+      registerFallbackValue<SortByMode>(SortByMode.latestPosted);
       await Firebase.initializeApp();
 
       authenticationBloc = MockAuthenticationBloc();
+      sortByCubit = MockSortByCubit();
     });
 
     testWidgets(
         'finds Key(\'DailyCartoonPage_Unauthenticated\')'
         'when state is Uninitialized', (tester) async {
       var state = Uninitialized();
-      when(() => authenticationBloc.state).thenReturn(state);
 
+      when(() => authenticationBloc.state).thenReturn(state);
+      when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
       await tester.pumpApp(
-        BlocProvider.value(
-          value: authenticationBloc,
-          child: AuthBlocBuilder(),
-        ),
+        MultiBlocProvider(providers: [
+          BlocProvider.value(
+            value: authenticationBloc,
+          ),
+          BlocProvider.value(
+            value: sortByCubit,
+          )
+        ], child: AuthBlocBuilder()),
       );
       expect(find.byKey(uninitializedKey), findsOneWidget);
     });
@@ -58,28 +69,34 @@ void main() {
         'finds Key(\'DailyCartoonPage_Authenticated\')'
         'when state is Authenticated', (tester) async {
       var state = Authenticated('user-id');
-      when(() => authenticationBloc.state).thenReturn(state);
 
-      await tester.pumpApp(
+      when(() => authenticationBloc.state).thenReturn(state);
+      when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
+      await tester.pumpApp(MultiBlocProvider(providers: [
         BlocProvider.value(
           value: authenticationBloc,
-          child: AuthBlocBuilder(),
         ),
-      );
+        BlocProvider.value(
+          value: sortByCubit,
+        )
+      ], child: AuthBlocBuilder()));
       expect(find.byKey(authenticatedKey), findsOneWidget);
     });
     testWidgets(
         'finds Key(\'DailyCartoonPage_Unauthenticated\')'
         'when state is Unauthenticated', (tester) async {
       var state = Unauthenticated();
-      when(() => authenticationBloc.state).thenReturn(state);
 
-      await tester.pumpApp(
+      when(() => authenticationBloc.state).thenReturn(state);
+      when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
+      await tester.pumpApp(MultiBlocProvider(providers: [
         BlocProvider.value(
           value: authenticationBloc,
-          child: AuthBlocBuilder(),
         ),
-      );
+        BlocProvider.value(
+          value: sortByCubit,
+        )
+      ], child: AuthBlocBuilder()));
       expect(find.byKey(unauthenticatedKey), findsOneWidget);
     });
   });

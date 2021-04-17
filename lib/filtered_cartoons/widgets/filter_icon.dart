@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 
@@ -11,6 +12,7 @@ class FilterIcon extends StatelessWidget {
     var _filteredCartoonsBloc = BlocProvider.of<FilteredCartoonsBloc>(context);
     var _unitCubit = BlocProvider.of<UnitCubit>(context);
     var _sortByCubit = BlocProvider.of<SortByCubit>(context);
+    var _allCartoonsBloc = BlocProvider.of<AllCartoonsBloc>(context);
 
     return IconButton(
         icon: const Icon(Icons.filter_list),
@@ -23,7 +25,8 @@ class FilterIcon extends StatelessWidget {
               return MultiBlocProvider(providers: [
                 BlocProvider.value(value: _unitCubit),
                 BlocProvider.value(value: _filteredCartoonsBloc),
-                BlocProvider.value(value: _sortByCubit)
+                BlocProvider.value(value: _sortByCubit),
+                BlocProvider.value(value: _allCartoonsBloc)
               ], child: FilterPopUp());
             }));
   }

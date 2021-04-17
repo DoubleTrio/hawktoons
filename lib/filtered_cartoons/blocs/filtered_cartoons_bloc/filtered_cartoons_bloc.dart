@@ -28,7 +28,6 @@ class FilteredCartoonsBloc
       return FilteredCartoonsLoaded(
           (allCartoonsBloc.state as AllCartoonsLoaded).cartoons, Unit.all);
     }
-
     return FilteredCartoonsFailed(
         (allCartoonsBloc.state as AllCartoonsFailed).errorMessage);
   }

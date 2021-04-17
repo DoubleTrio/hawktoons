@@ -10,8 +10,8 @@ void main() {
     group('LoadAllCartoons', () {
       test('supports value comparisons', () {
         expect(
-          LoadAllCartoons(),
-          LoadAllCartoons(),
+          LoadAllCartoons(SortByMode.latestPosted),
+          LoadAllCartoons(SortByMode.latestPosted),
         );
       });
     });

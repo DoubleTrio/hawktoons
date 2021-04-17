@@ -21,33 +21,30 @@ class SortByTile extends StatelessWidget {
             width: double.infinity,
             child: InkWell(
                 onTap: onTap,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        header,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: selected ? Colors.orange : Colors.black38),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      header,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: selected ? Colors.orange : Colors.black38),
+                    ),
+                    if (selected)
+                      const Icon(
+                        Icons.check,
+                        color: Colors.orange,
+                        size: 18,
                       ),
-                      if (selected)
-                        const Icon(
-                          Icons.check,
-                          color: Colors.orange,
-                          size: 18,
-                        ),
-                    ],
-                  ),
+                  ],
                 )),
           ),
           const Divider(
             color: Colors.black12,
             thickness: 1,
-            height: 1,
+            height: 22,
           ),
         ],
       ),

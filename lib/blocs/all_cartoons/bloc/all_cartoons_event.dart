@@ -6,8 +6,12 @@ abstract class AllCartoonsEvent extends Equatable {
 }
 
 class LoadAllCartoons extends AllCartoonsEvent {
+  LoadAllCartoons(this.sortByMode);
+
+  final SortByMode sortByMode;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [sortByMode];
 }
 
 class ErrorAllCartoonsEvent extends AllCartoonsEvent {

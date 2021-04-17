@@ -15,9 +15,9 @@ void main() {
     late UserRepository userRepository;
     final userId = 'user-id';
 
-    setUpAll(() => {
-          userRepository = MockFirebaseUserRepository(),
-        });
+    setUpAll(() {
+      userRepository = MockFirebaseUserRepository();
+    });
 
     test('initial state is Uninitialized', () {
       var state = Uninitialized();

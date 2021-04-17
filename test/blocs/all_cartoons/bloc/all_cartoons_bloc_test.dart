@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
@@ -12,7 +13,32 @@ class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
 void main() {
   group('AllCartoonsBloc', () {
     late FirestorePoliticalCartoonRepository cartoonRepository;
-    var politicalCartoons = [MockPoliticalCartoon()];
+    var politicalCartoons = [
+      PoliticalCartoon(
+          id: '2',
+          author: 'Bob',
+          date: Timestamp.now(),
+          published: Timestamp.now(),
+          description: 'Another Mock Political Cartoon',
+          unit: Unit.unit1,
+          downloadUrl: 'downloadurl'),
+      PoliticalCartoon(
+          id: '2',
+          author: 'Bob',
+          date: Timestamp.now(),
+          published: Timestamp.now(),
+          description: 'Another Mock Political Cartoon',
+          unit: Unit.unit1,
+          downloadUrl: 'downloadurl'),
+      PoliticalCartoon(
+          id: '2',
+          author: 'Bob',
+          date: Timestamp.now(),
+          published: Timestamp.now(),
+          description: 'Another Mock Political Cartoon',
+          unit: Unit.unit1,
+          downloadUrl: 'downloadurl')
+    ];
 
     setUpAll(() => {
           cartoonRepository = MockCartoonRepository(),
@@ -33,7 +59,7 @@ void main() {
 
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
-      act: (bloc) => bloc.add(LoadAllCartoons()),
+      act: (bloc) => bloc.add(LoadAllCartoons(SortByMode.latestPosted)),
       expect: () => [AllCartoonsLoaded(cartoons: politicalCartoons)],
       verify: (_) => verify(cartoonRepository.politicalCartoons).called(1),
     );
@@ -47,7 +73,7 @@ void main() {
 
           return AllCartoonsBloc(cartoonRepository: cartoonRepository);
         },
-        act: (bloc) => bloc.add(LoadAllCartoons()),
+        act: (bloc) => bloc.add(LoadAllCartoons(SortByMode.latestPosted)),
         expect: () => [AllCartoonsFailed('Error')],
         verify: (_) => verify(cartoonRepository.politicalCartoons).called(1));
   });

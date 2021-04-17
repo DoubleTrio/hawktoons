@@ -29,7 +29,8 @@ void main() {
 
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
-      registerFallbackValue<AllCartoonsEvent>(LoadAllCartoons());
+      registerFallbackValue<AllCartoonsEvent>(
+          LoadAllCartoons(SortByMode.latestPosted));
       registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Unit.unit1));
       registerFallbackValue<FilteredCartoonsState>(FilteredCartoonsLoading());
       allCartoonsBloc = MockAllCartoonsBloc();
