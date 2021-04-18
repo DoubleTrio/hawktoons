@@ -4,7 +4,6 @@ import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/widgets/widgets.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,15 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var _allCartoonsBloc = BlocProvider.of<AllCartoonsBloc>(context);
 
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            create: (_) =>
-                FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc)),
-        BlocProvider(
-            create: (_) => DailyCartoonBloc(
-                dailyCartoonRepository: FirestorePoliticalCartoonRepository())
-              ..add(LoadDailyCartoon())),
-      ],
+      providers: [],
       child: BlocBuilder<TabBloc, AppTab>(
         builder: (context, activeTab) {
           final _pageController = PageController(initialPage: activeTab.index);

@@ -27,7 +27,14 @@ class App extends StatelessWidget {
         BlocProvider<AuthenticationBloc>(
             create: (_) =>
                 AuthenticationBloc(userRepository: FirebaseUserRepository())
-                  ..add(StartApp()))
+                  ..add(StartApp())),
+        BlocProvider<TabBloc>(
+          create: (_) => TabBloc(),
+        ),
+        BlocProvider(
+            create: (_) => DailyCartoonBloc(
+                dailyCartoonRepository: FirestorePoliticalCartoonRepository())
+              ..add(LoadDailyCartoon())),
       ],
       child: const AppView(),
     );
@@ -58,9 +65,21 @@ class AppView extends StatelessWidget {
         }
         if (settings.name == '/daily') {
           return MaterialPageRoute(builder: (context) => DailyCartoonPage());
-        } else if (settings.name == 'all') {
-          return MaterialPageRoute(
-              builder: (context) => FilteredCartoonsPage());
+        } else if (settings.name == '/all') {
+          return MaterialPageRoute(builder: (context) {
+            final l10n = context.l10n;
+            final locale = Platform.localeName;
+            final timeConverter = TimeAgo(l10n: l10n, locale: locale);
+            final cartoonRepo = FirestorePoliticalCartoonRepository(
+                timeConverter: timeConverter);
+            final sortByMode = context.read<SortByCubit>().state;
+            return BlocProvider(
+              create: (context) =>
+                  AllCartoonsBloc(cartoonRepository: cartoonRepo)
+                    ..add(LoadAllCartoons(sortByMode)),
+              child: FilteredCartoonsPage(),
+            );
+          });
         }
 
         // // Handle '/details/:id'
@@ -80,25 +99,12 @@ class AppView extends StatelessWidget {
 class AuthBlocBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final locale = Platform.localeName;
-    final timeConverter = TimeAgo(l10n: l10n, locale: locale);
-    final cartoonRepo =
-        FirestorePoliticalCartoonRepository(timeConverter: timeConverter);
-    final sortByMode = context.read<SortByCubit>().state;
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state is Authenticated) {
           return MultiBlocProvider(
             key: const Key('DailyCartoonPage_Authenticated'),
-            providers: [
-              BlocProvider<AllCartoonsBloc>(
-                  create: (_) => AllCartoonsBloc(cartoonRepository: cartoonRepo)
-                    ..add(LoadAllCartoons(sortByMode))),
-              BlocProvider<TabBloc>(
-                create: (_) => TabBloc(),
-              ),
-            ],
+            providers: [],
             child: HomeScreen(),
           );
         } else if (state is Unauthenticated) {

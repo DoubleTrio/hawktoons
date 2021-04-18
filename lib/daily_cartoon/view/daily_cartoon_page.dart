@@ -1,19 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/l10n/l10n.dart';
+import 'package:history_app/widgets/widgets.dart';
 
 class DailyCartoonPage extends StatelessWidget {
   DailyCartoonPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: Center(child: PoliticalCartoonCardLoader())),
+    final activeTab = context.watch<TabBloc>().state;
+
+    return Scaffold(
+      bottomNavigationBar: TabSelector(
+          activeTab: activeTab,
+          onTabSelected: (tab) => {
+                BlocProvider.of<TabBloc>(context).add(UpdateTab(tab)),
+                Navigator.of(context).pushNamed(tab.routeName)
+              }),
+      body: SafeArea(
+        child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: Center(child: PoliticalCartoonCardLoader())),
+      ),
     );
   }
 }
