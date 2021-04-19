@@ -13,18 +13,26 @@ class DailyCartoonPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final activeTab = context.watch<TabBloc>().state;
 
-    return Scaffold(
-      bottomNavigationBar: TabSelector(
-          activeTab: activeTab,
-          onTabSelected: (tab) => {
-                BlocProvider.of<TabBloc>(context).add(UpdateTab(tab)),
-                Navigator.of(context).pushNamed(tab.routeName)
-              }),
-      body: SafeArea(
-        child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Center(child: PoliticalCartoonCardLoader())),
+    return BlocListener<TabBloc, AppTab>(
+      listener: (context, tab) {
+        Navigator.of(context).pushNamed(tab.routeName);
+      },
+      listenWhen: (context, tab) {
+        // TODO abstract tab
+        return tab != AppTab.daily;
+      },
+      child: Scaffold(
+        bottomNavigationBar: TabSelector(
+            activeTab: activeTab,
+            onTabSelected: (tab) => {
+                  BlocProvider.of<TabBloc>(context).add(UpdateTab(tab)),
+                }),
+        body: SafeArea(
+          child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Center(child: PoliticalCartoonCardLoader())),
+        ),
       ),
     );
   }

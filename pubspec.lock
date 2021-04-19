@@ -493,11 +493,9 @@ packages:
   political_cartoon_repository:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "2b8f77a2f0f1f0173120480e291b51e781281707"
-      url: "https://github.com/DoubleTrio/political_cartoon_repository.git"
-    source: git
+      path: "../../repository/political_cartoon_repository"
+      relative: true
+    source: path
     version: "1.0.0"
   pool:
     dependency: transitive

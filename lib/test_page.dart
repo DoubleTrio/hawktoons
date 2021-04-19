@@ -177,3 +177,28 @@
 //             )));
 //   }
 // }
+
+// class AuthBlocBuilder extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+//       builder: (context, state) {
+//         if (state is Authenticated) {
+//           return MultiBlocProvider(
+//             key: const Key('DailyCartoonPage_Authenticated'),
+//             providers: [],
+//             child: HomeScreen(),
+//           );
+//         } else if (state is Unauthenticated) {
+//           return const Text(
+//             'Unauthenticated',
+//             key: Key('DailyCartoonPage_Unauthenticated'),
+//           );
+//         } else {
+//           return const CircularProgressIndicator(
+//               key: Key('DailyCartoonPage_Uninitialized'));
+//         }
+//       },
+//     );
+//   }
+// }
