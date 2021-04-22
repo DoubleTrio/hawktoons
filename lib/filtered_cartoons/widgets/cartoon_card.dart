@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:history_app/utils/time_ago.dart';
@@ -97,12 +98,20 @@ class CartoonCard extends StatelessWidget {
               children: [
                 Center(
                     child: ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(10)),
-                        child: FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: cartoon.downloadUrl,
-                        ))),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(10)),
+                  child: Hero(
+                      tag: 'Cartoon${cartoon.id}',
+                      child: CachedNetworkImage(
+                        imageUrl: cartoon.downloadUrl,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                LinearProgressIndicator(
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      )),
+                ))
               ],
             ),
             Padding(

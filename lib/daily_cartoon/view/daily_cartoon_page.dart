@@ -29,6 +29,7 @@ class DailyCartoonPage extends StatelessWidget {
                 }),
         body: SafeArea(
           child: Container(
+              padding: const EdgeInsets.all(12),
               width: double.infinity,
               height: double.infinity,
               child: Center(child: PoliticalCartoonCardLoader())),

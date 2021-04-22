@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -11,12 +12,12 @@ class DetailsPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           actions: [],
-          leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_outlined,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.of(context).pop()),
+          // leading: IconButton(
+          //     icon: const Icon(
+          //       Icons.arrow_back_outlined,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () => Navigator.of(context).pop()),
         ),
         body: Container(
           width: double.infinity,
@@ -24,17 +25,23 @@ class DetailsPage extends StatelessWidget {
           child: Center(
             child: Column(
               children: [
-                Image.network(cartoon.downloadUrl),
-                const Text('Add Text here'),
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.blue,
-                ),
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.blue,
+                GestureDetector(
+                  child: Center(
+                    child: Hero(
+                        tag: 'Cartoon${cartoon.id}',
+                        child: CachedNetworkImage(
+                          imageUrl: cartoon.downloadUrl,
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  LinearProgressIndicator(
+                                      value: downloadProgress.progress),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        )),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),
