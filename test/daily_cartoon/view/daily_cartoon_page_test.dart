@@ -16,7 +16,7 @@ class MockDailyCartoonBloc
     implements DailyCartoonBloc {}
 
 void main() {
-  group('DailyCartoonPage', () {
+  group('DailyCartoonScreen', () {
     setupCloudFirestoreMocks();
 
     setUpAll(() async {
@@ -24,15 +24,15 @@ void main() {
     });
   });
 
-  group('DailyCartoonPage', () {
+  group('DailyCartoonScreen', () {
     setupCloudFirestoreMocks();
 
     var dailyCartoonInProgressKey =
-        const Key('DailyCartoonPage_DailyCartoonInProgress');
+        const Key('DailyCartoonScreen_DailyCartoonInProgress');
     var dailyCartoonLoadedKey =
-        const Key('DailyCartoonPage_DailyCartoonLoaded');
+        const Key('DailyCartoonScreen_DailyCartoonLoaded');
     var dailyCartoonFailedKey =
-        const Key('DailyCartoonPage_DailyCartoonFailed');
+        const Key('DailyCartoonScreen_DailyCartoonFailed');
 
     var mockPoliticalCartoon = PoliticalCartoon(
         id: '2',
@@ -55,7 +55,7 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonPage_DailyCartoonInProgress\') '
+        'renders widget with Key(\'DailyCartoonScreen_DailyCartoonInProgress\') '
         'when state is DailyCartoonInProgress()', (tester) async {
       var state = DailyCartoonInProgress();
       when(() => dailyCartoonBloc.state).thenReturn(state);
@@ -63,28 +63,28 @@ void main() {
       await tester.pumpApp(
         BlocProvider.value(
           value: dailyCartoonBloc,
-          child: DailyCartoonPage(),
+          child: DailyCartoonScreen(),
         ),
       );
       expect(find.byKey(dailyCartoonInProgressKey), findsOneWidget);
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonPage_DailyCartoonLoaded\') '
+        'renders widget with Key(\'DailyCartoonScreen_DailyCartoonLoaded\') '
         'when state is DailyCartoonLoaded', (tester) async {
       var state = DailyCartoonLoaded(mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
 
       await mockNetworkImagesFor(() => tester.pumpApp(BlocProvider.value(
             value: dailyCartoonBloc,
-            child: DailyCartoonPage(),
+            child: DailyCartoonScreen(),
           )));
 
       expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonPage_DailyCartoonFailed\') '
+        'renders widget with Key(\'DailyCartoonScreen_DailyCartoonFailed\') '
         'when state is DailyCartoonFailed', (tester) async {
       var state = DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
@@ -92,7 +92,7 @@ void main() {
       await tester.pumpApp(
         BlocProvider.value(
           value: dailyCartoonBloc,
-          child: DailyCartoonPage(),
+          child: DailyCartoonScreen(),
         ),
       );
       expect(find.byKey(dailyCartoonFailedKey), findsOneWidget);

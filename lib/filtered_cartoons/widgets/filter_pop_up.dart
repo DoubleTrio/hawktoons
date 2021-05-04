@@ -23,7 +23,8 @@ class _FilterPopUpState extends State<FilterPopUp>
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(1)),
                 child: Column(
                   children: <Widget>[
                     ButtonRowHeader(),

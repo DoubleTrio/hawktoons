@@ -15,7 +15,7 @@ void main() {
 
     testWidgets('renders AuthBlocBuilder', (tester) async {
       await tester.pumpWidget(const App());
-      expect(find.byType(DailyCartoonPage), findsOneWidget);
+      expect(find.byType(DailyCartoonScreen), findsOneWidget);
     });
   });
 }

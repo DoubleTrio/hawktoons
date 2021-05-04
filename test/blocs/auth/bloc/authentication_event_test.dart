@@ -3,15 +3,15 @@ import 'package:history_app/blocs/auth/bloc/authentication_event.dart';
 
 void main() {
   group('AuthenicationEvent', () {
-    group('StartApp', () {
+    group('SignInAnonymously', () {
       test('supports value comparisons', () {
         expect(
-          StartApp(),
-          StartApp(),
+          SignInAnonymously(),
+          SignInAnonymously(),
         );
         expect(
-          StartApp().toString(),
-          StartApp().toString(),
+          SignInAnonymously().toString(),
+          SignInAnonymously().toString(),
         );
       });
     });

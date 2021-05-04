@@ -29,16 +29,16 @@ void main() {
   group('AuthBlocBuilder', () {
     setupCloudFirestoreMocks();
 
-    var authenticatedKey = const Key('DailyCartoonPage_Authenticated');
-    var unauthenticatedKey = const Key('DailyCartoonPage_Unauthenticated');
-    var uninitializedKey = const Key('DailyCartoonPage_Uninitialized');
+    var authenticatedKey = const Key('DailyCartoonScreen_Authenticated');
+    var unauthenticatedKey = const Key('DailyCartoonScreen_Unauthenticated');
+    var uninitializedKey = const Key('DailyCartoonScreen_Uninitialized');
 
     late AuthenticationBloc authenticationBloc;
     late SortByCubit sortByCubit;
 
     setUpAll(() async {
       registerFallbackValue<AuthenticationState>(Uninitialized());
-      registerFallbackValue<AuthenticationEvent>(StartApp());
+      registerFallbackValue<AuthenticationEvent>(SignInAnonymously());
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
       await Firebase.initializeApp();
 
@@ -47,7 +47,7 @@ void main() {
     });
 
     testWidgets(
-        'finds Key(\'DailyCartoonPage_Unauthenticated\')'
+        'finds Key(\'DailyCartoonScreen_Unauthenticated\')'
         'when state is Uninitialized', (tester) async {
       var state = Uninitialized();
 
@@ -66,7 +66,7 @@ void main() {
       expect(find.byKey(uninitializedKey), findsOneWidget);
     });
     testWidgets(
-        'finds Key(\'DailyCartoonPage_Authenticated\')'
+        'finds Key(\'DailyCartoonScreen_Authenticated\')'
         'when state is Authenticated', (tester) async {
       var state = Authenticated('user-id');
 
@@ -83,7 +83,7 @@ void main() {
       expect(find.byKey(authenticatedKey), findsOneWidget);
     });
     testWidgets(
-        'finds Key(\'DailyCartoonPage_Unauthenticated\')'
+        'finds Key(\'DailyCartoonScreen_Unauthenticated\')'
         'when state is Unauthenticated', (tester) async {
       var state = Unauthenticated();
 

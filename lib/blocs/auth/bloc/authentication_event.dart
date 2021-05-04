@@ -4,9 +4,9 @@ abstract class AuthenticationEvent extends Equatable {
   AuthenticationEvent();
 }
 
-class StartApp extends AuthenticationEvent {
+class SignInAnonymously extends AuthenticationEvent {
   @override
-  String toString() => 'StartApp';
+  String toString() => 'SignInAnonymously';
 
   @override
   List<Object> get props => [];

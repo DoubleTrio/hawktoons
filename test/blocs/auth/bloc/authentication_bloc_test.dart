@@ -27,7 +27,7 @@ void main() {
 
     blocTest<AuthenticationBloc, AuthenticationState>(
         'emits [Authenticated { userId: $userId }] '
-        'when StartApp is added and authentication is successful',
+        'when SignInAnonymously is added and authentication is successful',
         build: () {
           when(userRepository.isAuthenticated)
               .thenAnswer((invocation) => Future.value(false));
@@ -37,7 +37,7 @@ void main() {
               .thenAnswer((_) => Future.value(userId));
           return AuthenticationBloc(userRepository: userRepository);
         },
-        act: (bloc) => bloc.add(StartApp()),
+        act: (bloc) => bloc.add(SignInAnonymously()),
         expect: () => [Authenticated('user-id')],
         verify: (_) => {
               verify(userRepository.isAuthenticated).called(1),
@@ -47,7 +47,7 @@ void main() {
 
     blocTest<AuthenticationBloc, AuthenticationState>(
         'emits [Unauthenticated] '
-        'when StartApp is added and authentication is not successful',
+        'when SignInAnonymously is added and authentication is not successful',
         build: () {
           when(userRepository.isAuthenticated)
               .thenAnswer((invocation) => Future.value(false));
@@ -56,7 +56,7 @@ void main() {
               .thenAnswer((_) => Future.value(userId));
           return AuthenticationBloc(userRepository: userRepository);
         },
-        act: (bloc) => bloc.add(StartApp()),
+        act: (bloc) => bloc.add(SignInAnonymously()),
         expect: () => [Unauthenticated()],
         verify: (_) => {
               verify(userRepository.isAuthenticated).called(1),
@@ -66,7 +66,7 @@ void main() {
 
     blocTest<AuthenticationBloc, AuthenticationState>(
         'emits [Authenticated { userId: $userId }] '
-        'when StartApp is added and user is already authenticated',
+        'when SignInAnonymously is added and user is already authenticated',
         build: () {
           when(userRepository.isAuthenticated)
               .thenAnswer((invocation) => Future.value(true));
@@ -74,7 +74,7 @@ void main() {
               .thenAnswer((_) => Future.value(userId));
           return AuthenticationBloc(userRepository: userRepository);
         },
-        act: (bloc) => bloc.add(StartApp()),
+        act: (bloc) => bloc.add(SignInAnonymously()),
         expect: () => [Authenticated(userId)],
         verify: (_) => {
               verify(userRepository.isAuthenticated).called(1),

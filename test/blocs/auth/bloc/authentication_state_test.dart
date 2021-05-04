@@ -34,5 +34,14 @@ void main() {
         );
       });
     });
+
+    group('AuthLoading', () {
+      test('supports value comparisons', () {
+        expect(
+          AuthLoading(),
+          AuthLoading(),
+        );
+      });
+    });
   });
 }

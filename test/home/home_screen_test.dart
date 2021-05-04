@@ -85,14 +85,14 @@ void main() {
         BlocProvider.value(value: sortByCubit),
       ], child: HomeScreen()));
 
-      expect(find.byType(DailyCartoonPage), findsOneWidget);
+      expect(find.byType(DailyCartoonScreen), findsOneWidget);
       expect(find.byType(FilteredCartoonsPage), findsNothing);
 
       await tester.tap(allCartoonsIconKey);
       await tester.pump(const Duration(milliseconds: 1000));
 
       expect(find.byType(FilteredCartoonsPage), findsOneWidget);
-      expect(find.byType(DailyCartoonPage), findsNothing);
+      expect(find.byType(DailyCartoonScreen), findsNothing);
 
       // Event called from onPageChanged and onTabSelect
       verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(2);
@@ -117,12 +117,12 @@ void main() {
       ], child: HomeScreen()));
 
       expect(find.byType(FilteredCartoonsPage), findsOneWidget);
-      expect(find.byType(DailyCartoonPage), findsNothing);
+      expect(find.byType(DailyCartoonScreen), findsNothing);
 
       await tester.tap(dailyCartoonIconKey);
       await tester.pump(const Duration(milliseconds: 1000));
 
-      expect(find.byType(DailyCartoonPage), findsOneWidget);
+      expect(find.byType(DailyCartoonScreen), findsOneWidget);
       expect(find.byType(FilteredCartoonsPage), findsNothing);
 
       // Event called from onPageChanged and onTabSelect

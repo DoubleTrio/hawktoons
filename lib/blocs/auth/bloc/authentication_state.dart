@@ -14,6 +14,14 @@ class Uninitialized extends AuthenticationState {
   List<Object> get props => [];
 }
 
+class AuthLoading extends AuthenticationState {
+  @override
+  String toString() => 'AuthLoading';
+
+  @override
+  List<Object> get props => [];
+}
+
 class Authenticated extends AuthenticationState {
   Authenticated(this.userId);
   final String userId;
