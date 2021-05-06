@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:history_app/auth/auth.dart';
 import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/l10n/l10n.dart';
-import 'package:history_app/theme_data.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class App extends StatelessWidget {
@@ -35,10 +34,10 @@ class AppView extends StatelessWidget {
 
     return MaterialApp(
       themeMode: themeMode,
-      theme: lightThemeData,
-      darkTheme: ThemeData(
-          accentColor: Colors.lightGreenAccent,
-          appBarTheme: const AppBarTheme(color: Colors.lightGreenAccent)),
+      theme: ThemeData(fontFamily: 'SanFrancisco'),
+      darkTheme: ThemeData.from(
+        colorScheme: const ColorScheme.dark(),
+      ),
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

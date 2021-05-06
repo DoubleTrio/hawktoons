@@ -21,25 +21,15 @@ class DailyCartoonPage extends Page {
 class DailyCartoonScreen extends StatelessWidget {
   DailyCartoonScreen({Key? key}) : super(key: key);
 
-  static Route<DailyCartoonState> route() {
-    return MaterialPageRoute<DailyCartoonState>(
-        builder: (_) => DailyCartoonScreen());
-  }
-
-  static MaterialPage page() {
-    return MaterialPage(
-        child: DailyCartoonScreen(), key: const ValueKey('DetailsScreenKey'));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(vertical: 12),
             width: double.infinity,
             height: double.infinity,
-            child: Center(child: PoliticalCartoonCardLoader())),
+            child: PoliticalCartoonCardLoader()),
       ),
     );
   }
@@ -57,14 +47,26 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
             key: Key('DailyCartoonScreen_DailyCartoonInProgress'));
       } else if (state is DailyCartoonLoaded) {
         return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           key: const Key('DailyCartoonScreen_DailyCartoonLoaded'),
           children: [
-            Text(l10n.dailyCartoonTitle),
-            Center(
-              child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(10)),
-                  child: Image.network(state.dailyCartoon.downloadUrl)),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              width: double.infinity,
+              // color: Colors.blue,
+              child: Text(l10n.dailyCartoonTitle,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3!
+                      .copyWith(fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              color: Theme.of(context).dividerColor,
+              child: Center(
+                child: Image.network(state.dailyCartoon.downloadUrl),
+              ),
             ),
           ],
         );

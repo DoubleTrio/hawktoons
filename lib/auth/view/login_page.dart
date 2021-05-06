@@ -3,19 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/blocs/auth/auth.dart';
 import 'package:history_app/home/home_flow.dart';
 
-class LoginPage extends Page {
-  LoginPage() : super(key: const ValueKey('LoginPage'));
-
-  @override
-  Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
-      settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) => LoginScreen(),
-      transitionDuration: const Duration(milliseconds: 0),
-    );
-  }
-}
-
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,16 +15,36 @@ class LoginScreen extends StatelessWidget {
           appBar: AppBar(
               title:
                   Text(context.watch<AuthenticationBloc>().state.toString())),
-          body: Container(
-            width: double.infinity,
-            height: double.infinity,
-            child: Center(
-              child: TextButton(
-                child: const Text('Sign in anonymously'),
-                onPressed: () =>
-                    context.read<AuthenticationBloc>().add(SignInAnonymously()),
+          body: Column(
+            children: [
+              Center(
+                child: TextButton(
+                  key: const Key('LoginPage_SignInAnonymouslyButton'),
+                  child: const Text('Sign in anonymously'),
+                  onPressed: () => context
+                      .read<AuthenticationBloc>()
+                      .add(SignInAnonymously()),
+                ),
               ),
-            ),
+              BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                builder: (context, state) {
+                  print(state);
+                  if (state is AuthLoading) {
+                    return const CircularProgressIndicator(
+                        key: Key('LoginPage_AuthLoading'));
+                  }
+
+                  if (state is Authenticated || state is Uninitialized) {
+                    return const SizedBox.shrink();
+                  }
+
+                  return const Text(
+                    'Unauthenticated',
+                    key: Key('LoginPage_Unauthenticated'),
+                  );
+                },
+              ),
+            ],
           )),
     );
   }

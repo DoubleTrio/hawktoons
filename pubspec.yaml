@@ -46,9 +46,21 @@ flutter:
     - assets/images/unit6/
 
   fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans/OpenSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/OpenSans/OpenSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/OpenSans/OpenSans-Italic.ttf
+          style: italic
     - family: SanFrancisco
       fonts:
-        - asset: assets/fonts/SFNSDisplay-Regular.otf
-        - asset: assets/fonts/SFNSDisplay-Light.otf
-        - asset: assets/fonts/SFNSDisplay-Bold.otf
-        - asset: assets/fonts/SFNSText-RegularItalic.otf
+        - asset: assets/fonts/SanFrancisco/SFNSDisplay-Regular.otf
+        - asset: assets/fonts/SanFrancisco/SFNSDisplay-Light.otf
+          weight: 300
+        - asset: assets/fonts/SanFrancisco/SFNSDisplay-Bold.otf
+          weight: 700
+        - asset: assets/fonts/SanFrancisco/SFNSText-RegularItalic.otf
+          style: italic

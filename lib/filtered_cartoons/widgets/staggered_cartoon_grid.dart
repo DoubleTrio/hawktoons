@@ -5,7 +5,7 @@ import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class StaggeredCartoonGrid extends StatelessWidget {
-  StaggeredCartoonGrid({required this.cartoons});
+  StaggeredCartoonGrid({Key? key, required this.cartoons}) : super(key: key);
 
   final List<PoliticalCartoon> cartoons;
 

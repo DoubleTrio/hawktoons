@@ -6,6 +6,7 @@ import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/filtered_cartoons/view/filtered_flow.dart';
 import 'package:history_app/widgets/tab_selector.dart';
+import 'package:history_app/widgets/theme_floating_action_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class HomeFlow extends StatelessWidget {
@@ -41,6 +42,7 @@ class HomeFlow extends StatelessWidget {
   Widget build(BuildContext context) {
     var activeTab = context.watch<TabBloc>().state;
     return Scaffold(
+      floatingActionButton: ThemeFloatingActionButton(),
       bottomNavigationBar: TabSelector(
           activeTab: activeTab,
           onTabSelected: (tab) => {

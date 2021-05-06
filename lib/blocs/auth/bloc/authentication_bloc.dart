@@ -23,6 +23,7 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapSignInAnonymouslyToState() async* {
     try {
+      yield AuthLoading();
       final isSignedIn = await userRepository.isAuthenticated();
       if (!isSignedIn) {
         await userRepository.authenticate();

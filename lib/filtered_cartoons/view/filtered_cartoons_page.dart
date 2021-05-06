@@ -11,13 +11,14 @@ class FilteredCartoonsPage extends Page {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder(
       settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) => CartoonsBody(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          FilteredCartoonsScreen(),
       transitionDuration: const Duration(milliseconds: 500),
     );
   }
 }
 
-class CartoonsBody extends StatelessWidget {
+class FilteredCartoonsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,29 +26,31 @@ class CartoonsBody extends StatelessWidget {
         title: const Text('All Cartoons'),
         actions: [
           FilterIcon(
-            key: const Key('ButtonRowHeader_ApplyFilterButton'),
+            key: const Key('FilteredCartoonsPage_FilterIcon'),
             onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
           )
         ],
       ),
-      body: BlocBuilder<FilteredCartoonsBloc, FilteredCartoonsState>(
-        builder: (context, state) {
-          if (state is FilteredCartoonsLoading) {
-            return const Center(
-                key: Key('FilteredCartoonsPage_FilteredCartoonsLoading'),
-                child: CircularProgressIndicator());
-          } else if (state is FilteredCartoonsLoaded) {
-            return Column(
-              key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),
-              children: [
-                StaggeredCartoonGrid(cartoons: state.filteredCartoons)
-              ],
-            );
-          } else {
-            return const Text('Error',
-                key: Key('FilteredCartoonsPage_FilteredCartoonsFailed'));
-          }
-        },
+      body: Column(
+        children: [
+          BlocBuilder<FilteredCartoonsBloc, FilteredCartoonsState>(
+            builder: (context, state) {
+              if (state is FilteredCartoonsLoading) {
+                return const Center(
+                    key: Key('FilteredCartoonsPage_FilteredCartoonsLoading'),
+                    child: CircularProgressIndicator());
+              } else if (state is FilteredCartoonsLoaded) {
+                return StaggeredCartoonGrid(
+                  cartoons: state.filteredCartoons,
+                  key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),
+                );
+              } else {
+                return const Text('Error',
+                    key: Key('FilteredCartoonsPage_FilteredCartoonsFailed'));
+              }
+            },
+          ),
+        ],
       ),
     );
   }

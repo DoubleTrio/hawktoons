@@ -55,7 +55,8 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with Key(\'DailyCartoonScreen_DailyCartoonInProgress\') '
+        'renders widget with '
+        'Key(\'DailyCartoonScreen_DailyCartoonInProgress\') '
         'when state is DailyCartoonInProgress()', (tester) async {
       var state = DailyCartoonInProgress();
       when(() => dailyCartoonBloc.state).thenReturn(state);

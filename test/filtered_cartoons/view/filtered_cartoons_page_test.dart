@@ -25,6 +25,9 @@ class MockUnitCubit extends MockCubit<Unit> implements UnitCubit {}
 
 class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 
+class MockShowBottomSheetCubit extends MockCubit<bool>
+    implements ShowBottomSheetCubit {}
+
 void main() {
   group('FilteredCartoonsPage', () {
     setupCloudFirestoreMocks();
@@ -51,6 +54,7 @@ void main() {
     late FilteredCartoonsBloc filteredCartoonsBloc;
     late UnitCubit unitCubit;
     late SortByCubit sortByCubit;
+    late ShowBottomSheetCubit showBottomSheetCubit;
 
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
@@ -67,6 +71,7 @@ void main() {
       filteredCartoonsBloc = MockFilteredCartoonsBloc();
       unitCubit = MockUnitCubit();
       sortByCubit = MockSortByCubit();
+      showBottomSheetCubit = MockShowBottomSheetCubit();
     });
 
     testWidgets(
@@ -81,7 +86,8 @@ void main() {
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: sortByCubit),
-      ], child: FilteredCartoonsPage()));
+        BlocProvider.value(value: showBottomSheetCubit)
+      ], child: FilteredCartoonsScreen()));
 
       expect(find.byKey(filteredCartoonsLoadingKey), findsOneWidget);
     });
@@ -97,52 +103,22 @@ void main() {
       when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
       when(() => allCartoonsBloc.state)
           .thenReturn(AllCartoonsLoaded(cartoons: [MockPoliticalCartoon()]));
+      when(() => showBottomSheetCubit.state).thenReturn(false);
+
       await mockNetworkImagesFor(
         () => tester.pumpApp(MultiBlocProvider(providers: [
           BlocProvider.value(value: allCartoonsBloc),
           BlocProvider.value(value: filteredCartoonsBloc),
           BlocProvider.value(value: unitCubit),
           BlocProvider.value(value: sortByCubit),
-        ], child: FilteredCartoonsPage())),
+          BlocProvider.value(value: showBottomSheetCubit)
+        ], child: FilteredCartoonsScreen())),
       );
 
       var filterIconKey = const Key('FilteredCartoonsPage_FilterIcon');
       expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
       await tester.tap(find.byKey(filterIconKey));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(FilterPopUp), findsOneWidget);
-
-      var resetButtonKey = const Key('ButtonRowHeader_ResetButton');
-      await tester.tap(find.byKey(resetButtonKey));
-
-      verifyInOrder([
-        () => unitCubit.selectUnit(Unit.all),
-        () => sortByCubit.selectSortBy(SortByMode.latestPosted)
-      ]);
-
-      var unitFiveButtonKey = const Key('Unit_5_Button');
-      await tester.tap(find.byKey(unitFiveButtonKey));
-      await tester.pumpAndSettle();
-
-      verify(() => unitCubit.selectUnit(Unit.values[5])).called(1);
-
-      await tester.tap(find.byKey(unitFiveButtonKey));
-      await tester.pumpAndSettle();
-
-      var sortByModeKey = const Key('SortByMode_2');
-      await tester.tap(find.descendant(
-          of: find.byKey(sortByModeKey), matching: find.byType(InkWell)));
-      await tester.pumpAndSettle();
-
-      verify(() => sortByCubit.selectSortBy(SortByMode.values[2])).called(1);
-
-      var applyFilterButtonKey = const Key('ButtonRowHeader_ApplyFilterButton');
-      await tester.tap(find.byKey(applyFilterButtonKey));
-      await tester.pumpAndSettle();
-
-      verify(() => filteredCartoonsBloc.add(UpdateFilter(Unit.all))).called(1);
-      expect(find.byType(FilterPopUp), findsNothing);
+      verify(showBottomSheetCubit.openSheet).called(1);
     });
 
     testWidgets(
@@ -157,9 +133,45 @@ void main() {
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: sortByCubit),
-      ], child: FilteredCartoonsPage()));
+        BlocProvider.value(value: showBottomSheetCubit)
+      ], child: FilteredCartoonsScreen()));
 
       expect(find.byKey(filteredCartoonsFailedKey), findsOneWidget);
     });
   });
 }
+
+// await tester.pumpAndSettle();
+//
+// expect(find.byType(FilterPopUp), findsOneWidget);
+//
+// var resetButtonKey = const Key('ButtonRowHeader_ResetButton');
+// await tester.tap(find.byKey(resetButtonKey));
+//
+// verifyInOrder([
+//   () => unitCubit.selectUnit(Unit.all),
+//   () => sortByCubit.selectSortBy(SortByMode.latestPosted)
+// ]);
+//
+// var unitFiveButtonKey = const Key('Unit_5_Button');
+// await tester.tap(find.byKey(unitFiveButtonKey));
+// await tester.pumpAndSettle();
+//
+// verify(() => unitCubit.selectUnit(Unit.values[5])).called(1);
+//
+// await tester.tap(find.byKey(unitFiveButtonKey));
+// await tester.pumpAndSettle();
+//
+// var sortByModeKey = const Key('SortByMode_2');
+// await tester.tap(find.descendant(
+//     of: find.byKey(sortByModeKey), matching: find.byType(InkWell)));
+// await tester.pumpAndSettle();
+//
+// verify(() => sortByCubit.selectSortBy(SortByMode.values[2])).called(1);
+//
+// var applyFilterButtonKey = const Key('ButtonRowHeader_ApplyFilterButton');
+// await tester.tap(find.byKey(applyFilterButtonKey));
+// await tester.pumpAndSettle();
+//
+// verify(() => filteredCartoonsBloc.add(UpdateFilter(Unit.all))).called(1);
+// expect(find.byType(FilterPopUp), findsNothing);
