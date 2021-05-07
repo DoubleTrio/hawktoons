@@ -13,6 +13,7 @@ class StaggeredCartoonGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: StaggeredGridView.countBuilder(
+        physics: const BouncingScrollPhysics(),
         crossAxisCount: 2,
         mainAxisSpacing: 12.0,
         crossAxisSpacing: 8.0,

@@ -24,11 +24,11 @@ class FilteredCartoonsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
       appBar: AppBar(
           leading: SignOutIcon(
             onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
+            size: 25,
           ),
           actions: [
             FilterIcon(

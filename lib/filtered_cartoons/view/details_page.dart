@@ -58,6 +58,9 @@ class DetailsScreen extends StatelessWidget {
               icon: const Icon(
                 Icons.arrow_back_outlined,
               ),
+              splashRadius: 25 * 0.80,
+              iconSize: 25,
+              color: Colors.white,
               onPressed: _deselectCartoon,
             )),
         body: Center(

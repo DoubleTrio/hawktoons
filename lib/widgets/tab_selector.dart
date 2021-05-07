@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/blocs/tab/tab.dart';
 
 class TabSelector extends StatelessWidget {
@@ -13,7 +15,9 @@ class TabSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width / AppTab.values.length;
+    final middleWidth = 80.0;
+    final width = MediaQuery.of(context).size.width / AppTab.values.length -
+        (middleWidth / AppTab.values.length);
     return Row(children: [
       CustomBottomTabItem(
           icon: const Icon(Icons.article_outlined,
@@ -22,6 +26,11 @@ class TabSelector extends StatelessWidget {
           width: width,
           onTap: () => onTabSelected(AppTab.daily),
           selected: AppTab.daily == activeTab),
+      CustomBottomTabItem(
+          icon: Icon(Icons.lightbulb_outline),
+          width: middleWidth,
+          onTap: () => context.read<ThemeCubit>().changeTheme(),
+          selected: false),
       CustomBottomTabItem(
           icon: const Icon(Icons.list, key: Key('TabSelector_AllTab')),
           label: 'All',
@@ -36,14 +45,14 @@ class CustomBottomTabItem extends StatelessWidget {
   CustomBottomTabItem(
       {Key? key,
       required this.icon,
-      required this.label,
+      this.label,
       required this.width,
       required this.onTap,
       required this.selected})
       : super(key: key);
 
   final Widget icon;
-  final String label;
+  final String? label;
   final double width;
   final bool selected;
   final VoidCallback onTap;
@@ -72,10 +81,11 @@ class CustomBottomTabItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             icon,
-            Text(label,
-                style: selected
-                    ? theme.bottomNavigationBarTheme.selectedLabelStyle
-                    : theme.bottomNavigationBarTheme.unselectedLabelStyle),
+            if (label != null)
+              Text(label!,
+                  style: selected
+                      ? theme.bottomNavigationBarTheme.selectedLabelStyle
+                      : theme.bottomNavigationBarTheme.unselectedLabelStyle),
           ],
         ),
       ),

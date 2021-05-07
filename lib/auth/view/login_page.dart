@@ -20,8 +20,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(context.watch<AuthenticationBloc>().state.toString())),
+        appBar: AppBar(title: const Text('Login')),
         body: Column(
           children: [
             Center(
@@ -34,7 +33,6 @@ class LoginScreen extends StatelessWidget {
             ),
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
               builder: (context, state) {
-                print(state);
                 if (state is AuthLoading) {
                   return SpinKitFadingCircle(
                       color: Theme.of(context).colorScheme.primary,

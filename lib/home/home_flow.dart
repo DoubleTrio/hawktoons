@@ -55,7 +55,6 @@ class HomeFlow extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        floatingActionButton: ThemeFloatingActionButton(),
         bottomNavigationBar: TabSelector(
             activeTab: activeTab,
             onTabSelected: (tab) => {
