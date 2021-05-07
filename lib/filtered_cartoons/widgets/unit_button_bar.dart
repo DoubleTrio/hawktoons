@@ -17,15 +17,18 @@ class UnitButtonBar extends StatelessWidget {
         .read<UnitCubit>()
         .selectUnit(selectedUnit == unit ? Unit.all : unit);
 
-    return Wrap(
-      spacing: 5,
-      children: [
-        ...units.map((unit) => UnitButton(
-            key: Key('Unit_${unit.index}_Button'),
-            unit: unit,
-            onTap: () => onUnitButtonTap(unit),
-            selected: selectedUnit == unit)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Wrap(
+        spacing: 5,
+        children: [
+          ...units.map((unit) => UnitButton(
+              key: Key('Unit_${unit.index}_Button'),
+              unit: unit,
+              onTap: () => onUnitButtonTap(unit),
+              selected: selectedUnit == unit)),
+        ],
+      ),
     );
   }
 }

@@ -20,27 +20,23 @@ class _FilterPopUpState extends State<FilterPopUp>
         expand: false,
         builder: (context, scroller) {
           return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(1)),
-                child: Column(
-                  children: <Widget>[
-                    ButtonRowHeader(),
-                    const Divider(
-                      height: 1,
-                      color: Colors.black45,
-                    ),
-                    const SizedBox(height: 12),
-                    FilterHeader(header: 'Units'),
-                    UnitButtonBar(units: units),
-                    const SizedBox(height: 12),
-                    FilterHeader(header: 'Sort By'),
-                    const SizedBox(height: 12),
-                    SortByTileListView(modes: modes)
-                  ],
-                ),
+            child: ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(1)),
+              child: Column(
+                children: <Widget>[
+                  ButtonRowHeader(),
+                  const Divider(
+                    height: 1,
+                    color: Colors.black45,
+                  ),
+                  const SizedBox(height: 12),
+                  FilterHeader(header: 'Units'),
+                  UnitButtonBar(units: units),
+                  const SizedBox(height: 12),
+                  FilterHeader(header: 'Sort By'),
+                  SortByTileListView(modes: modes)
+                ],
               ),
             ),
           );

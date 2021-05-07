@@ -18,6 +18,8 @@ class AuthenticationBloc
   ) async* {
     if (event is SignInAnonymously) {
       yield* _mapSignInAnonymouslyToState();
+    } else if (event is Logout) {
+      yield* _mapLogoutToState();
     }
   }
 
@@ -32,6 +34,16 @@ class AuthenticationBloc
       yield Authenticated(userId);
     } on Exception {
       yield Unauthenticated();
+    }
+  }
+
+  Stream<AuthenticationState> _mapLogoutToState() async* {
+    try {
+      yield AuthLoading();
+      await userRepository.logout();
+      yield Uninitialized();
+    } on Exception {
+      yield LogoutError();
     }
   }
 }

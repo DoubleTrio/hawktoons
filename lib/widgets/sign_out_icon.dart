@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
-class FilterIcon extends StatelessWidget {
-  FilterIcon({Key? key, required this.onPressed, this.size = 20})
+class SignOutIcon extends StatelessWidget {
+  SignOutIcon({Key? key, required this.onPressed, this.size = 20})
       : super(key: key);
 
   final VoidCallback onPressed;
   final double size;
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.filter_list),
+      icon: const Icon(Icons.exit_to_app_rounded),
       onPressed: onPressed,
       iconSize: size,
       splashRadius: size * 0.80,

@@ -15,22 +15,25 @@ class UnitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final primary = colorScheme.primary;
+    final onBackground = colorScheme.onBackground;
+    final btnColor = selected ? primary : onBackground;
+
     return TextButton(
       onPressed: onTap,
       child: Text(
         unit.name,
-        style: const TextStyle(fontSize: 12),
+        style: TextStyle(fontSize: 12, color: btnColor),
       ),
       style: ButtonStyle(
           padding:
               MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(12)),
-          foregroundColor: MaterialStateProperty.all<Color>(
-              selected ? Colors.orange : Colors.grey),
+          foregroundColor: MaterialStateProperty.all<Color>(btnColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(
-                      color: selected ? Colors.orange : Colors.grey)))),
+                  side: BorderSide(color: btnColor)))),
     );
   }
 }

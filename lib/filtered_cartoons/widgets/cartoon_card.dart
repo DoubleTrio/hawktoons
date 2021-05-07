@@ -17,6 +17,11 @@ class CartoonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final primary = colorScheme.primary;
+    final onBackground = colorScheme.onBackground;
+    final onSurface = colorScheme.onSurface;
+
     return InkWell(
       onTap: onTap,
       child: Card(
@@ -34,7 +39,9 @@ class CartoonCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: cartoon.downloadUrl,
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    LinearProgressIndicator(value: downloadProgress.progress),
+                    LinearProgressIndicator(
+                        value: downloadProgress.progress,
+                        backgroundColor: primary),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             )),
@@ -45,16 +52,17 @@ class CartoonCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('(${cartoon.publishedString})',
-                      style: const TextStyle(color: Colors.grey)),
+                      style: TextStyle(color: onBackground)),
                   const SizedBox(height: 8),
                   RichText(
                       text: TextSpan(
                           text: 'By ',
-                          style: const TextStyle(color: Colors.black),
+                          style: TextStyle(color: onSurface),
                           children: [
                         TextSpan(
                           text: cartoon.author,
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic, color: onSurface),
                         )
                       ])),
                   const SizedBox(height: 6),
@@ -62,10 +70,10 @@ class CartoonCard extends StatelessWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.timer,
                         size: 20,
-                        color: Colors.grey,
+                        color: onBackground,
                       ),
                       const SizedBox(width: 4),
                       Flexible(
@@ -74,7 +82,7 @@ class CartoonCard extends StatelessWidget {
                                   l10n: context.l10n,
                                   locale: Platform.localeName)
                               .timeAgoSinceDate(cartoon.date),
-                          style: const TextStyle(color: Colors.grey),
+                          style: TextStyle(color: onBackground),
                           softWrap: true,
                         ),
                       ),

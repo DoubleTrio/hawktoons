@@ -40,3 +40,11 @@ class Unauthenticated extends AuthenticationState {
   @override
   List<Object> get props => [];
 }
+
+class LogoutError extends AuthenticationState {
+  @override
+  String toString() => 'LogoutError';
+
+  @override
+  List<Object> get props => [];
+}

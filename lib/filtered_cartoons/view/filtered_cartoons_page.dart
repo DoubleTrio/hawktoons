@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:history_app/filtered_cartoons/widgets/widgets.dart';
+import 'package:history_app/widgets/widgets.dart';
 
 class FilteredCartoonsPage extends Page {
   FilteredCartoonsPage() : super(key: const ValueKey('FilteredCartoonsPage'));
@@ -22,17 +24,27 @@ class FilteredCartoonsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: const Text('All Cartoons'),
-        actions: [
-          FilterIcon(
-            key: const Key('FilteredCartoonsPage_FilterIcon'),
-            onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
-          )
-        ],
-      ),
+          leading: SignOutIcon(
+            onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
+          ),
+          actions: [
+            FilterIcon(
+              onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
+              size: 25,
+            ),
+          ]),
       body: Column(
         children: [
+          // Container(
+          //   color: Colors.grey,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [],
+          //   ),
+          // ),
           BlocBuilder<FilteredCartoonsBloc, FilteredCartoonsState>(
             builder: (context, state) {
               if (state is FilteredCartoonsLoading) {
@@ -41,7 +53,10 @@ class FilteredCartoonsScreen extends StatelessWidget {
                     child: CircularProgressIndicator());
               } else if (state is FilteredCartoonsLoaded) {
                 return StaggeredCartoonGrid(
-                  cartoons: state.filteredCartoons,
+                  cartoons: [
+                    ...state.filteredCartoons,
+                    ...state.filteredCartoons
+                  ],
                   key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),
                 );
               } else {
