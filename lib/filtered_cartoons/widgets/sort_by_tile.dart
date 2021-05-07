@@ -14,37 +14,40 @@ class SortByTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return InkWell(
+      highlightColor: theme.colorScheme.primary.withOpacity(0.2),
       onTap: onTap,
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12 * 2),
         child: Column(
           children: [
-            SizedBox(
+            // const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.only(top: 15, bottom: 5),
               width: double.infinity,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    header,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: selected ? Colors.orange : Colors.black38),
-                  ),
+                  Text(header,
+                      textAlign: TextAlign.start,
+                      style: theme.textTheme.subtitle1!.copyWith(
+                          color: selected
+                              ? theme.highlightColor
+                              : theme.colorScheme.onSurface)),
                   if (selected)
-                    const Icon(
+                    Icon(
                       Icons.check,
-                      color: Colors.orange,
+                      color: theme.highlightColor,
                       size: 18,
                     ),
                 ],
               ),
             ),
-            const Divider(
-              color: Colors.black12,
+            Divider(
+              color: theme.colorScheme.onBackground,
               thickness: 1,
-              height: 22,
+              height: 1,
             ),
           ],
         ),

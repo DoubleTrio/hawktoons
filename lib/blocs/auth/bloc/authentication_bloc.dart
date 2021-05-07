@@ -16,13 +16,16 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
-    if (event is StartApp) {
-      yield* _mapStartAppToState();
+    if (event is SignInAnonymously) {
+      yield* _mapSignInAnonymouslyToState();
+    } else if (event is Logout) {
+      yield* _mapLogoutToState();
     }
   }
 
-  Stream<AuthenticationState> _mapStartAppToState() async* {
+  Stream<AuthenticationState> _mapSignInAnonymouslyToState() async* {
     try {
+      yield AuthLoading();
       final isSignedIn = await userRepository.isAuthenticated();
       if (!isSignedIn) {
         await userRepository.authenticate();
@@ -31,6 +34,16 @@ class AuthenticationBloc
       yield Authenticated(userId);
     } on Exception {
       yield Unauthenticated();
+    }
+  }
+
+  Stream<AuthenticationState> _mapLogoutToState() async* {
+    try {
+      yield AuthLoading();
+      await userRepository.logout();
+      yield Uninitialized();
+    } on Exception {
+      yield LogoutError();
     }
   }
 }

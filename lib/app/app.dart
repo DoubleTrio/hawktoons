@@ -1,14 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:history_app/auth/auth.dart';
 import 'package:history_app/blocs/blocs.dart';
-import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
-import 'package:history_app/home/home_screen.dart';
 import 'package:history_app/l10n/l10n.dart';
-import 'package:history_app/theme_data.dart';
-import 'package:history_app/utils/utils.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class App extends StatelessWidget {
@@ -16,15 +12,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _firebaseUserRepo = FirebaseUserRepository();
     return MultiBlocProvider(
       providers: [
-        BlocProvider<UnitCubit>(create: (_) => UnitCubit()),
-        BlocProvider<SortByCubit>(create: (_) => SortByCubit()),
         BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
         BlocProvider<AuthenticationBloc>(
             create: (_) =>
-                AuthenticationBloc(userRepository: FirebaseUserRepository())
-                  ..add(StartApp()))
+                AuthenticationBloc(userRepository: _firebaseUserRepo)),
       ],
       child: const AppView(),
     );
@@ -38,57 +32,92 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeMode = context.select((ThemeCubit cubit) => cubit.state);
 
-    return MaterialApp(
-      themeMode: themeMode,
-      theme: lightThemeData,
-      darkTheme: ThemeData(
-          accentColor: Colors.lightGreenAccent,
-          appBarTheme: const AppBarTheme(color: Colors.lightGreenAccent)),
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      routes: {},
-      home: AuthBlocBuilder(),
-    );
-  }
-}
+    var lightPrimary = const Color(4284612846);
+    var lightColorScheme = ColorScheme(
+        primary: lightPrimary,
+        primaryVariant: lightPrimary.withOpacity(0.8),
+        secondary: Colors.yellow,
+        secondaryVariant: Colors.yellow.withOpacity(0.8),
+        surface: Colors.white,
+        background: Colors.white,
+        error: const Color(4289724448),
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onSurface: Colors.black,
+        onBackground: Colors.black38,
+        onError: Colors.white,
+        brightness: Brightness.light);
 
-class AuthBlocBuilder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final locale = Platform.localeName;
-    final timeConverter = TimeAgo(l10n: l10n, locale: locale);
-    final cartoonRepo =
-        FirestorePoliticalCartoonRepository(timeConverter: timeConverter);
-    final sortByMode = context.read<SortByCubit>().state;
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        if (state is Authenticated) {
-          return MultiBlocProvider(
-            key: const Key('DailyCartoonPage_Authenticated'),
-            providers: [
-              BlocProvider<AllCartoonsBloc>(
-                  create: (_) => AllCartoonsBloc(cartoonRepository: cartoonRepo)
-                    ..add(LoadAllCartoons(sortByMode))),
-              BlocProvider<TabBloc>(
-                create: (_) => TabBloc(),
-              ),
-            ],
-            child: HomeScreen(),
-          );
-        } else if (state is Unauthenticated) {
-          return const Text(
-            'Unauthenticated',
-            key: Key('DailyCartoonPage_Unauthenticated'),
-          );
-        } else {
-          return const CircularProgressIndicator(
-              key: Key('DailyCartoonPage_Uninitialized'));
-        }
-      },
+    var darkPrimary = const Color(0xFFDEA7FF);
+    var darkColorScheme = const ColorScheme.dark().copyWith(
+      primary: darkPrimary,
+      primaryVariant: darkPrimary.withOpacity(0.8),
+      secondary: Colors.yellow,
+      secondaryVariant: Colors.yellow.withOpacity(0.8),
+      onBackground: Colors.white60,
     );
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        themeMode: themeMode,
+        theme: ThemeData(
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: lightColorScheme.background,
+                selectedItemColor: lightColorScheme.secondary,
+                selectedLabelStyle:
+                    TextStyle(color: lightColorScheme.onSurface),
+                unselectedLabelStyle:
+                    TextStyle(color: lightColorScheme.onSurface),
+                unselectedItemColor: lightColorScheme.onSecondary),
+            brightness: Brightness.light,
+            fontFamily: 'SanFrancisco',
+            appBarTheme: AppBarTheme(
+              backgroundColor: lightPrimary,
+            ),
+            // scaffoldBackgroundColor: Colors.white,
+            textTheme: const TextTheme(
+              subtitle1: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            colorScheme: lightColorScheme,
+            highlightColor: lightPrimary,
+            floatingActionButtonTheme:
+                FloatingActionButtonThemeData(backgroundColor: lightPrimary)),
+        darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: 'SanFrancisco',
+            primaryColor: lightPrimary,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xFF3C3C3C),
+            ),
+            accentColor: lightPrimary,
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: const Color(0xFF3C3C3C),
+                selectedItemColor: darkColorScheme.secondary,
+                selectedLabelStyle: TextStyle(color: darkColorScheme.onSurface),
+                unselectedLabelStyle:
+                    TextStyle(color: darkColorScheme.onSurface),
+                unselectedItemColor: darkColorScheme.onSecondary),
+            // scaffoldBackgroundColor: const Color(4279374354),
+            textTheme: const TextTheme(
+              subtitle1: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            colorScheme: darkColorScheme,
+            highlightColor: darkPrimary,
+            floatingActionButtonTheme:
+                FloatingActionButtonThemeData(backgroundColor: darkPrimary)),
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: themeMode == ThemeMode.dark
+              ? SystemUiOverlayStyle.light
+              : SystemUiOverlayStyle.dark,
+          child: AuthFlow(),
+        ));
   }
 }

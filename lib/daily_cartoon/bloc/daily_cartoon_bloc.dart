@@ -27,6 +27,7 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
   Stream<DailyCartoonState> _mapLoadDailyCartoonToState() async* {
     _dailyCartoonSubscription =
         dailyCartoonRepository.getLatestPoliticalCartoon().listen((cartoon) {
+      print('s');
       add(UpdateDailyCartoon(cartoon));
     }, onError: (err) {
       add(ErrorDailyCartoonEvent(err.toString()));

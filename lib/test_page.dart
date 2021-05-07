@@ -6,12 +6,12 @@
 // import 'package:history_app/utils/utils.dart';
 // import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 //
-// class TestPage extends StatefulWidget {
+// class DailyCartoonPage extends StatefulWidget {
 //   @override
-//   _TestPageState createState() => _TestPageState();
+//   _DailyCartoonPageState createState() => _DailyCartoonPageState();
 // }
 //
-// class _TestPageState extends State<TestPage> {
+// class _DailyCartoonPageState extends State<DailyCartoonPage> {
 //   late PoliticalCartoonRepository repo;
 //   // late Future<String> url;
 //   // late Stream<PoliticalCartoon> cartoon;
@@ -85,7 +85,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return       Column(
-//       key: const Key('DailyCartoonPage_DailyCartoonLoaded_card'),
+//       key: const Key('DailyCartoonScreen_DailyCartoonLoaded_card'),
 //       mainAxisAlignment: MainAxisAlignment.start,
 //       children: [
 //         Text(l10n.dailyCartoonTitle),
@@ -175,5 +175,30 @@
 //                     )),
 //               ],
 //             )));
+//   }
+// }
+
+// class AuthBlocBuilder extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+//       builder: (context, state) {
+//         if (state is Authenticated) {
+//           return MultiBlocProvider(
+//             key: const Key('DailyCartoonScreen_Authenticated'),
+//             providers: [],
+//             child: HomeScreen(),
+//           );
+//         } else if (state is Unauthenticated) {
+//           return const Text(
+//             'Unauthenticated',
+//             key: Key('DailyCartoonScreen_Unauthenticated'),
+//           );
+//         } else {
+//           return const CircularProgressIndicator(
+//               key: Key('DailyCartoonScreen_Uninitialized'));
+//         }
+//       },
+//     );
 //   }
 // }
