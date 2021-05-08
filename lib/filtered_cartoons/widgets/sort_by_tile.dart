@@ -15,6 +15,8 @@ class SortByTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return InkWell(
       highlightColor: theme.colorScheme.primary.withOpacity(0.2),
       onTap: onTap,
@@ -33,19 +35,19 @@ class SortByTile extends StatelessWidget {
                       textAlign: TextAlign.start,
                       style: theme.textTheme.subtitle1!.copyWith(
                           color: selected
-                              ? theme.highlightColor
-                              : theme.colorScheme.onSurface)),
+                              ? colorScheme.primary
+                              : colorScheme.onSurface)),
                   if (selected)
                     Icon(
                       Icons.check,
-                      color: theme.highlightColor,
+                      color: colorScheme.primary,
                       size: 18,
                     ),
                 ],
               ),
             ),
             Divider(
-              color: theme.colorScheme.onBackground,
+              color: colorScheme.onBackground,
               thickness: 1,
               height: 1,
             ),

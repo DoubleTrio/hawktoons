@@ -17,14 +17,18 @@ class CartoonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final primary = colorScheme.primary;
     final onBackground = colorScheme.onBackground;
     final onSurface = colorScheme.onSurface;
+    final cardColor = theme.cardColor;
 
     return InkWell(
+      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
       onTap: onTap,
       child: Card(
+        color: theme.dividerColor,
         key: Key(cartoon.id),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -36,17 +40,22 @@ class CartoonCard extends StatelessWidget {
                 child: ClipRRect(
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(10)),
-              child: CachedNetworkImage(
-                imageUrl: cartoon.downloadUrl,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    LinearProgressIndicator(
-                        value: downloadProgress.progress,
-                        backgroundColor: primary),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              child: Container(
+                constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height / 3),
+                child: CachedNetworkImage(
+                  imageUrl: cartoon.downloadUrl,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      LinearProgressIndicator(
+                          value: downloadProgress.progress,
+                          backgroundColor: primary),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
             )),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
+            Container(
+              padding: const EdgeInsets.all(12),
+              color: cardColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,

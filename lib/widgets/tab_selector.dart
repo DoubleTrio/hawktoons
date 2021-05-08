@@ -27,7 +27,7 @@ class TabSelector extends StatelessWidget {
           onTap: () => onTabSelected(AppTab.daily),
           selected: AppTab.daily == activeTab),
       CustomBottomTabItem(
-          icon: Icon(Icons.lightbulb_outline),
+          icon: const Icon(Icons.lightbulb_outline),
           width: middleWidth,
           onTap: () => context.read<ThemeCubit>().changeTheme(),
           selected: false),
@@ -64,29 +64,27 @@ class CustomBottomTabItem extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      highlightColor: colorScheme.primary.withOpacity(0.1),
-      splashColor: colorScheme.primary.withOpacity(0.1),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.07,
-        width: width,
-        decoration: selected
-            ? BoxDecoration(
-                color: theme.bottomNavigationBarTheme.backgroundColor,
-                border: Border(
-                    top: BorderSide(width: 3, color: colorScheme.primary)))
-            : BoxDecoration(
-                color: theme.bottomNavigationBarTheme.backgroundColor,
-              ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            icon,
-            if (label != null)
-              Text(label!,
-                  style: selected
-                      ? theme.bottomNavigationBarTheme.selectedLabelStyle
-                      : theme.bottomNavigationBarTheme.unselectedLabelStyle),
-          ],
+      child: Ink(
+        color: theme.bottomNavigationBarTheme.backgroundColor,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.07,
+          width: width,
+          decoration: selected
+              ? BoxDecoration(
+                  border: Border(
+                      top: BorderSide(width: 3, color: colorScheme.primary)))
+              : const BoxDecoration(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon,
+              if (label != null)
+                Text(label!,
+                    style: selected
+                        ? theme.bottomNavigationBarTheme.selectedLabelStyle
+                        : theme.bottomNavigationBarTheme.unselectedLabelStyle),
+            ],
+          ),
         ),
       ),
     );

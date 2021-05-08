@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-class SignOutIcon extends StatelessWidget {
-  SignOutIcon({Key? key, required this.onPressed, this.size = 20})
+class CustomIconButton extends StatelessWidget {
+  CustomIconButton(
+      {Key? key, required this.onPressed, required this.icon, this.size = 25})
       : super(key: key);
 
   final VoidCallback onPressed;
+  final Widget icon;
   final double size;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.exit_to_app_rounded),
+      icon: icon,
       onPressed: onPressed,
       iconSize: size,
       splashRadius: size * 0.80,
-      splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
       color: Colors.white,
     );
   }

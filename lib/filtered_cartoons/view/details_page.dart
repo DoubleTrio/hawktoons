@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
+import 'package:history_app/widgets/cartoon_body.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DetailsPage extends Page {
@@ -53,35 +53,17 @@ class DetailsScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-            actions: [],
             leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_outlined,
-              ),
-              splashRadius: 25 * 0.80,
-              iconSize: 25,
-              color: Colors.white,
-              onPressed: _deselectCartoon,
-            )),
-        body: Center(
-          child: Column(
-            children: [
-              GestureDetector(
-                child: Center(
-                  child: CachedNetworkImage(
-                    imageUrl: cartoon.downloadUrl,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            LinearProgressIndicator(
-                                value: downloadProgress.progress),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-                onTap: _deselectCartoon,
-              ),
-            ],
+          icon: const Icon(
+            Icons.arrow_back_outlined,
           ),
-        ));
+          splashRadius: 25 * 0.80,
+          iconSize: 25,
+          color: Colors.white,
+          onPressed: _deselectCartoon,
+        )),
+        body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: CartoonBody(cartoon: cartoon, addImagePadding: false)));
   }
 }

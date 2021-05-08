@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:history_app/blocs/auth/auth.dart';
+import 'package:history_app/widgets/scaffold_title.dart';
 
 class LoginPage extends Page {
   LoginPage() : super(key: const ValueKey('LoginPage'));
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Login')),
+        appBar: AppBar(title: ScaffoldTitle(title: 'Login'), centerTitle: true),
         body: Column(
           children: [
             Center(

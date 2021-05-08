@@ -13,6 +13,7 @@ class _FilterPopUpState extends State<FilterPopUp>
   final units = Unit.values.sublist(1);
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return DraggableScrollableSheet(
         initialChildSize: 0.75,
         minChildSize: 0.75,
@@ -26,9 +27,9 @@ class _FilterPopUpState extends State<FilterPopUp>
               child: Column(
                 children: <Widget>[
                   ButtonRowHeader(),
-                  const Divider(
-                    height: 1,
-                    color: Colors.black45,
+                  Divider(
+                    height: 1.5,
+                    color: theme.colorScheme.onBackground,
                   ),
                   const SizedBox(height: 12),
                   FilterHeader(header: 'Units'),
