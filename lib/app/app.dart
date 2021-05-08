@@ -56,10 +56,12 @@ class AppView extends StatelessWidget {
       secondaryVariant: Colors.yellow.withOpacity(0.8),
       onBackground: Colors.white60,
     );
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         themeMode: themeMode,
         theme: ThemeData(
+            dividerColor: Colors.grey.shade200,
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
                 backgroundColor: lightColorScheme.background,
                 selectedItemColor: lightColorScheme.secondary,
@@ -79,18 +81,21 @@ class AppView extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
+            accentColor: lightPrimary,
             colorScheme: lightColorScheme,
-            highlightColor: lightPrimary,
+            highlightColor: lightPrimary.withOpacity(0.2),
+            splashColor: lightPrimary.withOpacity(0.1),
             floatingActionButtonTheme:
                 FloatingActionButtonThemeData(backgroundColor: lightPrimary)),
         darkTheme: ThemeData(
             brightness: Brightness.dark,
             fontFamily: 'SanFrancisco',
-            primaryColor: lightPrimary,
+            primaryColor: darkPrimary,
             appBarTheme: const AppBarTheme(
               backgroundColor: Color(0xFF3C3C3C),
             ),
-            accentColor: lightPrimary,
+            accentColor: darkPrimary,
+            dividerColor: Colors.grey.shade900,
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
                 backgroundColor: const Color(0xFF3C3C3C),
                 selectedItemColor: darkColorScheme.secondary,
@@ -105,7 +110,8 @@ class AppView extends StatelessWidget {
               ),
             ),
             colorScheme: darkColorScheme,
-            highlightColor: darkPrimary,
+            highlightColor: darkPrimary.withOpacity(0.2),
+            splashColor: darkPrimary.withOpacity(0.1),
             floatingActionButtonTheme:
                 FloatingActionButtonThemeData(backgroundColor: darkPrimary)),
         localizationsDelegates: [

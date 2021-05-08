@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:history_app/blocs/auth/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:history_app/widgets/sign_out_icon.dart';
+import 'package:history_app/widgets/cartoon_body.dart';
+import 'package:history_app/widgets/custom_icon_button.dart';
+import 'package:history_app/widgets/page_header.dart';
+import 'package:history_app/widgets/scaffold_title.dart';
 import 'package:intl/intl.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DailyCartoonPage extends Page {
   DailyCartoonPage() : super(key: const ValueKey('DailyCartoonPage'));
@@ -33,18 +35,16 @@ class DailyCartoonScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-              leading: SignOutIcon(
-                size: 25,
+              leading: CustomIconButton(
+                icon: const Icon(Icons.exit_to_app_rounded),
                 onPressed: () =>
                     context.read<AuthenticationBloc>().add(Logout()),
               ),
-              title: Text(
-                (state is DailyCartoonLoaded)
-                    ? DateFormat.yMMMMEEEEd(Platform.localeName)
-                        .format(state.dailyCartoon.published.toDate())
-                    : ' ',
-                style: const TextStyle(color: Colors.white),
-              ),
+              title: ScaffoldTitle(
+                  title: (state is DailyCartoonLoaded)
+                      ? DateFormat.yMMMMEEEEd(Platform.localeName)
+                          .format(state.dailyCartoon.date.toDate())
+                      : ' '),
               centerTitle: true),
           body: SingleChildScrollView(
             child: PoliticalCartoonCardLoader(),
@@ -71,105 +71,22 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
               key: const Key('DailyCartoonScreen_DailyCartoonInProgress')),
         );
       } else if (state is DailyCartoonLoaded) {
-        print(state);
-        print('--------------------------');
         var cartoon = state.dailyCartoon;
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           key: const Key('DailyCartoonScreen_DailyCartoonLoaded'),
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              width: double.infinity,
-              child: Text('Daily',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(fontWeight: FontWeight.bold)),
-            ),
+            PageHeader(header: 'Daily'),
             const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              color: Theme.of(context).dividerColor,
-              child: Center(
-                child: Image.network(cartoon.downloadUrl),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              width: double.infinity,
-              // color: Colors.blue,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 24),
-                  Text(
-                    'PUBLISHED',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onBackground),
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    cartoon.publishedString,
-                    style: theme.textTheme.bodyText1!
-                        .copyWith(color: theme.colorScheme.onSurface),
-                  ),
-                  const SizedBox(height: 12),
-                  Divider(height: 2, color: theme.colorScheme.onBackground),
-                  const SizedBox(height: 24),
-                  Text(
-                    'AUTHOR',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onBackground),
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    cartoon.author,
-                    style: theme.textTheme.bodyText1!
-                        .copyWith(color: theme.colorScheme.onSurface),
-                  ),
-                  const SizedBox(height: 12),
-                  Divider(height: 2, color: theme.colorScheme.onBackground),
-                  const SizedBox(height: 24),
-                  Text(
-                    'UNIT',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onBackground),
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    cartoon.unit.name,
-                    style: theme.textTheme.bodyText1!
-                        .copyWith(color: theme.colorScheme.onSurface),
-                  ),
-                  const SizedBox(height: 12),
-                  Divider(height: 2, color: theme.colorScheme.onBackground),
-                  const SizedBox(height: 24),
-                  Text(
-                    'DESCRIPTION',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onBackground),
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    '${cartoon.description} ${cartoon.description} ${cartoon.description}',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                        color: theme.colorScheme.onSurface, height: 1.5),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ),
-            ),
+            CartoonBody(cartoon: cartoon, addImagePadding: true),
           ],
         );
       } else {
-        return const Text('Error while fetching political cartoon',
-            key: Key('DailyCartoonScreen_DailyCartoonFailed'),
-            style: TextStyle(color: Colors.red));
+        return const Center(
+          child: Text('Error while fetching political cartoon',
+              key: Key('DailyCartoonScreen_DailyCartoonFailed'),
+              style: TextStyle(color: Colors.red)),
+        );
       }
     });
   }

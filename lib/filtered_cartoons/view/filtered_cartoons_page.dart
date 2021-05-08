@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:history_app/filtered_cartoons/widgets/widgets.dart';
-import 'package:history_app/widgets/widgets.dart';
+import 'package:history_app/widgets/custom_icon_button.dart';
 
 class FilteredCartoonsPage extends Page {
   FilteredCartoonsPage() : super(key: const ValueKey('FilteredCartoonsPage'));
@@ -26,25 +26,18 @@ class FilteredCartoonsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-          leading: SignOutIcon(
+          leading: CustomIconButton(
+            icon: const Icon(Icons.exit_to_app_rounded),
             onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
-            size: 25,
           ),
           actions: [
-            FilterIcon(
+            CustomIconButton(
+              icon: const Icon(Icons.filter_list),
               onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
-              size: 25,
             ),
           ]),
       body: Column(
         children: [
-          // Container(
-          //   color: Colors.grey,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [],
-          //   ),
-          // ),
           BlocBuilder<FilteredCartoonsBloc, FilteredCartoonsState>(
             builder: (context, state) {
               if (state is FilteredCartoonsLoading) {
@@ -55,7 +48,6 @@ class FilteredCartoonsScreen extends StatelessWidget {
                 return StaggeredCartoonGrid(
                   cartoons: [
                     ...state.filteredCartoons,
-                    ...state.filteredCartoons
                   ],
                   key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),
                 );
