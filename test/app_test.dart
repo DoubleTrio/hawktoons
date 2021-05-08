@@ -8,8 +8,8 @@ import 'helpers/helpers.dart';
 void main() {
   group('App', () {
     setupCloudFirestoreMocks();
-
     setUpAll(() async {
+      await setUpHydratedDirectory();
       await Firebase.initializeApp();
     });
 

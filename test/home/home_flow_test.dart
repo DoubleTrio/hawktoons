@@ -104,13 +104,14 @@ void main() {
         BlocProvider.value(value: showBottomSheetCubit),
       ], child: HomeFlow()));
 
-      // expect(find.byType(DailyCartoonScreen), findsOneWidget);
-      // expect(find.byType(FilteredCartoonsScreen), findsNothing);
-      //
+      expect(find.byType(DailyCartoonScreen), findsOneWidget);
+      expect(find.byType(FilteredCartoonsScreen), findsNothing);
+
       await tester.tap(allCartoonsIconKey);
       verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
-      // await tester.pumpAndSettle();
-      // expect(find.byType(BlocListener), findsOneWidget);
+      await tester.pump();
+      // expect(find.byType(DailyCartoonScreen), findsNothing);
+      // expect(find.byType(FilteredCartoonsScreen), findsOneWidget);
       // Event called from onPageChanged and onTabSelect
       // verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(2);
     });

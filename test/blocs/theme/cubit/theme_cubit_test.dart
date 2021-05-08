@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/blocs/theme/theme.dart';
 
+import '../../../helpers/helpers.dart';
+
 void main() {
   group('ThemeCubit', () {
+    setUpAll(() async {
+      await setUpHydratedDirectory();
+    });
+
     test('initial state is ThemeMode.light', () {
       expect(ThemeCubit().state, equals(ThemeMode.light));
     });

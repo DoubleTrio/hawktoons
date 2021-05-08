@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
+import 'package:history_app/blocs/auth/auth.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
@@ -27,6 +28,10 @@ class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 
 class MockShowBottomSheetCubit extends MockCubit<bool>
     implements ShowBottomSheetCubit {}
+
+class MockAuthenticationBloc
+    extends MockBloc<AuthenticationEvent, AuthenticationState>
+    implements AuthenticationBloc {}
 
 void main() {
   group('FilteredCartoonsPage', () {
@@ -55,6 +60,7 @@ void main() {
     late UnitCubit unitCubit;
     late SortByCubit sortByCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
+    late AuthenticationBloc authenticationBloc;
 
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
@@ -62,6 +68,8 @@ void main() {
           LoadAllCartoons(SortByMode.latestPosted));
       registerFallbackValue<FilteredCartoonsState>(FilteredCartoonsLoading());
       registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Unit.all));
+      registerFallbackValue<AuthenticationEvent>(Logout());
+      registerFallbackValue<AuthenticationState>(Authenticated('testing'));
       registerFallbackValue<Unit>(Unit.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
@@ -72,6 +80,7 @@ void main() {
       unitCubit = MockUnitCubit();
       sortByCubit = MockSortByCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
+      authenticationBloc = MockAuthenticationBloc();
     });
 
     testWidgets(
@@ -104,6 +113,7 @@ void main() {
       when(() => allCartoonsBloc.state)
           .thenReturn(AllCartoonsLoaded(cartoons: [MockPoliticalCartoon()]));
       when(() => showBottomSheetCubit.state).thenReturn(false);
+      when(() => authenticationBloc.state).thenReturn(Authenticated('testing'));
 
       await mockNetworkImagesFor(
         () => tester.pumpApp(MultiBlocProvider(providers: [
@@ -111,7 +121,8 @@ void main() {
           BlocProvider.value(value: filteredCartoonsBloc),
           BlocProvider.value(value: unitCubit),
           BlocProvider.value(value: sortByCubit),
-          BlocProvider.value(value: showBottomSheetCubit)
+          BlocProvider.value(value: showBottomSheetCubit),
+          BlocProvider.value(value: authenticationBloc)
         ], child: FilteredCartoonsScreen())),
       );
 

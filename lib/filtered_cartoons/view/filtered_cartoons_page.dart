@@ -24,7 +24,6 @@ class FilteredCartoonsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
       appBar: AppBar(
           leading: CustomIconButton(
             icon: const Icon(Icons.exit_to_app_rounded),
@@ -32,6 +31,7 @@ class FilteredCartoonsScreen extends StatelessWidget {
           ),
           actions: [
             CustomIconButton(
+              key: const Key('FilteredCartoonsPage_FilterIcon'),
               icon: const Icon(Icons.filter_list),
               onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
             ),
