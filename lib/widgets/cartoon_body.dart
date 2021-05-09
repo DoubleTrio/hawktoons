@@ -11,16 +11,6 @@ class CartoonBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildImage() {
-      return Center(
-        child: Container(
-          child: CachedNetworkImage(imageUrl: cartoon.downloadUrl),
-          constraints:
-              BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
-        ),
-      );
-    }
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       key: Key('CartoonBody_${cartoon.id}'),
@@ -28,7 +18,13 @@ class CartoonBody extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(vertical: addImagePadding ? 12 : 0),
           color: Theme.of(context).dividerColor,
-          child: _buildImage(),
+          child: Center(
+            child: Container(
+              child: CachedNetworkImage(imageUrl: cartoon.downloadUrl),
+              constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height / 2),
+            ),
+          ),
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -42,9 +38,7 @@ class CartoonBody extends StatelessWidget {
               CartoonSectionDivider(),
               CartoonSection(title: 'UNIT', body: cartoon.unit.name),
               CartoonSectionDivider(),
-              CartoonSection(
-                  title: 'DESCRIPTION',
-                  body: cartoon.description.replaceAll('\\n', '\n')),
+              CartoonSection(title: 'DESCRIPTION', body: cartoon.description),
             ],
           ),
         ),

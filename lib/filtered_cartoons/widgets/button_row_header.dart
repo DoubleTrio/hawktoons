@@ -7,23 +7,29 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 class ButtonRowHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final selectedUnit = context.watch<UnitCubit>().state;
-    final sortByMode = context.watch<SortByCubit>().state;
-    final onFilter = () => {
-          Navigator.of(context).pop(),
-          context.read<AllCartoonsBloc>().add(LoadAllCartoons(sortByMode)),
-          context.read<FilteredCartoonsBloc>().add(UpdateFilter(selectedUnit))
-        };
+    final _selectedUnit = context.watch<UnitCubit>().state;
+    final _sortByMode = context.watch<SortByCubit>().state;
 
-    final reset = () => {
-          context.read<UnitCubit>().selectUnit(Unit.all),
-          context.read<SortByCubit>().selectSortBy(SortByMode.latestPosted)
-        };
+    void _filter() {
+      Navigator.of(context).pop();
+      context.read<AllCartoonsBloc>().add(LoadAllCartoons(_sortByMode));
+      context.read<FilteredCartoonsBloc>().add(UpdateFilter(_selectedUnit));
+    }
+
+    void _reset() {
+      context.read<UnitCubit>().selectUnit(Unit.all);
+      context.read<SortByCubit>().selectSortBy(SortByMode.latestPosted);
+    }
 
     final colorScheme = Theme.of(context).colorScheme;
     final primary = colorScheme.primary;
-    final onBackground = colorScheme.onBackground;
     final onSurface = colorScheme.onSurface;
+
+    final btnStyle = ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+    )));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -33,15 +39,11 @@ class ButtonRowHeader extends StatelessWidget {
         children: [
           TextButton(
               key: const Key('ButtonRowHeader_ResetButton'),
-              onPressed: reset,
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ))),
+              onPressed: _reset,
+              style: btnStyle,
               child: Text(
                 'Reset',
-                style: TextStyle(color: onBackground),
+                style: TextStyle(color: onSurface),
               )),
           Row(
             children: [
@@ -51,7 +53,6 @@ class ButtonRowHeader extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: onSurface),
-                textAlign: TextAlign.center,
               ),
               const SizedBox(width: 6),
               Icon(Icons.filter_list, color: onSurface),
@@ -63,12 +64,8 @@ class ButtonRowHeader extends StatelessWidget {
               'Apply',
               style: TextStyle(color: primary),
             ),
-            onPressed: onFilter,
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ))),
+            onPressed: _filter,
+            style: btnStyle,
           ),
         ],
       ),

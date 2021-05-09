@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/blocs/auth/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
+import 'package:history_app/daily_cartoon/bloc/daily_cartoon_bloc.dart';
 import 'package:history_app/widgets/cartoon_body.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
 import 'package:history_app/widgets/loading_indicator.dart';
@@ -31,28 +32,29 @@ class DailyCartoonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-              leading: CustomIconButton(
-                icon: const Icon(Icons.exit_to_app_rounded),
-                onPressed: () =>
-                    context.read<AuthenticationBloc>().add(Logout()),
-              ),
-              title: ScaffoldTitle(
-                  title: (state is DailyCartoonLoaded)
-                      ? DateFormat.yMMMMEEEEd(Platform.localeName)
-                          .format(state.dailyCartoon.date.toDate())
-                      : ' '),
-              centerTitle: true),
-          body: SingleChildScrollView(
-            child: PoliticalCartoonCardLoader(),
-            physics: const BouncingScrollPhysics(),
+    var title = context.select((DailyCartoonBloc bloc) {
+      var state = bloc.state;
+      if (state is DailyCartoonLoaded) {
+        return DateFormat.yMMMMEEEEd(Platform.localeName)
+            .format(state.dailyCartoon.date.toDate());
+      }
+      return ' ';
+    });
+    return Scaffold(
+      appBar: AppBar(
+          leading: CustomIconButton(
+            icon: const Icon(Icons.exit_to_app_rounded),
+            onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
           ),
-        );
-      },
+          title: ScaffoldTitle(title: title),
+          centerTitle: true),
+      body: SingleChildScrollView(
+        child: PoliticalCartoonCardLoader(),
+        physics: const BouncingScrollPhysics(),
+      ),
     );
+    // },
+    // );
   }
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:history_app/widgets/cartoon_body.dart';
+import 'package:history_app/widgets/custom_icon_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DetailsPage extends Page {
@@ -53,13 +54,9 @@ class DetailsScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-            leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_outlined,
-          ),
-          splashRadius: 25 * 0.80,
-          iconSize: 25,
-          color: Colors.white,
+            leading: CustomIconButton(
+          key: const Key('DetailsPage_BackButton'),
+          icon: const Icon(Icons.arrow_back),
           onPressed: _deselectCartoon,
         )),
         body: SingleChildScrollView(

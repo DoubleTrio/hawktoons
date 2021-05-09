@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -29,10 +30,14 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
         dailyCartoonRepository.getLatestPoliticalCartoon().listen((cartoon) {
       add(UpdateDailyCartoon(cartoon));
     }, onError: (err) {
-      var code = err.code;
-      if (code != 'permission-denied') {
-        add(ErrorDailyCartoonEvent(err.code));
+      if (err is FirebaseException) {
+        var code = err.code;
+        if (code == 'permission-denied') {
+          return;
+        }
       }
+
+      add(ErrorDailyCartoonEvent(err.code));
     });
   }
 
@@ -43,10 +48,7 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
 
   Stream<DailyCartoonState> _mapErrorDailyCartoonToState(
       String errorMessage) async* {
-    if (errorMessage !=
-        '[cloud_firestore/permission-denied] The caller does not have permission to execute the specified operation.') {
-      yield DailyCartoonFailed(errorMessage);
-    }
+    yield DailyCartoonFailed(errorMessage);
   }
 
   @override

@@ -13,7 +13,8 @@ class HomeFlowPage extends Page {
 
   @override
   Route createRoute(BuildContext context) {
-    final _firebaseCartoonRepo = FirestorePoliticalCartoonRepository();
+    final _firebaseCartoonRepo =
+        context.read<FirestorePoliticalCartoonRepository>();
     return PageRouteBuilder(
         settings: this,
         pageBuilder: (context, animation, secondaryAnimation) =>

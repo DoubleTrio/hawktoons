@@ -34,7 +34,7 @@ class FilteredCartoonsScreen extends StatelessWidget {
           ),
           title: AnimatedOpacity(
             opacity: shouldDisplayTitle ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 800),
             child: ScaffoldTitle(
               title: 'All Cartoons',
             ),

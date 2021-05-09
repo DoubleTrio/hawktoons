@@ -12,15 +12,22 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _firebaseUserRepo = FirebaseUserRepository();
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
-        BlocProvider<AuthenticationBloc>(
-            create: (_) =>
-                AuthenticationBloc(userRepository: _firebaseUserRepo)),
+        RepositoryProvider<FirebaseUserRepository>(
+            create: (_) => FirebaseUserRepository()),
+        RepositoryProvider<FirestorePoliticalCartoonRepository>(
+            create: (_) => FirestorePoliticalCartoonRepository()),
       ],
-      child: const AppView(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
+          BlocProvider<AuthenticationBloc>(
+              create: (context) => AuthenticationBloc(
+                  userRepository: context.read<FirebaseUserRepository>())),
+        ],
+        child: const AppView(),
+      ),
     );
   }
 }
