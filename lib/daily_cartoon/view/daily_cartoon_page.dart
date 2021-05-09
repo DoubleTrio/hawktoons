@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:history_app/blocs/auth/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/widgets/cartoon_body.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
+import 'package:history_app/widgets/loading_indicator.dart';
 import 'package:history_app/widgets/page_header.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
 import 'package:intl/intl.dart';
@@ -59,16 +59,15 @@ class DailyCartoonScreen extends StatelessWidget {
 class PoliticalCartoonCardLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
         builder: (context, state) {
       if (state is DailyCartoonInProgress) {
-        return Container(
-          height: 20,
-          width: 20,
-          child: SpinKitFadingCircle(
-              color: Theme.of(context).colorScheme.primary,
-              key: const Key('DailyCartoonScreen_DailyCartoonInProgress')),
+        return Column(
+          key: const Key('DailyCartoonScreen_DailyCartoonInProgress'),
+          children: [
+            const SizedBox(height: 24),
+            LoadingIndicator(),
+          ],
         );
       } else if (state is DailyCartoonLoaded) {
         var cartoon = state.dailyCartoon;
@@ -82,11 +81,8 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
           ],
         );
       } else {
-        return const Center(
-          child: Text('Error while fetching political cartoon',
-              key: Key('DailyCartoonScreen_DailyCartoonFailed'),
-              style: TextStyle(color: Colors.red)),
-        );
+        return const SizedBox(
+            key: Key('DailyCartoonScreen_DailyCartoonFailed'));
       }
     });
   }

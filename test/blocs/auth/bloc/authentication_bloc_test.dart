@@ -38,7 +38,7 @@ void main() {
           return AuthenticationBloc(userRepository: userRepository);
         },
         act: (bloc) => bloc.add(SignInAnonymously()),
-        expect: () => [AuthLoading(), Authenticated('user-id')],
+        expect: () => [LoggingIn(), Authenticated('user-id')],
         verify: (_) => {
               verify(userRepository.isAuthenticated).called(1),
               verify(userRepository.getUserId).called(1),
@@ -57,7 +57,7 @@ void main() {
           return AuthenticationBloc(userRepository: userRepository);
         },
         act: (bloc) => bloc.add(SignInAnonymously()),
-        expect: () => [AuthLoading(), Unauthenticated()],
+        expect: () => [LoggingIn(), Unauthenticated()],
         verify: (_) => {
               verify(userRepository.isAuthenticated).called(1),
               verify(userRepository.authenticate).called(1),
@@ -75,7 +75,7 @@ void main() {
           return AuthenticationBloc(userRepository: userRepository);
         },
         act: (bloc) => bloc.add(SignInAnonymously()),
-        expect: () => [AuthLoading(), Authenticated(userId)],
+        expect: () => [LoggingIn(), Authenticated(userId)],
         verify: (_) => {
               verify(userRepository.isAuthenticated).called(1),
               verifyNever(userRepository.authenticate),

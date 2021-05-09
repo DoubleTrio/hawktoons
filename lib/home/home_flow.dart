@@ -6,7 +6,6 @@ import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/filtered_cartoons/view/filtered_flow.dart';
 import 'package:history_app/widgets/tab_selector.dart';
-import 'package:history_app/widgets/theme_floating_action_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class HomeFlowPage extends Page {
@@ -16,32 +15,59 @@ class HomeFlowPage extends Page {
   Route createRoute(BuildContext context) {
     final _firebaseCartoonRepo = FirestorePoliticalCartoonRepository();
     return PageRouteBuilder(
-      settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          MultiBlocProvider(providers: [
-        BlocProvider<TabBloc>(
-          create: (_) => TabBloc(),
-        ),
-        BlocProvider<UnitCubit>(create: (_) => UnitCubit()),
-        BlocProvider<SortByCubit>(create: (_) => SortByCubit()),
-        BlocProvider(create: (_) => SelectCartoonCubit()),
-        BlocProvider(create: (_) => ShowBottomSheetCubit()),
-        BlocProvider<DailyCartoonBloc>(
-            create: (_) =>
-                DailyCartoonBloc(dailyCartoonRepository: _firebaseCartoonRepo)
-                  ..add(LoadDailyCartoon())),
-        BlocProvider<AllCartoonsBloc>(create: (context) {
-          final sortByMode = BlocProvider.of<SortByCubit>(context).state;
-          return AllCartoonsBloc(cartoonRepository: _firebaseCartoonRepo)
-            ..add(LoadAllCartoons(sortByMode));
-        }),
-        BlocProvider(create: (context) {
-          final _allCartoonsBloc = BlocProvider.of<AllCartoonsBloc>(context);
-          return FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc);
-        }),
-      ], child: HomeFlow()),
-      transitionDuration: const Duration(milliseconds: 500),
-    );
+        settings: this,
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            MultiBlocProvider(providers: [
+              BlocProvider<TabBloc>(
+                create: (_) => TabBloc(),
+              ),
+              BlocProvider<UnitCubit>(create: (_) => UnitCubit()),
+              BlocProvider<ScrollHeaderCubit>(
+                  create: (_) => ScrollHeaderCubit()),
+              BlocProvider<SortByCubit>(create: (_) => SortByCubit()),
+              BlocProvider(create: (_) => SelectCartoonCubit()),
+              BlocProvider(create: (_) => ShowBottomSheetCubit()),
+              BlocProvider<DailyCartoonBloc>(
+                  create: (_) => DailyCartoonBloc(
+                      dailyCartoonRepository: _firebaseCartoonRepo)
+                    ..add(LoadDailyCartoon())),
+              BlocProvider<AllCartoonsBloc>(create: (context) {
+                final sortByMode = BlocProvider.of<SortByCubit>(context).state;
+                return AllCartoonsBloc(cartoonRepository: _firebaseCartoonRepo)
+                  ..add(LoadAllCartoons(sortByMode));
+              }),
+              BlocProvider(create: (context) {
+                final _allCartoonsBloc =
+                    BlocProvider.of<AllCartoonsBloc>(context);
+                return FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc);
+              }),
+            ], child: HomeFlow()),
+        transitionDuration: const Duration(milliseconds: 800),
+        reverseTransitionDuration: const Duration(milliseconds: 1200),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = const Offset(0.0, 1.0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end)
+            ..chain(CurveTween(curve: curve));
+
+          var curveAnimation = CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInCubic,
+          );
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: ScaleTransition(
+              scale: Tween<double>(
+                begin: 0.0,
+                end: 1,
+              ).animate(curveAnimation),
+              child: child,
+            ),
+          );
+        });
   }
 }
 

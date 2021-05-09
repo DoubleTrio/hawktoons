@@ -53,51 +53,55 @@ class CartoonCard extends StatelessWidget {
                 ),
               ),
             )),
-            Container(
-              padding: const EdgeInsets.all(12),
-              color: cardColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('(${cartoon.publishedString})',
-                      style: TextStyle(color: onBackground)),
-                  const SizedBox(height: 8),
-                  RichText(
-                      text: TextSpan(
-                          text: 'By ',
-                          style: TextStyle(color: onSurface),
-                          children: [
-                        TextSpan(
-                          text: cartoon.author,
-                          style: TextStyle(
-                              fontStyle: FontStyle.italic, color: onSurface),
-                        )
-                      ])),
-                  const SizedBox(height: 6),
-                  Text('Unit ${cartoon.unit.index}: ${cartoon.unit.name}'),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.timer,
-                        size: 20,
-                        color: onBackground,
-                      ),
-                      const SizedBox(width: 4),
-                      Flexible(
-                        child: Text(
-                          TimeAgo(
-                                  l10n: context.l10n,
-                                  locale: Platform.localeName)
-                              .timeAgoSinceDate(cartoon.date),
-                          style: TextStyle(color: onBackground),
-                          softWrap: true,
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(10.0)),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                color: cardColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('(${cartoon.publishedString})',
+                        style: TextStyle(color: onBackground)),
+                    const SizedBox(height: 8),
+                    RichText(
+                        text: TextSpan(
+                            text: 'By ',
+                            style: TextStyle(color: onSurface),
+                            children: [
+                          TextSpan(
+                            text: cartoon.author,
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic, color: onSurface),
+                          )
+                        ])),
+                    const SizedBox(height: 6),
+                    Text('Unit ${cartoon.unit.index}: ${cartoon.unit.name}'),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.timer,
+                          size: 20,
+                          color: onBackground,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            TimeAgo(
+                                    l10n: context.l10n,
+                                    locale: Platform.localeName)
+                                .timeAgoSinceDate(cartoon.date),
+                            style: TextStyle(color: onBackground),
+                            softWrap: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             )
           ],

@@ -35,11 +35,11 @@ void main() {
       });
     });
 
-    group('AuthLoading', () {
+    group('LoggingIn', () {
       test('supports value comparisons', () {
         expect(
-          AuthLoading(),
-          AuthLoading(),
+          LoggingIn(),
+          LoggingIn(),
         );
       });
     });

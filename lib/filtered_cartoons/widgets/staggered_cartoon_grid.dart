@@ -5,33 +5,100 @@ import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/widgets/page_header.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class StaggeredCartoonGrid extends StatelessWidget {
+class StaggeredCartoonGrid extends StatefulWidget {
   StaggeredCartoonGrid({Key? key, required this.cartoons}) : super(key: key);
 
   final List<PoliticalCartoon> cartoons;
 
   @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: StaggeredGridView.countBuilder(
-        physics: const BouncingScrollPhysics(),
-        crossAxisCount: 2,
-        mainAxisSpacing: 12.0,
-        crossAxisSpacing: 8.0,
-        itemCount: cartoons.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return PageHeader(header: 'All');
-          }
+  _StaggeredCartoonGridState createState() => _StaggeredCartoonGridState();
+}
 
-          var cartoon = cartoons[index - 1];
-          return CartoonCard(
-            cartoon: cartoon,
-            onTap: () =>
-                context.read<SelectCartoonCubit>().selectCartoon(cartoon),
-          );
-        },
-        staggeredTileBuilder: (index) => StaggeredTile.fit(index == 0 ? 2 : 1),
+class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
+  late ScrollController _scrollController;
+  final _scrollThreshold = 200.0;
+  final _headerKey = GlobalKey();
+
+  void _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    if (maxScroll - currentScroll <= _scrollThreshold) {}
+  }
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      var renderBox =
+          _headerKey.currentContext!.findRenderObject() as RenderBox;
+
+      var height = renderBox.size.height;
+
+      _scrollController.addListener(() {
+        var maxScroll = _scrollController.position.maxScrollExtent;
+        var currentScroll = _scrollController.position.pixels;
+        var delta = 200.0; // or something else..
+        if (currentScroll > height) {
+          context.read<ScrollHeaderCubit>().onScrollPastHeader();
+        } else {
+          context.read<ScrollHeaderCubit>().onScrollBeforeHeader();
+        }
+        if (maxScroll - currentScroll <= delta) {
+          print('here');
+        }
+      });
+      _scrollController.position.isScrollingNotifier.addListener(() {
+        if (!_scrollController.position.isScrollingNotifier.value) {
+          print('scroll is stopped');
+        } else {
+          print('scroll is started');
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Expanded(
+      child: RawScrollbar(
+        radius: const Radius.circular(10),
+        thumbColor: colorScheme.onBackground.withOpacity(0.3),
+        child: Padding(
+          padding: EdgeInsets.all(6),
+          child: StaggeredGridView.countBuilder(
+            controller: _scrollController,
+            physics: const BouncingScrollPhysics(),
+            crossAxisCount: 2,
+            mainAxisSpacing: 3.0,
+            crossAxisSpacing: 3.0,
+            itemCount: widget.cartoons.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return PageHeader(
+                  header: 'All',
+                  key: _headerKey,
+                );
+              }
+
+              var cartoon = widget.cartoons[index - 1];
+              return CartoonCard(
+                cartoon: cartoon,
+                onTap: () =>
+                    context.read<SelectCartoonCubit>().selectCartoon(cartoon),
+              );
+            },
+            staggeredTileBuilder: (index) =>
+                StaggeredTile.fit(index == 0 ? 2 : 1),
+          ),
+        ),
       ),
     );
   }

@@ -17,6 +17,7 @@ class DetailsPage extends Page {
       pageBuilder: (context, animation, secondaryAnimation) =>
           DetailsScreen(cartoon: cartoon),
       transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = const Offset(1.0, 0.0);
         var end = Offset.zero;
@@ -24,7 +25,6 @@ class DetailsPage extends Page {
 
         var tween = Tween(begin: begin, end: end)
           ..chain(CurveTween(curve: curve));
-
         return SlideTransition(
           position: animation.drive(tween),
           child: child,

@@ -19,10 +19,6 @@ class FilteredFlowPage extends Page {
 }
 
 class FilteredFlow extends StatelessWidget {
-  static MaterialPage page() {
-    return MaterialPage(child: FilteredFlow());
-  }
-
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<SelectPoliticalCartoonState>(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:history_app/blocs/auth/auth.dart';
+import 'package:history_app/widgets/loading_indicator.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
 
 class LoginPage extends Page {
@@ -12,7 +12,7 @@ class LoginPage extends Page {
     return PageRouteBuilder(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) => LoginScreen(),
-      transitionDuration: const Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 1000),
     );
   }
 }
@@ -24,6 +24,10 @@ class LoginScreen extends StatelessWidget {
         appBar: AppBar(title: ScaffoldTitle(title: 'Login'), centerTitle: true),
         body: Column(
           children: [
+            const Text(
+              'Hawktoons App',
+              style: TextStyle(fontSize: 30),
+            ),
             Center(
               child: TextButton(
                 key: const Key('LoginPage_SignInAnonymouslyButton'),
@@ -34,14 +38,13 @@ class LoginScreen extends StatelessWidget {
             ),
             BlocBuilder<AuthenticationBloc, AuthenticationState>(
               builder: (context, state) {
-                if (state is AuthLoading) {
-                  return SpinKitFadingCircle(
-                      color: Theme.of(context).colorScheme.primary,
-                      key: const Key('LoginPage_AuthLoading'));
-                }
-
                 if (state is Authenticated || state is Uninitialized) {
                   return const SizedBox.shrink();
+                }
+
+                if (state is LoggingIn) {
+                  return LoadingIndicator(
+                      key: const Key('LoginPage_LoggingIn'));
                 }
 
                 return const Text(

@@ -25,7 +25,7 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapSignInAnonymouslyToState() async* {
     try {
-      yield AuthLoading();
+      yield LoggingIn();
       final isSignedIn = await userRepository.isAuthenticated();
       if (!isSignedIn) {
         await userRepository.authenticate();
@@ -39,7 +39,7 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapLogoutToState() async* {
     try {
-      yield AuthLoading();
+      yield LoggingOut();
       await userRepository.logout();
       yield Uninitialized();
     } on Exception {
