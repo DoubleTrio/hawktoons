@@ -20,13 +20,13 @@ void main() {
           date: Timestamp.now(),
           published: Timestamp.now(),
           description: 'Another Mock Political Cartoon',
-          unit: Unit.unit1,
+          units: [Unit.unit1],
           downloadUrl: 'downloadurl'),
     ];
 
-    setUpAll(() => {
-          cartoonRepository = MockCartoonRepository(),
-        });
+    setUpAll(() {
+      cartoonRepository = MockCartoonRepository();
+    });
 
     test('initial state is AllCartoonsLoading', () {
       var state = AllCartoonsLoading();

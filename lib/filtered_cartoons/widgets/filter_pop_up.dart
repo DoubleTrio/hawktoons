@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/widgets/cartoon_scroll_bar.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class FilterPopUp extends StatelessWidget {
@@ -15,22 +16,30 @@ class FilterPopUp extends StatelessWidget {
         maxChildSize: 1,
         expand: false,
         builder: (context, scroller) {
-          return SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                ButtonRowHeader(),
-                Divider(
-                  height: 1.5,
-                  color: theme.colorScheme.onBackground,
+          return Column(
+            children: [
+              ButtonRowHeader(),
+              Divider(
+                height: 1.5,
+                color: theme.colorScheme.onBackground,
+              ),
+              Expanded(
+                child: CartoonScrollBar(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(children: [
+                      const SizedBox(height: 12),
+                      FilterHeader(header: 'Units'),
+                      UnitButtonBar(units: units),
+                      const SizedBox(height: 12),
+                      FilterHeader(header: 'Sort By'),
+                      SortByTileListView(modes: modes),
+                      const SizedBox(height: 20),
+                    ]),
+                  ),
                 ),
-                const SizedBox(height: 12),
-                FilterHeader(header: 'Units'),
-                UnitButtonBar(units: units),
-                const SizedBox(height: 12),
-                FilterHeader(header: 'Sort By'),
-                SortByTileListView(modes: modes)
-              ],
-            ),
+              ),
+            ],
           );
         });
   }

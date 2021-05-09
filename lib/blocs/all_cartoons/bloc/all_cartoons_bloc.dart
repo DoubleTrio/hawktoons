@@ -31,6 +31,8 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
         .listen((cartoons) {
       add(UpdateAllCartoons(cartoons: cartoons));
     }, onError: (err) {
+          print(err);
+          print('------------');
       add(ErrorAllCartoonsEvent(err.toString()));
     });
   }

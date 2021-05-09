@@ -78,7 +78,8 @@ class CartoonCard extends StatelessWidget {
                           )
                         ])),
                     const SizedBox(height: 6),
-                    Text('Unit ${cartoon.unit.index}: ${cartoon.unit.name}'),
+                    Text(
+                        'Unit ${cartoon.units.first.index}: ${cartoon.units.first.name}'),
                     const SizedBox(height: 12),
                     Row(
                       children: [
@@ -98,6 +99,16 @@ class CartoonCard extends StatelessWidget {
                             softWrap: true,
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                            '${cartoon.units.map((u) => u.index).toList().join(', ')}',
+                            style: TextStyle(
+                                color: theme.colorScheme.onBackground
+                                    .withOpacity(0.2))),
                       ],
                     ),
                   ],

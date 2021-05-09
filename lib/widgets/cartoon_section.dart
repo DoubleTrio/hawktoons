@@ -5,7 +5,7 @@ class CartoonSection extends StatelessWidget {
       : super(key: key);
 
   final String title;
-  final String body;
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +24,7 @@ class CartoonSection extends StatelessWidget {
                 letterSpacing: 1.1),
           ),
           const SizedBox(height: 18),
-          Text(
-            body,
-            style: theme.textTheme.bodyText1!.copyWith(
-                color: theme.colorScheme.onSurface, letterSpacing: 1.05),
-          ),
+          body,
           const SizedBox(height: 12),
         ],
       ),

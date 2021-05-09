@@ -1,4 +1,6 @@
+export 'bullet_body.dart';
 export 'cartoon_body.dart';
+export 'cartoon_scroll_bar.dart';
 export 'cartoon_section.dart';
 export 'cartoon_section_divider.dart';
 export 'custom_icon_button.dart';

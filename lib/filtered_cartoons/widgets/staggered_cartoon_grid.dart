@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/widgets/cartoon_scroll_bar.dart';
 import 'package:history_app/widgets/page_header.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -43,9 +44,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
         } else {
           context.read<ScrollHeaderCubit>().onScrollBeforeHeader();
         }
-        if (maxScroll - currentScroll <= delta) {
-          print('here');
-        }
+        if (maxScroll - currentScroll <= delta) {}
       });
       _scrollController.position.isScrollingNotifier.addListener(() {
         if (!_scrollController.position.isScrollingNotifier.value) {
@@ -68,11 +67,9 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Expanded(
-      child: RawScrollbar(
-        radius: const Radius.circular(10),
-        thumbColor: colorScheme.onBackground.withOpacity(0.3),
+      child: CartoonScrollBar(
         child: Padding(
-          padding: EdgeInsets.all(6),
+          padding: const EdgeInsets.symmetric(horizontal: 6),
           child: StaggeredGridView.countBuilder(
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),

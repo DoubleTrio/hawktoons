@@ -11,6 +11,11 @@ class CartoonBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    var _bodyTextStyle = theme.textTheme.bodyText1!
+        .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       key: Key('CartoonBody_${cartoon.id}'),
@@ -32,13 +37,27 @@ class CartoonBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CartoonSection(title: 'PUBLISHED', body: cartoon.publishedString),
+              CartoonSection(
+                  title: 'PUBLISHED',
+                  body: Text(cartoon.publishedString, style: _bodyTextStyle)),
               CartoonSectionDivider(),
-              CartoonSection(title: 'AUTHOR', body: cartoon.author),
+              CartoonSection(
+                  title: 'AUTHOR',
+                  body: Text(cartoon.author, style: _bodyTextStyle)),
               CartoonSectionDivider(),
-              CartoonSection(title: 'UNIT', body: cartoon.unit.name),
+              CartoonSection(
+                title: 'UNITS',
+                body: Column(
+                  children: [
+                    ...cartoon.units.map((unit) =>
+                        BulletBody(text: unit.name, style: _bodyTextStyle))
+                  ],
+                ),
+              ),
               CartoonSectionDivider(),
-              CartoonSection(title: 'DESCRIPTION', body: cartoon.description),
+              CartoonSection(
+                  title: 'DESCRIPTION',
+                  body: Text(cartoon.description, style: _bodyTextStyle)),
             ],
           ),
         ),

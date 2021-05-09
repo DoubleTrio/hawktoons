@@ -77,7 +77,7 @@ class FilteredCartoonsBloc
       if (filter == Unit.all) {
         return true;
       } else {
-        return cartoon.unit == filter;
+        return cartoon.units.contains(filter);
       }
     }).toList();
   }
