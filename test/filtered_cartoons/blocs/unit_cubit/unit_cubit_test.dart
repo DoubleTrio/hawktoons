@@ -4,25 +4,25 @@ import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 void main() {
-  group('UnitCubit', () {
-    test('initial state is Unit.all', () {
-      expect(UnitCubit().state, equals(Unit.all));
+  group('TagCubit', () {
+    test('initial state is Tag.all', () {
+      expect(TagCubit().state, equals(Tag.all));
     });
 
-    blocTest<UnitCubit, Unit>(
-      'emits [Unit.worldHistory] when selectUnit is called',
-      build: () => UnitCubit(),
-      act: (cubit) => cubit.selectUnit(Unit.worldHistory),
-      expect: () => [equals(Unit.worldHistory)],
+    blocTest<TagCubit, Tag>(
+      'emits [Tag.worldHistory] when selectTag is called',
+      build: () => TagCubit(),
+      act: (cubit) => cubit.selectTag(Tag.worldHistory),
+      expect: () => [equals(Tag.worldHistory)],
     );
 
-    blocTest<UnitCubit, Unit>(
-      'emits [Unit.unit5] when initialized with '
-      'Unit.worldHistory and selectUnit is called',
-      build: () => UnitCubit(),
-      seed: () => Unit.worldHistory,
-      act: (cubit) => cubit.selectUnit(Unit.unit5),
-      expect: () => [equals(Unit.unit5)],
+    blocTest<TagCubit, Tag>(
+      'emits [Tag.tag5] when initialized with '
+      'Tag.worldHistory and selectTag is called',
+      build: () => TagCubit(),
+      seed: () => Tag.worldHistory,
+      act: (cubit) => cubit.selectTag(Tag.tag5),
+      expect: () => [equals(Tag.tag5)],
     );
   });
 }

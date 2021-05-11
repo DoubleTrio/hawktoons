@@ -16,7 +16,7 @@ class FilteredCartoonsLoaded extends FilteredCartoonsState {
   FilteredCartoonsLoaded(this.filteredCartoons, this.filter);
 
   final List<PoliticalCartoon> filteredCartoons;
-  final Unit filter;
+  final Tag filter;
 
   @override
   List<Object?> get props => [filteredCartoons, filter];

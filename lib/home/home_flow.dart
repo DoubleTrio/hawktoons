@@ -22,7 +22,7 @@ class HomeFlowPage extends Page {
               BlocProvider<TabBloc>(
                 create: (_) => TabBloc(),
               ),
-              BlocProvider<UnitCubit>(create: (_) => UnitCubit()),
+              BlocProvider<TagCubit>(create: (_) => TagCubit()),
               BlocProvider<ScrollHeaderCubit>(
                   create: (_) => ScrollHeaderCubit()),
               BlocProvider<SortByCubit>(create: (_) => SortByCubit()),
@@ -43,8 +43,8 @@ class HomeFlowPage extends Page {
                 return FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc);
               }),
             ], child: HomeFlow()),
-        transitionDuration: const Duration(milliseconds: 800),
-        reverseTransitionDuration: const Duration(milliseconds: 1200),
+        transitionDuration: const Duration(milliseconds: 500),
+        reverseTransitionDuration: const Duration(milliseconds: 500),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = const Offset(0.0, 1.0);
           var end = Offset.zero;
@@ -60,13 +60,7 @@ class HomeFlowPage extends Page {
 
           return SlideTransition(
             position: animation.drive(tween),
-            child: ScaleTransition(
-              scale: Tween<double>(
-                begin: 0.0,
-                end: 1,
-              ).animate(curveAnimation),
-              child: child,
-            ),
+            child: child,
           );
         });
   }
@@ -92,7 +86,7 @@ class HomeFlow extends StatelessWidget {
             if (shouldShowBottomSheet) {
               var _filteredCartoonsBloc =
                   BlocProvider.of<FilteredCartoonsBloc>(context);
-              var _unitCubit = BlocProvider.of<UnitCubit>(context);
+              var _tagCubit = BlocProvider.of<TagCubit>(context);
               var _sortByCubit = BlocProvider.of<SortByCubit>(context);
               var _allCartoonsBloc = BlocProvider.of<AllCartoonsBloc>(context);
               showModalBottomSheet(
@@ -103,7 +97,7 @@ class HomeFlow extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return MultiBlocProvider(providers: [
-                          BlocProvider.value(value: _unitCubit),
+                          BlocProvider.value(value: _tagCubit),
                           BlocProvider.value(value: _filteredCartoonsBloc),
                           BlocProvider.value(value: _sortByCubit),
                           BlocProvider.value(value: _allCartoonsBloc)

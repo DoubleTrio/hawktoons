@@ -20,7 +20,7 @@ class MockTabBloc extends MockBloc<TabEvent, AppTab> implements TabBloc {}
 class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
     implements AllCartoonsBloc {}
 
-class MockUnitCubit extends MockCubit<Unit> implements UnitCubit {}
+class MockTagCubit extends MockCubit<Tag> implements TagCubit {}
 
 class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 
@@ -37,7 +37,7 @@ void main() {
 
     late TabBloc tabBloc;
     late AllCartoonsBloc allCartoonsBloc;
-    late UnitCubit unitCubit;
+    late TagCubit tagCubit;
     late SortByCubit sortByCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late DailyCartoonBloc dailyCartoonBloc;
@@ -53,14 +53,14 @@ void main() {
       registerFallbackValue<DailyCartoonEvent>(LoadDailyCartoon());
       registerFallbackValue<TabEvent>(UpdateTab(AppTab.all));
       registerFallbackValue<AppTab>(AppTab.daily);
-      registerFallbackValue<Unit>(Unit.all);
+      registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
       await Firebase.initializeApp();
 
       tabBloc = MockTabBloc();
       allCartoonsBloc = MockAllCartoonsBloc();
-      unitCubit = MockUnitCubit();
+      tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       dailyCartoonBloc = MockDailyCartoonBloc();
@@ -93,7 +93,7 @@ void main() {
 
       await tester.pumpApp(MultiBlocProvider(providers: [
         BlocProvider.value(
-          value: unitCubit,
+          value: tagCubit,
         ),
         BlocProvider.value(
           value: tabBloc,
@@ -125,7 +125,7 @@ void main() {
     //
     //   await tester.pumpApp(MultiBlocProvider(providers: [
     //     BlocProvider.value(
-    //       value: unitCubit,
+    //       value: tagCubit,
     //     ),
     //     BlocProvider.value(
     //       value: tabBloc,

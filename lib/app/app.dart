@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:history_app/auth/auth.dart';
 import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/l10n/l10n.dart';
+import 'package:history_app/onboarding/onboarding.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class App extends StatelessWidget {
@@ -21,6 +21,7 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<OnboardingCubit>(create: (_) => OnboardingCubit()),
           BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
           BlocProvider<AuthenticationBloc>(
               create: (context) => AuthenticationBloc(
@@ -130,7 +131,7 @@ class AppView extends StatelessWidget {
           value: themeMode == ThemeMode.dark
               ? SystemUiOverlayStyle.light
               : SystemUiOverlayStyle.dark,
-          child: AuthFlow(),
+          child: OnboardingFlow(),
         ));
   }
 }

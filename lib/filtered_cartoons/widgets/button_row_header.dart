@@ -7,17 +7,17 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 class ButtonRowHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _selectedUnit = context.watch<UnitCubit>().state;
+    final _selectedTag = context.watch<TagCubit>().state;
     final _sortByMode = context.watch<SortByCubit>().state;
 
     void _filter() {
       Navigator.of(context).pop();
       context.read<AllCartoonsBloc>().add(LoadAllCartoons(_sortByMode));
-      context.read<FilteredCartoonsBloc>().add(UpdateFilter(_selectedUnit));
+      context.read<FilteredCartoonsBloc>().add(UpdateFilter(_selectedTag));
     }
 
     void _reset() {
-      context.read<UnitCubit>().selectUnit(Unit.all);
+      context.read<TagCubit>().selectTag(Tag.all);
       context.read<SortByCubit>().selectSortBy(SortByMode.latestPosted);
     }
 

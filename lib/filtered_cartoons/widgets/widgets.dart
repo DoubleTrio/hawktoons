@@ -6,5 +6,5 @@ export 'filter_pop_up.dart';
 export 'sort_by_tile.dart';
 export 'sort_by_tile_list_view.dart';
 export 'staggered_cartoon_grid.dart';
-export 'unit_button.dart';
-export 'unit_button_bar.dart';
+export 'tag_button.dart';
+export 'tag_button_bar.dart';

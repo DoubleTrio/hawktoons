@@ -46,11 +46,11 @@ class CartoonBody extends StatelessWidget {
                   body: Text(cartoon.author, style: _bodyTextStyle)),
               CartoonSectionDivider(),
               CartoonSection(
-                title: 'UNITS',
+                title: 'TAGS',
                 body: Column(
                   children: [
-                    ...cartoon.units.map((unit) =>
-                        BulletBody(text: unit.name, style: _bodyTextStyle))
+                    ...cartoon.tags.map((tag) =>
+                        BulletBody(text: tag.name, style: _bodyTextStyle))
                   ],
                 ),
               ),

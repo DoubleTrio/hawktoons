@@ -19,8 +19,8 @@ void main() {
       var cartoons = [MockPoliticalCartoon()];
       test('supports value comparisons', () {
         expect(
-          FilteredCartoonsLoaded(cartoons, Unit.unit1),
-          FilteredCartoonsLoaded(cartoons, Unit.unit1),
+          FilteredCartoonsLoaded(cartoons, Tag.tag1),
+          FilteredCartoonsLoaded(cartoons, Tag.tag1),
         );
       });
     });

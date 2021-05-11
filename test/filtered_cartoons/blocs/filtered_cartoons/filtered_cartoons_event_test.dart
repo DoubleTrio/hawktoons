@@ -10,8 +10,8 @@ void main() {
     group('UpdateFilter', () {
       test('supports value comparisons', () {
         expect(
-          UpdateFilter(Unit.unit1),
-          UpdateFilter(Unit.unit1),
+          UpdateFilter(Tag.tag1),
+          UpdateFilter(Tag.tag1),
         );
       });
     });

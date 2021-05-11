@@ -9,7 +9,7 @@ A Daily Political Cartoon App
 
 ## Running Tests 🧪
 
-To run all unit and widget tests use the following command:
+To run all tag and widget tests use the following command:
 
 ```sh
 $ flutter test --coverage --test-randomize-ordering-seed random

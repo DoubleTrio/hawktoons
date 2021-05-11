@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class UnitButton extends StatelessWidget {
-  UnitButton(
+class TagButton extends StatelessWidget {
+  TagButton(
       {Key? key,
-      required this.unit,
+      required this.tag,
       required this.onTap,
-      required this.selected})
+      required this.selected,
+      this.padding = 12})
       : super(key: key);
 
-  final Unit unit;
-  final VoidCallback onTap;
+  final Tag tag;
+  final VoidCallback? onTap;
   final bool selected;
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,12 @@ class UnitButton extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       child: Text(
-        unit.name,
+        tag.name,
         style: TextStyle(fontSize: 12, color: btnColor),
       ),
       style: ButtonStyle(
           padding:
-              MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(12)),
+              MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(padding)),
           foregroundColor: MaterialStateProperty.all<Color>(btnColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(

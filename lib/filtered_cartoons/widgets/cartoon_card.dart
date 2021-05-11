@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:history_app/utils/time_ago.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -60,7 +61,7 @@ class CartoonCard extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 color: cardColor,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('(${cartoon.publishedString})',
@@ -78,8 +79,12 @@ class CartoonCard extends StatelessWidget {
                           )
                         ])),
                     const SizedBox(height: 6),
-                    Text(
-                        'Unit ${cartoon.units.first.index}: ${cartoon.units.first.name}'),
+                    TagButton(
+                      tag: Tag.tag2,
+                      onTap: () {},
+                      selected: true,
+                      padding: 12,
+                    ),
                     const SizedBox(height: 12),
                     Row(
                       children: [
@@ -105,7 +110,7 @@ class CartoonCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                            '${cartoon.units.map((u) => u.index).toList().join(', ')}',
+                            '${cartoon.tags.map((u) => u.index).toList().join(', ')}',
                             style: TextStyle(
                                 color: theme.colorScheme.onBackground
                                     .withOpacity(0.2))),

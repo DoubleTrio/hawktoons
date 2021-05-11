@@ -40,7 +40,7 @@ void main() {
         date: Timestamp.now(),
         published: Timestamp.now(),
         description: 'Another Mock Political Cartoon',
-        units: [Unit.unit1],
+        tags: [Tag.tag1],
         downloadUrl: 'downloadurl');
 
     late DailyCartoonBloc dailyCartoonBloc;

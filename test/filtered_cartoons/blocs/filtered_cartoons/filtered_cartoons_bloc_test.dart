@@ -23,7 +23,7 @@ void main() {
           date: Timestamp.now(),
           published: Timestamp.now(),
           description: 'Another Mock Political Cartoon',
-          units: [Unit.unit1],
+          tags: [Tag.tag1],
           downloadUrl: 'downloadurl')
     ];
 
@@ -31,7 +31,7 @@ void main() {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
       registerFallbackValue<AllCartoonsEvent>(
           LoadAllCartoons(SortByMode.latestPosted));
-      registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Unit.unit1));
+      registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Tag.tag1));
       registerFallbackValue<FilteredCartoonsState>(FilteredCartoonsLoading());
       allCartoonsBloc = MockAllCartoonsBloc();
     });
@@ -48,7 +48,7 @@ void main() {
             .thenReturn(AllCartoonsLoaded(cartoons: politicalCartoons));
         var bloc = FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
         expect(bloc.state,
-            equals(FilteredCartoonsLoaded(politicalCartoons, Unit.all)));
+            equals(FilteredCartoonsLoaded(politicalCartoons, Tag.all)));
       });
 
       test('initial state is FilteredCartoonsLoading()', () {
@@ -69,14 +69,14 @@ void main() {
         return FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
       },
       act: (bloc) {},
-      expect: () => [FilteredCartoonsLoaded(politicalCartoons, Unit.all)],
+      expect: () => [FilteredCartoonsLoaded(politicalCartoons, Tag.all)],
       verify: (_) {},
     );
 
     blocTest<FilteredCartoonsBloc, FilteredCartoonsState>(
-      'emits [FilteredCartoonsLoaded($tempCartoons, Unit.unit1), '
-      'FilteredCartoonsLoaded($tempCartoons, Unit.all), '
-      'FilteredCartoonsLoaded($tempCartoons, Unit.unit3)] '
+      'emits [FilteredCartoonsLoaded($tempCartoons, Tag.tag1), '
+      'FilteredCartoonsLoaded($tempCartoons, Tag.all), '
+      'FilteredCartoonsLoaded($tempCartoons, Tag.tag3)] '
       'when UpdateFilter is added',
       build: () {
         when(() => allCartoonsBloc.stream).thenAnswer(
@@ -86,13 +86,13 @@ void main() {
         return FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
       },
       act: (bloc) => bloc
-        ..add(UpdateFilter(Unit.all))
-        ..add(UpdateFilter(Unit.unit3))
-        ..add(UpdateFilter(Unit.unit1)),
+        ..add(UpdateFilter(Tag.all))
+        ..add(UpdateFilter(Tag.tag3))
+        ..add(UpdateFilter(Tag.tag1)),
       expect: () => [
-        FilteredCartoonsLoaded(tempCartoons, Unit.all),
-        FilteredCartoonsLoaded([], Unit.unit3),
-        FilteredCartoonsLoaded(tempCartoons, Unit.unit1),
+        FilteredCartoonsLoaded(tempCartoons, Tag.all),
+        FilteredCartoonsLoaded([], Tag.tag3),
+        FilteredCartoonsLoaded(tempCartoons, Tag.tag1),
       ],
     );
   });

@@ -26,7 +26,7 @@ class FilteredCartoonsBloc
       return FilteredCartoonsLoading();
     } else if (allCartoonsBloc.state is AllCartoonsLoaded) {
       return FilteredCartoonsLoaded(
-          (allCartoonsBloc.state as AllCartoonsLoaded).cartoons, Unit.all);
+          (allCartoonsBloc.state as AllCartoonsLoaded).cartoons, Tag.all);
     }
     return FilteredCartoonsFailed(
         (allCartoonsBloc.state as AllCartoonsFailed).errorMessage);
@@ -57,27 +57,27 @@ class FilteredCartoonsBloc
     UpdateFilteredCartoons event,
   ) async* {
     // if (_allCartoonsBloc.state is AllCartoonsLoaded) {
-    final unitFilter = state is FilteredCartoonsLoaded
+    final tagFilter = state is FilteredCartoonsLoaded
         ? (state as FilteredCartoonsLoaded).filter
-        : Unit.all;
+        : Tag.all;
 
     yield FilteredCartoonsLoaded(
       _mapCartoonsToFilteredCartoons(
         (_allCartoonsBloc.state as AllCartoonsLoaded).cartoons,
-        unitFilter,
+        tagFilter,
       ),
-      unitFilter,
+      tagFilter,
     );
     // }
   }
 
   List<PoliticalCartoon> _mapCartoonsToFilteredCartoons(
-      List<PoliticalCartoon> cartoons, Unit filter) {
+      List<PoliticalCartoon> cartoons, Tag filter) {
     return cartoons.where((cartoon) {
-      if (filter == Unit.all) {
+      if (filter == Tag.all) {
         return true;
       } else {
-        return cartoon.units.contains(filter);
+        return cartoon.tags.contains(filter);
       }
     }).toList();
   }

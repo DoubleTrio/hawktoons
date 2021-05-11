@@ -5,7 +5,7 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class FilterPopUp extends StatelessWidget {
   final modes = SortByMode.values;
-  final units = Unit.values.sublist(1);
+  final tags = Tag.values.sublist(1);
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class FilterPopUp extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     child: Column(children: [
                       const SizedBox(height: 12),
-                      FilterHeader(header: 'Units'),
-                      UnitButtonBar(units: units),
+                      FilterHeader(header: 'Tags'),
+                      TagButtonBar(tags: tags),
                       const SizedBox(height: 12),
                       FilterHeader(header: 'Sort By'),
                       SortByTileListView(modes: modes),

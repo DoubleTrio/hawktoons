@@ -22,7 +22,7 @@ class MockFilteredCartoonsBloc
     extends MockBloc<FilteredCartoonsEvent, FilteredCartoonsState>
     implements FilteredCartoonsBloc {}
 
-class MockUnitCubit extends MockCubit<Unit> implements UnitCubit {}
+class MockTagCubit extends MockCubit<Tag> implements TagCubit {}
 
 class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 
@@ -51,13 +51,13 @@ void main() {
           date: Timestamp.now(),
           published: Timestamp.now(),
           description: 'Another Mock Political Cartoon',
-          units: [Unit.unit1],
+          tags: [Tag.tag1],
           downloadUrl: 'downloadurl')
     ];
 
     late AllCartoonsBloc allCartoonsBloc;
     late FilteredCartoonsBloc filteredCartoonsBloc;
-    late UnitCubit unitCubit;
+    late TagCubit tagCubit;
     late SortByCubit sortByCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late AuthenticationBloc authenticationBloc;
@@ -67,17 +67,17 @@ void main() {
       registerFallbackValue<AllCartoonsEvent>(
           LoadAllCartoons(SortByMode.latestPosted));
       registerFallbackValue<FilteredCartoonsState>(FilteredCartoonsLoading());
-      registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Unit.all));
+      registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Tag.all));
       registerFallbackValue<AuthenticationEvent>(Logout());
       registerFallbackValue<AuthenticationState>(Authenticated('testing'));
-      registerFallbackValue<Unit>(Unit.all);
+      registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
       await Firebase.initializeApp();
 
       allCartoonsBloc = MockAllCartoonsBloc();
       filteredCartoonsBloc = MockFilteredCartoonsBloc();
-      unitCubit = MockUnitCubit();
+      tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       authenticationBloc = MockAuthenticationBloc();
@@ -91,7 +91,7 @@ void main() {
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
       await tester.pumpApp(MultiBlocProvider(providers: [
-        BlocProvider.value(value: unitCubit),
+        BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: sortByCubit),
@@ -106,9 +106,9 @@ void main() {
         'Key(\'FilteredCartoonsPage_FilteredCartoonsLoaded\') '
         'when state is FilteredCartoonsLoaded', (tester) async {
       var filteredCartoonsState =
-          FilteredCartoonsLoaded(mockPoliticalCartoonList, Unit.all);
+          FilteredCartoonsLoaded(mockPoliticalCartoonList, Tag.all);
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
-      when(() => unitCubit.state).thenReturn(Unit.all);
+      when(() => tagCubit.state).thenReturn(Tag.all);
       when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
       when(() => allCartoonsBloc.state)
           .thenReturn(AllCartoonsLoaded(cartoons: [MockPoliticalCartoon()]));
@@ -119,7 +119,7 @@ void main() {
         () => tester.pumpApp(MultiBlocProvider(providers: [
           BlocProvider.value(value: allCartoonsBloc),
           BlocProvider.value(value: filteredCartoonsBloc),
-          BlocProvider.value(value: unitCubit),
+          BlocProvider.value(value: tagCubit),
           BlocProvider.value(value: sortByCubit),
           BlocProvider.value(value: showBottomSheetCubit),
           BlocProvider.value(value: authenticationBloc)
@@ -140,7 +140,7 @@ void main() {
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
       await tester.pumpApp(MultiBlocProvider(providers: [
-        BlocProvider.value(value: unitCubit),
+        BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: sortByCubit),
@@ -160,17 +160,17 @@ void main() {
 // await tester.tap(find.byKey(resetButtonKey));
 //
 // verifyInOrder([
-//   () => unitCubit.selectUnit(Unit.all),
+//   () => tagCubit.selectTag(Tag.all),
 //   () => sortByCubit.selectSortBy(SortByMode.latestPosted)
 // ]);
 //
-// var unitFiveButtonKey = const Key('Unit_5_Button');
-// await tester.tap(find.byKey(unitFiveButtonKey));
+// var tagFiveButtonKey = const Key('Tag_5_Button');
+// await tester.tap(find.byKey(tagFiveButtonKey));
 // await tester.pumpAndSettle();
 //
-// verify(() => unitCubit.selectUnit(Unit.values[5])).called(1);
+// verify(() => tagCubit.selectTag(Tag.values[5])).called(1);
 //
-// await tester.tap(find.byKey(unitFiveButtonKey));
+// await tester.tap(find.byKey(tagFiveButtonKey));
 // await tester.pumpAndSettle();
 //
 // var sortByModeKey = const Key('SortByMode_2');
@@ -184,5 +184,5 @@ void main() {
 // await tester.tap(find.byKey(applyFilterButtonKey));
 // await tester.pumpAndSettle();
 //
-// verify(() => filteredCartoonsBloc.add(UpdateFilter(Unit.all))).called(1);
+// verify(() => filteredCartoonsBloc.add(UpdateFilter(Tag.all))).called(1);
 // expect(find.byType(FilterPopUp), findsNothing);
