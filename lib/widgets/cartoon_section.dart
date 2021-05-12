@@ -19,9 +19,10 @@ class CartoonSection extends StatelessWidget {
           Text(
             title,
             style: theme.textTheme.bodyText1!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onBackground,
-                letterSpacing: 1.1),
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onBackground,
+              letterSpacing: 1.1
+            ),
           ),
           const SizedBox(height: 18),
           body,

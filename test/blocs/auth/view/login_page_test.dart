@@ -20,8 +20,8 @@ void main() {
   group('LoginPage', () {
     setupCloudFirestoreMocks();
 
-    var LoggingInKey = const Key('LoginPage_LoggingIn');
-    var unauthenticatedKey = const Key('LoginPage_Unauthenticated');
+    var loggingInKey = const Key('LoginPage_LoggingIn');
+    var unauthenticatedKey = const Key('LoginPage_LoginError');
 
     var signInAnonymouslyButtonKey =
         const Key('LoginPage_SignInAnonymouslyButton');
@@ -50,13 +50,13 @@ void main() {
           ),
         ], child: LoginScreen()),
       );
-      expect(find.byKey(LoggingInKey), findsOneWidget);
+      expect(find.byKey(loggingInKey), findsOneWidget);
     });
 
     testWidgets(
-        'finds Key(\'LoginPage_Unauthenticated\') '
-        'when state is Unauthenticated', (tester) async {
-      var state = Unauthenticated();
+        'finds Key(\'LoginPage_LoginError\') '
+        'when state is LoginError', (tester) async {
+      var state = LoginError();
 
       when(() => authenticationBloc.state).thenReturn(state);
       await tester.pumpApp(

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class SortByTile extends StatelessWidget {
   SortByTile(
-      {Key? key,
-      required this.selected,
-      required this.onTap,
-      required this.header})
-      : super(key: key);
+    {Key? key,
+    required this.selected,
+    required this.onTap,
+    required this.header}
+  ) : super(key: key);
 
   final bool selected;
   final VoidCallback onTap;
@@ -24,7 +24,6 @@ class SortByTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12 * 2),
         child: Column(
           children: [
-            // const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.only(top: 15, bottom: 5),
               width: double.infinity,
@@ -32,11 +31,13 @@ class SortByTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(header,
-                      textAlign: TextAlign.start,
-                      style: theme.textTheme.subtitle1!.copyWith(
-                          color: selected
-                              ? colorScheme.primary
-                              : colorScheme.onSurface)),
+                    textAlign: TextAlign.start,
+                    style: theme.textTheme.subtitle1!.copyWith(
+                      color: selected
+                        ? colorScheme.primary
+                        : colorScheme.onSurface
+                    )
+                  ),
                   if (selected)
                     Icon(
                       Icons.check,

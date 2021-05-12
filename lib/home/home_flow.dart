@@ -14,55 +14,53 @@ class HomeFlowPage extends Page {
   @override
   Route createRoute(BuildContext context) {
     final _firebaseCartoonRepo =
-        context.read<FirestorePoliticalCartoonRepository>();
+      context.read<FirestorePoliticalCartoonRepository>();
     return PageRouteBuilder(
-        settings: this,
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            MultiBlocProvider(providers: [
-              BlocProvider<TabBloc>(
-                create: (_) => TabBloc(),
-              ),
-              BlocProvider<TagCubit>(create: (_) => TagCubit()),
-              BlocProvider<ScrollHeaderCubit>(
-                  create: (_) => ScrollHeaderCubit()),
-              BlocProvider<SortByCubit>(create: (_) => SortByCubit()),
-              BlocProvider(create: (_) => SelectCartoonCubit()),
-              BlocProvider(create: (_) => ShowBottomSheetCubit()),
-              BlocProvider<DailyCartoonBloc>(
-                  create: (_) => DailyCartoonBloc(
-                      dailyCartoonRepository: _firebaseCartoonRepo)
-                    ..add(LoadDailyCartoon())),
-              BlocProvider<AllCartoonsBloc>(create: (context) {
-                final sortByMode = BlocProvider.of<SortByCubit>(context).state;
-                return AllCartoonsBloc(cartoonRepository: _firebaseCartoonRepo)
-                  ..add(LoadAllCartoons(sortByMode));
-              }),
-              BlocProvider(create: (context) {
-                final _allCartoonsBloc =
-                    BlocProvider.of<AllCartoonsBloc>(context);
-                return FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc);
-              }),
-            ], child: HomeFlow()),
-        transitionDuration: const Duration(milliseconds: 500),
-        reverseTransitionDuration: const Duration(milliseconds: 500),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          var begin = const Offset(0.0, 1.0);
-          var end = Offset.zero;
-          var curve = Curves.ease;
+      settings: this,
+      pageBuilder: (context, animation, secondaryAnimation) =>
+        MultiBlocProvider(providers: [
+          BlocProvider<TabBloc>(
+            create: (_) => TabBloc(),
+          ),
+          BlocProvider<TagCubit>(create: (_) => TagCubit()),
+          BlocProvider<ScrollHeaderCubit>(
+            create: (_) => ScrollHeaderCubit()),
+          BlocProvider<SortByCubit>(create: (_) => SortByCubit()),
+          BlocProvider(create: (_) => SelectCartoonCubit()),
+          BlocProvider(create: (_) => ShowBottomSheetCubit()),
+          BlocProvider<DailyCartoonBloc>(
+            create: (_) => DailyCartoonBloc(
+              dailyCartoonRepository: _firebaseCartoonRepo)
+                ..add(LoadDailyCartoon())),
+          BlocProvider<AllCartoonsBloc>(create: (context) {
+            final sortByMode = BlocProvider.of<SortByCubit>(context).state;
+            return AllCartoonsBloc(cartoonRepository: _firebaseCartoonRepo)
+              ..add(LoadAllCartoons(sortByMode));
+          }),
+          BlocProvider(create: (context) {
+            final _allCartoonsBloc =
+              BlocProvider.of<AllCartoonsBloc>(context);
+            return FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc);
+          }),
+        ],
+          child: HomeFlow()
+      ),
+      transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = const Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
 
-          var tween = Tween(begin: begin, end: end)
-            ..chain(CurveTween(curve: curve));
+        var tween = Tween(begin: begin, end: end)
+          ..chain(CurveTween(curve: curve));
 
-          var curveAnimation = CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeInCubic,
-          );
-
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        });
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      }
+    );
   }
 }
 
@@ -77,10 +75,10 @@ class HomeFlow extends StatelessWidget {
       },
       child: Scaffold(
         bottomNavigationBar: TabSelector(
-            activeTab: activeTab,
-            onTabSelected: (tab) => {
-                  BlocProvider.of<TabBloc>(context).add(UpdateTab(tab)),
-                }),
+          activeTab: activeTab,
+          onTabSelected: (tab) =>
+            BlocProvider.of<TabBloc>(context).add(UpdateTab(tab)),
+        ),
         body: BlocListener<ShowBottomSheetCubit, bool>(
           listener: (context, shouldShowBottomSheet) {
             if (shouldShowBottomSheet) {
@@ -90,35 +88,37 @@ class HomeFlow extends StatelessWidget {
               var _sortByCubit = BlocProvider.of<SortByCubit>(context);
               var _allCartoonsBloc = BlocProvider.of<AllCartoonsBloc>(context);
               showModalBottomSheet(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(20))),
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (context) {
-                        return MultiBlocProvider(providers: [
-                          BlocProvider.value(value: _tagCubit),
-                          BlocProvider.value(value: _filteredCartoonsBloc),
-                          BlocProvider.value(value: _sortByCubit),
-                          BlocProvider.value(value: _allCartoonsBloc)
-                        ], child: FilterPopUp());
-                      })
-                  .whenComplete(
-                      () => context.read<ShowBottomSheetCubit>().closeSheet());
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return MultiBlocProvider(providers: [
+                    BlocProvider.value(value: _tagCubit),
+                    BlocProvider.value(value: _filteredCartoonsBloc),
+                    BlocProvider.value(value: _sortByCubit),
+                    BlocProvider.value(value: _allCartoonsBloc)
+                  ], child: FilterPopUp());
+                }).whenComplete(
+                  () => context.read<ShowBottomSheetCubit>().closeSheet()
+              );
             }
           },
           child: FlowBuilder<AppTab>(
-              state: context.watch<TabBloc>().state,
-              onGeneratePages: (AppTab state, pages) {
-                switch (state) {
-                  case AppTab.daily:
-                    return [DailyCartoonPage()];
-                  case AppTab.all:
-                    return [FilteredFlowPage()];
-                  default:
-                    return [DailyCartoonPage()];
-                }
-              }),
+            state: context.watch<TabBloc>().state,
+            onGeneratePages: (AppTab state, pages) {
+              switch (state) {
+                case AppTab.daily:
+                  return [DailyCartoonPage()];
+                case AppTab.all:
+                  return [FilteredFlowPage()];
+                default:
+                  return [DailyCartoonPage()];
+              }
+            }
+          ),
         ),
       ),
     );

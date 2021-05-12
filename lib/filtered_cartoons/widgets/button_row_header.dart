@@ -5,6 +5,7 @@ import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class ButtonRowHeader extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final _selectedTag = context.watch<TagCubit>().state;
@@ -26,10 +27,12 @@ class ButtonRowHeader extends StatelessWidget {
     final onSurface = colorScheme.onSurface;
 
     final btnStyle = ButtonStyle(
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20.0),
-    )));
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        )
+      )
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -38,21 +41,23 @@ class ButtonRowHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton(
-              key: const Key('ButtonRowHeader_ResetButton'),
-              onPressed: _reset,
-              style: btnStyle,
-              child: Text(
-                'Reset',
-                style: TextStyle(color: onSurface),
-              )),
+            key: const Key('ButtonRowHeader_ResetButton'),
+            onPressed: _reset,
+            style: btnStyle,
+            child: Text(
+              'Reset',
+              style: TextStyle(color: onSurface),
+            )
+          ),
           Row(
             children: [
               Text(
                 'Filters',
                 style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: onSurface),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: onSurface
+                ),
               ),
               const SizedBox(width: 6),
               Icon(Icons.filter_list, color: onSurface),

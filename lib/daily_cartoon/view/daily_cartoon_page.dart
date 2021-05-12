@@ -21,7 +21,7 @@ class DailyCartoonPage extends Page {
     return PageRouteBuilder(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
-          DailyCartoonScreen(),
+        DailyCartoonScreen(),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
@@ -36,7 +36,7 @@ class DailyCartoonScreen extends StatelessWidget {
       var state = bloc.state;
       if (state is DailyCartoonLoaded) {
         return DateFormat.yMMMMEEEEd(Platform.localeName)
-            .format(state.dailyCartoon.date.toDate());
+          .format(state.dailyCartoon.date.toDate());
       }
       return ' ';
     });
@@ -53,8 +53,6 @@ class DailyCartoonScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
       ),
     );
-    // },
-    // );
   }
 }
 
@@ -84,7 +82,7 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
         );
       } else {
         return const SizedBox(
-            key: Key('DailyCartoonScreen_DailyCartoonFailed'));
+          key: Key('DailyCartoonScreen_DailyCartoonFailed'));
       }
     });
   }

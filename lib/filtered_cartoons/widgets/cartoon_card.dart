@@ -65,19 +65,22 @@ class CartoonCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('(${cartoon.publishedString})',
-                        style: TextStyle(color: onBackground)),
+                      style: TextStyle(color: onBackground)
+                    ),
                     const SizedBox(height: 8),
                     RichText(
-                        text: TextSpan(
-                            text: 'By ',
-                            style: TextStyle(color: onSurface),
-                            children: [
+                      text: TextSpan(
+                        text: 'By ',
+                        style: TextStyle(color: onSurface),
+                        children: [
                           TextSpan(
                             text: cartoon.author,
                             style: TextStyle(
-                                fontStyle: FontStyle.italic, color: onSurface),
+                              fontStyle: FontStyle.italic, color: onSurface),
                           )
-                        ])),
+                        ]
+                      )
+                    ),
                     const SizedBox(height: 6),
                     TagButton(
                       tag: Tag.tag2,
@@ -97,9 +100,9 @@ class CartoonCard extends StatelessWidget {
                         Flexible(
                           child: Text(
                             TimeAgo(
-                                    l10n: context.l10n,
-                                    locale: Platform.localeName)
-                                .timeAgoSinceDate(cartoon.date),
+                              l10n: context.l10n,
+                              locale: Platform.localeName
+                            ).timeAgoSinceDate(cartoon.date),
                             style: TextStyle(color: onBackground),
                             softWrap: true,
                           ),
@@ -110,10 +113,13 @@ class CartoonCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                            '${cartoon.tags.map((u) => u.index).toList().join(', ')}',
-                            style: TextStyle(
-                                color: theme.colorScheme.onBackground
-                                    .withOpacity(0.2))),
+                          '${cartoon.tags.map((tag) => tag.index)
+                              .toList().join(', ')}',
+                          style: TextStyle(
+                            color: theme.colorScheme.onBackground
+                            .withOpacity(0.2)
+                          )
+                        ),
                       ],
                     ),
                   ],

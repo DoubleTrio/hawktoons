@@ -33,9 +33,9 @@ class Authenticated extends AuthenticationState {
   List<Object> get props => [userId];
 }
 
-class Unauthenticated extends AuthenticationState {
+class LoginError extends AuthenticationState {
   @override
-  String toString() => 'Unauthenticated';
+  String toString() => 'LoginError';
 
   @override
   List<Object> get props => [];

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TestPagePage extends Page {
-  TestPagePage() : super(key: const ValueKey('DailyCartoonPage'));
+  TestPagePage() : super(key: const ValueKey('TestPagePage'));
 
   @override
   Route createRoute(BuildContext context) {

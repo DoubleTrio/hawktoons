@@ -65,7 +65,6 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     return Expanded(
       child: CartoonScrollBar(
         child: Padding(

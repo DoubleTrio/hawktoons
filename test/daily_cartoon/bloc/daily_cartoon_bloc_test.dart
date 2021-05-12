@@ -14,9 +14,9 @@ void main() {
     late FirestorePoliticalCartoonRepository politicalCartoonRepository;
     var politicalCartoon = MockPoliticalCartoon();
 
-    setUpAll(() => {
-          politicalCartoonRepository = MockCartoonRepository(),
-        });
+    setUpAll(() {
+      politicalCartoonRepository = MockCartoonRepository();
+    });
 
     test('initial state is DailyCartoonInProgress()', () {
       var state = DailyCartoonInProgress();

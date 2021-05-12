@@ -46,7 +46,7 @@ void main() {
             });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-        'emits [Unauthenticated] '
+        'emits [LoginError] '
         'when SignInAnonymously is added and authentication is not successful',
         build: () {
           when(userRepository.isAuthenticated)
@@ -57,7 +57,7 @@ void main() {
           return AuthenticationBloc(userRepository: userRepository);
         },
         act: (bloc) => bloc.add(SignInAnonymously()),
-        expect: () => [LoggingIn(), Unauthenticated()],
+        expect: () => [LoggingIn(), LoginError()],
         verify: (_) => {
               verify(userRepository.isAuthenticated).called(1),
               verify(userRepository.authenticate).called(1),

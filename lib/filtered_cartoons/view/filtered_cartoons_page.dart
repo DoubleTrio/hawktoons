@@ -54,7 +54,7 @@ class FilteredCartoonsScreen extends StatelessWidget {
               if (state is FilteredCartoonsLoading) {
                 return Column(
                   key:
-                      const Key('FilteredCartoonsPage_FilteredCartoonsLoading'),
+                    const Key('FilteredCartoonsPage_FilteredCartoonsLoading'),
                   children: [
                     const SizedBox(height: 24),
                     LoadingIndicator(),
@@ -71,7 +71,7 @@ class FilteredCartoonsScreen extends StatelessWidget {
                 );
               } else {
                 return const Text('Error',
-                    key: Key('FilteredCartoonsPage_FilteredCartoonsFailed'));
+                  key: Key('FilteredCartoonsPage_FilteredCartoonsFailed'));
               }
             },
           ),

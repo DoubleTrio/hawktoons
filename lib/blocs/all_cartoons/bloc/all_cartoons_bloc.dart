@@ -6,7 +6,7 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   AllCartoonsBloc({required this.cartoonRepository})
-      : super(AllCartoonsLoading());
+    : super(AllCartoonsLoading());
 
   late StreamSubscription _cartoonsSubscription;
   final PoliticalCartoonRepository cartoonRepository;
@@ -31,8 +31,6 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
         .listen((cartoons) {
       add(UpdateAllCartoons(cartoons: cartoons));
     }, onError: (err) {
-          print(err);
-          print('------------');
       add(ErrorAllCartoonsEvent(err.toString()));
     });
   }

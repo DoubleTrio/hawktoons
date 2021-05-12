@@ -10,11 +10,13 @@ class PageHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       width: double.infinity,
-      child: Text(header,
-          style: Theme.of(context)
-              .textTheme
-              .headline3!
-              .copyWith(fontWeight: FontWeight.bold)),
+      child: Text(
+        header,
+        style: Theme.of(context)
+          .textTheme
+          .headline3!
+          .copyWith(fontWeight: FontWeight.bold)
+      ),
     );
   }
 }

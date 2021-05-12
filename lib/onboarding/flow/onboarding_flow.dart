@@ -8,9 +8,10 @@ class OnboardingFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<bool>(
-        state: context.watch<OnboardingCubit>().state,
-        onGeneratePages: (onboardingSeen, context) {
-          return [onboardingSeen ? AuthFlowPage() : OnBoardingPage()];
-        });
+      state: context.watch<OnboardingCubit>().state,
+      onGeneratePages: (onboardingSeen, context) {
+        return [onboardingSeen ? AuthFlowPage() : OnBoardingPage()];
+      }
+    );
   }
 }

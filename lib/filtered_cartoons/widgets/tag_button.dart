@@ -3,12 +3,12 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButton extends StatelessWidget {
   TagButton(
-      {Key? key,
-      required this.tag,
-      required this.onTap,
-      required this.selected,
-      this.padding = 12})
-      : super(key: key);
+    {Key? key,
+    required this.tag,
+    required this.onTap,
+    required this.selected,
+    this.padding = 12}
+  ) : super(key: key);
 
   final Tag tag;
   final VoidCallback? onTap;
@@ -29,13 +29,16 @@ class TagButton extends StatelessWidget {
         style: TextStyle(fontSize: 12, color: btnColor),
       ),
       style: ButtonStyle(
-          padding:
-              MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(padding)),
-          foregroundColor: MaterialStateProperty.all<Color>(btnColor),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(color: btnColor)))),
+        padding:
+          MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(padding)),
+        foregroundColor: MaterialStateProperty.all<Color>(btnColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+            side: BorderSide(color: btnColor)
+          )
+        )
+      ),
     );
   }
 }

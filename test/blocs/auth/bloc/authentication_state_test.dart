@@ -26,11 +26,11 @@ void main() {
       });
     });
 
-    group('Unauthenticated', () {
+    group('LoginError', () {
       test('supports value comparisons', () {
         expect(
-          Unauthenticated(),
-          Unauthenticated(),
+          LoginError(),
+          LoginError(),
         );
       });
     });

@@ -37,9 +37,10 @@ class AuthFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<AuthenticationState>(
-        state: context.watch<AuthenticationBloc>().state,
-        onGeneratePages: (state, pages) {
-          return [LoginPage(), if (state is Authenticated) HomeFlowPage()];
-        });
+      state: context.watch<AuthenticationBloc>().state,
+      onGeneratePages: (state, pages) {
+        return [LoginPage(), if (state is Authenticated) HomeFlowPage()];
+      }
+    );
   }
 }

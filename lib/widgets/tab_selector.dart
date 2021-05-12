@@ -13,43 +13,50 @@ class TabSelector extends StatelessWidget {
   final AppTab activeTab;
   final Function(AppTab) onTabSelected;
 
+  final int totalTabs = AppTab.values.length;
+
   @override
   Widget build(BuildContext context) {
-    final middleWidth = 80.0;
-    final width = MediaQuery.of(context).size.width / AppTab.values.length -
-        (middleWidth / AppTab.values.length);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final middleTabWidth = screenWidth * 0.20;
+    final width = screenWidth / totalTabs - (middleTabWidth / totalTabs);
     return Row(children: [
       CustomBottomTabItem(
-          icon: const Icon(Icons.article_outlined,
-              key: Key('TabSelector_DailyTab')),
-          label: 'Daily',
-          width: width,
-          onTap: () => onTabSelected(AppTab.daily),
-          selected: AppTab.daily == activeTab),
+        key: const Key('TabSelector_DailyTab'),
+        icon: const Icon(Icons.article_outlined),
+        label: 'Daily',
+        width: width,
+        onTap: () => onTabSelected(AppTab.daily),
+        selected: AppTab.daily == activeTab
+      ),
       CustomBottomTabItem(
-          icon: const Icon(Icons.lightbulb_outline),
-          width: middleWidth,
-          onTap: () => context.read<ThemeCubit>().changeTheme(),
-          selected: false),
+        key: const Key('TabSelector_ChangeTheme'),
+        icon: const Icon(Icons.lightbulb_outline),
+        width: middleTabWidth,
+        onTap: () => context.read<ThemeCubit>().changeTheme(),
+        selected: false
+      ),
       CustomBottomTabItem(
-          icon: const Icon(Icons.list, key: Key('TabSelector_AllTab')),
-          label: 'All',
-          width: width,
-          onTap: () => onTabSelected(AppTab.all),
-          selected: AppTab.all == activeTab),
+        key: const Key('TabSelector_AllTab'),
+        icon: const Icon(Icons.list),
+        label: 'All',
+        width: width,
+        onTap: () => onTabSelected(AppTab.all),
+        selected: AppTab.all == activeTab
+      ),
     ]);
   }
 }
 
 class CustomBottomTabItem extends StatelessWidget {
-  CustomBottomTabItem(
-      {Key? key,
-      required this.icon,
-      this.label,
-      required this.width,
-      required this.onTap,
-      required this.selected})
-      : super(key: key);
+  CustomBottomTabItem({
+    Key? key,
+    required this.icon,
+    this.label,
+    required this.width,
+    required this.onTap,
+    required this.selected}
+    ) : super(key: key);
 
   final Widget icon;
   final String? label;
@@ -61,28 +68,30 @@ class CustomBottomTabItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final height = MediaQuery.of(context).size.height * 0.07;
 
     return InkWell(
       onTap: onTap,
       child: Ink(
         color: theme.bottomNavigationBarTheme.backgroundColor,
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.07,
+          height: height,
           width: width,
           decoration: selected
-              ? BoxDecoration(
-                  border: Border(
-                      top: BorderSide(width: 3, color: colorScheme.primary)))
-              : const BoxDecoration(),
+            ? BoxDecoration(
+              border: Border(
+                top: BorderSide(width: 3, color: colorScheme.primary)))
+            : const BoxDecoration(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
               if (label != null)
                 Text(label!,
-                    style: selected
-                        ? theme.bottomNavigationBarTheme.selectedLabelStyle
-                        : theme.bottomNavigationBarTheme.unselectedLabelStyle),
+                  style: selected
+                    ? theme.bottomNavigationBarTheme.selectedLabelStyle
+                    : theme.bottomNavigationBarTheme.unselectedLabelStyle
+                ),
             ],
           ),
         ),

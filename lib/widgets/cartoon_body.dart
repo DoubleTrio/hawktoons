@@ -14,7 +14,7 @@ class CartoonBody extends StatelessWidget {
     final theme = Theme.of(context);
 
     var _bodyTextStyle = theme.textTheme.bodyText1!
-        .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05);
+      .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -27,7 +27,8 @@ class CartoonBody extends StatelessWidget {
             child: Container(
               child: CachedNetworkImage(imageUrl: cartoon.downloadUrl),
               constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height / 2),
+                maxHeight: MediaQuery.of(context).size.height / 2
+              ),
             ),
           ),
         ),
@@ -38,26 +39,30 @@ class CartoonBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CartoonSection(
-                  title: 'PUBLISHED',
-                  body: Text(cartoon.publishedString, style: _bodyTextStyle)),
+                title: 'PUBLISHED',
+                body: Text(cartoon.publishedString, style: _bodyTextStyle)
+              ),
               CartoonSectionDivider(),
               CartoonSection(
-                  title: 'AUTHOR',
-                  body: Text(cartoon.author, style: _bodyTextStyle)),
+                title: 'AUTHOR',
+                body: Text(cartoon.author, style: _bodyTextStyle)
+              ),
               CartoonSectionDivider(),
               CartoonSection(
                 title: 'TAGS',
                 body: Column(
                   children: [
                     ...cartoon.tags.map((tag) =>
-                        BulletBody(text: tag.name, style: _bodyTextStyle))
+                      BulletBody(text: tag.name, style: _bodyTextStyle)
+                    )
                   ],
                 ),
               ),
               CartoonSectionDivider(),
               CartoonSection(
-                  title: 'DESCRIPTION',
-                  body: Text(cartoon.description, style: _bodyTextStyle)),
+                title: 'DESCRIPTION',
+                body: Text(cartoon.description, style: _bodyTextStyle)
+              ),
             ],
           ),
         ),

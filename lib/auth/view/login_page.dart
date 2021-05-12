@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
+      body: SafeArea(
       child: Column(
         children: [
           const Text(
@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
               key: const Key('LoginPage_SignInAnonymouslyButton'),
               child: const Text('Sign in anonymously'),
               onPressed: () =>
-                  context.read<AuthenticationBloc>().add(SignInAnonymously()),
+                context.read<AuthenticationBloc>().add(SignInAnonymously()),
             ),
           ),
           BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -46,8 +46,8 @@ class LoginScreen extends StatelessWidget {
               }
 
               return const Text(
-                'Unauthenticated',
-                key: Key('LoginPage_Unauthenticated'),
+                'Login Error',
+                key: Key('LoginPage_LoginError'),
               );
             },
           ),

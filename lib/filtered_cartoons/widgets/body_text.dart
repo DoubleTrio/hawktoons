@@ -11,7 +11,7 @@ class BodyText extends StatelessWidget {
     return Text(
       text,
       style: theme.textTheme.bodyText1!
-          .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05),
+        .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05),
     );
   }
 }

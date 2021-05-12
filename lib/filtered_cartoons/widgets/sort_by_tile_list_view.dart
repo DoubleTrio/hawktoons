@@ -17,16 +17,18 @@ class SortByTileListView extends StatelessWidget {
     };
 
     return ListView.builder(
-        physics: const ClampingScrollPhysics(),
-        itemCount: modes.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          var mode = modes[index];
-          return SortByTile(
-              key: Key('SortByMode_${mode.index}'),
-              selected: mode == selectedSortByMode,
-              onTap: () => onSortByTileTap(mode),
-              header: mode.header);
-        });
+      physics: const ClampingScrollPhysics(),
+      itemCount: modes.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        var mode = modes[index];
+        return SortByTile(
+          key: Key('SortByMode_${mode.index}'),
+          selected: mode == selectedSortByMode,
+          onTap: () => onSortByTileTap(mode),
+          header: mode.header
+        );
+      }
+    );
   }
 }

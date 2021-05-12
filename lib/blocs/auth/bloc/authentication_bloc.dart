@@ -33,7 +33,7 @@ class AuthenticationBloc
       final userId = await userRepository.getUserId();
       yield Authenticated(userId);
     } on Exception {
-      yield Unauthenticated();
+      yield LoginError();
     }
   }
 

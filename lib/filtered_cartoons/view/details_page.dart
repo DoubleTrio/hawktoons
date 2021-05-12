@@ -7,7 +7,7 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DetailsPage extends Page {
   DetailsPage({required this.cartoon})
-      : super(key: const ValueKey('DetailsPage'));
+    : super(key: const ValueKey('DetailsPage'));
 
   final PoliticalCartoon cartoon;
 
@@ -16,7 +16,7 @@ class DetailsPage extends Page {
     return PageRouteBuilder(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
-          DetailsScreen(cartoon: cartoon),
+        DetailsScreen(cartoon: cartoon),
       transitionDuration: const Duration(milliseconds: 500),
       reverseTransitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -40,12 +40,6 @@ class DetailsScreen extends StatelessWidget {
 
   final PoliticalCartoon cartoon;
 
-  static MaterialPage page({required PoliticalCartoon selectedCartoon}) {
-    return MaterialPage(
-        child: DetailsScreen(cartoon: selectedCartoon),
-        key: const ValueKey('DetailsScreenKey'));
-  }
-
   @override
   Widget build(BuildContext context) {
     void _deselectCartoon() {
@@ -53,14 +47,17 @@ class DetailsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        appBar: AppBar(
-            leading: CustomIconButton(
-          key: const Key('DetailsPage_BackButton'),
-          icon: const Icon(Icons.arrow_back),
-          onPressed: _deselectCartoon,
-        )),
-        body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: CartoonBody(cartoon: cartoon, addImagePadding: false)));
+      appBar: AppBar(
+        leading: CustomIconButton(
+        key: const Key('DetailsPage_BackButton'),
+        icon: const Icon(Icons.arrow_back),
+        onPressed: _deselectCartoon,
+        )
+      ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: CartoonBody(cartoon: cartoon, addImagePadding: false)
+      )
+    );
   }
 }

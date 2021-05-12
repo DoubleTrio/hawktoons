@@ -25,8 +25,9 @@ void main() async {
   };
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.black,
-      statusBarColor: Colors.transparent));
+    systemNavigationBarColor: Colors.black,
+    statusBarColor: Colors.transparent
+  ));
 
   runZonedGuarded(
     () => runApp(const App()),

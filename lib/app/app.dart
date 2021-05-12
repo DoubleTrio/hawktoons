@@ -41,20 +41,14 @@ class AppView extends StatelessWidget {
     final themeMode = context.select((ThemeCubit cubit) => cubit.state);
 
     var lightPrimary = const Color(4284612846);
-    var lightColorScheme = ColorScheme(
-        primary: lightPrimary,
-        primaryVariant: lightPrimary.withOpacity(0.8),
-        secondary: Colors.yellow,
-        secondaryVariant: Colors.yellow.withOpacity(0.8),
-        surface: Colors.white,
-        background: Colors.white,
-        error: const Color(4289724448),
-        onPrimary: Colors.white,
-        onSecondary: Colors.white,
-        onSurface: Colors.black,
-        onBackground: Colors.black38,
-        onError: Colors.white,
-        brightness: Brightness.light);
+
+    var lightColorScheme = const ColorScheme.light().copyWith(
+      primary: lightPrimary,
+      primaryVariant: lightPrimary.withOpacity(0.8),
+      secondary: Colors.yellow,
+      secondaryVariant: Colors.yellow.withOpacity(0.8),
+      onBackground: Colors.black38,
+    );
 
     var darkPrimary = const Color(0xFFDEA7FF);
     var darkColorScheme = const ColorScheme.dark().copyWith(
@@ -66,72 +60,73 @@ class AppView extends StatelessWidget {
     );
 
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        themeMode: themeMode,
-        theme: ThemeData(
-            dividerColor: Colors.grey.shade200,
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: lightColorScheme.background,
-                selectedItemColor: lightColorScheme.secondary,
-                selectedLabelStyle:
-                    TextStyle(color: lightColorScheme.onSurface),
-                unselectedLabelStyle:
-                    TextStyle(color: lightColorScheme.onSurface),
-                unselectedItemColor: lightColorScheme.onSecondary),
-            brightness: Brightness.light,
-            fontFamily: 'SanFrancisco',
-            appBarTheme: AppBarTheme(
-              backgroundColor: lightPrimary,
+      debugShowCheckedModeBanner: false,
+      themeMode: themeMode,
+      theme: ThemeData(
+        dividerColor: Colors.grey.shade200,
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: lightColorScheme.background,
+          selectedItemColor: lightColorScheme.secondary,
+          selectedLabelStyle:
+            TextStyle(color: lightColorScheme.onSurface),
+          unselectedLabelStyle:
+            TextStyle(color: lightColorScheme.onSurface),
+          unselectedItemColor: lightColorScheme.onSecondary),
+          // brightness: Brightness.light,
+          fontFamily: 'SanFrancisco',
+          appBarTheme: AppBarTheme(
+            backgroundColor: lightPrimary,
+          ),
+          // scaffoldBackgroundColor: Colors.white,
+          textTheme: const TextTheme(
+            subtitle1: TextStyle(
+              fontSize: 16,
             ),
-            // scaffoldBackgroundColor: Colors.white,
-            textTheme: const TextTheme(
-              subtitle1: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            accentColor: lightPrimary,
-            colorScheme: lightColorScheme,
-            highlightColor: lightPrimary.withOpacity(0.2),
-            splashColor: lightPrimary.withOpacity(0.1),
-            floatingActionButtonTheme:
-                FloatingActionButtonThemeData(backgroundColor: lightPrimary)),
-        darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            fontFamily: 'SanFrancisco',
-            primaryColor: darkPrimary,
-            appBarTheme: const AppBarTheme(
-              backgroundColor: Color(0xFF3C3C3C),
-            ),
-            accentColor: darkPrimary,
-            dividerColor: Colors.grey.shade900,
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: const Color(0xFF3C3C3C),
-                selectedItemColor: darkColorScheme.secondary,
-                selectedLabelStyle: TextStyle(color: darkColorScheme.onSurface),
-                unselectedLabelStyle:
-                    TextStyle(color: darkColorScheme.onSurface),
-                unselectedItemColor: darkColorScheme.onSecondary),
-            // scaffoldBackgroundColor: const Color(4279374354),
-            textTheme: const TextTheme(
-              subtitle1: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            colorScheme: darkColorScheme,
-            highlightColor: darkPrimary.withOpacity(0.2),
-            splashColor: darkPrimary.withOpacity(0.1),
-            floatingActionButtonTheme:
-                FloatingActionButtonThemeData(backgroundColor: darkPrimary)),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: themeMode == ThemeMode.dark
-              ? SystemUiOverlayStyle.light
-              : SystemUiOverlayStyle.dark,
-          child: OnboardingFlow(),
-        ));
+          ),
+          accentColor: lightPrimary,
+          colorScheme: lightColorScheme,
+          highlightColor: lightPrimary.withOpacity(0.2),
+          splashColor: lightPrimary.withOpacity(0.1),
+          floatingActionButtonTheme:
+            FloatingActionButtonThemeData(backgroundColor: lightPrimary)),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'SanFrancisco',
+        primaryColor: darkPrimary,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF3C3C3C),
+        ),
+        accentColor: darkPrimary,
+        dividerColor: Colors.grey.shade900,
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: const Color(0xFF3C3C3C),
+          selectedItemColor: darkColorScheme.secondary,
+          selectedLabelStyle: TextStyle(color: darkColorScheme.onSurface),
+          unselectedLabelStyle:
+            TextStyle(color: darkColorScheme.onSurface),
+          unselectedItemColor: darkColorScheme.onSecondary),
+        // scaffoldBackgroundColor: const Color(4279374354),
+        textTheme: const TextTheme(
+          subtitle1: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        colorScheme: darkColorScheme,
+        highlightColor: darkPrimary.withOpacity(0.2),
+        splashColor: darkPrimary.withOpacity(0.1),
+        floatingActionButtonTheme:
+          FloatingActionButtonThemeData(backgroundColor: darkPrimary)),
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: themeMode == ThemeMode.dark
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
+        child: OnboardingFlow(),
+      )
+    );
   }
 }

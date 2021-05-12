@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CartoonSectionDivider extends StatelessWidget {
-  CartoonSectionDivider();
 
   @override
   Widget build(BuildContext context) {

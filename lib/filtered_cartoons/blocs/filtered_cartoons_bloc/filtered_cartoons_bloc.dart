@@ -26,10 +26,10 @@ class FilteredCartoonsBloc
       return FilteredCartoonsLoading();
     } else if (allCartoonsBloc.state is AllCartoonsLoaded) {
       return FilteredCartoonsLoaded(
-          (allCartoonsBloc.state as AllCartoonsLoaded).cartoons, Tag.all);
+        (allCartoonsBloc.state as AllCartoonsLoaded).cartoons, Tag.all);
     }
     return FilteredCartoonsFailed(
-        (allCartoonsBloc.state as AllCartoonsFailed).errorMessage);
+      (allCartoonsBloc.state as AllCartoonsFailed).errorMessage);
   }
 
   @override
@@ -48,15 +48,15 @@ class FilteredCartoonsBloc
     final currentState = _allCartoonsBloc.state;
     if (currentState is AllCartoonsLoaded) {
       yield FilteredCartoonsLoaded(
-          _mapCartoonsToFilteredCartoons(currentState.cartoons, event.filter),
-          event.filter);
+        _mapCartoonsToFilteredCartoons(currentState.cartoons, event.filter),
+        event.filter
+      );
     }
   }
 
   Stream<FilteredCartoonsState> _mapCartoonsUpdatedToState(
     UpdateFilteredCartoons event,
   ) async* {
-    // if (_allCartoonsBloc.state is AllCartoonsLoaded) {
     final tagFilter = state is FilteredCartoonsLoaded
         ? (state as FilteredCartoonsLoaded).filter
         : Tag.all;
@@ -68,7 +68,6 @@ class FilteredCartoonsBloc
       ),
       tagFilter,
     );
-    // }
   }
 
   List<PoliticalCartoon> _mapCartoonsToFilteredCartoons(

@@ -22,12 +22,13 @@ class FilteredFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<SelectPoliticalCartoonState>(
-        state: context.watch<SelectCartoonCubit>().state,
-        onGeneratePages: (SelectPoliticalCartoonState state, pages) {
-          return [
-            FilteredCartoonsPage(),
-            if (state.cartoon != null) DetailsPage(cartoon: state.cartoon!)
-          ];
-        });
+      state: context.watch<SelectCartoonCubit>().state,
+      onGeneratePages: (SelectPoliticalCartoonState state, pages) {
+        return [
+          FilteredCartoonsPage(),
+          if (state.cartoon != null) DetailsPage(cartoon: state.cartoon!)
+        ];
+      }
+    );
   }
 }
