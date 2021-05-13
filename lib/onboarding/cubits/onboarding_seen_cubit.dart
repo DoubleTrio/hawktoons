@@ -1,7 +1,7 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-// class OnboardingCubit extends HydratedCubit<bool> {
-//   OnboardingCubit() : super(false);
+// class OnboardingSeenCubit extends HydratedCubit<bool> {
+//   OnboardingSeenCubit() : super(false);
 //
 //   void setSeenOnboarding() {
 //     return emit(true);
@@ -18,8 +18,8 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 //   }
 // }
 
-class OnboardingCubit extends Cubit<bool> {
-  OnboardingCubit() : super(false);
+class OnboardingSeenCubit extends Cubit<bool> {
+  OnboardingSeenCubit() : super(false);
 
   void setSeenOnboarding() {
     return emit(true);

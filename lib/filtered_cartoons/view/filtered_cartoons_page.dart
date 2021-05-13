@@ -29,6 +29,7 @@ class FilteredCartoonsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           leading: CustomIconButton(
+            key: const Key('FilteredCartoonsPage_LogoutButton'),
             icon: const Icon(Icons.exit_to_app_rounded),
             onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
           ),
@@ -42,7 +43,7 @@ class FilteredCartoonsScreen extends StatelessWidget {
           centerTitle: true,
           actions: [
             CustomIconButton(
-              key: const Key('FilteredCartoonsPage_FilterIcon'),
+              key: const Key('FilteredCartoonsPage_FilterButton'),
               icon: const Icon(Icons.filter_list),
               onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
             )
@@ -60,7 +61,8 @@ class FilteredCartoonsScreen extends StatelessWidget {
                     LoadingIndicator(),
                   ],
                 );
-              } else if (state is FilteredCartoonsLoaded) {
+              }
+              if (state is FilteredCartoonsLoaded) {
                 return StaggeredCartoonGrid(
                   cartoons: [
                     ...state.filteredCartoons,
@@ -69,10 +71,10 @@ class FilteredCartoonsScreen extends StatelessWidget {
                   ],
                   key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),
                 );
-              } else {
-                return const Text('Error',
-                  key: Key('FilteredCartoonsPage_FilteredCartoonsFailed'));
               }
+              return const Text('Error',
+                key: Key('FilteredCartoonsPage_FilteredCartoonsFailed')
+              );
             },
           ),
         ],

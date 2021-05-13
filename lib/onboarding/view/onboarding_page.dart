@@ -1,6 +1,8 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/onboarding/onboarding.dart';
+
 
 class OnBoardingPage extends Page {
   OnBoardingPage() : super(key: const ValueKey('OnBoardingPage'));
@@ -35,7 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _nextPage() {
     _pageController.nextPage(
-        duration: const Duration(milliseconds: 500), curve: Curves.easeInCubic);
+      duration: const Duration(milliseconds: 300), curve: Curves.easeInCubic);
   }
 
   @override
@@ -55,7 +57,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
 
     void _completeOnboarding() {
-      context.read<OnboardingCubit>().setSeenOnboarding();
+      context.read<OnboardingSeenCubit>().setSeenOnboarding();
     }
 
     var _baseTextStyle = TextStyle(
@@ -71,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-                height: 500.0,
+                height: 450.0,
                 child: PageView(
                   physics: const BouncingScrollPhysics(),
                   controller: _pageController,
@@ -89,8 +91,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       header: 'New daily cartoons',
                       body: 'Learn something new with a new political cartoon '
                         'or political image everyday. Each will include a '
-                        'brief description given the context of the time'
-                        'period'
+                        'brief description given the context of the time '
+                        'period.'
                     ),
                     OnboardingWidget(
                       header: 'See past cartoons',
@@ -111,6 +113,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: IgnorePointer(
                       ignoring: isLastPage,
                       child: OnboardingTextButton(
+                        key: const Key('OnboardingPage_SetSeenOnboarding'),
                         text: 'Skip',
                         onPressed: _completeOnboarding,
                         textStyle: _baseTextStyle,
@@ -121,6 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ..._buildPageIndicator(),
                   const SizedBox(width: 40),
                   OnboardingTextButton(
+                    key: const Key('OnboardingPage_NextPage'),
                     text: isLastPage ? 'Start' : 'Next',
                     onPressed: isLastPage ? _completeOnboarding : _nextPage,
                     textStyle:

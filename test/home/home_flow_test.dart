@@ -14,22 +14,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../helpers/helpers.dart';
+import '../mocks.dart';
 
-class MockTabBloc extends MockBloc<TabEvent, AppTab> implements TabBloc {}
-
-class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
-    implements AllCartoonsBloc {}
-
-class MockTagCubit extends MockCubit<Tag> implements TagCubit {}
-
-class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
-
-class MockShowBottomSheetCubit extends MockCubit<bool>
-    implements ShowBottomSheetCubit {}
-
-class MockDailyCartoonBloc
-    extends MockBloc<DailyCartoonEvent, DailyCartoonState>
-    implements DailyCartoonBloc {}
+const dailyCartoonIconKey = Key('TabSelector_DailyTab');
+const allCartoonsIconKey = Key('TabSelector_AllTab');
 
 void main() {
   group('HomeFlow', () {
@@ -42,9 +30,16 @@ void main() {
     late ShowBottomSheetCubit showBottomSheetCubit;
     late DailyCartoonBloc dailyCartoonBloc;
 
-    var dailyCartoonIconKey = find.byKey(const Key('TabSelector_DailyTab'));
-    var allCartoonsIconKey = find.byKey(const Key('TabSelector_AllTab'));
-
+    Widget wrapper(Widget child) {
+      return MultiBlocProvider(providers: [
+        BlocProvider.value(value: tagCubit),
+        BlocProvider.value(value: allCartoonsBloc),
+        BlocProvider.value(value: sortByCubit),
+        BlocProvider.value(value: showBottomSheetCubit),
+        BlocProvider.value(value: dailyCartoonBloc),
+        BlocProvider.value(value: tabBloc),
+      ], child: child);
+    }
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
       registerFallbackValue<AllCartoonsEvent>(
@@ -64,22 +59,17 @@ void main() {
       sortByCubit = MockSortByCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       dailyCartoonBloc = MockDailyCartoonBloc();
+
+      when(() => showBottomSheetCubit.state).thenReturn(false);
+      when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
     });
 
     testWidgets('finds TabSelector', (tester) async {
       var state = AppTab.daily;
       when(() => tabBloc.state).thenReturn(state);
-      when(() => showBottomSheetCubit.state).thenReturn(false);
-      when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
-      await tester.pumpApp(MultiBlocProvider(providers: [
-        BlocProvider.value(
-          value: tabBloc,
-        ),
-        BlocProvider.value(value: dailyCartoonBloc),
-        // BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: showBottomSheetCubit),
-      ], child: HomeFlow()));
-      //
+
+      await tester.pumpApp(wrapper(HomeFlow()));
+
       expect(find.byType(TabSelector), findsOneWidget);
     });
 
@@ -91,25 +81,13 @@ void main() {
       when(() => tabBloc.state).thenReturn(state);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
 
-      await tester.pumpApp(MultiBlocProvider(providers: [
-        BlocProvider.value(
-          value: tagCubit,
-        ),
-        BlocProvider.value(
-          value: tabBloc,
-        ),
-        BlocProvider.value(value: dailyCartoonBloc),
-        BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: showBottomSheetCubit),
-      ], child: HomeFlow()));
+      await tester.pumpApp(wrapper(HomeFlow()));
 
       expect(find.byType(DailyCartoonScreen), findsOneWidget);
       expect(find.byType(FilteredCartoonsScreen), findsNothing);
 
-      await tester.tap(allCartoonsIconKey);
+      await tester.tap(find.byKey(allCartoonsIconKey));
       verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
-      await tester.pump();
       // expect(find.byType(DailyCartoonScreen), findsNothing);
       // expect(find.byType(FilteredCartoonsScreen), findsOneWidget);
       // Event called from onPageChanged and onTabSelect

@@ -12,10 +12,7 @@ import '../../../helpers/helpers.dart';
 class MockAuthenticationBloc
     extends MockBloc<AuthenticationEvent, AuthenticationState>
     implements AuthenticationBloc {}
-
-//
-// class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
-//
+    
 void main() {
   group('LoginPage', () {
     setupCloudFirestoreMocks();
@@ -71,7 +68,7 @@ void main() {
 
     testWidgets(
         'AuthenticationBloc adds SignInAnonymously '
-        'when sign in button is clicked', (tester) async {
+        'when sign in button is tapped', (tester) async {
       await tester.pumpApp(MultiBlocProvider(providers: [
         BlocProvider.value(
           value: authenticationBloc,

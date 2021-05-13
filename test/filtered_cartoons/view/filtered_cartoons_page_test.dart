@@ -1,4 +1,3 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,55 +11,38 @@ import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../helpers/helpers.dart';
+import '../../mocks.dart';
 
-class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
-
-class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
-    implements AllCartoonsBloc {}
-
-class MockFilteredCartoonsBloc
-    extends MockBloc<FilteredCartoonsEvent, FilteredCartoonsState>
-    implements FilteredCartoonsBloc {}
-
-class MockTagCubit extends MockCubit<Tag> implements TagCubit {}
-
-class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
-
-class MockShowBottomSheetCubit extends MockCubit<bool>
-    implements ShowBottomSheetCubit {}
-
-class MockAuthenticationBloc
-    extends MockBloc<AuthenticationEvent, AuthenticationState>
-    implements AuthenticationBloc {}
+const filteredCartoonsLoadingKey =
+  Key('FilteredCartoonsPage_FilteredCartoonsLoading');
+const filteredCartoonsLoadedKey =
+  Key('FilteredCartoonsPage_FilteredCartoonsLoaded');
+const filteredCartoonsFailedKey =
+  Key('FilteredCartoonsPage_FilteredCartoonsFailed');
+const filterButtonKey = Key('FilteredCartoonsPage_FilterButton');
+const logoutButtonKey = Key('FilteredCartoonsPage_LogoutButton');
 
 void main() {
   group('FilteredCartoonsPage', () {
-    setupCloudFirestoreMocks();
-
-    var filteredCartoonsLoadingKey =
-        const Key('FilteredCartoonsPage_FilteredCartoonsLoading');
-    var filteredCartoonsLoadedKey =
-        const Key('FilteredCartoonsPage_FilteredCartoonsLoaded');
-    var filteredCartoonsFailedKey =
-        const Key('FilteredCartoonsPage_FilteredCartoonsFailed');
-
-    var mockPoliticalCartoonList = [
-      PoliticalCartoon(
-          id: '2',
-          author: 'Bob',
-          date: Timestamp.now(),
-          published: Timestamp.now(),
-          description: 'Another Mock Political Cartoon',
-          tags: [Tag.tag1],
-          downloadUrl: 'downloadurl')
-    ];
-
     late AllCartoonsBloc allCartoonsBloc;
     late FilteredCartoonsBloc filteredCartoonsBloc;
     late TagCubit tagCubit;
     late SortByCubit sortByCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late AuthenticationBloc authenticationBloc;
+    late ScrollHeaderCubit scrollHeaderCubit;
+
+    Widget wrapper(Widget child) {
+      return MultiBlocProvider(providers: [
+        BlocProvider.value(value: tagCubit),
+        BlocProvider.value(value: allCartoonsBloc),
+        BlocProvider.value(value: filteredCartoonsBloc),
+        BlocProvider.value(value: sortByCubit),
+        BlocProvider.value(value: showBottomSheetCubit),
+        BlocProvider.value(value: scrollHeaderCubit),
+        BlocProvider.value(value: authenticationBloc),
+      ], child: child);
+    }
 
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
@@ -73,31 +55,25 @@ void main() {
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
-      await Firebase.initializeApp();
-
       allCartoonsBloc = MockAllCartoonsBloc();
       filteredCartoonsBloc = MockFilteredCartoonsBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       authenticationBloc = MockAuthenticationBloc();
+      scrollHeaderCubit = MockScrollHeaderCubit();
+      when(() => scrollHeaderCubit.state).thenReturn(false);
     });
 
     testWidgets(
         'renders widget '
         'with Key(\'FilteredCartoonsPage_FilteredCartoonsLoading\') '
         'when state is FilteredCartoonsLoading', (tester) async {
-      var filteredCartoonsState = FilteredCartoonsLoading();
-      when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
-
-      await tester.pumpApp(MultiBlocProvider(providers: [
-        BlocProvider.value(value: tagCubit),
-        BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: filteredCartoonsBloc),
-        BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: showBottomSheetCubit)
-      ], child: FilteredCartoonsScreen()));
-
+      when(() => filteredCartoonsBloc.state).thenReturn(
+        FilteredCartoonsLoading()
+      );
+      when(() => scrollHeaderCubit.state).thenReturn(false);
+      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
       expect(find.byKey(filteredCartoonsLoadingKey), findsOneWidget);
     });
 
@@ -106,48 +82,58 @@ void main() {
         'Key(\'FilteredCartoonsPage_FilteredCartoonsLoaded\') '
         'when state is FilteredCartoonsLoaded', (tester) async {
       var filteredCartoonsState =
-          FilteredCartoonsLoaded(mockPoliticalCartoonList, Tag.all);
+          FilteredCartoonsLoaded([mockPoliticalCartoon], Tag.all);
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
-      when(() => tagCubit.state).thenReturn(Tag.all);
-      when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
-      when(() => allCartoonsBloc.state)
-          .thenReturn(AllCartoonsLoaded(cartoons: [MockPoliticalCartoon()]));
-      when(() => showBottomSheetCubit.state).thenReturn(false);
-      when(() => authenticationBloc.state).thenReturn(Authenticated('testing'));
+      // when(() => tagCubit.state).thenReturn(Tag.all);
+      // when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
+      // when(() => allCartoonsBloc.state)
+      //     .thenReturn(AllCartoonsLoaded(cartoons: [MockPoliticalCartoon()]));
+      // when(() => showBottomSheetCubit.state).thenReturn(false);
+      // when(() => authenticationBloc.state).thenReturn(
+      //   Authenticated('testing')
+      // );
 
       await mockNetworkImagesFor(
-        () => tester.pumpApp(MultiBlocProvider(providers: [
-          BlocProvider.value(value: allCartoonsBloc),
-          BlocProvider.value(value: filteredCartoonsBloc),
-          BlocProvider.value(value: tagCubit),
-          BlocProvider.value(value: sortByCubit),
-          BlocProvider.value(value: showBottomSheetCubit),
-          BlocProvider.value(value: authenticationBloc)
-        ], child: FilteredCartoonsScreen())),
+        () => tester.pumpApp(wrapper(FilteredCartoonsScreen())),
       );
-
-      var filterIconKey = const Key('FilteredCartoonsPage_FilterIcon');
       expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
-      await tester.tap(find.byKey(filterIconKey));
-      verify(showBottomSheetCubit.openSheet).called(1);
     });
 
-    testWidgets(
-        'renders widget '
+    testWidgets('renders widget '
         'with Key(\'FilteredCartoonsPage_FilteredCartoonsFailed\'); '
         'when state is FilteredCartoonFailed', (tester) async {
       var filteredCartoonsState = FilteredCartoonsFailed('Error');
+
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
-      await tester.pumpApp(MultiBlocProvider(providers: [
-        BlocProvider.value(value: tagCubit),
-        BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: filteredCartoonsBloc),
-        BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: showBottomSheetCubit)
-      ], child: FilteredCartoonsScreen()));
-
+      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
       expect(find.byKey(filteredCartoonsFailedKey), findsOneWidget);
+    });
+
+    testWidgets('opens bottom sheet '
+        'when filter icon is pressed', (tester) async {
+      var filteredCartoonsState = FilteredCartoonsFailed('Error');
+      when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
+      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
+      await tester.tap(find.byKey(filterButtonKey));
+      verify(showBottomSheetCubit.openSheet).called(1);
+    });
+
+    testWidgets('logs out '
+        'when logout button is pressed', (tester) async {
+      var filteredCartoonsState = FilteredCartoonsFailed('Error');
+      when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
+      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
+      await tester.tap(find.byKey(logoutButtonKey));
+      verify(() => authenticationBloc.add(Logout())).called(1);
+    });
+
+
+    testWidgets('opens bottom sheet '
+        'when filter icon is pressed', (tester) async {
+      var filteredCartoonsState = FilteredCartoonsFailed('Error');
+      when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
+      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
     });
   });
 }

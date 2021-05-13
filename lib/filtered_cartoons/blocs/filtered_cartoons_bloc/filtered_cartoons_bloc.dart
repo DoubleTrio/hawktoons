@@ -58,16 +58,17 @@ class FilteredCartoonsBloc
     UpdateFilteredCartoons event,
   ) async* {
     final tagFilter = state is FilteredCartoonsLoaded
-        ? (state as FilteredCartoonsLoaded).filter
-        : Tag.all;
-
-    yield FilteredCartoonsLoaded(
-      _mapCartoonsToFilteredCartoons(
-        (_allCartoonsBloc.state as AllCartoonsLoaded).cartoons,
+      ? (state as FilteredCartoonsLoaded).filter
+      : Tag.all;
+    if (_allCartoonsBloc.state is AllCartoonsLoaded) {
+      yield FilteredCartoonsLoaded(
+        _mapCartoonsToFilteredCartoons(
+          (_allCartoonsBloc.state as AllCartoonsLoaded).cartoons,
+          tagFilter,
+        ),
         tagFilter,
-      ),
-      tagFilter,
-    );
+      );
+    }
   }
 
   List<PoliticalCartoon> _mapCartoonsToFilteredCartoons(

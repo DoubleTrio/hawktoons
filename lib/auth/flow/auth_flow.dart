@@ -18,7 +18,6 @@ class AuthFlowPage extends Page {
         var begin = const Offset(1.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
-
         var tween = Tween(begin: begin, end: end)
           ..chain(CurveTween(curve: curve));
         return SlideTransition(
@@ -34,6 +33,7 @@ class AuthFlowPage extends Page {
 }
 
 class AuthFlow extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<AuthenticationState>(
