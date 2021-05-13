@@ -43,5 +43,21 @@ void main() {
         );
       });
     });
+    group('LoggingOut', () {
+      test('supports value comparisons', () {
+        expect(
+          LoggingOut(),
+          LoggingOut(),
+        );
+      });
+    });
+    group('LogoutError', () {
+      test('supports value comparisons', () {
+        expect(
+          LogoutError(),
+          LogoutError(),
+        );
+      });
+    });
   });
 }

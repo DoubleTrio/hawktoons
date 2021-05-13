@@ -7,6 +7,8 @@ class SelectPoliticalCartoonState extends Equatable {
 
   final PoliticalCartoon? cartoon;
 
+  bool get cartoonSelected => cartoon != null;
+
   @override
   List<Object?> get props => [cartoon];
 }

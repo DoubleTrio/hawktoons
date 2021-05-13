@@ -23,7 +23,7 @@ class SortByTileListView extends StatelessWidget {
       itemBuilder: (context, index) {
         var mode = modes[index];
         return SortByTile(
-          key: Key('SortByMode_${mode.index}'),
+          key: Key('SortByMode_Button_${mode.index}'),
           selected: mode == selectedSortByMode,
           onTap: () => onSortByTileTap(mode),
           header: mode.header

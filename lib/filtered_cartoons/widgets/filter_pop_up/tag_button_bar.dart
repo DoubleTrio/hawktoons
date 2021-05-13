@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
-import 'package:history_app/filtered_cartoons/widgets/tag_button.dart';
+import 'package:history_app/filtered_cartoons/widgets/filter_pop_up/tag_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButtonBar extends StatelessWidget {
@@ -22,7 +22,7 @@ class TagButtonBar extends StatelessWidget {
         spacing: 5,
         children: [
           ...tags.map((tag) => TagButton(
-            key: Key('Tag_${tag.index}_Button'),
+            key: Key('Tag_Button_${tag.index}'),
             tag: tag,
             onTap: () => onTagButtonTap(tag),
             selected: selectedTag == tag)),

@@ -47,16 +47,16 @@ class CartoonCard extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: cartoon.downloadUrl,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      LinearProgressIndicator(
-                          value: downloadProgress.progress,
-                          backgroundColor: primary),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                    LinearProgressIndicator(
+                      value: downloadProgress.progress,
+                      backgroundColor: primary
+                    ),
                 ),
               ),
             )),
             ClipRRect(
               borderRadius:
-                  const BorderRadius.vertical(bottom: Radius.circular(10.0)),
+                const BorderRadius.vertical(bottom: Radius.circular(10.0)),
               child: Container(
                 padding: const EdgeInsets.all(12),
                 color: cardColor,

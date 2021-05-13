@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
-import 'package:history_app/filtered_cartoons/view/filtered_flow.dart';
 import 'package:history_app/widgets/tab_selector.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -112,10 +111,8 @@ class HomeFlow extends StatelessWidget {
               switch (state) {
                 case AppTab.daily:
                   return [DailyCartoonPage()];
-                case AppTab.all:
-                  return [FilteredFlowPage()];
                 default:
-                  return [DailyCartoonPage()];
+                  return [FilteredCartoonsPage()];
               }
             }
           ),

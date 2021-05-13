@@ -13,9 +13,9 @@ import 'package:history_app/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-import '../fakes.dart';
-import '../helpers/helpers.dart';
-import '../mocks.dart';
+import '../../fakes.dart';
+import '../../helpers/helpers.dart';
+import '../../mocks.dart';
 
 const _dailyCartoonTabKey = Key('TabSelector_DailyTab');
 const _allCartoonsTabKey = Key('TabSelector_AllTab');
@@ -30,9 +30,7 @@ final _sortByTileKey = Key('SortByMode_Button_${sortByMode.index}');
 
 
 void main() {
-  group('HomeFlow', () {
-    setupCloudFirestoreMocks();
-
+  group('FilterPopUp', () {
     late TabBloc tabBloc;
     late AllCartoonsBloc allCartoonsBloc;
     late TagCubit tagCubit;
@@ -47,11 +45,7 @@ void main() {
         BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: showBottomSheetCubit),
-        BlocProvider.value(value: dailyCartoonBloc),
-        BlocProvider.value(value: tabBloc),
         BlocProvider.value(value: filteredCartoonsBloc),
-        BlocProvider.value(value: scrollHeaderCubit),
       ], child: child);
     }
     setUpAll(() async {
@@ -59,72 +53,85 @@ void main() {
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
       registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
-      registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
-      registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
       registerFallbackValue<TabEvent>(FakeTabEvent());
-      registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
-      await Firebase.initializeApp();
-
-      tabBloc = MockTabBloc();
       allCartoonsBloc = MockAllCartoonsBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
-      showBottomSheetCubit = MockShowBottomSheetCubit();
-      dailyCartoonBloc = MockDailyCartoonBloc();
       filteredCartoonsBloc = MockFilteredCartoonsBloc();
-      scrollHeaderCubit = MockScrollHeaderCubit();
 
       when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
-      when(() => showBottomSheetCubit.state).thenReturn(false);
-      when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
       when(() => filteredCartoonsBloc.state)
         .thenReturn(FilteredCartoonsLoading());
-    });
-
-    testWidgets('finds TabSelector', (tester) async {
-      var state = AppTab.daily;
-      when(() => tabBloc.state).thenReturn(state);
-
-      await tester.pumpApp(wrapper(HomeFlow()));
-
-      expect(find.byType(TabSelector), findsOneWidget);
-    });
-
-    testWidgets('tabBloc.add(UpdateTab(AppTab.all)) '
-        'is invoked when the "All" tab is tapped', (tester) async {
-      when(() => tabBloc.state).thenReturn(AppTab.daily);
-      await tester.pumpApp(wrapper(HomeFlow()));
-      await tester.tap(find.byKey(_allCartoonsTabKey));
-      verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
-    });
-
-    testWidgets('tabBloc.add(UpdateTab(AppTab.daily)) '
-        'is invoked when the "Daily" tab is tapped', (tester) async {
-      when(() => tabBloc.state).thenReturn(AppTab.all);
-      when(() => scrollHeaderCubit.state).thenReturn(false);
-
-      await tester.pumpApp(wrapper(HomeFlow()));
-      await tester.tap(find.byKey(_dailyCartoonTabKey));
-      verify(() => tabBloc.add(UpdateTab(AppTab.daily))).called(1);
+      when(() => tagCubit.state).thenReturn(Tag.all);
+      when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
     });
 
     group('FilterPopUp', () {
-      setUp(() {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
-        when(() => tagCubit.state).thenReturn(Tag.all);
-        when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
-        whenListen(showBottomSheetCubit, Stream.value(true));
+
+      testWidgets('selects sorting mode', (tester) async {
+        await tester.pumpApp(wrapper(FilterPopUp()));
+
+        await tester.tap(find.byKey(_sortByTileKey));
+        await tester.pumpAndSettle();
+        verify(() => sortByCubit.selectSortBy(sortByMode)).called(1);
+
+        // await tester.tap(find.byKey(_applyFilterButtonKey));
+        // verifyInOrder([
+        //   () => allCartoonsBloc.add(LoadAllCartoons(sortByCubit.state)),
+        //   () => filteredCartoonsBloc.add(UpdateFilter(tagCubit.state)),
+        // ]);
       });
 
-      testWidgets('shows filter pop up and closes', (tester) async {
-        await tester.pumpApp(wrapper(HomeFlow()));
-        await tester.pump(const Duration(seconds: 1));
-        expect(find.byType(FilterPopUp), findsOneWidget);
-        await tester.tapAt(const Offset(0, 500));
-        verify(showBottomSheetCubit.closeSheet).called(1);
+      testWidgets('selects filter tag', (tester) async {
+        await tester.pumpApp(wrapper(FilterPopUp()));
+
+        await tester.tap(find.byKey(_tagButtonKey));
+        await tester.pumpAndSettle();
+        verify(() => tagCubit.selectTag(tag)).called(1);
+      });
+
+      testWidgets('deselects filter tag', (tester) async {
+        when(() => tagCubit.state).thenReturn(Tag.tag5);
+
+        await tester.pumpApp(wrapper(FilterPopUp()));
+
+        await tester.tap(find.byKey(_tagButtonKey));
+        await tester.pumpAndSettle();
+        verify(() => tagCubit.selectTag(Tag.all)).called(1);
+      });
+
+      testWidgets('reset button works', (tester) async {
+        when(() => tagCubit.state).thenReturn(Tag.tag5);
+        when(() => sortByCubit.state).thenReturn(SortByMode.earliestPublished);
+
+        await tester.pumpApp(wrapper(FilterPopUp()));
+
+        await tester.tap(find.byKey(_resetFilterButtonKey));
+        await tester.pumpAndSettle();
+
+        verify(() => tagCubit.selectTag(Tag.all)).called(1);
+        verify(() => sortByCubit.selectSortBy(SortByMode.latestPosted))
+          .called(1);
+      });
+
+      testWidgets('applies correct filter', (tester) async {
+        when(() => tagCubit.state).thenReturn(tag);
+        when(() => sortByCubit.state).thenReturn(sortByMode);
+
+        await tester.pumpApp(wrapper(FilterPopUp()));
+
+        await tester.tap(find.byKey(_applyFilterButtonKey));
+        await tester.pumpAndSettle();
+
+        verify(() => allCartoonsBloc.add(
+          LoadAllCartoons(sortByMode)
+        )).called(1);
+
+        verify(() => filteredCartoonsBloc.add(UpdateFilter(tag)))
+          .called(1);
       });
     });
   });

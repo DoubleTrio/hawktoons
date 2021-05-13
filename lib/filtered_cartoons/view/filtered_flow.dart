@@ -26,7 +26,7 @@ class FilteredFlow extends StatelessWidget {
       onGeneratePages: (SelectPoliticalCartoonState state, pages) {
         return [
           FilteredCartoonsPage(),
-          if (state.cartoon != null) DetailsPage(cartoon: state.cartoon!)
+          if (state.cartoonSelected) DetailsPage(cartoon: state.cartoon!)
         ];
       }
     );

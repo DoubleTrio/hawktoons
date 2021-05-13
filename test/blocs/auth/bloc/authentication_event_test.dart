@@ -15,5 +15,17 @@ void main() {
         );
       });
     });
+    group('Logout', () {
+      test('supports value comparisons', () {
+        expect(
+          Logout(),
+          Logout(),
+        );
+        expect(
+          Logout().toString(),
+          Logout().toString(),
+        );
+      });
+    });
   });
 }
