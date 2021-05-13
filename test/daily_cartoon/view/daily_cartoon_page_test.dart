@@ -1,39 +1,43 @@
-import 'package:bloc_test/bloc_test.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:history_app/blocs/auth/auth.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
+import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
-import '../../fakes.dart';
 
-const dailyCartoonInProgressKey =
+const _dailyCartoonInProgressKey =
   Key('DailyCartoonScreen_DailyCartoonInProgress');
-const dailyCartoonLoadedKey =
+const _dailyCartoonLoadedKey =
   Key('DailyCartoonScreen_DailyCartoonLoaded');
-const dailyCartoonFailedKey =
+const _dailyCartoonFailedKey =
   Key('DailyCartoonScreen_DailyCartoonFailed');
+const _logoutButtonKey = Key('DailyCartoonScreen_Button_Logout');
 
 void main() {
   group('DailyCartoonScreen', () {
     late DailyCartoonBloc dailyCartoonBloc;
+    late AuthenticationBloc authenticationBloc;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
         BlocProvider.value(value: dailyCartoonBloc),
+        BlocProvider.value(value: authenticationBloc),
       ], child: child);
     }
 
     setUpAll(() async {
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+
       dailyCartoonBloc = MockDailyCartoonBloc();
+      authenticationBloc = MockAuthenticationBloc();
     });
 
     testWidgets(
@@ -45,7 +49,7 @@ void main() {
       await tester.pumpApp(
         wrapper(DailyCartoonScreen())
       );
-      expect(find.byKey(dailyCartoonInProgressKey), findsOneWidget);
+      expect(find.byKey(_dailyCartoonInProgressKey), findsOneWidget);
     });
 
     testWidgets(
@@ -56,7 +60,7 @@ void main() {
       await mockNetworkImagesFor(() => tester.pumpApp(
         wrapper(DailyCartoonScreen())
       ));
-      expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
+      expect(find.byKey(_dailyCartoonLoadedKey), findsOneWidget);
     });
 
     testWidgets(
@@ -65,7 +69,15 @@ void main() {
       var state = DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
       await tester.pumpApp(wrapper(DailyCartoonScreen()));
-      expect(find.byKey(dailyCartoonFailedKey), findsOneWidget);
+      expect(find.byKey(_dailyCartoonFailedKey), findsOneWidget);
+    });
+
+    testWidgets('logs out when logout button is tapped', (tester) async {
+      var state = DailyCartoonFailed('Error');
+      when(() => dailyCartoonBloc.state).thenReturn(state);
+      await tester.pumpApp(wrapper(DailyCartoonScreen()));
+      await tester.tap(find.byKey(_logoutButtonKey));
+      verify(() => authenticationBloc.add(Logout()));
     });
   });
 }

@@ -1,34 +1,45 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
+
+import '../../../mocks.dart';
 
 void main() {
-  group('ShowBottomSheetCubit', () {
-    test('initial state is false', () {
-      expect(ShowBottomSheetCubit().state, equals(false));
+  PoliticalCartoon mockCartoon = MockPoliticalCartoon();
+  group('SelectCartoonCubit', () {
+    test('initial state is SelectPoliticalCartoonState()', () {
+      expect(SelectCartoonCubit().state, equals(SelectPoliticalCartoonState()));
     });
 
-    blocTest<ShowBottomSheetCubit, bool>(
-      'emits [true] when openSheet is invoked',
-      build: () => ShowBottomSheetCubit(),
-      act: (cubit) => cubit.openSheet(),
-      expect: () => [true],
+    blocTest<SelectCartoonCubit, SelectPoliticalCartoonState>(
+      'emits [SelectPoliticalCartoonState(cartoon: $mockCartoon)] '
+      'when selectCartoon is invoked',
+      build: () => SelectCartoonCubit(),
+      act: (cubit) => cubit.selectCartoon(mockCartoon),
+      expect: () => [SelectPoliticalCartoonState(cartoon: mockCartoon)],
     );
 
-    blocTest<ShowBottomSheetCubit, bool>(
-      'emits [false] when closeSheet is invoked',
-      build: () => ShowBottomSheetCubit(),
-      seed: () => true,
-      act: (cubit) => cubit.closeSheet(),
-      expect: () => [false],
+    blocTest<SelectCartoonCubit, SelectPoliticalCartoonState>(
+      'emits [SelectPoliticalCartoonState()] when closeSheet is invoked',
+      build: () => SelectCartoonCubit(),
+      seed: () => SelectPoliticalCartoonState(cartoon: mockCartoon),
+      act: (cubit) => cubit.deselectCartoon(),
+      expect: () => [SelectPoliticalCartoonState()],
     );
 
-    blocTest<ShowBottomSheetCubit, bool>(
-      'emits [false, true, false] when closing and opening bottom sheet',
-      build: () => ShowBottomSheetCubit(),
-      seed: () => true,
-      act: (cubit) => cubit..closeSheet()..openSheet()..closeSheet(),
-      expect: () => [false, true, false],
+    blocTest<SelectCartoonCubit, SelectPoliticalCartoonState>(
+      'selecting and deselecting cartoon works',
+      build: () => SelectCartoonCubit(),
+      act: (cubit) => cubit
+        ..selectCartoon(mockCartoon)
+        ..deselectCartoon()
+        ..selectCartoon(mockCartoon),
+      expect: () => [
+        SelectPoliticalCartoonState(cartoon: mockCartoon),
+        SelectPoliticalCartoonState(),
+        SelectPoliticalCartoonState(cartoon: mockCartoon)
+      ],
     );
   });
 }

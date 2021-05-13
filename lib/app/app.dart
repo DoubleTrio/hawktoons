@@ -15,17 +15,20 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<FirebaseUserRepository>(
-            create: (_) => FirebaseUserRepository()),
+          create: (_) => FirebaseUserRepository()),
         RepositoryProvider<FirestorePoliticalCartoonRepository>(
-            create: (_) => FirestorePoliticalCartoonRepository()),
+          create: (_) => FirestorePoliticalCartoonRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<OnboardingSeenCubit>(create: (_) => OnboardingSeenCubit()),
+          BlocProvider<OnboardingSeenCubit>(
+            create: (_) => OnboardingSeenCubit()),
           BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
           BlocProvider<AuthenticationBloc>(
-              create: (context) => AuthenticationBloc(
-                  userRepository: context.read<FirebaseUserRepository>())),
+            create: (context) => AuthenticationBloc(
+              userRepository: context.read<FirebaseUserRepository>()
+            )
+          ),
         ],
         child: const AppView(),
       ),

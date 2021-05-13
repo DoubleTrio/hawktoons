@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,20 +18,11 @@ import '../mocks.dart';
 
 const _dailyCartoonTabKey = Key('TabSelector_DailyTab');
 const _allCartoonsTabKey = Key('TabSelector_AllTab');
-const _resetFilterButtonKey = Key('ButtonRowHeader_ResetButton');
-const _applyFilterButtonKey = Key('ButtonRowHeader_ApplyFilterButton');
-
-final sortByMode = SortByMode.latestPosted;
-final tag = Tag.tag5;
-
-final _tagButtonKey = Key('Tag_Button_${tag.index}');
-final _sortByTileKey = Key('SortByMode_Button_${sortByMode.index}');
-
+const _changeThemeTabKey = Key('TabSelector_ChangeTheme');
 
 void main() {
   group('HomeFlow', () {
-    setupCloudFirestoreMocks();
-
+    late ThemeCubit themeCubit;
     late TabBloc tabBloc;
     late AllCartoonsBloc allCartoonsBloc;
     late TagCubit tagCubit;
@@ -44,6 +34,7 @@ void main() {
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
+        BlocProvider.value(value: themeCubit),
         BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: sortByCubit),
@@ -65,9 +56,9 @@ void main() {
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
+      registerFallbackValue<ThemeMode>(ThemeMode.light);
 
-      await Firebase.initializeApp();
-
+      themeCubit = MockThemeCubit();
       tabBloc = MockTabBloc();
       allCartoonsBloc = MockAllCartoonsBloc();
       tagCubit = MockTagCubit();
@@ -84,31 +75,44 @@ void main() {
         .thenReturn(FilteredCartoonsLoading());
     });
 
-    testWidgets('finds TabSelector', (tester) async {
-      var state = AppTab.daily;
-      when(() => tabBloc.state).thenReturn(state);
+    group('TabSelector', () {
+      testWidgets('finds TabSelector', (tester) async {
+        var state = AppTab.daily;
+        when(() => tabBloc.state).thenReturn(state);
+        await tester.pumpApp(wrapper(HomeFlow()));
+        expect(find.byType(TabSelector), findsOneWidget);
+      });
 
-      await tester.pumpApp(wrapper(HomeFlow()));
+      testWidgets('tabBloc.add(UpdateTab(AppTab.all)) '
+          'is invoked when the "All" tab is tapped', (tester) async {
+        when(() => tabBloc.state).thenReturn(AppTab.daily);
+        await tester.pumpApp(wrapper(HomeFlow()));
+        await tester.tap(find.byKey(_allCartoonsTabKey));
+        verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
+      });
 
-      expect(find.byType(TabSelector), findsOneWidget);
-    });
+      testWidgets('tabBloc.add(UpdateTab(AppTab.daily)) '
+          'is invoked when the "Daily" tab is tapped', (tester) async {
+        when(() => tabBloc.state).thenReturn(AppTab.all);
+        when(() => scrollHeaderCubit.state).thenReturn(false);
 
-    testWidgets('tabBloc.add(UpdateTab(AppTab.all)) '
-        'is invoked when the "All" tab is tapped', (tester) async {
-      when(() => tabBloc.state).thenReturn(AppTab.daily);
-      await tester.pumpApp(wrapper(HomeFlow()));
-      await tester.tap(find.byKey(_allCartoonsTabKey));
-      verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
-    });
+        await tester.pumpApp(wrapper(HomeFlow()));
+        await tester.tap(find.byKey(_dailyCartoonTabKey));
+        verify(() => tabBloc.add(UpdateTab(AppTab.daily))).called(1);
+      });
 
-    testWidgets('tabBloc.add(UpdateTab(AppTab.daily)) '
-        'is invoked when the "Daily" tab is tapped', (tester) async {
-      when(() => tabBloc.state).thenReturn(AppTab.all);
-      when(() => scrollHeaderCubit.state).thenReturn(false);
+      testWidgets('changes theme when theme tab is tapped', (tester) async {
+        when(() => tabBloc.state).thenReturn(AppTab.daily);
+        when(() => scrollHeaderCubit.state).thenReturn(false);
+        when(() => themeCubit.state).thenReturn(ThemeMode.dark);
 
-      await tester.pumpApp(wrapper(HomeFlow()));
-      await tester.tap(find.byKey(_dailyCartoonTabKey));
-      verify(() => tabBloc.add(UpdateTab(AppTab.daily))).called(1);
+        await tester.pumpApp(wrapper(HomeFlow()));
+        await tester.tap(find.byKey(_changeThemeTabKey));
+        verify(themeCubit.changeTheme).called(1);
+
+        await tester.tap(find.byKey(_changeThemeTabKey));
+        verify(themeCubit.changeTheme).called(1);
+      });
     });
 
     group('FilterPopUp', () {

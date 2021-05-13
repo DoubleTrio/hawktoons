@@ -7,12 +7,11 @@ import 'package:history_app/auth/auth.dart';
 import 'package:history_app/blocs/auth/auth.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../helpers/helpers.dart';
+import '../../helpers/helpers.dart';
+import '../../mocks.dart';
+import '../../fakes.dart';
 
-class MockAuthenticationBloc
-    extends MockBloc<AuthenticationEvent, AuthenticationState>
-    implements AuthenticationBloc {}
-    
+
 void main() {
   group('LoginPage', () {
     setupCloudFirestoreMocks();

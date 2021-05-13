@@ -17,14 +17,14 @@ class StaggeredCartoonGrid extends StatefulWidget {
 
 class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   late ScrollController _scrollController;
-  final _scrollThreshold = 200.0;
+  // final _scrollThreshold = 200.0;
   final _headerKey = GlobalKey();
 
-  void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {}
-  }
+  // void _onScroll() {
+  //   final maxScroll = _scrollController.position.maxScrollExtent;
+  //   final currentScroll = _scrollController.position.pixels;
+  //   if (maxScroll - currentScroll <= _scrollThreshold) {}
+  // }
 
   @override
   void initState() {

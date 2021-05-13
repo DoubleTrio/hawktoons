@@ -43,6 +43,7 @@ class DailyCartoonScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           leading: CustomIconButton(
+            key: const Key('DailyCartoonScreen_Button_Logout'),
             icon: const Icon(Icons.exit_to_app_rounded),
             onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
           ),

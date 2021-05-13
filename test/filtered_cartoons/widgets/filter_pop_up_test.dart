@@ -1,15 +1,9 @@
-import 'package:bloc_test/bloc_test.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/blocs/blocs.dart';
-import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
-import 'package:history_app/home/home_flow.dart';
-import 'package:history_app/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -17,8 +11,6 @@ import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
-const _dailyCartoonTabKey = Key('TabSelector_DailyTab');
-const _allCartoonsTabKey = Key('TabSelector_AllTab');
 const _resetFilterButtonKey = Key('ButtonRowHeader_ResetButton');
 const _applyFilterButtonKey = Key('ButtonRowHeader_ApplyFilterButton');
 
@@ -31,14 +23,10 @@ final _sortByTileKey = Key('SortByMode_Button_${sortByMode.index}');
 
 void main() {
   group('FilterPopUp', () {
-    late TabBloc tabBloc;
     late AllCartoonsBloc allCartoonsBloc;
     late TagCubit tagCubit;
     late SortByCubit sortByCubit;
-    late ShowBottomSheetCubit showBottomSheetCubit;
-    late DailyCartoonBloc dailyCartoonBloc;
     late FilteredCartoonsBloc filteredCartoonsBloc;
-    late ScrollHeaderCubit scrollHeaderCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
@@ -77,12 +65,6 @@ void main() {
         await tester.tap(find.byKey(_sortByTileKey));
         await tester.pumpAndSettle();
         verify(() => sortByCubit.selectSortBy(sortByMode)).called(1);
-
-        // await tester.tap(find.byKey(_applyFilterButtonKey));
-        // verifyInOrder([
-        //   () => allCartoonsBloc.add(LoadAllCartoons(sortByCubit.state)),
-        //   () => filteredCartoonsBloc.add(UpdateFilter(tagCubit.state)),
-        // ]);
       });
 
       testWidgets('selects filter tag', (tester) async {

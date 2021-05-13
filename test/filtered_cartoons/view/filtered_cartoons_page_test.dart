@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,6 +8,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
+import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
@@ -45,13 +44,12 @@ void main() {
     }
 
     setUpAll(() async {
-      registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
-      registerFallbackValue<AllCartoonsEvent>(
-          LoadAllCartoons(SortByMode.latestPosted));
-      registerFallbackValue<FilteredCartoonsState>(FilteredCartoonsLoading());
-      registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Tag.all));
-      registerFallbackValue<AuthenticationEvent>(Logout());
-      registerFallbackValue<AuthenticationState>(Authenticated('testing'));
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
+      registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
+      registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
@@ -84,14 +82,6 @@ void main() {
       var filteredCartoonsState =
           FilteredCartoonsLoaded([mockPoliticalCartoon], Tag.all);
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
-      // when(() => tagCubit.state).thenReturn(Tag.all);
-      // when(() => sortByCubit.state).thenReturn(SortByMode.latestPosted);
-      // when(() => allCartoonsBloc.state)
-      //     .thenReturn(AllCartoonsLoaded(cartoons: [MockPoliticalCartoon()]));
-      // when(() => showBottomSheetCubit.state).thenReturn(false);
-      // when(() => authenticationBloc.state).thenReturn(
-      //   Authenticated('testing')
-      // );
 
       await mockNetworkImagesFor(
         () => tester.pumpApp(wrapper(FilteredCartoonsScreen())),
@@ -129,46 +119,33 @@ void main() {
     });
 
 
-    testWidgets('opens bottom sheet '
-        'when filter icon is pressed', (tester) async {
-      var filteredCartoonsState = FilteredCartoonsFailed('Error');
+    testWidgets('display scroll header after scrolling', (tester) async {
+      var filteredCartoonsState =
+        FilteredCartoonsLoaded(List.filled(8, mockPoliticalCartoon), Tag.all);
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
-      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
+      when(() => scrollHeaderCubit.state).thenReturn(false);
+
+      await mockNetworkImagesFor(
+        () => tester.pumpApp(wrapper(FilteredCartoonsScreen())),
+      );
+
+      await tester.drag(
+        find.byType(StaggeredCartoonGrid),
+        const Offset(0, -100)
+      );
+
+      await tester.drag(
+        find.byType(StaggeredCartoonGrid),
+        const Offset(0, 100)
+      );
+
+      verifyInOrder([
+        scrollHeaderCubit.onScrollPastHeader,
+        scrollHeaderCubit.onScrollBeforeHeader
+      ]);
+
+      expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
     });
+
   });
 }
-
-// await tester.pumpAndSettle();
-//
-// expect(find.byType(FilterPopUp), findsOneWidget);
-//
-// var resetButtonKey = const Key('ButtonRowHeader_ResetButton');
-// await tester.tap(find.byKey(resetButtonKey));
-//
-// verifyInOrder([
-//   () => tagCubit.selectTag(Tag.all),
-//   () => sortByCubit.selectSortBy(SortByMode.latestPosted)
-// ]);
-//
-// var tagFiveButtonKey = const Key('Tag_5_Button');
-// await tester.tap(find.byKey(tagFiveButtonKey));
-// await tester.pumpAndSettle();
-//
-// verify(() => tagCubit.selectTag(Tag.values[5])).called(1);
-//
-// await tester.tap(find.byKey(tagFiveButtonKey));
-// await tester.pumpAndSettle();
-//
-// var sortByModeKey = const Key('SortByMode_2');
-// await tester.tap(find.descendant(
-//     of: find.byKey(sortByModeKey), matching: find.byType(InkWell)));
-// await tester.pumpAndSettle();
-//
-// verify(() => sortByCubit.selectSortBy(SortByMode.values[2])).called(1);
-//
-// var applyFilterButtonKey = const Key('ButtonRowHeader_ApplyFilterButton');
-// await tester.tap(find.byKey(applyFilterButtonKey));
-// await tester.pumpAndSettle();
-//
-// verify(() => filteredCartoonsBloc.add(UpdateFilter(Tag.all))).called(1);
-// expect(find.byType(FilterPopUp), findsNothing);
