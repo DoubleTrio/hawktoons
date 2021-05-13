@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:history_app/utils/time_ago.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -44,10 +43,11 @@ class CartoonCard extends StatelessWidget {
                     const BorderRadius.vertical(top: Radius.circular(10)),
                 child: Container(
                   constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height / 3),
+                    maxHeight: MediaQuery.of(context).size.height / 3),
                   child: CachedNetworkImage(
                     imageUrl: cartoon.downloadUrl,
-                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
                       LinearProgressIndicator(
                         value: downloadProgress.progress,
                         backgroundColor: primary

@@ -1,4 +1,3 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +10,6 @@ import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/home/home_flow.dart';
-import 'package:history_app/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -19,9 +17,6 @@ import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
-const _dailyCartoonTabKey = Key('TabSelector_DailyTab');
-const _allCartoonsTabKey = Key('TabSelector_AllTab');
-const _changeThemeTabKey = Key('TabSelector_ChangeTheme');
 
 void main() {
   group('AuthFlow', () {
@@ -101,10 +96,22 @@ void main() {
 
     group('HomeFlow', () {
       testWidgets('shows HomeFlow', (tester) async {
+        when(() => sortByCubit.state).thenReturn(SortByMode.latestPublished);
         when(() => authenticationBloc.state)
-            .thenReturn(Authenticated('user-id'));
+          .thenReturn(Authenticated('user-id'));
+        when(() => scrollHeaderCubit.state).thenReturn(false);
+        when(() => allCartoonsBloc.state).thenReturn(
+          AllCartoonsLoaded(cartoons: [mockCartoon])
+        );
+
+        print(sortByCubit.state);
+
         await tester.pumpApp(wrapper(AuthFlow()));
         expect(find.byType(HomeFlow), findsOneWidget);
+
+        verify(() => allCartoonsBloc
+          .add(LoadAllCartoons(sortByCubit.state))
+        ).called(1);
       });
     });
   });

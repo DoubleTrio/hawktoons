@@ -7,7 +7,6 @@ import 'package:history_app/onboarding/cubits/cubits.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 var mockPoliticalCartoon = PoliticalCartoon(
   id: '2',
