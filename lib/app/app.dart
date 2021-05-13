@@ -15,14 +15,17 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<FirebaseUserRepository>(
-          create: (_) => FirebaseUserRepository()),
+          create: (_) => FirebaseUserRepository()
+        ),
         RepositoryProvider<FirestorePoliticalCartoonRepository>(
-          create: (_) => FirestorePoliticalCartoonRepository()),
+          create: (_) => FirestorePoliticalCartoonRepository()
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<OnboardingSeenCubit>(
-            create: (_) => OnboardingSeenCubit()),
+            create: (_) => OnboardingSeenCubit()
+          ),
           BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
           BlocProvider<AuthenticationBloc>(
             create: (context) => AuthenticationBloc(
@@ -42,9 +45,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = context.select((ThemeCubit cubit) => cubit.state);
-
     var lightPrimary = const Color(4284612846);
-
     var lightColorScheme = const ColorScheme.light().copyWith(
       primary: lightPrimary,
       primaryVariant: lightPrimary.withOpacity(0.8),
@@ -75,12 +76,10 @@ class AppView extends StatelessWidget {
           unselectedLabelStyle:
             TextStyle(color: lightColorScheme.onSurface),
           unselectedItemColor: lightColorScheme.onSecondary),
-          // brightness: Brightness.light,
           fontFamily: 'SanFrancisco',
           appBarTheme: AppBarTheme(
             backgroundColor: lightPrimary,
           ),
-          // scaffoldBackgroundColor: Colors.white,
           textTheme: const TextTheme(
             subtitle1: TextStyle(
               fontSize: 16,
@@ -108,7 +107,6 @@ class AppView extends StatelessWidget {
           unselectedLabelStyle:
             TextStyle(color: darkColorScheme.onSurface),
           unselectedItemColor: darkColorScheme.onSecondary),
-        // scaffoldBackgroundColor: const Color(4279374354),
         textTheme: const TextTheme(
           subtitle1: TextStyle(
             fontSize: 16,

@@ -38,7 +38,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
       _scrollController.addListener(() {
         var maxScroll = _scrollController.position.maxScrollExtent;
         var currentScroll = _scrollController.position.pixels;
-        var delta = 200.0; // or something else..
+        var delta = 200.0;
         if (currentScroll > height) {
           context.read<ScrollHeaderCubit>().onScrollPastHeader();
         } else {
@@ -88,7 +88,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
               return CartoonCard(
                 cartoon: cartoon,
                 onTap: () =>
-                    context.read<SelectCartoonCubit>().selectCartoon(cartoon),
+                  context.read<SelectCartoonCubit>().selectCartoon(cartoon),
               );
             },
             staggeredTileBuilder: (index) =>

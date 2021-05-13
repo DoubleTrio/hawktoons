@@ -13,6 +13,7 @@ class DetailsPage extends Page {
 
   @override
   Route createRoute(BuildContext context) {
+    print('herllo');
     return PageRouteBuilder(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>

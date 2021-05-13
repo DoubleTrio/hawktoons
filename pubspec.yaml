@@ -29,6 +29,7 @@ dependencies:
   political_cartoon_repository:
     path: ../../repository/political_cartoon_repository
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -36,6 +37,18 @@ dev_dependencies:
   mocktail: ^0.1.0
   very_good_analysis: ^2.0.0
   network_image_mock: ^2.0.0
+  flutter_launcher_icons: ^0.9.0
+  change_app_package_name: ^1.0.0
+  flutter_native_splash: ^1.1.8+4
+
+flutter_icons:
+  android: launcher_icon
+  image_path: assets/images/app/app_icon.png
+
+flutter_native_splash:
+  color: '#FFFFFF'
+  color_dark: "#121212"
+  image: assets/images/app/app_icon.png
 
 flutter:
   uses-material-design: true

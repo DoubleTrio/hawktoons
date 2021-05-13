@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -30,6 +31,7 @@ void main() {
     late ShowBottomSheetCubit showBottomSheetCubit;
     late AuthenticationBloc authenticationBloc;
     late ScrollHeaderCubit scrollHeaderCubit;
+    late SelectCartoonCubit selectCartoonCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
@@ -40,6 +42,7 @@ void main() {
         BlocProvider.value(value: showBottomSheetCubit),
         BlocProvider.value(value: scrollHeaderCubit),
         BlocProvider.value(value: authenticationBloc),
+        BlocProvider.value(value: selectCartoonCubit),
       ], child: child);
     }
 
@@ -50,6 +53,9 @@ void main() {
       registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+      registerFallbackValue<SelectPoliticalCartoonState>(
+        SelectPoliticalCartoonState()
+      );
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
@@ -60,6 +66,7 @@ void main() {
       showBottomSheetCubit = MockShowBottomSheetCubit();
       authenticationBloc = MockAuthenticationBloc();
       scrollHeaderCubit = MockScrollHeaderCubit();
+      selectCartoonCubit = MockSelectCartoonCubit();
       when(() => scrollHeaderCubit.state).thenReturn(false);
     });
 
@@ -117,35 +124,5 @@ void main() {
       await tester.tap(find.byKey(logoutButtonKey));
       verify(() => authenticationBloc.add(Logout())).called(1);
     });
-
-
-    testWidgets('display scroll header after scrolling', (tester) async {
-      var filteredCartoonsState =
-        FilteredCartoonsLoaded(List.filled(8, mockPoliticalCartoon), Tag.all);
-      when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
-      when(() => scrollHeaderCubit.state).thenReturn(false);
-
-      await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(FilteredCartoonsScreen())),
-      );
-
-      await tester.drag(
-        find.byType(StaggeredCartoonGrid),
-        const Offset(0, -100)
-      );
-
-      await tester.drag(
-        find.byType(StaggeredCartoonGrid),
-        const Offset(0, 100)
-      );
-
-      verifyInOrder([
-        scrollHeaderCubit.onScrollPastHeader,
-        scrollHeaderCubit.onScrollBeforeHeader
-      ]);
-
-      expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
-    });
-
   });
 }

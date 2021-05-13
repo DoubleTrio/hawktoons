@@ -1,4 +1,4 @@
-package com.example.historyApp
+package com.hasdhawk.hawktoons
 
 import io.flutter.embedding.android.FlutterActivity
 

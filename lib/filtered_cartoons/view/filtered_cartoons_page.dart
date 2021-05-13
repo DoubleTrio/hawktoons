@@ -65,8 +65,6 @@ class FilteredCartoonsScreen extends StatelessWidget {
               if (state is FilteredCartoonsLoaded) {
                 return StaggeredCartoonGrid(
                   cartoons: [
-                    ...state.filteredCartoons,
-                    ...state.filteredCartoons,
                     ...state.filteredCartoons
                   ],
                   key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),

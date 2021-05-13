@@ -31,6 +31,7 @@ void main() {
     late DailyCartoonBloc dailyCartoonBloc;
     late FilteredCartoonsBloc filteredCartoonsBloc;
     late ScrollHeaderCubit scrollHeaderCubit;
+    late SelectCartoonCubit selectCartoonCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
@@ -43,6 +44,7 @@ void main() {
         BlocProvider.value(value: tabBloc),
         BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: scrollHeaderCubit),
+        BlocProvider.value(value: selectCartoonCubit),
       ], child: child);
     }
     setUpAll(() async {
@@ -52,6 +54,9 @@ void main() {
       registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<SelectPoliticalCartoonState>(
+        SelectPoliticalCartoonState()
+      );
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Tag>(Tag.all);
@@ -67,12 +72,16 @@ void main() {
       dailyCartoonBloc = MockDailyCartoonBloc();
       filteredCartoonsBloc = MockFilteredCartoonsBloc();
       scrollHeaderCubit = MockScrollHeaderCubit();
+      selectCartoonCubit = MockSelectCartoonCubit();
 
       when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
       when(() => filteredCartoonsBloc.state)
         .thenReturn(FilteredCartoonsLoading());
+      when(() => selectCartoonCubit.state).thenReturn(
+        SelectPoliticalCartoonState()
+      );
     });
 
     group('TabSelector', () {

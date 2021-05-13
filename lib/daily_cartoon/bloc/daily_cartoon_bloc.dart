@@ -35,9 +35,9 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
         if (code == 'permission-denied') {
           return;
         }
-        add(ErrorDailyCartoonEvent(err.code));
+        return add(ErrorDailyCartoonEvent(err.code));
       }
-      add(ErrorDailyCartoonEvent(err.toString()));
+      return add(ErrorDailyCartoonEvent(err.toString()));
     });
   }
 

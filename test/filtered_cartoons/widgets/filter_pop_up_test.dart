@@ -58,18 +58,16 @@ void main() {
     });
 
     group('FilterPopUp', () {
-
       testWidgets('selects sorting mode', (tester) async {
         await tester.pumpApp(wrapper(FilterPopUp()));
-
         await tester.tap(find.byKey(_sortByTileKey));
         await tester.pumpAndSettle();
         verify(() => sortByCubit.selectSortBy(sortByMode)).called(1);
       });
 
       testWidgets('selects filter tag', (tester) async {
+        when(() => tagCubit.state).thenReturn(Tag.all);
         await tester.pumpApp(wrapper(FilterPopUp()));
-
         await tester.tap(find.byKey(_tagButtonKey));
         await tester.pumpAndSettle();
         verify(() => tagCubit.selectTag(tag)).called(1);
@@ -77,9 +75,7 @@ void main() {
 
       testWidgets('deselects filter tag', (tester) async {
         when(() => tagCubit.state).thenReturn(Tag.tag5);
-
         await tester.pumpApp(wrapper(FilterPopUp()));
-
         await tester.tap(find.byKey(_tagButtonKey));
         await tester.pumpAndSettle();
         verify(() => tagCubit.selectTag(Tag.all)).called(1);
@@ -88,12 +84,9 @@ void main() {
       testWidgets('reset button works', (tester) async {
         when(() => tagCubit.state).thenReturn(Tag.tag5);
         when(() => sortByCubit.state).thenReturn(SortByMode.earliestPublished);
-
         await tester.pumpApp(wrapper(FilterPopUp()));
-
         await tester.tap(find.byKey(_resetFilterButtonKey));
         await tester.pumpAndSettle();
-
         verify(() => tagCubit.selectTag(Tag.all)).called(1);
         verify(() => sortByCubit.selectSortBy(SortByMode.latestPosted))
           .called(1);

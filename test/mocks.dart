@@ -55,3 +55,6 @@ class MockDailyCartoonBloc
     implements DailyCartoonBloc {}
 
 class MockThemeCubit extends MockCubit<ThemeMode> implements ThemeCubit {}
+
+class MockSelectCartoonCubit extends MockCubit<SelectPoliticalCartoonState>
+  implements SelectCartoonCubit {}
