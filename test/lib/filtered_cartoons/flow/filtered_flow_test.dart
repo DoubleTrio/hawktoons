@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,7 +85,26 @@ void main() {
       await mockNetworkImagesFor(
         () => tester.pumpApp(wrapper(FilteredFlow())),
       );
+
       expect(find.byType(DetailsScreen), findsOneWidget);
+    });
+
+    testWidgets('transitions to DetailsPage', (tester) async {
+      when(() => filteredCartoonsBloc.state).thenReturn(
+        FilteredCartoonsLoaded(List.filled(2, mockPoliticalCartoon), Tag.all)
+      );
+      when(() => scrollHeaderCubit.state).thenReturn(false);
+      when(() => selectCartoonCubit.state).thenReturn(
+        SelectPoliticalCartoonState()
+      );
+
+      await tester.pumpApp(wrapper(FilteredFlow()));
+
+      await tester.tap(find.byType(CartoonCard).first);
+
+      verify(
+        () => selectCartoonCubit.selectCartoon(mockPoliticalCartoon))
+      .called(1);
     });
   });
 }

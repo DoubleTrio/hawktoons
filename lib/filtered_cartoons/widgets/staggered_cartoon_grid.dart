@@ -36,15 +36,15 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
       var height = renderBox.size.height;
 
       _scrollController.addListener(() {
-        var maxScroll = _scrollController.position.maxScrollExtent;
+        // var maxScroll = _scrollController.position.maxScrollExtent;
         var currentScroll = _scrollController.position.pixels;
-        var delta = 200.0;
+        // var delta = 200.0;
         if (currentScroll > height) {
           context.read<ScrollHeaderCubit>().onScrollPastHeader();
         } else {
           context.read<ScrollHeaderCubit>().onScrollBeforeHeader();
         }
-        if (maxScroll - currentScroll <= delta) {}
+        // if (maxScroll - currentScroll <= delta) {}
       });
       _scrollController.position.isScrollingNotifier.addListener(() {
         if (!_scrollController.position.isScrollingNotifier.value) {

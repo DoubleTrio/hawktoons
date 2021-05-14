@@ -5,4 +5,5 @@ Future<void> setUpHydratedDirectory() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
   );
+  await HydratedStorage.hive.close();
 }

@@ -54,7 +54,7 @@ void main() {
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<SelectPoliticalCartoonState>(
-        SelectPoliticalCartoonState()
+          SelectPoliticalCartoonState()
       );
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
@@ -71,9 +71,9 @@ void main() {
     });
 
     testWidgets(
-        'renders widget '
-        'with Key(\'FilteredCartoonsPage_FilteredCartoonsLoading\') '
-        'when state is FilteredCartoonsLoading', (tester) async {
+      'renders widget '
+      'with Key(\'FilteredCartoonsPage_FilteredCartoonsLoading\') '
+      'when state is FilteredCartoonsLoading', (tester) async {
       when(() => filteredCartoonsBloc.state).thenReturn(
         FilteredCartoonsLoading()
       );
@@ -83,11 +83,11 @@ void main() {
     });
 
     testWidgets(
-        'renders widget with '
-        'Key(\'FilteredCartoonsPage_FilteredCartoonsLoaded\') '
-        'when state is FilteredCartoonsLoaded', (tester) async {
+      'renders widget with '
+      'Key(\'FilteredCartoonsPage_FilteredCartoonsLoaded\') '
+      'when state is FilteredCartoonsLoaded', (tester) async {
       var filteredCartoonsState =
-          FilteredCartoonsLoaded([mockPoliticalCartoon], Tag.all);
+      FilteredCartoonsLoaded([mockPoliticalCartoon], Tag.all);
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
       await mockNetworkImagesFor(
@@ -96,9 +96,10 @@ void main() {
       expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
     });
 
-    testWidgets('renders widget '
-        'with Key(\'FilteredCartoonsPage_FilteredCartoonsFailed\'); '
-        'when state is FilteredCartoonFailed', (tester) async {
+    testWidgets(
+      'renders widget '
+      'with Key(\'FilteredCartoonsPage_FilteredCartoonsFailed\'); '
+      'when state is FilteredCartoonFailed', (tester) async {
       var filteredCartoonsState = FilteredCartoonsFailed('Error');
 
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);

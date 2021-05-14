@@ -49,9 +49,9 @@ class DetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: CustomIconButton(
-        key: const Key('DetailsPage_BackButton'),
-        icon: const Icon(Icons.arrow_back),
-        onPressed: _deselectCartoon,
+          key: const Key('DetailsPage_BackButton'),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: _deselectCartoon,
         )
       ),
       body: SingleChildScrollView(
