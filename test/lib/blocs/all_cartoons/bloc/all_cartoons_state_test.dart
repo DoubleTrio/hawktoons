@@ -1,18 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/blocs/all_cartoons/bloc/all_cartoons_state.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
+import '../../../mocks.dart';
 
 void main() {
   group('AllCartoonsState', () {
-    group('AllCartoonsInProgress', () {
+    group('AllCartoonsLoading', () {
       test('supports value comparisons', () {
         expect(AllCartoonsLoading(), AllCartoonsLoading());
       });
     });
-
+    group('MoreCartoonsLoading', () {
+      test('supports value comparisons', () {
+        expect(MoreCartoonsLoading(), MoreCartoonsLoading());
+      });
+    });
     group('AllCartoonsLoaded', () {
       final cartoons = [MockPoliticalCartoon(), MockPoliticalCartoon()];
       test('supports value comparisons', () {

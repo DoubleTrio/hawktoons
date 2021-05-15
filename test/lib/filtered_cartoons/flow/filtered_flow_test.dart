@@ -78,6 +78,10 @@ void main() {
     });
 
     testWidgets('shows DetailsPage', (tester) async {
+      when(() => filteredCartoonsBloc.state).thenReturn(
+        FilteredCartoonsLoading()
+      );
+
       when(() => selectCartoonCubit.state).thenReturn(
         SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon)
       );
@@ -91,7 +95,9 @@ void main() {
 
     testWidgets('transitions to DetailsPage', (tester) async {
       when(() => filteredCartoonsBloc.state).thenReturn(
-        FilteredCartoonsLoaded(List.filled(2, mockPoliticalCartoon), Tag.all)
+        FilteredCartoonsLoaded(
+          List.filled(2, mockPoliticalCartoon), Tag.all, ImageType.all
+        )
       );
       when(() => scrollHeaderCubit.state).thenReturn(false);
       when(() => selectCartoonCubit.state).thenReturn(

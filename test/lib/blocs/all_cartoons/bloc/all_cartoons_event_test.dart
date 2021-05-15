@@ -15,6 +15,14 @@ void main() {
         );
       });
     });
+    group('LoadMoreCartoons', () {
+      test('supports value comparisons', () {
+        expect(
+          LoadMoreCartoons(SortByMode.latestPublished),
+          LoadMoreCartoons(SortByMode.latestPublished),
+        );
+      });
+    });
     group('ErrorAllCartoonsEvent', () {
       test('supports value comparisons', () {
         expect(
@@ -23,7 +31,6 @@ void main() {
         );
       });
     });
-
     group('UpdateAllCartoons', () {
       test('supports value comparisons', () {
         final cartoons = [MockPoliticalCartoon(), MockPoliticalCartoon()];

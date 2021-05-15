@@ -89,7 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     OnboardingWidget(
                       header: 'New daily cartoons',
                       body: 'Learn something new with a new political cartoon '
-                        'or political image everyday. Each will include a '
+                        'or image everyday. Each will include a '
                         'brief description given the context of the time '
                         'period.'
                     ),

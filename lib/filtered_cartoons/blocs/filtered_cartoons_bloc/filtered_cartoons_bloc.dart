@@ -26,10 +26,14 @@ class FilteredCartoonsBloc
       return FilteredCartoonsLoading();
     } else if (allCartoonsBloc.state is AllCartoonsLoaded) {
       return FilteredCartoonsLoaded(
-        (allCartoonsBloc.state as AllCartoonsLoaded).cartoons, Tag.all);
+        (allCartoonsBloc.state as AllCartoonsLoaded).cartoons,
+        Tag.all,
+        ImageType.all
+      );
     }
     return FilteredCartoonsFailed(
-      (allCartoonsBloc.state as AllCartoonsFailed).errorMessage);
+      (allCartoonsBloc.state as AllCartoonsFailed).errorMessage
+    );
   }
 
   @override
@@ -48,8 +52,13 @@ class FilteredCartoonsBloc
     final currentState = _allCartoonsBloc.state;
     if (currentState is AllCartoonsLoaded) {
       yield FilteredCartoonsLoaded(
-        _mapCartoonsToFilteredCartoons(currentState.cartoons, event.filter),
-        event.filter
+        _mapCartoonsToFilteredCartoons(
+          currentState.cartoons,
+          event.filter,
+          event.type
+        ),
+        event.filter,
+        event.type,
       );
     }
   }
@@ -57,29 +66,47 @@ class FilteredCartoonsBloc
   Stream<FilteredCartoonsState> _mapCartoonsUpdatedToState(
     UpdateFilteredCartoons event,
   ) async* {
+
     final tagFilter = state is FilteredCartoonsLoaded
       ? (state as FilteredCartoonsLoaded).filter
       : Tag.all;
+
+    final typeFilter = state is FilteredCartoonsLoaded
+        ? (state as FilteredCartoonsLoaded).type
+        : ImageType.all;
+
     if (_allCartoonsBloc.state is AllCartoonsLoaded) {
       yield FilteredCartoonsLoaded(
         _mapCartoonsToFilteredCartoons(
           (_allCartoonsBloc.state as AllCartoonsLoaded).cartoons,
           tagFilter,
+          typeFilter,
         ),
         tagFilter,
+        typeFilter,
       );
     }
   }
 
   List<PoliticalCartoon> _mapCartoonsToFilteredCartoons(
-      List<PoliticalCartoon> cartoons, Tag filter) {
-    return cartoons.where((cartoon) {
+      List<PoliticalCartoon> cartoons, Tag filter, ImageType type) {
+
+    var cartoonsFilteredByTags = cartoons.where((cartoon) {
       if (filter == Tag.all) {
         return true;
       } else {
         return cartoon.tags.contains(filter);
       }
     }).toList();
+
+    return cartoonsFilteredByTags.where((cartoon) {
+      if (type == ImageType.all) {
+        return true;
+      } else {
+        return cartoon.type == type;
+      }
+    }).toList();
+
   }
 
   @override

@@ -15,7 +15,8 @@ var mockPoliticalCartoon = PoliticalCartoon(
   published: Timestamp.now(),
   description: 'Another Mock Political Cartoon',
   tags: [Tag.tag1],
-  downloadUrl: 'downloadurl'
+  downloadUrl: 'downloadurl',
+  type: ImageType.cartoon
 );
 
 class MockPoliticalCartoonRepository extends Mock implements
@@ -57,3 +58,6 @@ class MockThemeCubit extends MockCubit<ThemeMode> implements ThemeCubit {}
 
 class MockSelectCartoonCubit extends MockCubit<SelectPoliticalCartoonState>
   implements SelectCartoonCubit {}
+
+class MockImageTypeCubit extends MockCubit<ImageType>
+  implements ImageTypeCubit {}

@@ -5,27 +5,14 @@ import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class MockCartoonRepository extends Mock
-    implements FirestorePoliticalCartoonRepository {}
-
-class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
+import '../../../mocks.dart';
 
 void main() {
   group('AllCartoonsBloc', () {
     late FirestorePoliticalCartoonRepository cartoonRepository;
-    var politicalCartoons = [
-      PoliticalCartoon(
-          id: '2',
-          author: 'Bob',
-          date: Timestamp.now(),
-          published: Timestamp.now(),
-          description: 'Another Mock Political Cartoon',
-          tags: [Tag.tag1],
-          downloadUrl: 'downloadurl'),
-    ];
 
     setUpAll(() {
-      cartoonRepository = MockCartoonRepository();
+      cartoonRepository = MockPoliticalCartoonRepository();
     });
 
     test('initial state is AllCartoonsLoading', () {
@@ -35,33 +22,35 @@ void main() {
     });
 
     blocTest<AllCartoonsBloc, AllCartoonsState>(
-        'Emits [AllCartoonsLoaded(cartoons: $politicalCartoons)] '
+        'Emits [AllCartoonsLoaded] '
         'when LoadAllCartoons is added',
         build: () {
           when(() => cartoonRepository.politicalCartoons(
                   sortByMode: SortByMode.latestPosted))
-              .thenAnswer((_) => Stream.value(politicalCartoons));
+              .thenAnswer((_) => Stream.value([mockPoliticalCartoon]));
 
           return AllCartoonsBloc(cartoonRepository: cartoonRepository);
         },
         act: (bloc) => bloc.add(LoadAllCartoons(SortByMode.latestPosted)),
-        expect: () => [AllCartoonsLoaded(cartoons: politicalCartoons)],
+        expect: () => [AllCartoonsLoaded(cartoons: [mockPoliticalCartoon])],
         verify: (_) => verify(() => cartoonRepository.politicalCartoons(
-            sortByMode: SortByMode.latestPosted)).called(1));
+          sortByMode: SortByMode.latestPosted)).called(1)
+        );
 
     blocTest<AllCartoonsBloc, AllCartoonsState>(
         'Emits [DailyCartoonFailed(\'Error\')] '
         'when LoadAllCartoons throws a stream error',
         build: () {
           when(() => cartoonRepository.politicalCartoons(
-                  sortByMode: SortByMode.latestPosted))
-              .thenAnswer((_) => Stream.error('Error'));
-
+            sortByMode: SortByMode.latestPosted)
+          ).thenAnswer((_) => Stream.error('Error'));
           return AllCartoonsBloc(cartoonRepository: cartoonRepository);
         },
         act: (bloc) => bloc.add(LoadAllCartoons(SortByMode.latestPosted)),
         expect: () => [AllCartoonsFailed('Error')],
         verify: (_) => verify(() => cartoonRepository.politicalCartoons(
-            sortByMode: SortByMode.latestPosted)).called(1));
+          sortByMode: SortByMode.latestPosted)
+        ).called(1)
+    );
   });
 }

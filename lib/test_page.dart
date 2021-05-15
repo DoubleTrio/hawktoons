@@ -41,15 +41,17 @@ class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
     var testCartoon = PoliticalCartoon(
-        published: Timestamp.now(),
-        author: 'Test Cartoon',
-        date: Timestamp.fromDate(
-            DateTime.now().subtract(const Duration(minutes: 2))),
-        description: 'This a cartoon description and this will be added on'
-            ' later and more text to the container',
-        tags: [Tag.tag3],
-        downloadUrl:
-            'https://images.unsplash.com/photo-1515966097209-ec48f3216288?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1950&q=80');
+      published: Timestamp.now(),
+      author: 'Test Cartoon',
+      date: Timestamp.fromDate(
+          DateTime.now().subtract(const Duration(minutes: 2))),
+      description: 'This a cartoon description and this will be added on'
+          ' later and more text to the container',
+      tags: [Tag.tag3],
+      downloadUrl:
+          'https://images.unsplash.com/photo-1515966097209-ec48f3216288?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1950&q=80',
+      type: ImageType.all
+    );
 
     return Material(
       child: Column(

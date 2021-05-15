@@ -19,12 +19,10 @@ class HomeFlowPage extends Page {
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
         MultiBlocProvider(providers: [
-          BlocProvider<TabBloc>(
-            create: (_) => TabBloc(),
-          ),
+          BlocProvider<TabBloc>(create: (_) => TabBloc(),),
+          BlocProvider<ImageTypeCubit>(create: (_) => ImageTypeCubit()),
           BlocProvider<TagCubit>(create: (_) => TagCubit()),
-          BlocProvider<ScrollHeaderCubit>(
-            create: (_) => ScrollHeaderCubit()),
+          BlocProvider<ScrollHeaderCubit>(create: (_) => ScrollHeaderCubit()),
           BlocProvider<SortByCubit>(create: (_) => SortByCubit()),
           BlocProvider(create: (_) => SelectCartoonCubit()),
           BlocProvider(create: (_) => ShowBottomSheetCubit()),
@@ -81,11 +79,11 @@ class HomeFlow extends StatelessWidget {
         body: BlocListener<ShowBottomSheetCubit, bool>(
           listener: (context, shouldShowBottomSheet) {
             if (shouldShowBottomSheet) {
-              var _filteredCartoonsBloc =
-                  BlocProvider.of<FilteredCartoonsBloc>(context);
-              var _tagCubit = BlocProvider.of<TagCubit>(context);
-              var _sortByCubit = BlocProvider.of<SortByCubit>(context);
-              var _allCartoonsBloc = BlocProvider.of<AllCartoonsBloc>(context);
+              var _imageTypeCubit = context.read<ImageTypeCubit>();
+              var _filteredCartoonsBloc = context.read<FilteredCartoonsBloc>();
+              var _tagCubit = context.read<TagCubit>();
+              var _sortByCubit = context.read<SortByCubit>();
+              var _allCartoonsBloc = context.read<AllCartoonsBloc>();
               showModalBottomSheet(
                 shape: const RoundedRectangleBorder(
                   borderRadius:
@@ -95,6 +93,7 @@ class HomeFlow extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return MultiBlocProvider(providers: [
+                    BlocProvider.value(value: _imageTypeCubit),
                     BlocProvider.value(value: _tagCubit),
                     BlocProvider.value(value: _filteredCartoonsBloc),
                     BlocProvider.value(value: _sortByCubit),

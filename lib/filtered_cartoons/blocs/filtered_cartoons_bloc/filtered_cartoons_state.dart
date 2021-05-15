@@ -13,13 +13,14 @@ class FilteredCartoonsLoading extends FilteredCartoonsState {
 }
 
 class FilteredCartoonsLoaded extends FilteredCartoonsState {
-  FilteredCartoonsLoaded(this.filteredCartoons, this.filter);
+  FilteredCartoonsLoaded(this.filteredCartoons, this.filter, this.type);
 
   final List<PoliticalCartoon> filteredCartoons;
   final Tag filter;
+  final ImageType type;
 
   @override
-  List<Object?> get props => [filteredCartoons, filter];
+  List<Object?> get props => [filteredCartoons, filter, type];
 }
 
 class FilteredCartoonsFailed extends FilteredCartoonsState {

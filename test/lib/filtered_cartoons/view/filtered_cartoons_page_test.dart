@@ -87,7 +87,7 @@ void main() {
       'Key(\'FilteredCartoonsPage_FilteredCartoonsLoaded\') '
       'when state is FilteredCartoonsLoaded', (tester) async {
       var filteredCartoonsState =
-      FilteredCartoonsLoaded([mockPoliticalCartoon], Tag.all);
+      FilteredCartoonsLoaded([mockPoliticalCartoon], Tag.all, ImageType.all);
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
       await mockNetworkImagesFor(

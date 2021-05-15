@@ -9,13 +9,15 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     : super(AllCartoonsLoading());
 
   late StreamSubscription _cartoonsSubscription;
-  final PoliticalCartoonRepository cartoonRepository;
+  final FirestorePoliticalCartoonRepository cartoonRepository;
 
   @override
   Stream<AllCartoonsState> mapEventToState(
     AllCartoonsEvent event,
   ) async* {
     if (event is LoadAllCartoons) {
+      yield* _mapLoadAllCartoonsToState(event.sortByMode);
+    } else if (event is LoadMoreCartoons) {
       yield* _mapLoadAllCartoonsToState(event.sortByMode);
     } else if (event is UpdateAllCartoons) {
       yield* _mapUpdateAllCartoonsToState(event.cartoons);
@@ -43,6 +45,21 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   Stream<AllCartoonsState> _mapErrorAllCartoonsEventToState(
       String errorMessage) async* {
     yield AllCartoonsFailed(errorMessage);
+  }
+
+  Stream<AllCartoonsState> _mapLoadMoreCartoonsToState(
+      SortByMode sortByMode) async* {
+    _cartoonsSubscription = cartoonRepository
+        .loadMorePoliticalCartoons(sortByMode: sortByMode)
+        .listen((cartoons) {
+      if (state is AllCartoonsLoaded) {
+        add(UpdateAllCartoons(
+          cartoons: [...(state as AllCartoonsLoaded).cartoons, ...cartoons]
+        ));
+      }
+    }, onError: (err) {
+      add(ErrorAllCartoonsEvent(err.toString()));
+    });
   }
 
   @override

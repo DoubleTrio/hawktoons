@@ -14,6 +14,15 @@ class LoadAllCartoons extends AllCartoonsEvent {
   List<Object> get props => [sortByMode];
 }
 
+class LoadMoreCartoons extends AllCartoonsEvent {
+  LoadMoreCartoons(this.sortByMode);
+
+  final SortByMode sortByMode;
+
+  @override
+  List<Object> get props => [sortByMode];
+}
+
 class ErrorAllCartoonsEvent extends AllCartoonsEvent {
   ErrorAllCartoonsEvent(this.errorMessage);
 

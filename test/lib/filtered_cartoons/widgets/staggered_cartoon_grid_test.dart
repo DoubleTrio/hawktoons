@@ -68,13 +68,13 @@ void main() {
       );
 
       await tester.drag(
-          find.byType(StaggeredCartoonGrid),
-          const Offset(0, -100)
+        find.byType(StaggeredCartoonGrid),
+        const Offset(0, -100)
       );
 
       await tester.drag(
-          find.byType(StaggeredCartoonGrid),
-          const Offset(0, 100)
+        find.byType(StaggeredCartoonGrid),
+        const Offset(0, 100)
       );
 
       verifyInOrder([

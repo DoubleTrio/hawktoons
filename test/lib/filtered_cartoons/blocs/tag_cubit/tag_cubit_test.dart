@@ -13,7 +13,7 @@ void main() {
       'emits [Tag.worldHistory] when selectTag is called',
       build: () => TagCubit(),
       act: (cubit) => cubit.selectTag(Tag.worldHistory),
-      expect: () => [equals(Tag.worldHistory)],
+      expect: () => [Tag.worldHistory],
     );
 
     blocTest<TagCubit, Tag>(
@@ -22,7 +22,7 @@ void main() {
       build: () => TagCubit(),
       seed: () => Tag.worldHistory,
       act: (cubit) => cubit.selectTag(Tag.tag5),
-      expect: () => [equals(Tag.tag5)],
+      expect: () => [Tag.tag5],
     );
   });
 }

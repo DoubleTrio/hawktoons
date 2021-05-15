@@ -32,6 +32,7 @@ void main() {
     late FilteredCartoonsBloc filteredCartoonsBloc;
     late ScrollHeaderCubit scrollHeaderCubit;
     late SelectCartoonCubit selectCartoonCubit;
+    late ImageTypeCubit imageTypeCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
@@ -45,6 +46,7 @@ void main() {
         BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: scrollHeaderCubit),
         BlocProvider.value(value: selectCartoonCubit),
+        BlocProvider.value(value: imageTypeCubit)
       ], child: child);
     }
     setUpAll(() async {
@@ -62,6 +64,7 @@ void main() {
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
       registerFallbackValue<ThemeMode>(ThemeMode.light);
+      registerFallbackValue<ImageType>(ImageType.all);
 
       themeCubit = MockThemeCubit();
       tabBloc = MockTabBloc();
@@ -73,6 +76,7 @@ void main() {
       filteredCartoonsBloc = MockFilteredCartoonsBloc();
       scrollHeaderCubit = MockScrollHeaderCubit();
       selectCartoonCubit = MockSelectCartoonCubit();
+      imageTypeCubit = MockImageTypeCubit();
 
       when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
       when(() => showBottomSheetCubit.state).thenReturn(false);
@@ -82,6 +86,7 @@ void main() {
       when(() => selectCartoonCubit.state).thenReturn(
         SelectPoliticalCartoonState()
       );
+      when(() => imageTypeCubit.state).thenReturn(ImageType.all);
     });
 
     group('TabSelector', () {

@@ -16,9 +16,11 @@ const _applyFilterButtonKey = Key('ButtonRowHeader_ApplyFilterButton');
 
 final sortByMode = SortByMode.latestPosted;
 final tag = Tag.tag5;
+final imageType = ImageType.cartoon;
 
 final _tagButtonKey = Key('Tag_Button_${tag.index}');
 final _sortByTileKey = Key('SortByMode_Button_${sortByMode.index}');
+final _imageTypeButtonKey = Key('ImageTypeCheckbox_${imageType.index}');
 
 
 void main() {
@@ -27,6 +29,7 @@ void main() {
     late TagCubit tagCubit;
     late SortByCubit sortByCubit;
     late FilteredCartoonsBloc filteredCartoonsBloc;
+    late ImageTypeCubit imageTypeCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
@@ -34,6 +37,7 @@ void main() {
         BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: sortByCubit),
         BlocProvider.value(value: filteredCartoonsBloc),
+        BlocProvider.value(value: imageTypeCubit),
       ], child: child);
     }
     setUpAll(() async {
@@ -44,70 +48,112 @@ void main() {
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
+      registerFallbackValue<ImageType>(ImageType.all);
 
       allCartoonsBloc = MockAllCartoonsBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       filteredCartoonsBloc = MockFilteredCartoonsBloc();
+      imageTypeCubit = MockImageTypeCubit();
 
       when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
       when(() => filteredCartoonsBloc.state)
         .thenReturn(FilteredCartoonsLoading());
       when(() => tagCubit.state).thenReturn(Tag.all);
       when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
+      when(() => imageTypeCubit.state).thenReturn(ImageType.all);
     });
 
-    group('FilterPopUp', () {
-      testWidgets('selects sorting mode', (tester) async {
-        await tester.pumpApp(wrapper(FilterPopUp()));
-        await tester.tap(find.byKey(_sortByTileKey));
-        await tester.pumpAndSettle();
-        verify(() => sortByCubit.selectSortBy(sortByMode)).called(1);
-      });
+    testWidgets('selects sorting mode', (tester) async {
+      await tester.pumpApp(
+        wrapper(SortByTileListView(modes: SortByMode.values)
+      ));
 
-      testWidgets('selects filter tag', (tester) async {
-        when(() => tagCubit.state).thenReturn(Tag.all);
-        await tester.pumpApp(wrapper(FilterPopUp()));
-        await tester.tap(find.byKey(_tagButtonKey));
-        await tester.pumpAndSettle();
-        verify(() => tagCubit.selectTag(tag)).called(1);
-      });
+      await tester.tap(find.byKey(_sortByTileKey));
+      await tester.pumpAndSettle();
+      verify(() => sortByCubit.selectSortBy(sortByMode)).called(1);
+    });
 
-      testWidgets('deselects filter tag', (tester) async {
-        when(() => tagCubit.state).thenReturn(Tag.tag5);
-        await tester.pumpApp(wrapper(FilterPopUp()));
-        await tester.tap(find.byKey(_tagButtonKey));
-        await tester.pumpAndSettle();
-        verify(() => tagCubit.selectTag(Tag.all)).called(1);
-      });
+    testWidgets('selects filter tag', (tester) async {
+      when(() => tagCubit.state).thenReturn(Tag.all);
+      await tester.pumpApp(wrapper(FilterPopUp()));
+      await tester.tap(find.byKey(_tagButtonKey));
+      await tester.pumpAndSettle();
+      verify(() => tagCubit.selectTag(tag)).called(1);
+    });
 
-      testWidgets('reset button works', (tester) async {
-        when(() => tagCubit.state).thenReturn(Tag.tag5);
-        when(() => sortByCubit.state).thenReturn(SortByMode.earliestPublished);
-        await tester.pumpApp(wrapper(FilterPopUp()));
-        await tester.tap(find.byKey(_resetFilterButtonKey));
-        await tester.pumpAndSettle();
-        verify(() => tagCubit.selectTag(Tag.all)).called(1);
-        verify(() => sortByCubit.selectSortBy(SortByMode.latestPosted))
-          .called(1);
-      });
+    testWidgets('deselects filter tag', (tester) async {
+      when(() => tagCubit.state).thenReturn(Tag.tag5);
+      await tester.pumpApp(wrapper(FilterPopUp()));
+      await tester.tap(find.byKey(_tagButtonKey));
+      await tester.pumpAndSettle();
+      verify(() => tagCubit.selectTag(Tag.all)).called(1);
+    });
 
-      testWidgets('applies correct filter', (tester) async {
-        when(() => tagCubit.state).thenReturn(tag);
-        when(() => sortByCubit.state).thenReturn(sortByMode);
+    testWidgets('reset button works', (tester) async {
+      when(() => tagCubit.state).thenReturn(Tag.tag5);
+      when(() => sortByCubit.state).thenReturn(SortByMode.earliestPublished);
+      await tester.pumpApp(wrapper(FilterPopUp()));
+      await tester.tap(find.byKey(_resetFilterButtonKey));
+      await tester.pumpAndSettle();
+      verify(() => tagCubit.selectTag(Tag.all)).called(1);
+      verify(() => sortByCubit.selectSortBy(SortByMode.latestPosted))
+        .called(1);
+      verify(() => imageTypeCubit.deselectImageType())
+        .called(1);
+    });
 
-        await tester.pumpApp(wrapper(FilterPopUp()));
+    testWidgets('applies correct filter', (tester) async {
+      when(() => tagCubit.state).thenReturn(tag);
+      when(() => sortByCubit.state).thenReturn(sortByMode);
+      when(() => imageTypeCubit.state).thenReturn(imageType);
 
-        await tester.tap(find.byKey(_applyFilterButtonKey));
-        await tester.pumpAndSettle();
+      await tester.pumpApp(wrapper(FilterPopUp()));
 
-        verify(() => allCartoonsBloc.add(
-          LoadAllCartoons(sortByMode)
-        )).called(1);
+      await tester.tap(find.byKey(_applyFilterButtonKey));
+      await tester.pumpAndSettle();
 
-        verify(() => filteredCartoonsBloc.add(UpdateFilter(tag)))
-          .called(1);
-      });
+      verify(() => allCartoonsBloc.add(
+        LoadAllCartoons(sortByMode)
+      )).called(1);
+
+      verify(() => filteredCartoonsBloc.add(UpdateFilter(tag, imageType)))
+        .called(1);
+    });
+
+    testWidgets('selects image type', (tester) async {
+      when(() => imageTypeCubit.state).thenReturn(ImageType.all);
+      await tester.pumpApp(
+        wrapper(ImageTypeCheckboxRow(imageTypes: ImageType.values.sublist(1)))
+      );
+
+      await tester.tap(
+        find.descendant(
+          of: find.byKey(_imageTypeButtonKey),
+          matching: find.byType(Checkbox)
+        )
+      );
+
+      await tester.pumpAndSettle();
+      verify(() => imageTypeCubit.selectImageType(
+        imageType
+      )).called(1);
+    });
+
+    testWidgets('deselects image type', (tester) async {
+      when(() => imageTypeCubit.state).thenReturn(imageType);
+      await tester.pumpApp(
+        wrapper(ImageTypeCheckboxRow(imageTypes: ImageType.values.sublist(1)))
+      );
+
+      await tester.tap(
+        find.descendant(
+          of: find.byKey(_imageTypeButtonKey),
+          matching: find.byType(Checkbox)
+        )
+      );
+      await tester.pumpAndSettle();
+      verify(() => imageTypeCubit.deselectImageType()).called(1);
     });
   });
 }

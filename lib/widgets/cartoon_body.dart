@@ -49,6 +49,11 @@ class CartoonBody extends StatelessWidget {
               ),
               CartoonSectionDivider(),
               CartoonSection(
+                title: 'IMAGE TYPE',
+                body: Text(cartoon.type.imageType, style: _bodyTextStyle)
+              ),
+              CartoonSectionDivider(),
+              CartoonSection(
                 title: 'TAGS',
                 body: Column(
                   children: [

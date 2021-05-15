@@ -10,14 +10,17 @@ class ButtonRowHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final _selectedTag = context.watch<TagCubit>().state;
     final _sortByMode = context.watch<SortByCubit>().state;
+    final _imageType = context.watch<ImageTypeCubit>().state;
 
     void _filter() {
       Navigator.of(context).pop();
       context.read<AllCartoonsBloc>().add(LoadAllCartoons(_sortByMode));
-      context.read<FilteredCartoonsBloc>().add(UpdateFilter(_selectedTag));
+      context.read<FilteredCartoonsBloc>()
+        .add(UpdateFilter(_selectedTag, _imageType));
     }
 
     void _reset() {
+      context.read<ImageTypeCubit>().deselectImageType();
       context.read<TagCubit>().selectTag(Tag.all);
       context.read<SortByCubit>().selectSortBy(SortByMode.latestPosted);
     }

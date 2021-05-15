@@ -65,7 +65,9 @@ class CartoonCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('(${cartoon.publishedString})',
+                      Text(
+                        '${cartoon.type.imageType} '
+                        '(${cartoon.publishedString})',
                         style: TextStyle(color: onBackground)
                       ),
                       const SizedBox(height: 8),

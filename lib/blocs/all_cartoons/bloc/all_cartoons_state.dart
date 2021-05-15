@@ -10,6 +10,11 @@ class AllCartoonsLoading extends AllCartoonsState {
   List<Object> get props => [];
 }
 
+class MoreCartoonsLoading extends AllCartoonsState {
+  @override
+  List<Object> get props => [];
+}
+
 class AllCartoonsLoaded extends AllCartoonsState {
   AllCartoonsLoaded({required this.cartoons});
 

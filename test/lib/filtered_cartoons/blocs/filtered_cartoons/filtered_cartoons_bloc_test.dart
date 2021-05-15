@@ -6,6 +6,9 @@ import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
+import '../../../fakes.dart';
+import '../../../mocks.dart';
+
 class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
     implements AllCartoonsBloc {}
 
@@ -16,39 +19,35 @@ void main() {
     late MockAllCartoonsBloc allCartoonsBloc;
 
     var politicalCartoons = [MockPoliticalCartoon()];
-    var tempCartoons = [
-      PoliticalCartoon(
-          id: '2',
-          author: 'Bob',
-          date: Timestamp.now(),
-          published: Timestamp.now(),
-          description: 'Another Mock Political Cartoon',
-          tags: [Tag.tag1],
-          downloadUrl: 'downloadurl')
-    ];
+
+    var mockCartoons = [mockPoliticalCartoon];
 
     setUpAll(() async {
-      registerFallbackValue<AllCartoonsState>(AllCartoonsLoading());
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(
-          LoadAllCartoons(SortByMode.latestPosted));
-      registerFallbackValue<FilteredCartoonsEvent>(UpdateFilter(Tag.tag1));
-      registerFallbackValue<FilteredCartoonsState>(FilteredCartoonsLoading());
+        LoadAllCartoons(SortByMode.latestPosted)
+      );
+      registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
+      registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
       allCartoonsBloc = MockAllCartoonsBloc();
     });
+    
     group('initials states', () {
       test('initial state is FilteredCartoonsFailed()', () {
         when(() => allCartoonsBloc.state)
-            .thenReturn(AllCartoonsFailed('Error'));
+          .thenReturn(AllCartoonsFailed('Error'));
         var bloc = FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
         expect(bloc.state, equals(FilteredCartoonsFailed('Error')));
       });
 
       test('initial state is FilteredCartoonsLoaded()', () {
         when(() => allCartoonsBloc.state)
-            .thenReturn(AllCartoonsLoaded(cartoons: politicalCartoons));
+          .thenReturn(AllCartoonsLoaded(cartoons: politicalCartoons));
         var bloc = FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
         expect(bloc.state,
-            equals(FilteredCartoonsLoaded(politicalCartoons, Tag.all)));
+          equals(
+            FilteredCartoonsLoaded(politicalCartoons, Tag.all, ImageType.all)
+          ));
       });
 
       test('initial state is FilteredCartoonsLoading()', () {
@@ -63,36 +62,59 @@ void main() {
       'when LoadAllCartoons is added',
       build: () {
         when(() => allCartoonsBloc.stream).thenAnswer((_) =>
-            Stream.value(AllCartoonsLoaded(cartoons: politicalCartoons)));
+          Stream.value(AllCartoonsLoaded(cartoons: politicalCartoons))
+        );
         when(() => allCartoonsBloc.state)
-            .thenAnswer((_) => AllCartoonsLoaded(cartoons: politicalCartoons));
+          .thenAnswer((_) => AllCartoonsLoaded(cartoons: politicalCartoons));
         return FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
       },
       act: (bloc) {},
-      expect: () => [FilteredCartoonsLoaded(politicalCartoons, Tag.all)],
-      verify: (_) {},
+      expect: () => [
+        FilteredCartoonsLoaded(politicalCartoons, Tag.all, ImageType.all)
+      ],
     );
 
     blocTest<FilteredCartoonsBloc, FilteredCartoonsState>(
-      'emits [FilteredCartoonsLoaded($tempCartoons, Tag.tag1), '
-      'FilteredCartoonsLoaded($tempCartoons, Tag.all), '
-      'FilteredCartoonsLoaded($tempCartoons, Tag.tag3)] '
-      'when UpdateFilter is added',
+      'applies tag filter correctly',
       build: () {
-        when(() => allCartoonsBloc.stream).thenAnswer(
-            (_) => Stream.value(AllCartoonsLoaded(cartoons: tempCartoons)));
+        whenListen(allCartoonsBloc,
+          Stream.value(AllCartoonsLoaded(cartoons: mockCartoons))
+        );
         when(() => allCartoonsBloc.state)
-            .thenAnswer((_) => AllCartoonsLoaded(cartoons: tempCartoons));
+          .thenAnswer((_) => AllCartoonsLoaded(cartoons: mockCartoons));
         return FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
       },
       act: (bloc) => bloc
-        ..add(UpdateFilter(Tag.all))
-        ..add(UpdateFilter(Tag.tag3))
-        ..add(UpdateFilter(Tag.tag1)),
+        ..add(UpdateFilter(Tag.all, ImageType.all))
+        ..add(UpdateFilter(Tag.tag3, ImageType.all))
+        ..add(UpdateFilter(Tag.tag1, ImageType.all)),
       expect: () => [
-        FilteredCartoonsLoaded(tempCartoons, Tag.all),
-        FilteredCartoonsLoaded([], Tag.tag3),
-        FilteredCartoonsLoaded(tempCartoons, Tag.tag1),
+        FilteredCartoonsLoaded(mockCartoons, Tag.all, ImageType.all),
+        FilteredCartoonsLoaded([], Tag.tag3, ImageType.all),
+        FilteredCartoonsLoaded(mockCartoons, Tag.tag1, ImageType.all),
+      ],
+    );
+
+    blocTest<FilteredCartoonsBloc, FilteredCartoonsState>(
+      'applies image type filter correctly',
+      build: () {
+        whenListen(allCartoonsBloc,
+          Stream.value(AllCartoonsLoaded(cartoons: mockCartoons))
+        );
+
+        when(() => allCartoonsBloc.state)
+          .thenAnswer((_) => AllCartoonsLoaded(cartoons: mockCartoons));
+
+        return FilteredCartoonsBloc(allCartoonsBloc: allCartoonsBloc);
+      },
+      act: (bloc) => bloc
+        ..add(UpdateFilter(Tag.all, ImageType.all))
+        ..add(UpdateFilter(Tag.all, ImageType.document))
+        ..add(UpdateFilter(Tag.all, ImageType.cartoon)),
+      expect: () => [
+        FilteredCartoonsLoaded(mockCartoons, Tag.all, ImageType.all),
+        FilteredCartoonsLoaded([], Tag.all, ImageType.document),
+        FilteredCartoonsLoaded(mockCartoons, Tag.all, ImageType.cartoon),
       ],
     );
   });

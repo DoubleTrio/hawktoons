@@ -15,10 +15,11 @@ class UpdateFilteredCartoons extends FilteredCartoonsEvent {
 }
 
 class UpdateFilter extends FilteredCartoonsEvent {
-  UpdateFilter(this.filter);
+  UpdateFilter(this.filter, this.type );
 
   final Tag filter;
+  final ImageType type;
 
   @override
-  List<Object?> get props => [filter];
+  List<Object?> get props => [filter, type];
 }
