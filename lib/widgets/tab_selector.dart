@@ -24,7 +24,7 @@ class TabSelector extends StatelessWidget {
       CustomBottomTabItem(
         key: const Key('TabSelector_DailyTab'),
         icon: const Icon(Icons.article_outlined),
-        label: 'Daily',
+        label: 'Latest',
         width: width,
         onTap: () => onTabSelected(AppTab.daily),
         selected: AppTab.daily == activeTab

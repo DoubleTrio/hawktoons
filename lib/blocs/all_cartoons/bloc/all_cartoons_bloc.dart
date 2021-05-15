@@ -16,9 +16,9 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     AllCartoonsEvent event,
   ) async* {
     if (event is LoadAllCartoons) {
-      yield* _mapLoadAllCartoonsToState(event.sortByMode);
+      yield* _mapLoadAllCartoonsToState(event);
     } else if (event is LoadMoreCartoons) {
-      yield* _mapLoadAllCartoonsToState(event.sortByMode);
+      yield* _mapLoadMoreCartoonsToState(event);
     } else if (event is UpdateAllCartoons) {
       yield* _mapUpdateAllCartoonsToState(event.cartoons);
     } else if (event is ErrorAllCartoonsEvent) {
@@ -26,11 +26,15 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     }
   }
 
-  Stream<AllCartoonsState> _mapLoadAllCartoonsToState(
-      SortByMode sortByMode) async* {
+  Stream<AllCartoonsState> _mapLoadAllCartoonsToState
+      (LoadAllCartoons event) async* {
+    yield AllCartoonsLoading();
     _cartoonsSubscription = cartoonRepository
-        .politicalCartoons(sortByMode: sortByMode)
-        .listen((cartoons) {
+        .politicalCartoons(
+          sortByMode: event.sortByMode,
+          imageType: event.imageType,
+          tag: event.tag
+        ).listen((cartoons) {
       add(UpdateAllCartoons(cartoons: cartoons));
     }, onError: (err) {
       add(ErrorAllCartoonsEvent(err.toString()));
@@ -47,11 +51,14 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     yield AllCartoonsFailed(errorMessage);
   }
 
-  Stream<AllCartoonsState> _mapLoadMoreCartoonsToState(
-      SortByMode sortByMode) async* {
+  Stream<AllCartoonsState> _mapLoadMoreCartoonsToState
+      (LoadMoreCartoons event) async* {
     _cartoonsSubscription = cartoonRepository
-        .loadMorePoliticalCartoons(sortByMode: sortByMode)
-        .listen((cartoons) {
+        .loadMorePoliticalCartoons(
+          sortByMode: event.sortByMode,
+          imageType: event.imageType,
+          tag: event.tag
+        ).listen((cartoons) {
       if (state is AllCartoonsLoaded) {
         add(UpdateAllCartoons(
           cartoons: [...(state as AllCartoonsLoaded).cartoons, ...cartoons]

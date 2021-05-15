@@ -71,7 +71,9 @@ class CartoonCard extends StatelessWidget {
                         style: TextStyle(color: onBackground)
                       ),
                       const SizedBox(height: 8),
+                      if (cartoon.author != '') ...[
                       RichText(
+                        key: Key('CartoonCard_Author_${cartoon.id}'),
                         text: TextSpan(
                           text: 'By ',
                           style: TextStyle(color: onSurface),
@@ -84,7 +86,7 @@ class CartoonCard extends StatelessWidget {
                           ]
                         )
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 12)],
                       Row(
                         children: [
                           Icon(
@@ -98,13 +100,14 @@ class CartoonCard extends StatelessWidget {
                               TimeAgo(
                                 l10n: context.l10n,
                                 locale: Platform.localeName
-                              ).timeAgoSinceDate(cartoon.date),
+                              ).timeAgoSinceDate(cartoon.timestamp),
                               style: TextStyle(color: onBackground),
                               softWrap: true,
                             ),
                           ),
                         ],
                       ),
+                      const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

@@ -10,16 +10,16 @@ void main() {
     group('LoadAllCartoons', () {
       test('supports value comparisons', () {
         expect(
-          LoadAllCartoons(SortByMode.latestPosted),
-          LoadAllCartoons(SortByMode.latestPosted),
+          LoadAllCartoons(SortByMode.latestPosted, ImageType.all, Tag.all),
+          LoadAllCartoons(SortByMode.latestPosted, ImageType.all, Tag.all),
         );
       });
     });
     group('LoadMoreCartoons', () {
       test('supports value comparisons', () {
         expect(
-          LoadMoreCartoons(SortByMode.latestPublished),
-          LoadMoreCartoons(SortByMode.latestPublished),
+          LoadMoreCartoons(SortByMode.latestPublished, ImageType.all, Tag.all),
+          LoadMoreCartoons(SortByMode.latestPublished, ImageType.all, Tag.all),
         );
       });
     });

@@ -14,7 +14,11 @@ class ButtonRowHeader extends StatelessWidget {
 
     void _filter() {
       Navigator.of(context).pop();
-      context.read<AllCartoonsBloc>().add(LoadAllCartoons(_sortByMode));
+      context.read<AllCartoonsBloc>().add(LoadAllCartoons(
+        _sortByMode,
+        _imageType,
+        _selectedTag)
+      );
       context.read<FilteredCartoonsBloc>()
         .add(UpdateFilter(_selectedTag, _imageType));
     }

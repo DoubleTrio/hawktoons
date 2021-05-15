@@ -42,47 +42,47 @@ class _TestPageState extends State<TestPage> {
   Widget build(BuildContext context) {
     var testCartoon = PoliticalCartoon(
       published: Timestamp.now(),
-      author: 'Test Cartoon',
-      date: Timestamp.fromDate(
-          DateTime.now().subtract(const Duration(minutes: 2))),
-      description: 'This a cartoon description and this will be added on'
-          ' later and more text to the container',
-      tags: [Tag.tag3],
-      downloadUrl:
-          'https://images.unsplash.com/photo-1515966097209-ec48f3216288?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1950&q=80',
-      type: ImageType.all
+      author: '',
+      timestamp: Timestamp.fromDate(
+        DateTime.now().subtract(const Duration(minutes: 2))),
+      description: 'Map of the election of 1860',
+      tags: [Tag.tag5, Tag.tag19],
+      downloadUrl: 'https://firebasestorage.googleapis.com/v0/b/daily-political-cartoon.appspot.com/o/election_of_1860_map.jpg?alt=media&token=9915d509-7c27-4112-90b9-5981d0fa3be2',
+      type: ImageType.infographic
     );
 
-    return Material(
-      child: Column(
-        children: [
-          IconButton(
-              icon: const Icon(Icons.description),
-              onPressed: () => onButtonClick(testCartoon))
-          // StreamBuilder<PoliticalCartoon>(
-          //     stream: cartoon,
-          //     builder: (context, snapshot) {
-          //       if (snapshot.hasData) {
-          //         return Image.network(snapshot.data!.downloadUrl);
-          //       } else if (snapshot.hasError) {
-          //         return Text(snapshot.error.toString());
-          //       } else {
-          //         return const CircularProgressIndicator();
-          //       }
-          //     }),
-          // FutureBuilder<String>(
-          //     future: url,
-          //     builder: (context, snapshot) {
-          //       if (snapshot.connectionState == ConnectionState.waiting) {
-          //         return const CircularProgressIndicator();
-          //       } else if (snapshot.hasData) {
-          //         return Text(snapshot.data!);
-          //       } else {
-          //         print(snapshot.error);
-          //         return const Text('error');
-          //       }
-          //     }),
-        ],
+    return SafeArea(
+      child: Material(
+        child: Column(
+          children: [
+            IconButton(
+                icon: const Icon(Icons.description),
+                onPressed: () => onButtonClick(testCartoon))
+            // StreamBuilder<PoliticalCartoon>(
+            //     stream: cartoon,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasData) {
+            //         return Image.network(snapshot.data!.downloadUrl);
+            //       } else if (snapshot.hasError) {
+            //         return Text(snapshot.error.toString());
+            //       } else {
+            //         return const CircularProgressIndicator();
+            //       }
+            //     }),
+            // FutureBuilder<String>(
+            //     future: url,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.waiting) {
+            //         return const CircularProgressIndicator();
+            //       } else if (snapshot.hasData) {
+            //         return Text(snapshot.data!);
+            //       } else {
+            //         print(snapshot.error);
+            //         return const Text('error');
+            //       }
+            //     }),
+          ],
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ import '../../mocks.dart';
 
 
 void main() {
+  setupCloudFirestoreMocks();
   group('AuthFlow', () {
     late TabBloc tabBloc;
     late AllCartoonsBloc allCartoonsBloc;
@@ -30,6 +32,7 @@ void main() {
     late ScrollHeaderCubit scrollHeaderCubit;
     late AuthenticationBloc authenticationBloc;
     late FirestorePoliticalCartoonRepository cartoonRepository;
+    late ImageTypeCubit imageTypeCubit;
 
     PoliticalCartoon mockCartoon = MockPoliticalCartoon();
 
@@ -50,6 +53,8 @@ void main() {
       );
     }
     setUpAll(() async {
+      await Firebase.initializeApp();
+
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
@@ -62,6 +67,8 @@ void main() {
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
+      registerFallbackValue<ImageType>(ImageType.all);
+
 
       tabBloc = MockTabBloc();
       allCartoonsBloc = MockAllCartoonsBloc();
@@ -73,16 +80,22 @@ void main() {
       scrollHeaderCubit = MockScrollHeaderCubit();
       authenticationBloc = MockAuthenticationBloc();
       cartoonRepository = MockPoliticalCartoonRepository();
+      imageTypeCubit = MockImageTypeCubit();
+
 
       when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
       when(() => filteredCartoonsBloc.state)
         .thenReturn(FilteredCartoonsLoading());
+      when(() => imageTypeCubit.state).thenReturn(ImageType.all);
+      when(() => tagCubit.state).thenReturn(Tag.all);
       when(cartoonRepository.getLatestPoliticalCartoon)
         .thenAnswer((_) => Stream.value(mockCartoon));
       when(() => cartoonRepository.politicalCartoons(
-        sortByMode: sortByCubit.state
+        sortByMode: sortByCubit.state,
+        imageType: imageTypeCubit.state,
+        tag: tagCubit.state,
       )).thenAnswer((_) => Stream.value([mockCartoon]));
     });
 
@@ -104,14 +117,10 @@ void main() {
           AllCartoonsLoaded(cartoons: [mockCartoon])
         );
 
-        print(sortByCubit.state);
 
         await tester.pumpApp(wrapper(AuthFlow()));
         expect(find.byType(HomeFlow), findsOneWidget);
 
-        verify(() => allCartoonsBloc
-          .add(LoadAllCartoons(sortByCubit.state))
-        ).called(1);
       });
     });
   });

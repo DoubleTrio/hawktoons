@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class ImageTypeCheckbox extends StatelessWidget {
   const ImageTypeCheckbox({

@@ -5,6 +5,7 @@ import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/filtered_cartoons/flow/filtered_flow.dart';
+import 'package:history_app/test_page.dart';
 import 'package:history_app/widgets/tab_selector.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -31,9 +32,11 @@ class HomeFlowPage extends Page {
               dailyCartoonRepository: _firebaseCartoonRepo
             )..add(LoadDailyCartoon())),
           BlocProvider<AllCartoonsBloc>(create: (context) {
-            final sortByMode = context.read<SortByCubit>().state;
+            final _sortByMode = context.read<SortByCubit>().state;
+            final _tag = context.read<TagCubit>().state;
+            final _imageType = context.read<ImageTypeCubit>().state;
             return AllCartoonsBloc(cartoonRepository: _firebaseCartoonRepo)
-              ..add(LoadAllCartoons(sortByMode));
+              ..add(LoadAllCartoons(_sortByMode, _imageType, _tag));
           }),
           BlocProvider(create: (context) {
             final _allCartoonsBloc = context.read<AllCartoonsBloc>();
@@ -109,7 +112,7 @@ class HomeFlow extends StatelessWidget {
             onGeneratePages: (AppTab state, pages) {
               switch (state) {
                 case AppTab.daily:
-                  return [DailyCartoonPage()];
+                  return [DailyCartoonPage(), TestPagePage()];
                 default:
                   return [FilteredFlowPage()];
               }

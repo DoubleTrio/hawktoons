@@ -114,7 +114,7 @@ void main() {
       await tester.pumpAndSettle();
 
       verify(() => allCartoonsBloc.add(
-        LoadAllCartoons(sortByMode)
+        LoadAllCartoons(sortByMode, imageType, tag)
       )).called(1);
 
       verify(() => filteredCartoonsBloc.add(UpdateFilter(tag, imageType)))

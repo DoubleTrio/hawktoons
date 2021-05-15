@@ -6,21 +6,25 @@ abstract class AllCartoonsEvent extends Equatable {
 }
 
 class LoadAllCartoons extends AllCartoonsEvent {
-  LoadAllCartoons(this.sortByMode);
+  LoadAllCartoons(this.sortByMode, this.imageType, this.tag );
 
   final SortByMode sortByMode;
+  final ImageType imageType;
+  final Tag tag;
 
   @override
-  List<Object> get props => [sortByMode];
+  List<Object> get props => [sortByMode, imageType, tag];
 }
 
 class LoadMoreCartoons extends AllCartoonsEvent {
-  LoadMoreCartoons(this.sortByMode);
+  LoadMoreCartoons(this.sortByMode, this.imageType, this.tag );
 
   final SortByMode sortByMode;
+  final ImageType imageType;
+  final Tag tag;
 
   @override
-  List<Object> get props => [sortByMode];
+  List<Object> get props => [sortByMode, imageType, tag];
 }
 
 class ErrorAllCartoonsEvent extends AllCartoonsEvent {

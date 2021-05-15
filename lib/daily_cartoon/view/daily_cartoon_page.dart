@@ -36,7 +36,7 @@ class DailyCartoonScreen extends StatelessWidget {
       var state = bloc.state;
       if (state is DailyCartoonLoaded) {
         return DateFormat.yMMMMEEEEd(Platform.localeName)
-          .format(state.dailyCartoon.date.toDate());
+          .format(state.dailyCartoon.timestamp.toDate());
       }
       return ' ';
     });

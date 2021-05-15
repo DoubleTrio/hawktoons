@@ -1,5 +1,4 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
 import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
@@ -8,11 +7,6 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../../fakes.dart';
 import '../../../mocks.dart';
-
-class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
-    implements AllCartoonsBloc {}
-
-class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
 
 void main() {
   group('FilteredCartoonsBloc', () {
@@ -24,9 +18,7 @@ void main() {
 
     setUpAll(() async {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
-      registerFallbackValue<AllCartoonsEvent>(
-        LoadAllCartoons(SortByMode.latestPosted)
-      );
+      registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
       registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
       allCartoonsBloc = MockAllCartoonsBloc();

@@ -11,7 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 var mockPoliticalCartoon = PoliticalCartoon(
   id: '2',
   author: 'Bob',
-  date: Timestamp.now(),
+  timestamp: Timestamp.now(),
   published: Timestamp.now(),
   description: 'Another Mock Political Cartoon',
   tags: [Tag.tag1],

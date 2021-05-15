@@ -42,11 +42,14 @@ class CartoonBody extends StatelessWidget {
                 title: 'PUBLISHED',
                 body: Text(cartoon.publishedString, style: _bodyTextStyle)
               ),
-              CartoonSectionDivider(),
-              CartoonSection(
-                title: 'AUTHOR',
-                body: Text(cartoon.author, style: _bodyTextStyle)
-              ),
+              if (cartoon.author != '')
+                ...[CartoonSectionDivider(),
+                CartoonSection(
+                    key: Key('CartoonSection_Author_${cartoon.id}'),
+                    title: 'AUTHOR',
+                    body: Text(cartoon.author, style: _bodyTextStyle)
+                )],
+
               CartoonSectionDivider(),
               CartoonSection(
                 title: 'IMAGE TYPE',
