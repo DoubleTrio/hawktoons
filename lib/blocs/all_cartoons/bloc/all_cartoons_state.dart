@@ -1,40 +1,84 @@
 import 'package:equatable/equatable.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-abstract class AllCartoonsState extends Equatable {
-  const AllCartoonsState();
-}
+enum CartoonStatus { initial, success, loading, failure }
 
-class AllCartoonsLoading extends AllCartoonsState {
+class CartoonFilters extends Equatable {
+  const CartoonFilters({
+    required this.sortByMode,
+    required this.imageType,
+    required this.tag
+  });
+
+  const CartoonFilters.initial({
+    this.sortByMode = SortByMode.latestPosted,
+    this.imageType = ImageType.all,
+    this.tag = Tag.all
+  });
+
+  final SortByMode sortByMode;
+  final ImageType imageType;
+  final Tag tag;
+
+  CartoonFilters copyWith({
+    SortByMode? sortByMode,
+    ImageType? imageType,
+    Tag? tag
+  }) {
+    return CartoonFilters(
+      sortByMode: sortByMode ?? this.sortByMode,
+      imageType: imageType ?? this.imageType,
+      tag: tag ?? this.tag
+    );
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [sortByMode, imageType, tag];
 }
 
-class MoreCartoonsLoading extends AllCartoonsState {
-  @override
-  List<Object> get props => [];
-}
+class AllCartoonsLoaded extends Equatable {
+  AllCartoonsLoaded({
+    required this.cartoons,
+    required this.filters,
+    required this.status,
+    required this.hasReachedMax,
+  });
 
-class AllCartoonsLoaded extends AllCartoonsState {
-  AllCartoonsLoaded({required this.cartoons});
+  const AllCartoonsLoaded.initial({
+    this.cartoons = const [],
+    this.filters = const CartoonFilters.initial(),
+    this.status = CartoonStatus.initial,
+    this.hasReachedMax = false,
+  });
 
   final List<PoliticalCartoon> cartoons;
+  final CartoonFilters filters;
+  final CartoonStatus status;
+  final bool hasReachedMax;
 
   @override
-  List<Object> get props => [cartoons];
+  List<Object> get props => [cartoons, filters, status, hasReachedMax];
 
   @override
-  String toString() => 'AllCartoonsLoaded { cartoons: $cartoons }';
+  String toString() => 'AllCartoonsLoaded { '
+    'cartoons: $cartoons, '
+    'filters: $filters, '
+    'status: $status, '
+    'hasReachedMax: $hasReachedMax '
+  '}';
+
+  AllCartoonsLoaded copyWith({
+    List<PoliticalCartoon>? cartoons,
+    CartoonFilters? filters,
+    CartoonStatus? status,
+    bool? hasReachedMax
+  }) {
+    return AllCartoonsLoaded(
+      cartoons: cartoons ?? this.cartoons,
+      filters: filters ?? this.filters,
+      status: status ?? this.status,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax
+    );
+  }
 }
 
-class AllCartoonsFailed extends AllCartoonsState {
-  AllCartoonsFailed(this.errorMessage);
-
-  final String errorMessage;
-
-  @override
-  List<Object> get props => [errorMessage];
-
-  @override
-  String toString() => 'AllCartoonsFailed($errorMessage)';
-}

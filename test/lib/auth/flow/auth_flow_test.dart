@@ -28,7 +28,6 @@ void main() {
     late SortByCubit sortByCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late DailyCartoonBloc dailyCartoonBloc;
-    late FilteredCartoonsBloc filteredCartoonsBloc;
     late ScrollHeaderCubit scrollHeaderCubit;
     late AuthenticationBloc authenticationBloc;
     late FirestorePoliticalCartoonRepository cartoonRepository;
@@ -46,7 +45,6 @@ void main() {
           BlocProvider.value(value: showBottomSheetCubit),
           BlocProvider.value(value: dailyCartoonBloc),
           BlocProvider.value(value: tabBloc),
-          BlocProvider.value(value: filteredCartoonsBloc),
           BlocProvider.value(value: scrollHeaderCubit),
           BlocProvider.value(value: authenticationBloc),
         ], child: child),
@@ -55,10 +53,8 @@ void main() {
     setUpAll(() async {
       await Firebase.initializeApp();
 
-      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
-      registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
@@ -76,18 +72,17 @@ void main() {
       sortByCubit = MockSortByCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       dailyCartoonBloc = MockDailyCartoonBloc();
-      filteredCartoonsBloc = MockFilteredCartoonsBloc();
       scrollHeaderCubit = MockScrollHeaderCubit();
       authenticationBloc = MockAuthenticationBloc();
       cartoonRepository = MockPoliticalCartoonRepository();
       imageTypeCubit = MockImageTypeCubit();
 
 
-      when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsLoaded.initial()
+      );
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
-      when(() => filteredCartoonsBloc.state)
-        .thenReturn(FilteredCartoonsLoading());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
       when(() => tagCubit.state).thenReturn(Tag.all);
       when(cartoonRepository.getLatestPoliticalCartoon)
@@ -96,7 +91,7 @@ void main() {
         sortByMode: sortByCubit.state,
         imageType: imageTypeCubit.state,
         tag: tagCubit.state,
-      )).thenAnswer((_) => Stream.value([mockCartoon]));
+      )).thenAnswer((_) => Future.value([mockCartoon]));
     });
 
     group('LoginPage', () {
@@ -114,7 +109,7 @@ void main() {
           .thenReturn(Authenticated('user-id'));
         when(() => scrollHeaderCubit.state).thenReturn(false);
         when(() => allCartoonsBloc.state).thenReturn(
-          AllCartoonsLoaded(cartoons: [mockCartoon])
+          const AllCartoonsLoaded.initial().copyWith(cartoons: [mockCartoon])
         );
 
 

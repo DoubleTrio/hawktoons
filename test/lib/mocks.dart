@@ -8,6 +8,12 @@ import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+var mockFilter = const CartoonFilters(
+  sortByMode: SortByMode.latestPosted,
+  imageType: ImageType.all,
+  tag: Tag.all
+);
+
 var mockPoliticalCartoon = PoliticalCartoon(
   id: '2',
   author: 'Bob',
@@ -31,12 +37,9 @@ class MockAuthenticationBloc
 class MockOnboardingSeenCubit extends MockCubit<bool>
     implements OnboardingSeenCubit {}
 
-class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
-    implements AllCartoonsBloc {}
+class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsLoaded>
+  implements AllCartoonsBloc {}
 
-class MockFilteredCartoonsBloc
-  extends MockBloc<FilteredCartoonsEvent, FilteredCartoonsState>
-  implements FilteredCartoonsBloc {}
 
 class MockTagCubit extends MockCubit<Tag> implements TagCubit {}
 

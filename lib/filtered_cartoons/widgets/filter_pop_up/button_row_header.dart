@@ -11,6 +11,11 @@ class ButtonRowHeader extends StatelessWidget {
     final _selectedTag = context.watch<TagCubit>().state;
     final _sortByMode = context.watch<SortByCubit>().state;
     final _imageType = context.watch<ImageTypeCubit>().state;
+    final filters = CartoonFilters(
+      sortByMode: _sortByMode,
+      imageType: _imageType,
+      tag: _selectedTag
+    );
 
     void _filter() {
       Navigator.of(context).pop();
@@ -21,12 +26,8 @@ class ButtonRowHeader extends StatelessWidget {
         ),
       );
       context.read<AllCartoonsBloc>().add(LoadAllCartoons(
-        _sortByMode,
-        _imageType,
-        _selectedTag)
-      );
-      context.read<FilteredCartoonsBloc>()
-        .add(UpdateFilter(_selectedTag, _imageType));
+        filters
+      ));
     }
 
     void _reset() {
@@ -38,7 +39,6 @@ class ButtonRowHeader extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final primary = colorScheme.primary;
     final onSurface = colorScheme.onSurface;
-
     final btnStyle = ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(

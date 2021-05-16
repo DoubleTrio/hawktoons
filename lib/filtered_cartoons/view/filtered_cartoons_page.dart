@@ -52,23 +52,22 @@ class FilteredCartoonsScreen extends StatelessWidget {
           ]),
       body: Column(
         children: [
-          BlocBuilder<FilteredCartoonsBloc, FilteredCartoonsState>(
+          BlocBuilder<AllCartoonsBloc, AllCartoonsLoaded>(
             builder: (context, state) {
-              if (state is FilteredCartoonsLoading) {
+              if (state.status == CartoonStatus.initial) {
                 return Column(
                   key:
                     const Key('FilteredCartoonsPage_FilteredCartoonsLoading'),
                   children: [
                     const SizedBox(height: 24),
-                    LoadingIndicator(),
+                    const LoadingIndicator(),
                   ],
                 );
               }
-              if (state is FilteredCartoonsLoaded) {
+              if (state.status == CartoonStatus.success || state.status == CartoonStatus.loading) {
                 return StaggeredCartoonGrid(
                   cartoons: [
-                    ...state.filteredCartoons,
-                    ...state.filteredCartoons
+                    ...state.cartoons,
                   ],
                   key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),
                 );

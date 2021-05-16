@@ -10,7 +10,7 @@ import 'package:history_app/widgets/tab_selector.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class HomeFlowPage extends Page {
-  HomeFlowPage() : super(key: const ValueKey('HomeFlowPage'));
+  const HomeFlowPage() : super(key: const ValueKey('HomeFlowPage'));
 
   @override
   Route createRoute(BuildContext context) {
@@ -35,12 +35,13 @@ class HomeFlowPage extends Page {
             final _sortByMode = context.read<SortByCubit>().state;
             final _tag = context.read<TagCubit>().state;
             final _imageType = context.read<ImageTypeCubit>().state;
+            final filters = CartoonFilters(
+              sortByMode: _sortByMode,
+              imageType: _imageType,
+              tag: _tag
+            );
             return AllCartoonsBloc(cartoonRepository: _firebaseCartoonRepo)
-              ..add(LoadAllCartoons(_sortByMode, _imageType, _tag));
-          }),
-          BlocProvider(create: (context) {
-            final _allCartoonsBloc = context.read<AllCartoonsBloc>();
-            return FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc);
+              ..add(LoadAllCartoons(filters));
           }),
         ],
           child: const HomeFlow()
@@ -66,6 +67,7 @@ class HomeFlowPage extends Page {
 
 class HomeFlow extends StatelessWidget {
   const HomeFlow({Key? key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var activeTab = context.watch<TabBloc>().state;
@@ -86,7 +88,6 @@ class HomeFlow extends StatelessWidget {
               var _imageTypeCubit = context.read<ImageTypeCubit>();
               var _tagCubit = context.read<TagCubit>();
               var _sortByCubit = context.read<SortByCubit>();
-              var _filteredCartoonsBloc = context.read<FilteredCartoonsBloc>();
               var _allCartoonsBloc = context.read<AllCartoonsBloc>();
               showModalBottomSheet(
                 shape: const RoundedRectangleBorder(
@@ -99,7 +100,6 @@ class HomeFlow extends StatelessWidget {
                   return MultiBlocProvider(providers: [
                     BlocProvider.value(value: _imageTypeCubit),
                     BlocProvider.value(value: _tagCubit),
-                    BlocProvider.value(value: _filteredCartoonsBloc),
                     BlocProvider.value(value: _sortByCubit),
                     BlocProvider.value(value: _allCartoonsBloc)
                   ], child: FilterPopUp());
@@ -113,9 +113,9 @@ class HomeFlow extends StatelessWidget {
             onGeneratePages: (AppTab state, pages) {
               switch (state) {
                 case AppTab.daily:
-                  return [DailyCartoonPage()];
+                  return [const DailyCartoonPage(), TestPagePage()];
                 default:
-                  return [FilteredFlowPage()];
+                  return [const FilteredFlowPage()];
               }
             }
           ),

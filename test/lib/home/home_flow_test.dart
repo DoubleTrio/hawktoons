@@ -32,7 +32,6 @@ void main() {
     late SortByCubit sortByCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late DailyCartoonBloc dailyCartoonBloc;
-    late FilteredCartoonsBloc filteredCartoonsBloc;
     late ScrollHeaderCubit scrollHeaderCubit;
     late SelectCartoonCubit selectCartoonCubit;
     late ImageTypeCubit imageTypeCubit;
@@ -46,7 +45,6 @@ void main() {
         BlocProvider.value(value: showBottomSheetCubit),
         BlocProvider.value(value: dailyCartoonBloc),
         BlocProvider.value(value: tabBloc),
-        BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: scrollHeaderCubit),
         BlocProvider.value(value: selectCartoonCubit),
         BlocProvider.value(value: imageTypeCubit)
@@ -54,10 +52,8 @@ void main() {
     }
     setUpAll(() async {
       await Firebase.initializeApp();
-      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
-      registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
@@ -77,16 +73,13 @@ void main() {
       sortByCubit = MockSortByCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       dailyCartoonBloc = MockDailyCartoonBloc();
-      filteredCartoonsBloc = MockFilteredCartoonsBloc();
       scrollHeaderCubit = MockScrollHeaderCubit();
       selectCartoonCubit = MockSelectCartoonCubit();
       imageTypeCubit = MockImageTypeCubit();
 
-      when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
+      when(() => allCartoonsBloc.state).thenReturn(const AllCartoonsLoaded.initial());
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
-      when(() => filteredCartoonsBloc.state)
-        .thenReturn(FilteredCartoonsLoading());
       when(() => selectCartoonCubit.state).thenReturn(
         SelectPoliticalCartoonState()
       );

@@ -14,7 +14,7 @@ import 'package:history_app/widgets/scaffold_title.dart';
 import 'package:intl/intl.dart';
 
 class DailyCartoonPage extends Page {
-  DailyCartoonPage() : super(key: const ValueKey('DailyCartoonPage'));
+  const DailyCartoonPage() : super(key: const ValueKey('DailyCartoonPage'));
 
   @override
   Route createRoute(BuildContext context) {
@@ -70,7 +70,7 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
           key: const Key('DailyCartoonScreen_DailyCartoonInProgress'),
           children: [
             const SizedBox(height: 24),
-            LoadingIndicator(),
+            const LoadingIndicator(),
           ],
         );
       } else if (state is DailyCartoonLoaded) {
@@ -79,7 +79,7 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           key: const Key('DailyCartoonScreen_DailyCartoonLoaded'),
           children: [
-            PageHeader(header: 'Daily'),
+            const PageHeader(header: 'Daily'),
             const SizedBox(height: 12),
             CartoonBody(cartoon: cartoon, addImagePadding: true),
           ],

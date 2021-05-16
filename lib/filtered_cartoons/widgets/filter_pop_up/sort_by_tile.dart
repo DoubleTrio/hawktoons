@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SortByTile extends StatelessWidget {
-  SortByTile(
+  const SortByTile(
     {Key? key,
     required this.selected,
     required this.onTap,

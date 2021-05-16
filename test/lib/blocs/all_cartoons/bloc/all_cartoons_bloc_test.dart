@@ -14,13 +14,15 @@ void main() {
       cartoonRepository = MockPoliticalCartoonRepository();
     });
 
-    test('initial state is AllCartoonsLoading', () {
-      var state = AllCartoonsLoading();
-      expect(AllCartoonsBloc(cartoonRepository: cartoonRepository).state,
-          equals(state));
+    test('initial state AllCartoonsLoaded.initial', () {
+      var state = const AllCartoonsLoaded.initial();
+      expect(
+        AllCartoonsBloc(cartoonRepository: cartoonRepository).state,
+        equals(state)
+      );
     });
 
-    blocTest<AllCartoonsBloc, AllCartoonsState>(
+    blocTest<AllCartoonsBloc, AllCartoonsLoaded>(
         'Emits [AllCartoonsLoaded] '
         'when LoadAllCartoons is added',
         build: () {
@@ -29,18 +31,18 @@ void main() {
             imageType: ImageType.all,
             tag: Tag.all
           ))
-          .thenAnswer((_) => Stream.value([mockPoliticalCartoon]));
+          .thenAnswer((_) => Future.value([mockPoliticalCartoon]));
           return AllCartoonsBloc(cartoonRepository: cartoonRepository);
         },
         act: (bloc) => bloc.add(
-          LoadAllCartoons(
-            SortByMode.latestPosted,
-            ImageType.all,
-            Tag.all
-          )),
+          LoadAllCartoons(mockFilter.copyWith(sortByMode: SortByMode.latestPosted))
+        ),
         expect: () => [
-          AllCartoonsLoading(),
-          AllCartoonsLoaded(cartoons: [mockPoliticalCartoon])
+          const AllCartoonsLoaded.initial(),
+          const AllCartoonsLoaded.initial().copyWith(
+            cartoons: [mockPoliticalCartoon],
+            status: CartoonStatus.success
+          )
         ],
         verify: (_) =>
           verify(() => cartoonRepository.politicalCartoons(
@@ -50,24 +52,45 @@ void main() {
           )).called(1)
         );
 
-    blocTest<AllCartoonsBloc, AllCartoonsState>(
-        'Emits [DailyCartoonFailed(\'Error\')] '
-        'when LoadAllCartoons throws a stream error',
-        build: () {
-          when(() => cartoonRepository.politicalCartoons(
-            sortByMode: SortByMode.latestPosted,
-            imageType: ImageType.all,
-            tag: Tag.all
-          ))
-            .thenAnswer((_) => Stream.error('Error'));
-          return AllCartoonsBloc(cartoonRepository: cartoonRepository);
-        },
-        act: (bloc) => bloc.add(LoadAllCartoons(
-          SortByMode.latestPosted,
-          ImageType.all,
-          Tag.all
-        )),
-        expect: () => [AllCartoonsLoading(), AllCartoonsFailed('Error')],
+    blocTest<AllCartoonsBloc, AllCartoonsLoaded>(
+      'Emits [DailyCartoonFailed(\'Error\')] '
+      'when LoadAllCartoons throws a stream error',
+      build: () {
+        when(() => cartoonRepository.politicalCartoons(
+          sortByMode: SortByMode.latestPosted,
+          imageType: ImageType.all,
+          tag: Tag.all
+        ))
+          .thenAnswer((_) => Future.error('Error'));
+        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+      },
+      act: (bloc) => bloc.add(LoadAllCartoons(mockFilter)),
+      expect: () => [
+        const AllCartoonsLoaded.initial(),
+        const AllCartoonsLoaded.initial().copyWith(
+          status: CartoonStatus.failure
+        )
+      ],
+    );
+
+    blocTest<AllCartoonsBloc, AllCartoonsLoaded>(
+      'bloc loads more cartoon and errors',
+      build: () {
+        when(() => cartoonRepository.loadMorePoliticalCartoons(
+          sortByMode: SortByMode.latestPosted,
+          imageType: ImageType.all,
+          tag: Tag.all
+        ))
+          .thenAnswer((_) => Future.error('Error'));
+        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+      },
+      act: (bloc) => bloc.add(LoadMoreCartoons(mockFilter)),
+      expect: () => [
+        const AllCartoonsLoaded.initial().copyWith(status: CartoonStatus.loading),
+        const AllCartoonsLoaded.initial().copyWith(
+          status: CartoonStatus.failure
+        )
+      ],
     );
   });
 }

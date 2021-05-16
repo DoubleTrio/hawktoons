@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CartoonScrollBar extends StatelessWidget {
-
   const CartoonScrollBar({Key? key, required this.child}): super(key: key);
 
   final Widget child;

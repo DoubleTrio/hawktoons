@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CartoonSection extends StatelessWidget {
-  CartoonSection({Key? key, required this.title, required this.body})
+  const CartoonSection({Key? key, required this.title, required this.body})
       : super(key: key);
 
   final String title;

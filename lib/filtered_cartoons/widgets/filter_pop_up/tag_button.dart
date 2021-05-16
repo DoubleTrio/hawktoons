@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButton extends StatelessWidget {
-  TagButton(
+  const TagButton(
     {Key? key,
     required this.tag,
     required this.onTap,

@@ -9,10 +9,8 @@ class FakeAuthenticationEvent extends Fake implements AuthenticationEvent {}
 class FakeDailyCartoonState extends Fake implements DailyCartoonState {}
 class FakeDailyCartoonEvent extends Fake implements DailyCartoonEvent {}
 
-class FakeAllCartoonsState extends Fake implements AllCartoonsState {}
+class FakeAllCartoonsState extends Fake implements AllCartoonsLoaded {}
 class FakeAllCartoonsEvent extends Fake implements AllCartoonsEvent {}
 
-class FakeFilteredCartoonsState extends Fake implements FilteredCartoonsState {}
-class FakeFilteredCartoonsEvent extends Fake implements FilteredCartoonsEvent {}
 
 class FakeTabEvent extends Fake implements TabEvent {}

@@ -28,23 +28,19 @@ void main() {
     late AllCartoonsBloc allCartoonsBloc;
     late TagCubit tagCubit;
     late SortByCubit sortByCubit;
-    late FilteredCartoonsBloc filteredCartoonsBloc;
     late ImageTypeCubit imageTypeCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
-        BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
+        BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: imageTypeCubit),
       ], child: child);
     }
     setUpAll(() async {
-      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
-      registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
@@ -53,12 +49,9 @@ void main() {
       allCartoonsBloc = MockAllCartoonsBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
-      filteredCartoonsBloc = MockFilteredCartoonsBloc();
       imageTypeCubit = MockImageTypeCubit();
 
-      when(() => allCartoonsBloc.state).thenReturn(AllCartoonsLoading());
-      when(() => filteredCartoonsBloc.state)
-        .thenReturn(FilteredCartoonsLoading());
+      when(() => allCartoonsBloc.state).thenReturn(const AllCartoonsLoaded.initial());
       when(() => tagCubit.state).thenReturn(Tag.all);
       when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
@@ -114,11 +107,15 @@ void main() {
       await tester.pumpAndSettle();
 
       verify(() => allCartoonsBloc.add(
-        LoadAllCartoons(sortByMode, imageType, tag)
+        LoadAllCartoons(
+          CartoonFilters(
+            sortByMode: sortByMode,
+            imageType: imageType,
+            tag: tag
+          )
+        )
       )).called(1);
 
-      verify(() => filteredCartoonsBloc.add(UpdateFilter(tag, imageType)))
-        .called(1);
     });
 
     testWidgets('selects image type', (tester) async {

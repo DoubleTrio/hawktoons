@@ -4,7 +4,7 @@ import 'package:history_app/onboarding/onboarding.dart';
 
 
 class OnBoardingPage extends Page {
-  OnBoardingPage() : super(key: const ValueKey('OnBoardingPage'));
+  const OnBoardingPage() : super(key: const ValueKey('OnBoardingPage'));
 
   @override
   Route createRoute(BuildContext context) {

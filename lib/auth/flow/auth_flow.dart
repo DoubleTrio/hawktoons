@@ -6,7 +6,7 @@ import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/home/home_flow.dart';
 
 class AuthFlowPage extends Page {
-  AuthFlowPage() : super(key: const ValueKey('AuthFlowPage'));
+  const AuthFlowPage() : super(key: const ValueKey('AuthFlowPage'));
 
   @override
   Route createRoute(BuildContext context) {
@@ -40,7 +40,11 @@ class AuthFlow extends StatelessWidget {
     return FlowBuilder<AuthenticationState>(
       state: context.watch<AuthenticationBloc>().state,
       onGeneratePages: (state, pages) {
-        return [LoginPage(), if (state is Authenticated) HomeFlowPage()];
+        return [
+          const LoginPage(),
+          if (state is Authenticated)
+          const HomeFlowPage()
+        ];
       }
     );
   }

@@ -18,7 +18,6 @@ import '../../mocks.dart';
 void main() {
   group('FilteredFlow', () {
     late AllCartoonsBloc allCartoonsBloc;
-    late FilteredCartoonsBloc filteredCartoonsBloc;
     late TagCubit tagCubit;
     late SortByCubit sortByCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
@@ -31,7 +30,6 @@ void main() {
         BlocProvider.value(value: selectCartoonCubit),
         BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: filteredCartoonsBloc),
         BlocProvider.value(value: sortByCubit),
         BlocProvider.value(value: showBottomSheetCubit),
         BlocProvider.value(value: scrollHeaderCubit),
@@ -40,10 +38,8 @@ void main() {
     }
 
     setUpAll(() async {
-      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<FilteredCartoonsState>(FakeFilteredCartoonsState());
-      registerFallbackValue<FilteredCartoonsEvent>(FakeFilteredCartoonsEvent());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<SelectPoliticalCartoonState>(
@@ -53,7 +49,6 @@ void main() {
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
       allCartoonsBloc = MockAllCartoonsBloc();
-      filteredCartoonsBloc = MockFilteredCartoonsBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
@@ -65,10 +60,9 @@ void main() {
 
     testWidgets(
       'shows FilteredCartoonsPage', (tester) async {
-      when(() => filteredCartoonsBloc.state).thenReturn(
-        FilteredCartoonsLoading()
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsLoaded.initial()
       );
-      when(() => scrollHeaderCubit.state).thenReturn(false);
       when(() => selectCartoonCubit.state).thenReturn(
         SelectPoliticalCartoonState()
       );
@@ -78,8 +72,8 @@ void main() {
     });
 
     testWidgets('shows DetailsPage', (tester) async {
-      when(() => filteredCartoonsBloc.state).thenReturn(
-        FilteredCartoonsLoading()
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsLoaded.initial()
       );
 
       when(() => selectCartoonCubit.state).thenReturn(
@@ -94,14 +88,15 @@ void main() {
     });
 
     testWidgets('transitions to DetailsPage', (tester) async {
-      when(() => filteredCartoonsBloc.state).thenReturn(
-        FilteredCartoonsLoaded(
-          List.filled(2, mockPoliticalCartoon), Tag.all, ImageType.all
-        )
-      );
       when(() => scrollHeaderCubit.state).thenReturn(false);
       when(() => selectCartoonCubit.state).thenReturn(
         SelectPoliticalCartoonState()
+      );
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsLoaded.initial().copyWith(
+          cartoons: [mockPoliticalCartoon],
+          status: CartoonStatus.success,
+        )
       );
 
       await tester.pumpApp(wrapper(const FilteredFlow()));

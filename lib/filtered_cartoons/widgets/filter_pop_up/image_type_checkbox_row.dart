@@ -8,7 +8,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 class ImageTypeCheckboxRow extends StatelessWidget {
-  ImageTypeCheckboxRow({Key? key, required this.imageTypes }) : super(key: key);
+  const ImageTypeCheckboxRow({Key? key, required this.imageTypes })
+    : super(key: key);
 
   final List<ImageType> imageTypes;
 

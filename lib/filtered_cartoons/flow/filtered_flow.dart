@@ -6,7 +6,7 @@ import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
 import 'package:history_app/filtered_cartoons/view/details_page.dart';
 
 class FilteredFlowPage extends Page {
-  FilteredFlowPage() : super(key: const ValueKey('FilteredFlowPage'));
+  const FilteredFlowPage() : super(key: const ValueKey('FilteredFlowPage'));
 
   @override
   Route createRoute(BuildContext context) {

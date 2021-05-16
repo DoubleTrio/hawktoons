@@ -4,7 +4,7 @@ import 'package:history_app/blocs/auth/auth.dart';
 import 'package:history_app/widgets/loading_indicator.dart';
 
 class LoginPage extends Page {
-  LoginPage() : super(key: const ValueKey('LoginPage'));
+  const LoginPage() : super(key: const ValueKey('LoginPage'));
 
   @override
   Route createRoute(BuildContext context) {
@@ -18,6 +18,7 @@ class LoginPage extends Page {
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen ({Key? key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +44,7 @@ class LoginScreen extends StatelessWidget {
               }
 
               if (state is LoggingIn) {
-                return LoadingIndicator(key: const Key('LoginPage_LoggingIn'));
+                return const LoadingIndicator(key: Key('LoginPage_LoggingIn'));
               }
 
               return const Text(
