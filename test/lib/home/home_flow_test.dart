@@ -97,14 +97,14 @@ void main() {
       testWidgets('finds TabSelector', (tester) async {
         var state = AppTab.daily;
         when(() => tabBloc.state).thenReturn(state);
-        await tester.pumpApp(wrapper(HomeFlow()));
+        await tester.pumpApp(wrapper(const HomeFlow()));
         expect(find.byType(TabSelector), findsOneWidget);
       });
 
       testWidgets('tabBloc.add(UpdateTab(AppTab.all)) '
           'is invoked when the "All" tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.daily);
-        await tester.pumpApp(wrapper(HomeFlow()));
+        await tester.pumpApp(wrapper(const HomeFlow()));
         await tester.tap(find.byKey(_allCartoonsTabKey));
         verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
       });
@@ -114,7 +114,7 @@ void main() {
         when(() => tabBloc.state).thenReturn(AppTab.all);
         when(() => scrollHeaderCubit.state).thenReturn(false);
 
-        await tester.pumpApp(wrapper(HomeFlow()));
+        await tester.pumpApp(wrapper(const HomeFlow()));
         await tester.tap(find.byKey(_dailyCartoonTabKey));
         verify(() => tabBloc.add(UpdateTab(AppTab.daily))).called(1);
       });
@@ -124,7 +124,7 @@ void main() {
         when(() => scrollHeaderCubit.state).thenReturn(false);
         when(() => themeCubit.state).thenReturn(ThemeMode.dark);
 
-        await tester.pumpApp(wrapper(HomeFlow()));
+        await tester.pumpApp(wrapper(const HomeFlow()));
         await tester.tap(find.byKey(_changeThemeTabKey));
         verify(themeCubit.changeTheme).called(1);
 
@@ -142,7 +142,7 @@ void main() {
       });
 
       testWidgets('shows filter pop up and closes', (tester) async {
-        await tester.pumpApp(wrapper(HomeFlow()));
+        await tester.pumpApp(wrapper(const HomeFlow()));
         await tester.pump(const Duration(seconds: 1));
         expect(find.byType(FilterPopUp), findsOneWidget);
         await tester.tapAt(const Offset(0, 500));

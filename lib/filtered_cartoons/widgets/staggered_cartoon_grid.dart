@@ -44,12 +44,15 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
         } else {
           context.read<ScrollHeaderCubit>().onScrollBeforeHeader();
         }
-        // if (maxScroll - currentScroll <= delta) {}
+
+        // if (maxScroll - currentScroll <= delta ) {
+        //         // }
       });
       _scrollController.position.isScrollingNotifier.addListener(() {
         if (!_scrollController.position.isScrollingNotifier.value) {
           print('scroll is stopped');
         } else {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           print('scroll is started');
         }
       });

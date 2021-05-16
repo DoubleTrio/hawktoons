@@ -6,19 +6,17 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   AllCartoonsBloc({required this.cartoonRepository})
-    : super(AllCartoonsLoading());
+      : super(AllCartoonsLoading());
 
   late StreamSubscription _cartoonsSubscription;
   final FirestorePoliticalCartoonRepository cartoonRepository;
 
   @override
   Stream<AllCartoonsState> mapEventToState(
-    AllCartoonsEvent event,
-  ) async* {
+      AllCartoonsEvent event,
+      ) async* {
     if (event is LoadAllCartoons) {
       yield* _mapLoadAllCartoonsToState(event);
-    } else if (event is LoadMoreCartoons) {
-      yield* _mapLoadMoreCartoonsToState(event);
     } else if (event is UpdateAllCartoons) {
       yield* _mapUpdateAllCartoonsToState(event.cartoons);
     } else if (event is ErrorAllCartoonsEvent) {
@@ -31,10 +29,10 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     yield AllCartoonsLoading();
     _cartoonsSubscription = cartoonRepository
         .politicalCartoons(
-          sortByMode: event.sortByMode,
-          imageType: event.imageType,
-          tag: event.tag
-        ).listen((cartoons) {
+        sortByMode: event.sortByMode,
+        imageType: event.imageType,
+        tag: event.tag
+    ).listen((cartoons) {
       add(UpdateAllCartoons(cartoons: cartoons));
     }, onError: (err) {
       add(ErrorAllCartoonsEvent(err.toString()));
@@ -49,24 +47,6 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   Stream<AllCartoonsState> _mapErrorAllCartoonsEventToState(
       String errorMessage) async* {
     yield AllCartoonsFailed(errorMessage);
-  }
-
-  Stream<AllCartoonsState> _mapLoadMoreCartoonsToState
-      (LoadMoreCartoons event) async* {
-    _cartoonsSubscription = cartoonRepository
-        .loadMorePoliticalCartoons(
-          sortByMode: event.sortByMode,
-          imageType: event.imageType,
-          tag: event.tag
-        ).listen((cartoons) {
-      if (state is AllCartoonsLoaded) {
-        add(UpdateAllCartoons(
-          cartoons: [...(state as AllCartoonsLoaded).cartoons, ...cartoons]
-        ));
-      }
-    }, onError: (err) {
-      add(ErrorAllCartoonsEvent(err.toString()));
-    });
   }
 
   @override

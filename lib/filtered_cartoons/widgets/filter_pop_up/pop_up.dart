@@ -4,6 +4,8 @@ import 'package:history_app/widgets/cartoon_scroll_bar.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class FilterPopUp extends StatelessWidget {
+  FilterPopUp({Key? key}): super(key: key);
+
   final modes = SortByMode.values;
   final tags = Tag.values.sublist(1);
   final imageTypes = ImageType.values.sublist(1);
@@ -19,7 +21,7 @@ class FilterPopUp extends StatelessWidget {
       builder: (context, scroller) {
         return Column(
           children: [
-            ButtonRowHeader(),
+            const ButtonRowHeader(),
             Divider(
               height: 1.5,
               color: theme.colorScheme.onBackground,
@@ -30,14 +32,14 @@ class FilterPopUp extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   child: Column(children: [
                     const SizedBox(height: 12),
-                    FilterHeader(header: 'Tags'),
+                    const FilterHeader(header: 'Tags'),
                     const SizedBox(height: 6),
                     TagButtonBar(tags: tags),
                     const SizedBox(height: 12),
-                    FilterHeader(header: 'Image Type'),
+                    const FilterHeader(header: 'Image Type'),
                     ImageTypeCheckboxRow(imageTypes: imageTypes),
                     const SizedBox(height: 12),
-                    FilterHeader(header: 'Sort By'),
+                    const FilterHeader(header: 'Sort By'),
                     SortByTileListView(modes: modes),
                     const SizedBox(height: 20),
                   ]),

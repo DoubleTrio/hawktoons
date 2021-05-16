@@ -102,7 +102,7 @@ void main() {
     group('LoginPage', () {
       testWidgets('shows LoginPage', (tester) async {
         when(() => authenticationBloc.state).thenReturn(Uninitialized());
-        await tester.pumpApp(wrapper(AuthFlow()));
+        await tester.pumpApp(wrapper(const AuthFlow()));
         expect(find.byType(LoginScreen), findsOneWidget);
       });
     });
@@ -118,7 +118,7 @@ void main() {
         );
 
 
-        await tester.pumpApp(wrapper(AuthFlow()));
+        await tester.pumpApp(wrapper(const AuthFlow()));
         expect(find.byType(HomeFlow), findsOneWidget);
 
       });

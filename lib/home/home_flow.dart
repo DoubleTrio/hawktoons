@@ -43,7 +43,7 @@ class HomeFlowPage extends Page {
             return FilteredCartoonsBloc(allCartoonsBloc: _allCartoonsBloc);
           }),
         ],
-          child: HomeFlow()
+          child: const HomeFlow()
       ),
       transitionDuration: const Duration(milliseconds: 500),
       reverseTransitionDuration: const Duration(milliseconds: 500),
@@ -65,6 +65,7 @@ class HomeFlowPage extends Page {
 }
 
 class HomeFlow extends StatelessWidget {
+  const HomeFlow({Key? key}): super(key: key);
   @override
   Widget build(BuildContext context) {
     var activeTab = context.watch<TabBloc>().state;
@@ -83,9 +84,9 @@ class HomeFlow extends StatelessWidget {
           listener: (context, shouldShowBottomSheet) {
             if (shouldShowBottomSheet) {
               var _imageTypeCubit = context.read<ImageTypeCubit>();
-              var _filteredCartoonsBloc = context.read<FilteredCartoonsBloc>();
               var _tagCubit = context.read<TagCubit>();
               var _sortByCubit = context.read<SortByCubit>();
+              var _filteredCartoonsBloc = context.read<FilteredCartoonsBloc>();
               var _allCartoonsBloc = context.read<AllCartoonsBloc>();
               showModalBottomSheet(
                 shape: const RoundedRectangleBorder(
@@ -104,7 +105,7 @@ class HomeFlow extends StatelessWidget {
                   ], child: FilterPopUp());
                 }).whenComplete(
                   () => context.read<ShowBottomSheetCubit>().closeSheet()
-              );
+                );
             }
           },
           child: FlowBuilder<AppTab>(
@@ -112,7 +113,7 @@ class HomeFlow extends StatelessWidget {
             onGeneratePages: (AppTab state, pages) {
               switch (state) {
                 case AppTab.daily:
-                  return [DailyCartoonPage(), TestPagePage()];
+                  return [DailyCartoonPage()];
                 default:
                   return [FilteredFlowPage()];
               }

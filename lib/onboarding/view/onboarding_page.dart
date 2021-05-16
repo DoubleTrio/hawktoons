@@ -12,7 +12,7 @@ class OnBoardingPage extends Page {
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
         create: (context) => OnboardingPageCubit(),
-        child: OnboardingScreen(),
+        child: const OnboardingScreen(),
       ),
       transitionDuration: const Duration(milliseconds: 0),
     );
@@ -20,6 +20,7 @@ class OnBoardingPage extends Page {
 }
 
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({Key? key}): super(key: key);
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -81,19 +82,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       .read<OnboardingPageCubit>()
                       .setOnBoardingPage(VisableOnboardingPage.values[page]),
                   children: [
-                    OnboardingWidget(
+                    const OnboardingWidget(
                       header: 'Welcome to Hawktoons',
                       body: 'An educational, ad-free app to learn history '
                         'at different time periods through political cartoons.'
                     ),
-                    OnboardingWidget(
+                    const OnboardingWidget(
                       header: 'New daily cartoons',
                       body: 'Learn something new with a new political cartoon '
                         'or image everyday. Each will include a '
                         'brief description given the context of the time '
                         'period.'
                     ),
-                    OnboardingWidget(
+                    const OnboardingWidget(
                       header: 'See past cartoons',
                       body: 'Missed a political cartoon? Don\'t worry! '
                         'You can view past political cartoons '

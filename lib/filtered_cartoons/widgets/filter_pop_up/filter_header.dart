@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FilterHeader extends StatelessWidget {
-  FilterHeader({required this.header});
+  const FilterHeader({Key? key, required this.header}): super(key: key);
 
   final String header;
 

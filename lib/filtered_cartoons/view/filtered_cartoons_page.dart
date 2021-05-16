@@ -16,13 +16,15 @@ class FilteredCartoonsPage extends Page {
     return PageRouteBuilder(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
-          FilteredCartoonsScreen(),
+        const FilteredCartoonsScreen(),
       transitionDuration: const Duration(milliseconds: 800),
     );
   }
 }
 
 class FilteredCartoonsScreen extends StatelessWidget {
+  const FilteredCartoonsScreen({Key? key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
@@ -36,8 +38,8 @@ class FilteredCartoonsScreen extends StatelessWidget {
           title: AnimatedOpacity(
             opacity: shouldDisplayTitle ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 800),
-            child: ScaffoldTitle(
-              title: 'All Cartoons',
+            child: const ScaffoldTitle(
+              title: 'All Images',
             ),
           ),
           centerTitle: true,
@@ -65,6 +67,7 @@ class FilteredCartoonsScreen extends StatelessWidget {
               if (state is FilteredCartoonsLoaded) {
                 return StaggeredCartoonGrid(
                   cartoons: [
+                    ...state.filteredCartoons,
                     ...state.filteredCartoons
                   ],
                   key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),

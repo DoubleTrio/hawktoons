@@ -35,7 +35,7 @@ void main() {
       'when sign in button is tapped', (tester) async {
       when(() => authenticationBloc.state).thenReturn(Uninitialized());
       await tester.pumpApp(
-        wrapper(LoginScreen()),
+        wrapper(const LoginScreen()),
       );
       await tester.tap(find.byKey(_signInAnonymouslyButtonKey));
       verify(() => authenticationBloc.add(SignInAnonymously())).called(1);
@@ -47,7 +47,7 @@ void main() {
       var state = LoggingIn();
       when(() => authenticationBloc.state).thenReturn(state);
       await tester.pumpApp(
-        wrapper(LoginScreen()),
+        wrapper(const LoginScreen()),
       );
       expect(find.byKey(_loggingInKey), findsOneWidget);
     });
@@ -58,7 +58,7 @@ void main() {
       var state = LoginError();
       when(() => authenticationBloc.state).thenReturn(state);
       await tester.pumpApp(
-        wrapper(LoginScreen()),
+        wrapper(const LoginScreen()),
       );
       expect(find.byKey(_unauthenticatedKey), findsOneWidget);
     });

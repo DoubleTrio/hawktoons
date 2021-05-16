@@ -25,7 +25,9 @@ void setupCloudFirestoreMocks([Callback? customHandlers]) {
 
     if (call.method == 'Firebase#initializeApp') {
       return {
+        // ignore: avoid_dynamic_calls
         'name': call.arguments['appName'],
+        // ignore: avoid_dynamic_calls
         'options': call.arguments['options'],
         'pluginConstants': {},
       };

@@ -10,13 +10,14 @@ class LoginPage extends Page {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder(
       settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) => LoginScreen(),
+      pageBuilder: (_, __, ___) => const LoginScreen(),
       transitionDuration: const Duration(milliseconds: 1000),
     );
   }
 }
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen ({Key? key}): super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +31,9 @@ class LoginScreen extends StatelessWidget {
           Center(
             child: TextButton(
               key: const Key('LoginPage_SignInAnonymouslyButton'),
-              child: const Text('Sign in anonymously'),
               onPressed: () =>
                 context.read<AuthenticationBloc>().add(SignInAnonymously()),
+              child: const Text('Sign in anonymously'),
             ),
           ),
           BlocBuilder<AuthenticationBloc, AuthenticationState>(

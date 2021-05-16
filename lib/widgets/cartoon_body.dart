@@ -4,7 +4,11 @@ import 'package:history_app/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class CartoonBody extends StatelessWidget {
-  CartoonBody({required this.cartoon, required this.addImagePadding});
+  const CartoonBody({
+    Key? key,
+    required this.cartoon,
+    required this.addImagePadding
+  }) : super(key: key);
 
   final PoliticalCartoon cartoon;
   final bool addImagePadding;
@@ -25,10 +29,10 @@ class CartoonBody extends StatelessWidget {
           color: Theme.of(context).dividerColor,
           child: Center(
             child: Container(
-              child: CachedNetworkImage(imageUrl: cartoon.downloadUrl),
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height / 2
               ),
+              child: CachedNetworkImage(imageUrl: cartoon.downloadUrl),
             ),
           ),
         ),
@@ -43,19 +47,19 @@ class CartoonBody extends StatelessWidget {
                 body: Text(cartoon.publishedString, style: _bodyTextStyle)
               ),
               if (cartoon.author != '')
-                ...[CartoonSectionDivider(),
+                ...[const CartoonSectionDivider(),
                 CartoonSection(
                     key: Key('CartoonSection_Author_${cartoon.id}'),
                     title: 'AUTHOR',
                     body: Text(cartoon.author, style: _bodyTextStyle)
                 )],
 
-              CartoonSectionDivider(),
+              const CartoonSectionDivider(),
               CartoonSection(
                 title: 'IMAGE TYPE',
                 body: Text(cartoon.type.imageType, style: _bodyTextStyle)
               ),
-              CartoonSectionDivider(),
+              const CartoonSectionDivider(),
               CartoonSection(
                 title: 'TAGS',
                 body: Column(
@@ -66,7 +70,7 @@ class CartoonBody extends StatelessWidget {
                   ],
                 ),
               ),
-              CartoonSectionDivider(),
+              const CartoonSectionDivider(),
               CartoonSection(
                 title: 'DESCRIPTION',
                 body: Text(cartoon.description, style: _bodyTextStyle)

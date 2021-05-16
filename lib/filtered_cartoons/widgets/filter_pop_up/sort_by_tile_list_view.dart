@@ -5,7 +5,7 @@ import 'package:history_app/filtered_cartoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class SortByTileListView extends StatelessWidget {
-  SortByTileListView({required this.modes});
+  const SortByTileListView({Key? key, required this.modes}): super(key: key);
 
   final List<SortByMode> modes;
 

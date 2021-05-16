@@ -12,7 +12,7 @@ class AuthFlowPage extends Page {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder(
       settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) => AuthFlow(),
+      pageBuilder: (context, animation, secondaryAnimation) => const AuthFlow(),
       transitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = const Offset(1.0, 0.0);
@@ -33,6 +33,7 @@ class AuthFlowPage extends Page {
 }
 
 class AuthFlow extends StatelessWidget {
+  const AuthFlow({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

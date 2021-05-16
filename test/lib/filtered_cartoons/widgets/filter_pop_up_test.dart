@@ -66,7 +66,7 @@ void main() {
 
     testWidgets('selects sorting mode', (tester) async {
       await tester.pumpApp(
-        wrapper(SortByTileListView(modes: SortByMode.values)
+        wrapper(const SortByTileListView(modes: SortByMode.values)
       ));
 
       await tester.tap(find.byKey(_sortByTileKey));

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PageIndicator extends StatelessWidget {
-  PageIndicator({required this.isActive});
+  const PageIndicator({Key? key, required this.isActive}): super(key: key);
 
   final bool isActive;
 

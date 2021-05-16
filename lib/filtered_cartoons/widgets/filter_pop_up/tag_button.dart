@@ -24,10 +24,6 @@ class TagButton extends StatelessWidget {
 
     return TextButton(
       onPressed: onTap,
-      child: Text(
-        tag.name,
-        style: TextStyle(fontSize: 12, color: btnColor),
-      ),
       style: ButtonStyle(
         padding:
           MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(padding)),
@@ -38,6 +34,10 @@ class TagButton extends StatelessWidget {
             side: BorderSide(color: btnColor)
           )
         )
+      ),
+      child: Text(
+        tag.name,
+        style: TextStyle(fontSize: 12, color: btnColor),
       ),
     );
   }

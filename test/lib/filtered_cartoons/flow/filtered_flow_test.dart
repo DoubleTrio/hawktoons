@@ -73,7 +73,7 @@ void main() {
         SelectPoliticalCartoonState()
       );
 
-      await tester.pumpApp(wrapper(FilteredFlow()));
+      await tester.pumpApp(wrapper(const FilteredFlow()));
       expect(find.byType(FilteredCartoonsScreen), findsOneWidget);
     });
 
@@ -87,7 +87,7 @@ void main() {
       );
 
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(FilteredFlow())),
+        () => tester.pumpApp(wrapper(const FilteredFlow())),
       );
 
       expect(find.byType(DetailsScreen), findsOneWidget);
@@ -104,7 +104,7 @@ void main() {
         SelectPoliticalCartoonState()
       );
 
-      await tester.pumpApp(wrapper(FilteredFlow()));
+      await tester.pumpApp(wrapper(const FilteredFlow()));
 
       await tester.tap(find.byType(CartoonCard).first);
 

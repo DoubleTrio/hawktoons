@@ -36,7 +36,8 @@ class DetailsPage extends Page {
 }
 
 class DetailsScreen extends StatelessWidget {
-  DetailsScreen({required this.cartoon});
+  const DetailsScreen({Key? key, required this.cartoon}): super(key: key);
+
 
   final PoliticalCartoon cartoon;
 

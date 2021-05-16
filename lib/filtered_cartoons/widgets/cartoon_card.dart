@@ -8,7 +8,9 @@ import 'package:history_app/utils/time_ago.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class CartoonCard extends StatelessWidget {
-  CartoonCard({required this.cartoon, required this.onTap});
+
+  CartoonCard({Key? key, required this.cartoon, required this.onTap}):
+    super(key: key);
 
   final PoliticalCartoon cartoon;
   final VoidCallback onTap;

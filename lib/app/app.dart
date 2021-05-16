@@ -67,6 +67,9 @@ class AppView extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
       theme: ThemeData(
+        snackBarTheme: const SnackBarThemeData(
+          contentTextStyle: TextStyle(fontWeight: FontWeight.bold)
+        ),
         dividerColor: Colors.grey.shade200,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: lightColorScheme.background,
@@ -85,7 +88,6 @@ class AppView extends StatelessWidget {
               fontSize: 16,
             ),
           ),
-          accentColor: lightPrimary,
           colorScheme: lightColorScheme,
           highlightColor: lightPrimary.withOpacity(0.2),
           splashColor: lightPrimary.withOpacity(0.1),
@@ -98,8 +100,10 @@ class AppView extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFF3C3C3C),
         ),
-        accentColor: darkPrimary,
         dividerColor: Colors.grey.shade900,
+        snackBarTheme: const SnackBarThemeData(
+          contentTextStyle: TextStyle(fontWeight: FontWeight.bold)
+        ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: const Color(0xFF3C3C3C),
           selectedItemColor: darkColorScheme.secondary,
@@ -126,7 +130,7 @@ class AppView extends StatelessWidget {
         value: themeMode == ThemeMode.dark
           ? SystemUiOverlayStyle.light
           : SystemUiOverlayStyle.dark,
-        child: OnboardingFlow(),
+        child: const OnboardingFlow(),
       )
     );
   }

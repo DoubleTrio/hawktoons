@@ -32,14 +32,14 @@ void main() {
 
     testWidgets('screen is OnboardingScreen', (tester) async {
       when(() => onboardingSeenCubit.state).thenReturn(false);
-      await tester.pumpApp(wrapper(OnboardingFlow()));
+      await tester.pumpApp(wrapper(const OnboardingFlow()));
       expect(find.byType(OnboardingScreen), findsOneWidget);
     });
 
     testWidgets('screen is AuthFlow', (tester) async {
       when(() => onboardingSeenCubit.state).thenReturn(true);
       when(() => authenticationBloc.state).thenReturn(Uninitialized());
-      await tester.pumpApp(wrapper(OnboardingFlow()));
+      await tester.pumpApp(wrapper(const OnboardingFlow()));
       expect(find.byType(AuthFlow), findsOneWidget);
     });
   });

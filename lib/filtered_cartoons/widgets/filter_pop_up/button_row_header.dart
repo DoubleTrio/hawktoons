@@ -5,7 +5,7 @@ import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class ButtonRowHeader extends StatelessWidget {
-
+  const ButtonRowHeader({Key? key}): super(key: key);
   @override
   Widget build(BuildContext context) {
     final _selectedTag = context.watch<TagCubit>().state;
@@ -14,6 +14,12 @@ class ButtonRowHeader extends StatelessWidget {
 
     void _filter() {
       Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          duration: Duration(seconds: 2),
+          content: Text('Filter applied!'),
+        ),
+      );
       context.read<AllCartoonsBloc>().add(LoadAllCartoons(
         _sortByMode,
         _imageType,
@@ -72,12 +78,12 @@ class ButtonRowHeader extends StatelessWidget {
           ),
           TextButton(
             key: const Key('ButtonRowHeader_ApplyFilterButton'),
+            onPressed: _filter,
+            style: btnStyle,
             child: Text(
               'Apply',
               style: TextStyle(color: primary),
             ),
-            onPressed: _filter,
-            style: btnStyle,
           ),
         ],
       ),

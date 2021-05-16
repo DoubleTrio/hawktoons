@@ -78,7 +78,7 @@ void main() {
         FilteredCartoonsLoading()
       );
       when(() => scrollHeaderCubit.state).thenReturn(false);
-      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
+      await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       expect(find.byKey(filteredCartoonsLoadingKey), findsOneWidget);
     });
 
@@ -91,7 +91,7 @@ void main() {
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(FilteredCartoonsScreen())),
+        () => tester.pumpApp(wrapper(const FilteredCartoonsScreen())),
       );
       expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
     });
@@ -104,7 +104,7 @@ void main() {
 
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
 
-      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
+      await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       expect(find.byKey(filteredCartoonsFailedKey), findsOneWidget);
     });
 
@@ -112,7 +112,7 @@ void main() {
         'when filter icon is pressed', (tester) async {
       var filteredCartoonsState = FilteredCartoonsFailed('Error');
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
-      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
+      await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       await tester.tap(find.byKey(filterButtonKey));
       verify(showBottomSheetCubit.openSheet).called(1);
     });
@@ -121,7 +121,7 @@ void main() {
         'when logout button is pressed', (tester) async {
       var filteredCartoonsState = FilteredCartoonsFailed('Error');
       when(() => filteredCartoonsBloc.state).thenReturn(filteredCartoonsState);
-      await tester.pumpApp(wrapper(FilteredCartoonsScreen()));
+      await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       await tester.tap(find.byKey(logoutButtonKey));
       verify(() => authenticationBloc.add(Logout())).called(1);
     });

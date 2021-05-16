@@ -12,13 +12,16 @@ class FilteredFlowPage extends Page {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder(
       settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) => FilteredFlow(),
+      pageBuilder: (_, __, ___) => const FilteredFlow(),
       transitionDuration: const Duration(milliseconds: 1000),
     );
   }
 }
 
 class FilteredFlow extends StatelessWidget {
+
+  const FilteredFlow({Key? key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<SelectPoliticalCartoonState>(

@@ -5,7 +5,7 @@ import 'package:history_app/filtered_cartoons/widgets/filter_pop_up/tag_button.d
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButtonBar extends StatelessWidget {
-  TagButtonBar({required this.tags});
+  const TagButtonBar({Key? key, required this.tags}): super(key: key);
 
   final List<Tag> tags;
 

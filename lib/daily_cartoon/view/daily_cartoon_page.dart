@@ -42,22 +42,25 @@ class DailyCartoonScreen extends StatelessWidget {
     });
     return Scaffold(
       appBar: AppBar(
-          leading: CustomIconButton(
-            key: const Key('DailyCartoonScreen_Button_Logout'),
-            icon: const Icon(Icons.exit_to_app_rounded),
-            onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
-          ),
-          title: ScaffoldTitle(title: title),
-          centerTitle: true),
-      body: SingleChildScrollView(
+        leading: CustomIconButton(
+          key: const Key('DailyCartoonScreen_Button_Logout'),
+          icon: const Icon(Icons.exit_to_app_rounded),
+          onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
+        ),
+        title: ScaffoldTitle(title: title),
+        centerTitle: true
+      ),
+      body: const SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: PoliticalCartoonCardLoader(),
-        physics: const BouncingScrollPhysics(),
       ),
     );
   }
 }
 
 class PoliticalCartoonCardLoader extends StatelessWidget {
+  const PoliticalCartoonCardLoader({Key? key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
