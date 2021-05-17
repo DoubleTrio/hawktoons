@@ -102,7 +102,10 @@ class AppView extends StatelessWidget {
         ),
         dividerColor: Colors.grey.shade900,
         snackBarTheme: const SnackBarThemeData(
-          contentTextStyle: TextStyle(fontWeight: FontWeight.bold)
+          contentTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          )
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: const Color(0xFF3C3C3C),

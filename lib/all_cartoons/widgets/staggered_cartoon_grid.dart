@@ -105,6 +105,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
 
               var cartoon = widget.cartoons[index - 1];
               return CartoonCard(
+                key: Key('CartoonCard_${cartoon.id}'),
                 cartoon: cartoon,
                 onTap: () =>
                   context.read<SelectCartoonCubit>().selectCartoon(cartoon),

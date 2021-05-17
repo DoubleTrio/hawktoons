@@ -39,6 +39,7 @@ class ImageTypeCheckboxRow extends StatelessWidget {
           var type = imageTypes[index];
           return ImageTypeCheckbox(
             key: Key('ImageTypeCheckbox_${type.index}'),
+            keyString: 'ImageTypeCheckbox_${type.index}',
             text: type.imageType,
             isSelected: selectedImageType == type,
             onSelect: () => _select(type),

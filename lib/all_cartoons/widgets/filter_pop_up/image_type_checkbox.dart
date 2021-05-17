@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class ImageTypeCheckbox extends StatelessWidget {
   const ImageTypeCheckbox({
     Key? key,
+    required this.keyString,
     required this.text,
     required this.isSelected,
     required this.onSelect,
     required this.onDeselect,
   }) : super(key: key);
 
+  final String keyString;
   final String text;
   final bool isSelected;
   final VoidCallback onSelect;
@@ -21,6 +23,7 @@ class ImageTypeCheckbox extends StatelessWidget {
       children: [
         Material(
           child: Checkbox(
+            key: Key('${keyString}_Checkbox'),
             activeColor: theme.colorScheme.primary,
             value: isSelected,
             onChanged: (selected) => selected! ? onSelect() : onDeselect()
