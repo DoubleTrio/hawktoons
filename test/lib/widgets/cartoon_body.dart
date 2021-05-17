@@ -3,10 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/widgets/widgets.dart';
 
 import '../helpers/helpers.dart';
+import '../keys.dart';
 import '../mocks.dart';
 
-var _cartoonSectionAuthorKey =
-  Key('CartoonSection_Author_${mockPoliticalCartoon.id}');
 
 void main() {
   group('CartoonBody', () {
@@ -19,7 +18,7 @@ void main() {
           ),
         )
       );
-      expect(find.byKey(_cartoonSectionAuthorKey), findsOneWidget);
+      expect(find.byKey(cartoonSectionAuthorKey), findsOneWidget);
     });
 
     testWidgets('does not render author', (tester) async {
@@ -31,7 +30,7 @@ void main() {
           ),
         )
       );
-      expect(find.byKey(_cartoonSectionAuthorKey), findsNothing);
+      expect(find.byKey(cartoonSectionAuthorKey), findsNothing);
     });
   });
 }

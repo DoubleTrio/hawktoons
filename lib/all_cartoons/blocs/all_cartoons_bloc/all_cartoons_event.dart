@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
+import 'package:history_app/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
 
 abstract class AllCartoonsEvent extends Equatable {
   const AllCartoonsEvent();

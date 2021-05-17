@@ -7,11 +7,8 @@ import 'package:history_app/blocs/auth/auth.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
+import '../../keys.dart';
 import '../../mocks.dart';
-
-const _loggingInKey = Key('LoginPage_LoggingIn');
-const _unauthenticatedKey = Key('LoginPage_LoginError');
-const _signInAnonymouslyButtonKey = Key('LoginPage_SignInAnonymouslyButton');
 
 void main() {
   group('LoginPage', () {
@@ -37,7 +34,7 @@ void main() {
       await tester.pumpApp(
         wrapper(const LoginScreen()),
       );
-      await tester.tap(find.byKey(_signInAnonymouslyButtonKey));
+      await tester.tap(find.byKey(signInAnonymouslyButtonKey));
       verify(() => authenticationBloc.add(SignInAnonymously())).called(1);
     });
 
@@ -49,7 +46,7 @@ void main() {
       await tester.pumpApp(
         wrapper(const LoginScreen()),
       );
-      expect(find.byKey(_loggingInKey), findsOneWidget);
+      expect(find.byKey(loggingInKey), findsOneWidget);
     });
 
     testWidgets(
@@ -60,7 +57,7 @@ void main() {
       await tester.pumpApp(
         wrapper(const LoginScreen()),
       );
-      expect(find.byKey(_unauthenticatedKey), findsOneWidget);
+      expect(find.byKey(unauthenticatedKey), findsOneWidget);
     });
   });
 }

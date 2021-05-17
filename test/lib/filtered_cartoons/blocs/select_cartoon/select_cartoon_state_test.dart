@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
+import 'package:history_app/all_cartoons/blocs/blocs.dart';
 
 import '../../../mocks.dart';
 

@@ -8,15 +8,9 @@ import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
+import '../../keys.dart';
 import '../../mocks.dart';
 
-const _dailyCartoonInProgressKey =
-  Key('DailyCartoonScreen_DailyCartoonInProgress');
-const _dailyCartoonLoadedKey =
-  Key('DailyCartoonScreen_DailyCartoonLoaded');
-const _dailyCartoonFailedKey =
-  Key('DailyCartoonScreen_DailyCartoonFailed');
-const _logoutButtonKey = Key('DailyCartoonScreen_Button_Logout');
 
 void main() {
   group('DailyCartoonScreen', () {
@@ -49,7 +43,7 @@ void main() {
       await tester.pumpApp(
         wrapper(DailyCartoonScreen())
       );
-      expect(find.byKey(_dailyCartoonInProgressKey), findsOneWidget);
+      expect(find.byKey(dailyCartoonInProgressKey), findsOneWidget);
     });
 
     testWidgets(
@@ -60,7 +54,7 @@ void main() {
       await mockNetworkImagesFor(() => tester.pumpApp(
         wrapper(DailyCartoonScreen())
       ));
-      expect(find.byKey(_dailyCartoonLoadedKey), findsOneWidget);
+      expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
     });
 
     testWidgets(
@@ -69,14 +63,14 @@ void main() {
       var state = DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
       await tester.pumpApp(wrapper(DailyCartoonScreen()));
-      expect(find.byKey(_dailyCartoonFailedKey), findsOneWidget);
+      expect(find.byKey(dailyCartoonFailedKey), findsOneWidget);
     });
 
     testWidgets('logs out when logout button is tapped', (tester) async {
       var state = DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
       await tester.pumpApp(wrapper(DailyCartoonScreen()));
-      await tester.tap(find.byKey(_logoutButtonKey));
+      await tester.tap(find.byKey(dailyCartoonLogoutButtonKey));
       verify(() => authenticationBloc.add(Logout()));
     });
   });

@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -39,7 +38,7 @@ void main() {
       registerFallbackValue<SelectPoliticalCartoonState>(
         SelectPoliticalCartoonState()
       );
-      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
@@ -54,7 +53,7 @@ void main() {
       when(() => selectCartoonCubit.state)
         .thenReturn(SelectPoliticalCartoonState());
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial()
+        const AllCartoonsState.initial()
       );
       when(() => tagCubit.state).thenReturn(Tag.all);
       when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
@@ -148,7 +147,7 @@ void main() {
 
     testWidgets('staggered grid shows loading indicator', (tester) async {
     when(() => allCartoonsBloc.state).thenReturn(
-      const AllCartoonsLoaded.initial()
+      const AllCartoonsState.initial()
         .copyWith(status: CartoonStatus.loading)
     );
       await mockNetworkImagesFor(

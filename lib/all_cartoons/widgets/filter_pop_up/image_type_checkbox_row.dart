@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
-import 'package:history_app/filtered_cartoons/widgets/filter_pop_up/filter_pop_up.dart';
-import 'package:history_app/filtered_cartoons/widgets/filter_pop_up/image_type_checkbox.dart';
+import 'package:history_app/all_cartoons/blocs/blocs.dart';
+import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 

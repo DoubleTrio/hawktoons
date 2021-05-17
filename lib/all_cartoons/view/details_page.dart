@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
+import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:history_app/widgets/cartoon_body.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';

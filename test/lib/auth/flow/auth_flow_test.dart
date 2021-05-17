@@ -9,7 +9,7 @@ import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/blocs/tab/models/models.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/home/home_flow.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -17,7 +17,6 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
-
 
 void main() {
   setupCloudFirestoreMocks();
@@ -53,7 +52,7 @@ void main() {
     setUpAll(() async {
       await Firebase.initializeApp();
 
-      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
@@ -79,7 +78,7 @@ void main() {
 
 
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial()
+        const AllCartoonsState.initial()
       );
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
@@ -109,7 +108,7 @@ void main() {
           .thenReturn(Authenticated('user-id'));
         when(() => scrollHeaderCubit.state).thenReturn(false);
         when(() => allCartoonsBloc.state).thenReturn(
-          const AllCartoonsLoaded.initial().copyWith(cartoons: [mockCartoon])
+          const AllCartoonsState.initial().copyWith(cartoons: [mockCartoon])
         );
 
 

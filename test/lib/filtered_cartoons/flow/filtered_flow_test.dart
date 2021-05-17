@@ -3,10 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
 import 'package:history_app/blocs/auth/auth.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
-import 'package:history_app/filtered_cartoons/view/details_page.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:history_app/all_cartoons/view/details_page.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -38,7 +37,7 @@ void main() {
     }
 
     setUpAll(() async {
-      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
@@ -61,7 +60,7 @@ void main() {
     testWidgets(
       'shows FilteredCartoonsPage', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial()
+        const AllCartoonsState.initial()
       );
       when(() => selectCartoonCubit.state).thenReturn(
         SelectPoliticalCartoonState()
@@ -73,7 +72,7 @@ void main() {
 
     testWidgets('shows DetailsPage', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial()
+        const AllCartoonsState.initial()
       );
 
       when(() => selectCartoonCubit.state).thenReturn(
@@ -93,7 +92,7 @@ void main() {
         SelectPoliticalCartoonState()
       );
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial().copyWith(
+        const AllCartoonsState.initial().copyWith(
           cartoons: [mockPoliticalCartoon],
           status: CartoonStatus.success,
         )

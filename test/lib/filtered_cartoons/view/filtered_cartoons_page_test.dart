@@ -2,25 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
 import 'package:history_app/blocs/auth/auth.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
+import '../../keys.dart';
 import '../../mocks.dart';
-
-const filteredCartoonsLoadingKey =
-  Key('FilteredCartoonsPage_FilteredCartoonsLoading');
-const filteredCartoonsLoadedKey =
-  Key('FilteredCartoonsPage_FilteredCartoonsLoaded');
-const filteredCartoonsFailedKey =
-  Key('FilteredCartoonsPage_FilteredCartoonsFailed');
-const filterButtonKey = Key('FilteredCartoonsPage_FilterButton');
-const logoutButtonKey = Key('FilteredCartoonsPage_LogoutButton');
 
 void main() {
   group('FilteredCartoonsPage', () {
@@ -45,7 +36,7 @@ void main() {
     }
 
     setUpAll(() async {
-      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
@@ -70,7 +61,7 @@ void main() {
       'with Key(\'FilteredCartoonsPage_FilteredCartoonsLoading\') '
       'when state is FilteredCartoonsLoading', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial()
+        const AllCartoonsState.initial()
       );
       when(() => scrollHeaderCubit.state).thenReturn(false);
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
@@ -82,7 +73,7 @@ void main() {
       'Key(\'FilteredCartoonsPage_FilteredCartoonsLoaded\') '
       'when state is FilteredCartoonsLoaded', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial().copyWith(
+        const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.success,
           cartoons: [mockPoliticalCartoon]
         )
@@ -99,7 +90,7 @@ void main() {
       'with Key(\'FilteredCartoonsPage_FilteredCartoonsFailed\'); '
       'when state is FilteredCartoonFailed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial().copyWith(
+        const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.failure,
         )
       );
@@ -111,7 +102,7 @@ void main() {
     testWidgets('opens bottom sheet '
         'when filter icon is pressed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial().copyWith(
+        const AllCartoonsState.initial().copyWith(
           cartoons: [mockPoliticalCartoon]
         )
       );
@@ -123,12 +114,12 @@ void main() {
     testWidgets('logs out '
         'when logout button is pressed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsLoaded.initial().copyWith(
+        const AllCartoonsState.initial().copyWith(
           cartoons: [mockPoliticalCartoon]
         )
       );
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
-      await tester.tap(find.byKey(logoutButtonKey));
+      await tester.tap(find.byKey(filterLogoutButtonKey));
       verify(() => authenticationBloc.add(Logout())).called(1);
     });
   });

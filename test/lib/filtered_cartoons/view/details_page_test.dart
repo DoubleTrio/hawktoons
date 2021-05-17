@@ -2,15 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
-import 'package:history_app/filtered_cartoons/view/details_page.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
+import '../../keys.dart';
 import '../../mocks.dart';
 
-const _detailsPageBackButtonKey = Key('DetailsPage_BackButton');
 
 void main() {
   group('DetailsPage', () {
@@ -24,11 +23,11 @@ void main() {
 
     setUpAll(() async {
       registerFallbackValue<SelectPoliticalCartoonState>(
-          SelectPoliticalCartoonState()
+        SelectPoliticalCartoonState()
       );
       selectCartoonCubit = MockSelectCartoonCubit();
       when(() => selectCartoonCubit.state).thenReturn(
-          SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon)
+        SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon)
       );
     });
 
@@ -43,7 +42,7 @@ void main() {
       await tester.pumpApp(
         wrapper(DetailsScreen(cartoon: mockPoliticalCartoon)
       ));
-      await tester.tap(find.byKey(_detailsPageBackButtonKey));
+      await tester.tap(find.byKey(detailsPageBackButtonKey));
       verify(selectCartoonCubit.deselectCartoon).called(1);
     });
   });

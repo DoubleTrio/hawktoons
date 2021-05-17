@@ -73,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-                height: 450.0,
+                height: MediaQuery.of(context).size.height * 0.60,
                 child: PageView(
                   physics: const BouncingScrollPhysics(),
                   controller: _pageController,
@@ -85,20 +85,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     const OnboardingWidget(
                       header: 'Welcome to Hawktoons',
                       body: 'An educational, ad-free app to learn history '
-                        'at different time periods through political cartoons.'
+                        'at different time periods through '
+                        'political cartoons and images.'
                     ),
                     const OnboardingWidget(
-                      header: 'New daily cartoons',
-                      body: 'Learn something new with a new political cartoon '
-                        'or image everyday. Each will include a '
+                      header: 'New cartoon every week',
+                      body: 'Learn something new with a political cartoon '
+                        'or image every week. Each will include a '
                         'brief description given the context of the time '
                         'period.'
                     ),
                     const OnboardingWidget(
                       header: 'See past cartoons',
                       body: 'Missed a political cartoon? Don\'t worry! '
-                        'You can view past political cartoons '
-                        'and filter them by their tags.'
+                        'You can view past political images '
+                        'and filter them by their tags and image type.'
                     ),
                   ],
                 ),
@@ -127,8 +128,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     key: const Key('OnboardingPage_NextPage'),
                     text: isLastPage ? 'Start' : 'Next',
                     onPressed: isLastPage ? _completeOnboarding : _nextPage,
-                    textStyle:
-                      _baseTextStyle.copyWith(color: colorScheme.primary),
+                    textStyle: _baseTextStyle.copyWith(
+                      color: colorScheme.primary
+                    ),
                   ),
                 ],
               ),

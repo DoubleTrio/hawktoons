@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:history_app/blocs/blocs.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/onboarding/cubits/cubits.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -37,7 +37,7 @@ class MockAuthenticationBloc
 class MockOnboardingSeenCubit extends MockCubit<bool>
     implements OnboardingSeenCubit {}
 
-class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsLoaded>
+class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
   implements AllCartoonsBloc {}
 
 

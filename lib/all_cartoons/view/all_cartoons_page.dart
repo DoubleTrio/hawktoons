@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/blocs/blocs.dart';
-import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
-import 'package:history_app/filtered_cartoons/widgets/widgets.dart';
+import 'package:history_app/all_cartoons/blocs/blocs.dart';
+import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
 import 'package:history_app/widgets/loading_indicator.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
@@ -52,7 +52,7 @@ class FilteredCartoonsScreen extends StatelessWidget {
           ]),
       body: Column(
         children: [
-          BlocBuilder<AllCartoonsBloc, AllCartoonsLoaded>(
+          BlocBuilder<AllCartoonsBloc, AllCartoonsState>(
             builder: (context, state) {
               if (state.status == CartoonStatus.initial) {
                 return Column(

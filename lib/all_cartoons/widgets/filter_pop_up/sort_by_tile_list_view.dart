@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/filtered_cartoons/blocs/blocs.dart';
-import 'package:history_app/filtered_cartoons/widgets/widgets.dart';
+import 'package:history_app/all_cartoons/blocs/blocs.dart';
+import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class SortByTileListView extends StatelessWidget {

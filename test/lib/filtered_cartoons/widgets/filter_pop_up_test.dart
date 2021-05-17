@@ -3,25 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/blocs/blocs.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
+import '../../keys.dart';
 import '../../mocks.dart';
-
-const _resetFilterButtonKey = Key('ButtonRowHeader_ResetButton');
-const _applyFilterButtonKey = Key('ButtonRowHeader_ApplyFilterButton');
-
-final sortByMode = SortByMode.latestPosted;
-final tag = Tag.tag5;
-final imageType = ImageType.cartoon;
-
-final _tagButtonKey = Key('Tag_Button_${tag.index}');
-final _sortByTileKey = Key('SortByMode_Button_${sortByMode.index}');
-final _imageTypeButtonKey = Key('ImageTypeCheckbox_${imageType.index}');
-
 
 void main() {
   group('FilterPopUp', () {
@@ -39,7 +28,7 @@ void main() {
       ], child: child);
     }
     setUpAll(() async {
-      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<Tag>(Tag.all);
@@ -51,7 +40,7 @@ void main() {
       sortByCubit = MockSortByCubit();
       imageTypeCubit = MockImageTypeCubit();
 
-      when(() => allCartoonsBloc.state).thenReturn(const AllCartoonsLoaded.initial());
+      when(() => allCartoonsBloc.state).thenReturn(const AllCartoonsState.initial());
       when(() => tagCubit.state).thenReturn(Tag.all);
       when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
@@ -62,7 +51,7 @@ void main() {
         wrapper(const SortByTileListView(modes: SortByMode.values)
       ));
 
-      await tester.tap(find.byKey(_sortByTileKey));
+      await tester.tap(find.byKey(sortByTileKey));
       await tester.pumpAndSettle();
       verify(() => sortByCubit.selectSortBy(sortByMode)).called(1);
     });
@@ -70,7 +59,7 @@ void main() {
     testWidgets('selects filter tag', (tester) async {
       when(() => tagCubit.state).thenReturn(Tag.all);
       await tester.pumpApp(wrapper(FilterPopUp()));
-      await tester.tap(find.byKey(_tagButtonKey));
+      await tester.tap(find.byKey(tagButtonKey));
       await tester.pumpAndSettle();
       verify(() => tagCubit.selectTag(tag)).called(1);
     });
@@ -78,7 +67,7 @@ void main() {
     testWidgets('deselects filter tag', (tester) async {
       when(() => tagCubit.state).thenReturn(Tag.tag5);
       await tester.pumpApp(wrapper(FilterPopUp()));
-      await tester.tap(find.byKey(_tagButtonKey));
+      await tester.tap(find.byKey(tagButtonKey));
       await tester.pumpAndSettle();
       verify(() => tagCubit.selectTag(Tag.all)).called(1);
     });
@@ -87,7 +76,7 @@ void main() {
       when(() => tagCubit.state).thenReturn(Tag.tag5);
       when(() => sortByCubit.state).thenReturn(SortByMode.earliestPublished);
       await tester.pumpApp(wrapper(FilterPopUp()));
-      await tester.tap(find.byKey(_resetFilterButtonKey));
+      await tester.tap(find.byKey(resetFilterButtonKey));
       await tester.pumpAndSettle();
       verify(() => tagCubit.selectTag(Tag.all)).called(1);
       verify(() => sortByCubit.selectSortBy(SortByMode.latestPosted))
@@ -103,7 +92,7 @@ void main() {
 
       await tester.pumpApp(wrapper(FilterPopUp()));
 
-      await tester.tap(find.byKey(_applyFilterButtonKey));
+      await tester.tap(find.byKey(applyFilterButtonKey));
       await tester.pumpAndSettle();
 
       verify(() => allCartoonsBloc.add(
@@ -126,7 +115,7 @@ void main() {
 
       await tester.tap(
         find.descendant(
-          of: find.byKey(_imageTypeButtonKey),
+          of: find.byKey(imageTypeButtonKey),
           matching: find.byType(Checkbox)
         )
       );
@@ -145,7 +134,7 @@ void main() {
 
       await tester.tap(
         find.descendant(
-          of: find.byKey(_imageTypeButtonKey),
+          of: find.byKey(imageTypeButtonKey),
           matching: find.byType(Checkbox)
         )
       );

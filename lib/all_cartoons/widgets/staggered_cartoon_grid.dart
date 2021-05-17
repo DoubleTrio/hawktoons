@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:history_app/blocs/all_cartoons/all_cartoons.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/widgets/cartoon_scroll_bar.dart';
 import 'package:history_app/widgets/loading_indicator.dart';
 import 'package:history_app/widgets/page_header.dart';
@@ -19,14 +18,8 @@ class StaggeredCartoonGrid extends StatefulWidget {
 
 class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   late ScrollController _scrollController;
-  // final _scrollThreshold = 200.0;
   final _headerKey = GlobalKey();
-
-  // void _onScroll() {
-  //   final maxScroll = _scrollController.position.maxScrollExtent;
-  //   final currentScroll = _scrollController.position.pixels;
-  //   if (maxScroll - currentScroll <= _scrollThreshold) {}
-  // }
+  final delta = 200.0;
 
   @override
   void initState() {
@@ -40,14 +33,14 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
       _scrollController.addListener(() {
         var maxScroll = _scrollController.position.maxScrollExtent;
         var currentScroll = _scrollController.position.pixels;
-        var delta = 200.0;
+
         if (currentScroll > height) {
           context.read<ScrollHeaderCubit>().onScrollPastHeader();
         } else {
           context.read<ScrollHeaderCubit>().onScrollBeforeHeader();
         }
 
-        if (maxScroll - currentScroll <= delta ) {
+        if (maxScroll - currentScroll <= delta) {
           final _selectedTag = context.read<TagCubit>().state;
           final _sortByMode = context.read<SortByCubit>().state;
           final _imageType = context.read<ImageTypeCubit>().state;
@@ -60,11 +53,8 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
         }
       });
       _scrollController.position.isScrollingNotifier.addListener(() {
-        if (!_scrollController.position.isScrollingNotifier.value) {
-          // print('scroll is stopped');
-        } else {
+        if (_scrollController.position.isScrollingNotifier.value) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          // print('scroll is started');
         }
       });
     });
@@ -79,8 +69,11 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
 
   @override
   Widget build(BuildContext context) {
-    var isLoading = context.select<AllCartoonsBloc, bool>((value)
-    => value.state.status == CartoonStatus.loading);
+    var itemCount = widget.cartoons.length + 2;
+    var isLoading = context.select<AllCartoonsBloc, bool>(
+      (value) => value.state.status == CartoonStatus.loading
+    );
+
     return Expanded(
       child: CartoonScrollBar(
         child: Padding(
@@ -91,7 +84,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
             crossAxisCount: 2,
             mainAxisSpacing: 3.0,
             crossAxisSpacing: 3.0,
-            itemCount: widget.cartoons.length + 2,
+            itemCount: itemCount,
             itemBuilder: (context, index) {
               if (index == 0) {
                 return PageHeader(
@@ -100,7 +93,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                 );
               }
 
-              if (index == widget.cartoons.length + 1) {
+              if (index == itemCount - 1) {
                 if (isLoading) {
                   return const LoadingIndicator(
                     key: Key('StaggeredCartoonGrid_LoadingIndicator')
@@ -118,7 +111,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
               );
             },
             staggeredTileBuilder: (index) =>
-              StaggeredTile.fit(index == 0 || index == widget.cartoons.length + 1 ? 2 : 1),
+              StaggeredTile.fit(index == 0 || index == itemCount - 1 ? 2 : 1),
           ),
         ),
       ),

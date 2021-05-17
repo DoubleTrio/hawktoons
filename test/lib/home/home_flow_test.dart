@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/blocs/blocs.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-import 'package:history_app/filtered_cartoons/filtered_cartoons.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/home/home_flow.dart';
 import 'package:history_app/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
@@ -15,11 +15,9 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../fakes.dart';
 import '../helpers/helpers.dart';
+import '../keys.dart';
 import '../mocks.dart';
 
-const _dailyCartoonTabKey = Key('TabSelector_DailyTab');
-const _allCartoonsTabKey = Key('TabSelector_AllTab');
-const _changeThemeTabKey = Key('TabSelector_ChangeTheme');
 
 void main() {
   group('HomeFlow', () {
@@ -52,7 +50,7 @@ void main() {
     }
     setUpAll(() async {
       await Firebase.initializeApp();
-      registerFallbackValue<AllCartoonsLoaded>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
@@ -77,7 +75,9 @@ void main() {
       selectCartoonCubit = MockSelectCartoonCubit();
       imageTypeCubit = MockImageTypeCubit();
 
-      when(() => allCartoonsBloc.state).thenReturn(const AllCartoonsLoaded.initial());
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial()
+      );
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
       when(() => selectCartoonCubit.state).thenReturn(
@@ -98,7 +98,7 @@ void main() {
           'is invoked when the "All" tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(wrapper(const HomeFlow()));
-        await tester.tap(find.byKey(_allCartoonsTabKey));
+        await tester.tap(find.byKey(allCartoonTabKey));
         verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
       });
 
@@ -108,7 +108,7 @@ void main() {
         when(() => scrollHeaderCubit.state).thenReturn(false);
 
         await tester.pumpApp(wrapper(const HomeFlow()));
-        await tester.tap(find.byKey(_dailyCartoonTabKey));
+        await tester.tap(find.byKey(dailyCartoonTabKey));
         verify(() => tabBloc.add(UpdateTab(AppTab.daily))).called(1);
       });
 
@@ -118,10 +118,10 @@ void main() {
         when(() => themeCubit.state).thenReturn(ThemeMode.dark);
 
         await tester.pumpApp(wrapper(const HomeFlow()));
-        await tester.tap(find.byKey(_changeThemeTabKey));
+        await tester.tap(find.byKey(changeThemeTabKey));
         verify(themeCubit.changeTheme).called(1);
 
-        await tester.tap(find.byKey(_changeThemeTabKey));
+        await tester.tap(find.byKey(changeThemeTabKey));
         verify(themeCubit.changeTheme).called(1);
       });
     });

@@ -5,9 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:history_app/onboarding/onboarding.dart';
 import '../../helpers/helpers.dart';
+import '../../keys.dart';
 
-const _nextPageOnboardingButtonKey = Key('OnboardingPage_NextPage');
-const _setSeenOnboardingButtonKey = Key('OnboardingPage_SetSeenOnboarding');
 
 class MockOnboardingPageCubit extends MockCubit<VisableOnboardingPage>
   implements OnboardingPageCubit {}
@@ -65,10 +64,10 @@ void main() {
         .thenReturn(VisableOnboardingPage.welcome);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
-      await tester.tap(find.byKey(_nextPageOnboardingButtonKey));
+      await tester.tap(find.byKey(nextPageOnboardingButtonKey));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(_nextPageOnboardingButtonKey));
+      await tester.tap(find.byKey(nextPageOnboardingButtonKey));
       await tester.pumpAndSettle();
 
       verifyInOrder([
@@ -86,7 +85,7 @@ void main() {
         .thenReturn(VisableOnboardingPage.allCartoons);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
-      await tester.tap(find.byKey(_nextPageOnboardingButtonKey));
+      await tester.tap(find.byKey(nextPageOnboardingButtonKey));
       await tester.pumpAndSettle();
 
       expect(find.text('Start'), findsOneWidget);
@@ -100,7 +99,7 @@ void main() {
         .thenReturn(VisableOnboardingPage.dailyCartoon);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
-      await tester.tap(find.byKey(_setSeenOnboardingButtonKey));
+      await tester.tap(find.byKey(setSeenOnboardingButtonKey));
       await tester.pumpAndSettle();
 
       verify(onboardingSeenCubit.setSeenOnboarding).called(1);

@@ -79,7 +79,7 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           key: const Key('DailyCartoonScreen_DailyCartoonLoaded'),
           children: [
-            const PageHeader(header: 'Daily'),
+            const PageHeader(header: 'Latest'),
             const SizedBox(height: 12),
             CartoonBody(cartoon: cartoon, addImagePadding: true),
           ],

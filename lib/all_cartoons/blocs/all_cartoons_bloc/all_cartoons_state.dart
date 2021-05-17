@@ -36,15 +36,15 @@ class CartoonFilters extends Equatable {
   List<Object?> get props => [sortByMode, imageType, tag];
 }
 
-class AllCartoonsLoaded extends Equatable {
-  AllCartoonsLoaded({
+class AllCartoonsState extends Equatable {
+  AllCartoonsState({
     required this.cartoons,
     required this.filters,
     required this.status,
     required this.hasReachedMax,
   });
 
-  const AllCartoonsLoaded.initial({
+  const AllCartoonsState.initial({
     this.cartoons = const [],
     this.filters = const CartoonFilters.initial(),
     this.status = CartoonStatus.initial,
@@ -60,20 +60,20 @@ class AllCartoonsLoaded extends Equatable {
   List<Object> get props => [cartoons, filters, status, hasReachedMax];
 
   @override
-  String toString() => 'AllCartoonsLoaded { '
+  String toString() => 'AllCartoonsState { '
     'cartoons: $cartoons, '
     'filters: $filters, '
     'status: $status, '
     'hasReachedMax: $hasReachedMax '
   '}';
 
-  AllCartoonsLoaded copyWith({
+  AllCartoonsState copyWith({
     List<PoliticalCartoon>? cartoons,
     CartoonFilters? filters,
     CartoonStatus? status,
     bool? hasReachedMax
   }) {
-    return AllCartoonsLoaded(
+    return AllCartoonsState(
       cartoons: cartoons ?? this.cartoons,
       filters: filters ?? this.filters,
       status: status ?? this.status,
