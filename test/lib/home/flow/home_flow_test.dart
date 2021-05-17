@@ -22,7 +22,7 @@ import '../../mocks.dart';
 void main() {
   group('HomeFlow', () {
     setupCloudFirestoreMocks();
-    
+
     late ThemeCubit themeCubit;
     late TabBloc tabBloc;
     late AllCartoonsBloc allCartoonsBloc;

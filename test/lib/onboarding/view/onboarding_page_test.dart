@@ -8,7 +8,7 @@ import '../../helpers/helpers.dart';
 import '../../keys.dart';
 
 
-class MockOnboardingPageCubit extends MockCubit<VisableOnboardingPage>
+class MockOnboardingPageCubit extends MockCubit<VisibleOnboardingPage>
   implements OnboardingPageCubit {}
 
 class MockOnboardingSeenCubit extends MockCubit<bool>
@@ -27,8 +27,8 @@ void main() {
     }
 
     setUpAll(() {
-      registerFallbackValue<VisableOnboardingPage>(
-        VisableOnboardingPage.welcome
+      registerFallbackValue<VisibleOnboardingPage>(
+        VisibleOnboardingPage.welcome
       );
       onboardingPageCubit = MockOnboardingPageCubit();
       onboardingSeenCubit = MockOnboardingSeenCubit();
@@ -39,7 +39,7 @@ void main() {
       'setOnboarding page called twice when swiped', (tester) async {
 
       when(() => onboardingPageCubit.state)
-        .thenReturn(VisableOnboardingPage.welcome
+        .thenReturn(VisibleOnboardingPage.welcome
       );
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
@@ -49,11 +49,11 @@ void main() {
 
       verifyInOrder([
         () => onboardingPageCubit
-          .setOnBoardingPage(VisableOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
         () => onboardingPageCubit
-          .setOnBoardingPage(VisableOnboardingPage.allCartoons),
+          .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
         () => onboardingPageCubit
-          .setOnBoardingPage(VisableOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
       ]);
     });
 
@@ -61,7 +61,7 @@ void main() {
       'when next button is tapped', (tester) async {
 
       when(() => onboardingPageCubit.state)
-        .thenReturn(VisableOnboardingPage.welcome);
+        .thenReturn(VisibleOnboardingPage.welcome);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
       await tester.tap(find.byKey(nextPageOnboardingButtonKey));
@@ -72,9 +72,9 @@ void main() {
 
       verifyInOrder([
         () => onboardingPageCubit
-          .setOnBoardingPage(VisableOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
         () => onboardingPageCubit
-          .setOnBoardingPage(VisableOnboardingPage.allCartoons),
+          .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
       ]);
     });
 
@@ -82,7 +82,7 @@ void main() {
       'when start button is tapped', (tester) async {
 
       when(() => onboardingPageCubit.state)
-        .thenReturn(VisableOnboardingPage.allCartoons);
+        .thenReturn(VisibleOnboardingPage.allCartoons);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
       await tester.tap(find.byKey(nextPageOnboardingButtonKey));
@@ -96,7 +96,7 @@ void main() {
       'when skip button is tapped', (tester) async {
 
       when(() => onboardingPageCubit.state)
-        .thenReturn(VisableOnboardingPage.dailyCartoon);
+        .thenReturn(VisibleOnboardingPage.dailyCartoon);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
       await tester.tap(find.byKey(setSeenOnboardingButtonKey));

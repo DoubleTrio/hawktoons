@@ -7,8 +7,8 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('ThemeCubit', () {
-    setUpAll(() async {
-      await setUpHydratedDirectory();
+    setUpAll(() {
+      initHydratedBloc();
     });
 
     blocTest<ThemeCubit, ThemeMode>(

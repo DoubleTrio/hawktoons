@@ -26,7 +26,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final int totalPages = VisableOnboardingPage.values.length;
+  final int totalPages = VisibleOnboardingPage.values.length;
   late PageController _pageController;
 
   @override
@@ -80,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   onPageChanged: (int page) =>
                     context
                       .read<OnboardingPageCubit>()
-                      .setOnBoardingPage(VisableOnboardingPage.values[page]),
+                      .setOnBoardingPage(VisibleOnboardingPage.values[page]),
                   children: [
                     const OnboardingWidget(
                       header: 'Welcome to Hawktoons',

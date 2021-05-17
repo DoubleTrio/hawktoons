@@ -4,33 +4,33 @@ import 'package:history_app/onboarding/onboarding.dart';
 
 void main() {
   group('OnboardingPageCubit', () {
-    test('initial state is VisableOnboardingPage.welcome', () {
+    test('initial state is VisibleOnboardingPage.welcome', () {
       expect(
         OnboardingPageCubit().state,
-        equals(VisableOnboardingPage.welcome)
+        equals(VisibleOnboardingPage.welcome)
       );
     });
 
-    blocTest<OnboardingPageCubit, VisableOnboardingPage>(
-      'emits [VisableOnboardingPage.dailyCartoon] when selectSortBy is invoked',
+    blocTest<OnboardingPageCubit, VisibleOnboardingPage>(
+      'emits [VisibleOnboardingPage.dailyCartoon] when selectSortBy is invoked',
       build: () => OnboardingPageCubit(),
       act: (cubit) => cubit.setOnBoardingPage(
-        VisableOnboardingPage.dailyCartoon
+        VisibleOnboardingPage.dailyCartoon
       ),
-      expect: () => [VisableOnboardingPage.dailyCartoon],
+      expect: () => [VisibleOnboardingPage.dailyCartoon],
     );
 
-    blocTest<OnboardingPageCubit, VisableOnboardingPage>(
+    blocTest<OnboardingPageCubit, VisibleOnboardingPage>(
       'emits correct pages when selectSortBy is invoked 3 times',
       build: () => OnboardingPageCubit(),
       act: (cubit) => cubit
-        ..setOnBoardingPage(VisableOnboardingPage.dailyCartoon)
-        ..setOnBoardingPage(VisableOnboardingPage.allCartoons)
-        ..setOnBoardingPage(VisableOnboardingPage.welcome),
+        ..setOnBoardingPage(VisibleOnboardingPage.dailyCartoon)
+        ..setOnBoardingPage(VisibleOnboardingPage.allCartoons)
+        ..setOnBoardingPage(VisibleOnboardingPage.welcome),
       expect: () => [
-        VisableOnboardingPage.dailyCartoon,
-        VisableOnboardingPage.allCartoons,
-        VisableOnboardingPage.welcome
+        VisibleOnboardingPage.dailyCartoon,
+        VisibleOnboardingPage.allCartoons,
+        VisibleOnboardingPage.welcome
       ],
     );
   });

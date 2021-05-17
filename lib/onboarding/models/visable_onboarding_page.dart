@@ -1,1 +1,1 @@
-enum VisableOnboardingPage { welcome, dailyCartoon, allCartoons }
+enum VisibleOnboardingPage { welcome, dailyCartoon, allCartoons }

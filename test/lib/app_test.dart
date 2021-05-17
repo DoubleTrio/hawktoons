@@ -9,7 +9,7 @@ void main() {
     setupCloudFirestoreMocks();
 
     setUpAll(() async {
-      await setUpHydratedDirectory();
+      initHydratedBloc();
       await Firebase.initializeApp();
     });
 
