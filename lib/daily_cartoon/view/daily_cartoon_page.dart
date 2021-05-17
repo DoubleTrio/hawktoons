@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/blocs/auth/auth.dart';
+import 'package:history_app/auth/bloc/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon_bloc.dart';
 import 'package:history_app/widgets/cartoon_body.dart';

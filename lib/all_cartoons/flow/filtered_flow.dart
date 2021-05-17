@@ -26,7 +26,7 @@ class FilteredFlow extends StatelessWidget {
       state: context.watch<SelectCartoonCubit>().state,
       onGeneratePages: (SelectPoliticalCartoonState state, pages) {
         return [
-          FilteredCartoonsPage(),
+          AllCartoonsPage(),
           if (state.cartoonSelected) DetailsPage(cartoon: state.cartoon!)
         ];
       }

@@ -38,13 +38,6 @@ class ButtonRowHeader extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final primary = colorScheme.primary;
     final onSurface = colorScheme.onSurface;
-    final btnStyle = ButtonStyle(
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        )
-      )
-    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -55,7 +48,6 @@ class ButtonRowHeader extends StatelessWidget {
           TextButton(
             key: const Key('ButtonRowHeader_ResetButton'),
             onPressed: _reset,
-            style: btnStyle,
             child: Text(
               'Reset',
               style: TextStyle(color: onSurface),
@@ -78,7 +70,6 @@ class ButtonRowHeader extends StatelessWidget {
           TextButton(
             key: const Key('ButtonRowHeader_ApplyFilterButton'),
             onPressed: _filter,
-            style: btnStyle,
             child: Text(
               'Apply',
               style: TextStyle(color: primary),

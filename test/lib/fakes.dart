@@ -1,4 +1,5 @@
-import 'package:history_app/blocs/blocs.dart';
+import 'package:history_app/home/home.dart';
+import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:mockito/mockito.dart';

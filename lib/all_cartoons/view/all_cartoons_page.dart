@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/blocs/blocs.dart';
+import 'package:history_app/auth/auth.dart';
 import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
 import 'package:history_app/widgets/loading_indicator.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
 
-class FilteredCartoonsPage extends Page {
-  FilteredCartoonsPage() : super(key: const ValueKey('FilteredCartoonsPage'));
+class AllCartoonsPage extends Page {
+  AllCartoonsPage() : super(key: const ValueKey('AllCartoonsPage'));
 
   @override
   Route createRoute(BuildContext context) {
@@ -30,26 +30,27 @@ class FilteredCartoonsScreen extends StatelessWidget {
     var shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
     return Scaffold(
       appBar: AppBar(
-          leading: CustomIconButton(
-            key: const Key('FilteredCartoonsPage_LogoutButton'),
-            icon: const Icon(Icons.exit_to_app_rounded),
-            onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
+        leading: CustomIconButton(
+          key: const Key('AllCartoonsPage_LogoutButton'),
+          icon: const Icon(Icons.exit_to_app_rounded),
+          onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
+        ),
+        title: AnimatedOpacity(
+          opacity: shouldDisplayTitle ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 800),
+          child: const ScaffoldTitle(
+            title: 'All Images',
           ),
-          title: AnimatedOpacity(
-            opacity: shouldDisplayTitle ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 800),
-            child: const ScaffoldTitle(
-              title: 'All Images',
-            ),
-          ),
-          centerTitle: true,
-          actions: [
-            CustomIconButton(
-              key: const Key('FilteredCartoonsPage_FilterButton'),
-              icon: const Icon(Icons.filter_list),
-              onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
-            )
-          ]),
+        ),
+        centerTitle: true,
+        actions: [
+          CustomIconButton(
+            key: const Key('AllCartoonsPage_FilterButton'),
+            icon: const Icon(Icons.filter_list),
+            onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
+          )
+        ]
+      ),
       body: Column(
         children: [
           BlocBuilder<AllCartoonsBloc, AllCartoonsState>(
@@ -57,23 +58,23 @@ class FilteredCartoonsScreen extends StatelessWidget {
               if (state.status == CartoonStatus.initial) {
                 return Column(
                   key:
-                    const Key('FilteredCartoonsPage_FilteredCartoonsLoading'),
+                    const Key('AllCartoonsPage_FilteredCartoonsLoading'),
                   children: [
                     const SizedBox(height: 24),
                     const LoadingIndicator(),
                   ],
                 );
               }
-              if (state.status == CartoonStatus.success || state.status == CartoonStatus.loading) {
+              if (
+                state.status == CartoonStatus.success ||
+                state.status == CartoonStatus.loading) {
                 return StaggeredCartoonGrid(
-                  cartoons: [
-                    ...state.cartoons,
-                  ],
-                  key: const Key('FilteredCartoonsPage_FilteredCartoonsLoaded'),
+                  cartoons: state.cartoons,
+                  key: const Key('AllCartoonsPage_FilteredCartoonsLoaded'),
                 );
               }
               return const Text('Error',
-                key: Key('FilteredCartoonsPage_FilteredCartoonsFailed')
+                key: Key('AllCartoonsPage_FilteredCartoonsFailed')
               );
             },
           ),

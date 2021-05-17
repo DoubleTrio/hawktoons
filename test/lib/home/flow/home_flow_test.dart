@@ -4,19 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/blocs/blocs.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/home/home_flow.dart';
+import 'package:history_app/home/home.dart';
+import 'package:history_app/theme/theme.dart';
 import 'package:history_app/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-import '../fakes.dart';
-import '../helpers/helpers.dart';
-import '../keys.dart';
-import '../mocks.dart';
+import '../../fakes.dart';
+import '../../helpers/helpers.dart';
+import '../../keys.dart';
+import '../../mocks.dart';
 
 
 void main() {

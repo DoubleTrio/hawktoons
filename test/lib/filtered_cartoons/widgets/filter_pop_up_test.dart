@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/blocs/blocs.dart';
+import 'package:history_app/home/home.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -40,7 +40,8 @@ void main() {
       sortByCubit = MockSortByCubit();
       imageTypeCubit = MockImageTypeCubit();
 
-      when(() => allCartoonsBloc.state).thenReturn(const AllCartoonsState.initial());
+      when(() => allCartoonsBloc.state)
+        .thenReturn(const AllCartoonsState.initial());
       when(() => tagCubit.state).thenReturn(Tag.all);
       when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);

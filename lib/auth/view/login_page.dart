@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/blocs/auth/auth.dart';
+import 'package:history_app/auth/bloc/auth.dart';
 import 'package:history_app/widgets/loading_indicator.dart';
 
 class LoginPage extends Page {

@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:history_app/blocs/blocs.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:history_app/daily_cartoon/daily_cartoon.dart';
+import 'package:flutter/material.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:history_app/auth/auth.dart';
+import 'package:history_app/daily_cartoon/daily_cartoon.dart';
+import 'package:history_app/home/blocs/blocs.dart';
 import 'package:history_app/onboarding/cubits/cubits.dart';
+import 'package:history_app/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

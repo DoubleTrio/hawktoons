@@ -88,7 +88,8 @@ void main() {
       },
       act: (bloc) => bloc.add(LoadMoreCartoons(mockFilter)),
       expect: () => [
-        const AllCartoonsState.initial().copyWith(status: CartoonStatus.loading),
+        const AllCartoonsState.initial()
+          .copyWith(status: CartoonStatus.loading),
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.failure
         )

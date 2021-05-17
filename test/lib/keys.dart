@@ -23,13 +23,13 @@ const nextPageOnboardingButtonKey = Key('OnboardingPage_NextPage');
 const setSeenOnboardingButtonKey = Key('OnboardingPage_SetSeenOnboarding');
 
 const filteredCartoonsLoadingKey =
-  Key('FilteredCartoonsPage_FilteredCartoonsLoading');
+  Key('AllCartoonsPage_FilteredCartoonsLoading');
 const filteredCartoonsLoadedKey =
-  Key('FilteredCartoonsPage_FilteredCartoonsLoaded');
+  Key('AllCartoonsPage_FilteredCartoonsLoaded');
 const filteredCartoonsFailedKey =
-  Key('FilteredCartoonsPage_FilteredCartoonsFailed');
-const filterButtonKey = Key('FilteredCartoonsPage_FilterButton');
-const filterLogoutButtonKey = Key('FilteredCartoonsPage_LogoutButton');
+  Key('AllCartoonsPage_FilteredCartoonsFailed');
+const filterButtonKey = Key('AllCartoonsPage_FilterButton');
+const filterLogoutButtonKey = Key('AllCartoonsPage_LogoutButton');
 
 const loggingInKey = Key('LoginPage_LoggingIn');
 const unauthenticatedKey = Key('LoginPage_LoginError');

@@ -2,8 +2,8 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/auth/auth.dart';
-import 'package:history_app/blocs/blocs.dart';
-import 'package:history_app/home/home_flow.dart';
+import 'package:history_app/theme/theme.dart';
+import 'package:history_app/home/flow/home_flow.dart';
 
 class AuthFlowPage extends Page {
   const AuthFlowPage() : super(key: const ValueKey('AuthFlowPage'));

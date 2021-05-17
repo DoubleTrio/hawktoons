@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/blocs/auth/auth.dart';
+import 'package:history_app/auth/bloc/auth.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/all_cartoons/view/details_page.dart';
 import 'package:mocktail/mocktail.dart';
@@ -58,7 +58,7 @@ void main() {
     });
 
     testWidgets(
-      'shows FilteredCartoonsPage', (tester) async {
+      'shows AllCartoonsPage', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial()
       );

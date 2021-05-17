@@ -3,14 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:history_app/auth/auth.dart';
 import 'package:history_app/auth/flow/auth_flow.dart';
 import 'package:history_app/auth/view/login_page.dart';
-import 'package:history_app/blocs/blocs.dart';
-import 'package:history_app/blocs/tab/models/models.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/home/home_flow.dart';
+import 'package:history_app/home/home.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -110,11 +109,8 @@ void main() {
         when(() => allCartoonsBloc.state).thenReturn(
           const AllCartoonsState.initial().copyWith(cartoons: [mockCartoon])
         );
-
-
         await tester.pumpApp(wrapper(const AuthFlow()));
         expect(find.byType(HomeFlow), findsOneWidget);
-
       });
     });
   });

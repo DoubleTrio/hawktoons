@@ -26,13 +26,13 @@ final setSeenOnboardingButton =
   find.byValueKey('OnboardingPage_SetSeenOnboarding');
 
 final filteredCartoonsLoading =
-  find.byValueKey('FilteredCartoonsPage_FilteredCartoonsLoading');
+  find.byValueKey('AllCartoonsPage_FilteredCartoonsLoading');
 final filteredCartoonsLoaded =
-  find.byValueKey('FilteredCartoonsPage_FilteredCartoonsLoaded');
+  find.byValueKey('AllCartoonsPage_FilteredCartoonsLoaded');
 final filteredCartoonsFailed =
-  find.byValueKey('FilteredCartoonsPage_FilteredCartoonsFailed');
-final filterButton = find.byValueKey('FilteredCartoonsPage_FilterButton');
-final filterLogoutButton = find.byValueKey('FilteredCartoonsPage_LogoutButton');
+  find.byValueKey('AllCartoonsPage_FilteredCartoonsFailed');
+final filterButton = find.byValueKey('AllCartoonsPage_FilterButton');
+final filterLogoutButton = find.byValueKey('AllCartoonsPage_LogoutButton');
 
 final loginLoadingIndicator = find.byValueKey('LoginPage_LoggingIn');
 final loginError = find.byValueKey('LoginPage_LoginError');

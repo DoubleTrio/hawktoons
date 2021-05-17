@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/blocs/auth/auth.dart';
+import 'package:history_app/auth/bloc/auth.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
@@ -14,7 +14,7 @@ import '../../keys.dart';
 import '../../mocks.dart';
 
 void main() {
-  group('FilteredCartoonsPage', () {
+  group('AllCartoonsPage', () {
     late AllCartoonsBloc allCartoonsBloc;
     late TagCubit tagCubit;
     late SortByCubit sortByCubit;
@@ -58,7 +58,7 @@ void main() {
 
     testWidgets(
       'renders widget '
-      'with Key(\'FilteredCartoonsPage_FilteredCartoonsLoading\') '
+      'with Key(\'AllCartoonsPage_FilteredCartoonsLoading\') '
       'when state is FilteredCartoonsLoading', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial()
@@ -70,7 +70,7 @@ void main() {
 
     testWidgets(
       'renders widget with '
-      'Key(\'FilteredCartoonsPage_FilteredCartoonsLoaded\') '
+      'Key(\'AllCartoonsPage_FilteredCartoonsLoaded\') '
       'when state is FilteredCartoonsLoaded', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
@@ -87,7 +87,7 @@ void main() {
 
     testWidgets(
       'renders widget '
-      'with Key(\'FilteredCartoonsPage_FilteredCartoonsFailed\'); '
+      'with Key(\'AllCartoonsPage_FilteredCartoonsFailed\'); '
       'when state is FilteredCartoonFailed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(

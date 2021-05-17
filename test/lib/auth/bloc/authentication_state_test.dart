@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/blocs/auth/bloc/authentication_state.dart';
+import 'package:history_app/auth/bloc/authentication_state.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
