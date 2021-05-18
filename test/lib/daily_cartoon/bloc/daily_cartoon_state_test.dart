@@ -12,7 +12,6 @@ void main() {
         expect(DailyCartoonInProgress(), DailyCartoonInProgress());
       });
     });
-
     group('DailyCartoonLoaded', () {
       final cartoon = MockPoliticalCartoon();
       test('supports value comparisons', () {

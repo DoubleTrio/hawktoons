@@ -20,19 +20,21 @@ void main() {
     });
 
     test('initial state is Uninitialized', () {
-      var state = Uninitialized();
-      expect(AuthenticationBloc(userRepository: userRepository).state,
-          equals(state));
+      final state = Uninitialized();
+      expect(
+        AuthenticationBloc(userRepository: userRepository).state,
+        equals(state),
+      );
     });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [Authenticated { userId: $userId }] '
-      'when SignInAnonymously is added and authentication is successful',
+      'emits Authenticated when SignInAnonymously is added '
+      'and authentication is successful',
       build: () {
         when(userRepository.isAuthenticated)
-          .thenAnswer((invocation) => Future.value(false));
+          .thenAnswer((_) => Future.value(false));
         when(userRepository.authenticate)
-          .thenAnswer((invocation) => Future.value());
+          .thenAnswer((_) => Future.value(null));
         when(userRepository.getUserId)
           .thenAnswer((_) => Future.value(userId));
         return AuthenticationBloc(userRepository: userRepository);
@@ -43,15 +45,14 @@ void main() {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.getUserId).called(1);
         verify(userRepository.authenticate).called(1);
-      }
-    );
+      });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
       'emits [LoggingIn(), LoginError] '
       'when SignInAnonymously is added and authentication is not successful',
       build: () {
         when(userRepository.isAuthenticated)
-          .thenAnswer((invocation) => Future.value(false));
+          .thenAnswer((_) => Future.value(false));
         when(userRepository.authenticate).thenThrow(Exception('error'));
         when(userRepository.getUserId)
           .thenAnswer((_) => Future.value(userId));
@@ -63,15 +64,14 @@ void main() {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.authenticate).called(1);
         verifyNever(userRepository.getUserId);
-      }
-    );
+      });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
       'emits [LoggingIn(), Authenticated { userId: $userId }] '
       'when SignInAnonymously is added and user is already authenticated',
       build: () {
         when(userRepository.isAuthenticated)
-          .thenAnswer((invocation) => Future.value(true));
+          .thenAnswer((_) => Future.value(true));
         when(userRepository.getUserId)
           .thenAnswer((_) => Future.value(userId));
         return AuthenticationBloc(userRepository: userRepository);
@@ -89,7 +89,7 @@ void main() {
       'emits [LoggingOut(), Uninitialized()] when Logout is added',
       build: () {
         when(userRepository.logout)
-          .thenAnswer((invocation) => Future.value(null));
+          .thenAnswer((_) => Future.value(null));
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(Logout()),
@@ -102,8 +102,7 @@ void main() {
     blocTest<AuthenticationBloc, AuthenticationState>(
       'emits [LoggingOut(), LogoutError()] when Logout throws an error',
       build: () {
-        when(userRepository.logout)
-          .thenThrow(Exception());
+        when(userRepository.logout).thenThrow(Exception());
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(Logout()),

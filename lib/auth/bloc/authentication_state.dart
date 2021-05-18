@@ -15,8 +15,6 @@ class Uninitialized extends AuthenticationState {
 }
 
 class LoggingIn extends AuthenticationState {
-  @override
-  String toString() => 'LoggingIn';
 
   @override
   List<Object> get props => [];
@@ -24,34 +22,26 @@ class LoggingIn extends AuthenticationState {
 
 class Authenticated extends AuthenticationState {
   Authenticated(this.userId);
-  final String userId;
 
-  @override
-  String toString() => 'Authenticated { userId: $userId }';
+  final String userId;
 
   @override
   List<Object> get props => [userId];
 }
 
 class LoginError extends AuthenticationState {
-  @override
-  String toString() => 'LoginError';
 
   @override
   List<Object> get props => [];
 }
 
 class LogoutError extends AuthenticationState {
-  @override
-  String toString() => 'LogoutError';
 
   @override
   List<Object> get props => [];
 }
 
 class LoggingOut extends AuthenticationState {
-  @override
-  String toString() => 'LoggingOut';
 
   @override
   List<Object> get props => [];

@@ -9,7 +9,7 @@ final lightColorScheme = const ColorScheme.light().copyWith(
   onBackground: Colors.black38,
 );
 
-var lightTheme = ThemeData(
+final lightTheme = ThemeData(
   colorScheme: lightColorScheme,
   brightness: Brightness.light,
   fontFamily: 'SanFrancisco',
@@ -21,7 +21,7 @@ var lightTheme = ThemeData(
     style: ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(20.0)
         )
       )
     ),
@@ -35,11 +35,10 @@ var lightTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: lightColorScheme.background,
     selectedItemColor: lightColorScheme.secondary,
-    selectedLabelStyle:
-    TextStyle(color: lightColorScheme.onSurface),
-    unselectedLabelStyle:
-    TextStyle(color: lightColorScheme.onSurface),
-    unselectedItemColor: lightColorScheme.onSecondary),
+    selectedLabelStyle: TextStyle(color: lightColorScheme.onSurface),
+    unselectedLabelStyle: TextStyle(color: lightColorScheme.onSurface),
+    unselectedItemColor: lightColorScheme.onSecondary
+  ),
   textTheme: const TextTheme(
     subtitle1: TextStyle(
       fontSize: 16,
@@ -49,4 +48,3 @@ var lightTheme = ThemeData(
     backgroundColor: lightPrimary
   )
 );
-

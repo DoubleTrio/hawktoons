@@ -27,7 +27,10 @@ void main() {
       'emits [false, true, false] when closing and opening bottom sheet',
       build: () => ShowBottomSheetCubit(),
       seed: () => true,
-      act: (cubit) => cubit..closeSheet()..openSheet()..closeSheet(),
+      act: (cubit) => cubit
+        ..closeSheet()
+        ..openSheet()
+        ..closeSheet(),
       expect: () => [false, true, false],
     );
   });

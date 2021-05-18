@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/auth/bloc/auth.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:history_app/auth/bloc/auth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -41,7 +41,7 @@ void main() {
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<SelectPoliticalCartoonState>(
-          SelectPoliticalCartoonState()
+        FakeSelectPoliticalCartoonState()
       );
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
@@ -57,38 +57,37 @@ void main() {
     });
 
     testWidgets(
-      'renders widget '
-      'with Key(\'AllCartoonsPage_FilteredCartoonsLoading\') '
-      'when state is FilteredCartoonsLoading', (tester) async {
-      when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial()
-      );
+        'renders widget '
+        'with Key(\'AllCartoonsPage_FilteredCartoonsLoading\') '
+        'when state is FilteredCartoonsLoading', (tester) async {
+      when(() => allCartoonsBloc.state)
+        .thenReturn(const AllCartoonsState.initial());
       when(() => scrollHeaderCubit.state).thenReturn(false);
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
-      expect(find.byKey(filteredCartoonsLoadingKey), findsOneWidget);
+      expect(find.byKey(allCartoonsLoadingKey), findsOneWidget);
     });
 
     testWidgets(
-      'renders widget with '
-      'Key(\'AllCartoonsPage_FilteredCartoonsLoaded\') '
-      'when state is FilteredCartoonsLoaded', (tester) async {
+        'renders widget with '
+        'Key(\'AllCartoonsPage_FilteredCartoonsLoaded\') '
+        'when state is FilteredCartoonsLoaded', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.success,
-          cartoons: [mockPoliticalCartoon]
+          cartoons: [mockPoliticalCartoon],
         )
       );
 
       await mockNetworkImagesFor(
         () => tester.pumpApp(wrapper(const FilteredCartoonsScreen())),
       );
-      expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
+      expect(find.byKey(allCartoonsLoadedKey), findsOneWidget);
     });
 
     testWidgets(
-      'renders widget '
-      'with Key(\'AllCartoonsPage_FilteredCartoonsFailed\'); '
-      'when state is FilteredCartoonFailed', (tester) async {
+        'renders widget '
+        'with Key(\'AllCartoonsPage_FilteredCartoonsFailed\'); '
+        'when state is FilteredCartoonFailed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.failure,
@@ -96,27 +95,29 @@ void main() {
       );
 
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
-      expect(find.byKey(filteredCartoonsFailedKey), findsOneWidget);
+      expect(find.byKey(allCartoonsFailedKey), findsOneWidget);
     });
 
-    testWidgets('opens bottom sheet '
-        'when filter icon is pressed', (tester) async {
+    testWidgets(
+      'opens bottom sheet '
+      'when filter icon is pressed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           cartoons: [mockPoliticalCartoon]
-        )
+        ),
       );
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       await tester.tap(find.byKey(filterButtonKey));
       verify(showBottomSheetCubit.openSheet).called(1);
     });
 
-    testWidgets('logs out '
-        'when logout button is pressed', (tester) async {
+    testWidgets(
+      'logs out '
+      'when logout button is pressed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           cartoons: [mockPoliticalCartoon]
-        )
+        ),
       );
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       await tester.tap(find.byKey(filterLogoutButtonKey));

@@ -25,14 +25,14 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   void initState() {
     _scrollController = ScrollController();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      var renderBox =
+      final renderBox =
           _headerKey.currentContext!.findRenderObject() as RenderBox;
 
-      var height = renderBox.size.height;
+      final height = renderBox.size.height;
 
       _scrollController.addListener(() {
-        var maxScroll = _scrollController.position.maxScrollExtent;
-        var currentScroll = _scrollController.position.pixels;
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = _scrollController.position.pixels;
 
         if (currentScroll > height) {
           context.read<ScrollHeaderCubit>().onScrollPastHeader();
@@ -69,10 +69,13 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
 
   @override
   Widget build(BuildContext context) {
-    var itemCount = widget.cartoons.length + 2;
-    var isLoading = context.select<AllCartoonsBloc, bool>(
-      (value) => value.state.status == CartoonStatus.loading
-    );
+    final _itemCount = widget.cartoons.length + 2;
+    final _isLoading = context.select<AllCartoonsBloc, bool>(
+        (value) => value.state.status == CartoonStatus.loading);
+
+    void _selectCartoon(PoliticalCartoon cartoon) {
+      context.read<SelectCartoonCubit>().selectCartoon(cartoon);
+    }
 
     return Expanded(
       child: CartoonScrollBar(
@@ -84,7 +87,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
             crossAxisCount: 2,
             mainAxisSpacing: 3.0,
             crossAxisSpacing: 3.0,
-            itemCount: itemCount,
+            itemCount: _itemCount,
             itemBuilder: (context, index) {
               if (index == 0) {
                 return PageHeader(
@@ -93,8 +96,8 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                 );
               }
 
-              if (index == itemCount - 1) {
-                if (isLoading) {
+              if (index == _itemCount - 1) {
+                if (_isLoading) {
                   return const LoadingIndicator(
                     key: Key('StaggeredCartoonGrid_LoadingIndicator')
                   );
@@ -103,16 +106,17 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                 }
               }
 
-              var cartoon = widget.cartoons[index - 1];
+              final cartoon = widget.cartoons[index - 1];
               return CartoonCard(
                 key: Key('CartoonCard_${cartoon.id}'),
                 cartoon: cartoon,
-                onTap: () =>
-                  context.read<SelectCartoonCubit>().selectCartoon(cartoon),
+                onTap: () => _selectCartoon(cartoon),
               );
             },
             staggeredTileBuilder: (index) =>
-              StaggeredTile.fit(index == 0 || index == itemCount - 1 ? 2 : 1),
+              StaggeredTile.fit(
+                index == 0 || index == _itemCount - 1 ? 2 : 1
+              ),
           ),
         ),
       ),

@@ -6,6 +6,7 @@ abstract class DailyCartoonEvent extends Equatable {
 }
 
 class LoadDailyCartoon extends DailyCartoonEvent {
+
   @override
   List<Object> get props => [];
 }

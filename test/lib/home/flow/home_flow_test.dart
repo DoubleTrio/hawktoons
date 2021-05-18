@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/home/home.dart';
@@ -17,7 +18,6 @@ import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../keys.dart';
 import '../../mocks.dart';
-
 
 void main() {
   group('HomeFlow', () {
@@ -45,17 +45,20 @@ void main() {
         BlocProvider.value(value: tabBloc),
         BlocProvider.value(value: scrollHeaderCubit),
         BlocProvider.value(value: selectCartoonCubit),
-        BlocProvider.value(value: imageTypeCubit)
+        BlocProvider.value(value: imageTypeCubit),
       ], child: child);
     }
+
     setUpAll(() async {
       await Firebase.initializeApp();
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
-        SelectPoliticalCartoonState()
+        FakeSelectPoliticalCartoonState()
       );
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<AppTab>(AppTab.daily);
@@ -75,35 +78,34 @@ void main() {
       selectCartoonCubit = MockSelectCartoonCubit();
       imageTypeCubit = MockImageTypeCubit();
 
-      when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial()
-      );
+      when(() => allCartoonsBloc.state)
+        .thenReturn(const AllCartoonsState.initial());
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
-      when(() => selectCartoonCubit.state).thenReturn(
-        SelectPoliticalCartoonState()
-      );
+      when(() => selectCartoonCubit.state)
+        .thenReturn(SelectPoliticalCartoonState());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
     });
 
     group('TabSelector', () {
       testWidgets('finds TabSelector', (tester) async {
-        var state = AppTab.daily;
-        when(() => tabBloc.state).thenReturn(state);
+        when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(wrapper(const HomeFlow()));
         expect(find.byType(TabSelector), findsOneWidget);
       });
 
-      testWidgets('tabBloc.add(UpdateTab(AppTab.all)) '
-          'is invoked when the "All" tab is tapped', (tester) async {
+      testWidgets(
+        'tabBloc.add(UpdateTab(AppTab.all)) '
+        'is invoked when the "All" tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(wrapper(const HomeFlow()));
         await tester.tap(find.byKey(allCartoonTabKey));
         verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
       });
 
-      testWidgets('tabBloc.add(UpdateTab(AppTab.daily)) '
-          'is invoked when the "Daily" tab is tapped', (tester) async {
+      testWidgets(
+        'tabBloc.add(UpdateTab(AppTab.daily)) '
+        'is invoked when the "Daily" tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.all);
         when(() => scrollHeaderCubit.state).thenReturn(false);
 
@@ -128,7 +130,7 @@ void main() {
 
     group('FilterPopUp', () {
       setUp(() {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
+        when(() => tabBloc.state).thenReturn(AppTab.all);
         when(() => tagCubit.state).thenReturn(Tag.all);
         when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
         whenListen(showBottomSheetCubit, Stream.value(true));

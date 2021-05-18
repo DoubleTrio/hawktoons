@@ -2,23 +2,22 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/auth/auth.dart';
-import 'package:history_app/theme/theme.dart';
 import 'package:history_app/home/flow/home_flow.dart';
 
-class AuthFlowPage extends Page {
+class AuthFlowPage extends Page<void> {
   const AuthFlowPage() : super(key: const ValueKey('AuthFlowPage'));
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) => const AuthFlow(),
       transitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = const Offset(1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        var tween = Tween(begin: begin, end: end)
+        final begin = const Offset(1.0, 0.0);
+        final end = Offset.zero;
+        final curve = Curves.ease;
+        final tween = Tween(begin: begin, end: end)
           ..chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
@@ -33,7 +32,7 @@ class AuthFlowPage extends Page {
 }
 
 class AuthFlow extends StatelessWidget {
-  const AuthFlow({Key? key}): super(key: key);
+  const AuthFlow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +41,7 @@ class AuthFlow extends StatelessWidget {
       onGeneratePages: (state, pages) {
         return [
           const LoginPage(),
-          if (state is Authenticated)
-          const HomeFlowPage()
+          if (state is Authenticated) const HomeFlowPage()
         ];
       }
     );

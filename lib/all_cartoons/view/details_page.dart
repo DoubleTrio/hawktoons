@@ -5,7 +5,7 @@ import 'package:history_app/widgets/cartoon_body.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class DetailsPage extends Page {
+class DetailsPage extends Page<void> {
   DetailsPage({required this.cartoon})
     : super(key: const ValueKey('DetailsPage'));
 
@@ -13,18 +13,18 @@ class DetailsPage extends Page {
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
         DetailsScreen(cartoon: cartoon),
       transitionDuration: const Duration(milliseconds: 500),
       reverseTransitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = const Offset(1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
+        final begin = const Offset(1.0, 0.0);
+        final end = Offset.zero;
+        final curve = Curves.ease;
 
-        var tween = Tween(begin: begin, end: end)
+        final tween = Tween(begin: begin, end: end)
           ..chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
@@ -36,8 +36,7 @@ class DetailsPage extends Page {
 }
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key, required this.cartoon}): super(key: key);
-
+  const DetailsScreen({Key? key, required this.cartoon}) : super(key: key);
 
   final PoliticalCartoon cartoon;
 
@@ -58,7 +57,7 @@ class DetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: CartoonBody(cartoon: cartoon, addImagePadding: false)
-      )
+      ),
     );
   }
 }

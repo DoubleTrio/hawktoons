@@ -27,11 +27,11 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
 
   Stream<DailyCartoonState> _mapLoadDailyCartoonToState() async* {
     _dailyCartoonSubscription =
-      dailyCartoonRepository.getLatestPoliticalCartoon().listen((cartoon) {
-        add(UpdateDailyCartoon(cartoon));
-    }, onError: (err) {
+        dailyCartoonRepository.getLatestPoliticalCartoon().listen((cartoon) {
+      add(UpdateDailyCartoon(cartoon));
+    }, onError: (dynamic err) {
       if (err is FirebaseException) {
-        var code = err.code;
+        final code = err.code;
         if (code == 'permission-denied') {
           return;
         }

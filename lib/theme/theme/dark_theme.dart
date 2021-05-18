@@ -9,7 +9,6 @@ final darkColorScheme = const ColorScheme.dark().copyWith(
   onBackground: Colors.white60,
 );
 
-
 final darkTheme = ThemeData(
   primaryColor: darkPrimary,
   brightness: Brightness.dark,
@@ -22,7 +21,7 @@ final darkTheme = ThemeData(
     style: ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(20.0)
         )
       )
     )
@@ -34,8 +33,7 @@ final darkTheme = ThemeData(
     backgroundColor: const Color(0xFF3C3C3C),
     selectedItemColor: darkColorScheme.secondary,
     selectedLabelStyle: TextStyle(color: darkColorScheme.onSurface),
-    unselectedLabelStyle:
-    TextStyle(color: darkColorScheme.onSurface),
+    unselectedLabelStyle: TextStyle(color: darkColorScheme.onSurface),
     unselectedItemColor: darkColorScheme.onSecondary
   ),
   textTheme: const TextTheme(

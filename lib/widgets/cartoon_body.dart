@@ -17,7 +17,7 @@ class CartoonBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    var _bodyTextStyle = theme.textTheme.bodyText1!
+    final _bodyTextStyle = theme.textTheme.bodyText1!
       .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05);
 
     return Column(
@@ -30,8 +30,7 @@ class CartoonBody extends StatelessWidget {
           child: Center(
             child: Container(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height / 2
-              ),
+                maxHeight: MediaQuery.of(context).size.height / 2),
               child: CachedNetworkImage(imageUrl: cartoon.downloadUrl),
             ),
           ),
@@ -46,14 +45,14 @@ class CartoonBody extends StatelessWidget {
                 title: 'PUBLISHED',
                 body: Text(cartoon.publishedString, style: _bodyTextStyle)
               ),
-              if (cartoon.author != '')
-                ...[const CartoonSectionDivider(),
+              if (cartoon.author != '') ...[
+                const CartoonSectionDivider(),
                 CartoonSection(
-                    key: Key('CartoonSection_Author_${cartoon.id}'),
-                    title: 'AUTHOR',
-                    body: Text(cartoon.author, style: _bodyTextStyle)
-                )],
-
+                  key: Key('CartoonSection_Author_${cartoon.id}'),
+                  title: 'AUTHOR',
+                  body: Text(cartoon.author, style: _bodyTextStyle)
+                )
+              ],
               const CartoonSectionDivider(),
               CartoonSection(
                 title: 'IMAGE TYPE',

@@ -3,13 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/auth/auth.dart';
 import 'package:history_app/auth/bloc/auth.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:history_app/onboarding/onboarding.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
-
 
 void main() {
   group('OnboardingFlow', () {

@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/auth/bloc/auth.dart';
 
 void main() {
-  group('AuthenicationEvent', () {
+  group('AuthenticationEvent', () {
     group('SignInAnonymously', () {
       test('supports value comparisons', () {
         expect(

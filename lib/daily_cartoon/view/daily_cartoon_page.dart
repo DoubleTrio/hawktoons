@@ -13,15 +13,14 @@ import 'package:history_app/widgets/page_header.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
 import 'package:intl/intl.dart';
 
-class DailyCartoonPage extends Page {
+class DailyCartoonPage extends Page<void> {
   const DailyCartoonPage() : super(key: const ValueKey('DailyCartoonPage'));
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) =>
-        DailyCartoonScreen(),
+      pageBuilder: (_, __, ___) => DailyCartoonScreen(),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
@@ -32,8 +31,12 @@ class DailyCartoonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var title = context.select((DailyCartoonBloc bloc) {
-      var state = bloc.state;
+    void _logout() {
+      context.read<AuthenticationBloc>().add(Logout());
+    }
+
+    final title = context.select((DailyCartoonBloc bloc) {
+      final state = bloc.state;
       if (state is DailyCartoonLoaded) {
         return DateFormat.yMMMMEEEEd(Platform.localeName)
           .format(state.dailyCartoon.timestamp.toDate());
@@ -45,49 +48,50 @@ class DailyCartoonScreen extends StatelessWidget {
         leading: CustomIconButton(
           key: const Key('DailyCartoonScreen_Button_Logout'),
           icon: const Icon(Icons.exit_to_app_rounded),
-          onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
+          onPressed: _logout,
         ),
         title: ScaffoldTitle(title: title),
         centerTitle: true
       ),
       body: const SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        child: PoliticalCartoonCardLoader(),
+        child: PoliticalCartoonView(),
       ),
     );
   }
 }
 
-class PoliticalCartoonCardLoader extends StatelessWidget {
-  const PoliticalCartoonCardLoader({Key? key}): super(key: key);
+class PoliticalCartoonView extends StatelessWidget {
+  const PoliticalCartoonView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
-        builder: (context, state) {
-      if (state is DailyCartoonInProgress) {
-        return Column(
-          key: const Key('DailyCartoonScreen_DailyCartoonInProgress'),
-          children: [
-            const SizedBox(height: 24),
-            const LoadingIndicator(),
-          ],
-        );
-      } else if (state is DailyCartoonLoaded) {
-        var cartoon = state.dailyCartoon;
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          key: const Key('DailyCartoonScreen_DailyCartoonLoaded'),
-          children: [
-            const PageHeader(header: 'Latest'),
-            const SizedBox(height: 12),
-            CartoonBody(cartoon: cartoon, addImagePadding: true),
-          ],
-        );
-      } else {
-        return const SizedBox(
-          key: Key('DailyCartoonScreen_DailyCartoonFailed'));
+      builder: (context, state) {
+        if (state is DailyCartoonInProgress) {
+          return Column(
+            key: const Key('DailyCartoonScreen_DailyCartoonInProgress'),
+            children: [
+              const SizedBox(height: 24),
+              const LoadingIndicator(),
+            ],
+          );
+        } else if (state is DailyCartoonLoaded) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            key: const Key('DailyCartoonScreen_DailyCartoonLoaded'),
+            children: [
+              const PageHeader(header: 'Latest'),
+              const SizedBox(height: 12),
+              CartoonBody(cartoon: state.dailyCartoon, addImagePadding: true),
+            ],
+          );
+        } else {
+          return const SizedBox(
+            key: Key('DailyCartoonScreen_DailyCartoonFailed')
+          );
+        }
       }
-    });
+    );
   }
 }

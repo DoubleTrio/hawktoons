@@ -22,14 +22,12 @@ dependencies:
   cached_network_image: ^3.0.0
   flow_builder: ^0.0.2
   flutter_spinkit: ^5.0.0
-#  political_cartoon_repository:
-#    git:
-#      url: https://github.com/DoubleTrio/political_cartoon_repository.git
-#      ref: main
   political_cartoon_repository:
-    path: ../../repository/political_cartoon_repository
-
-
+    git:
+      url: https://github.com/DoubleTrio/political_cartoon_repository.git
+      ref: main
+#  political_cartoon_repository:
+#    path: ../../repository/political_cartoon_repository
 dev_dependencies:
   flutter_test:
     sdk: flutter

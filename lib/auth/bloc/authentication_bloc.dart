@@ -7,7 +7,8 @@ import 'authentication_event.dart';
 import 'authentication_state.dart';
 
 class AuthenticationBloc
-    extends Bloc<AuthenticationEvent, AuthenticationState> {
+  extends Bloc<AuthenticationEvent, AuthenticationState> {
+
   AuthenticationBloc({required this.userRepository}) : super(Uninitialized());
 
   final UserRepository userRepository;

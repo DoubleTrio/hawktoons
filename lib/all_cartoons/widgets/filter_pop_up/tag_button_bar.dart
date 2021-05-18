@@ -5,16 +5,16 @@ import 'package:history_app/all_cartoons/widgets/filter_pop_up/tag_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButtonBar extends StatelessWidget {
-  const TagButtonBar({Key? key, required this.tags}): super(key: key);
+  const TagButtonBar({Key? key, required this.tags}) : super(key: key);
 
   final List<Tag> tags;
 
   @override
   Widget build(BuildContext context) {
-    final selectedTag = context.watch<TagCubit>().state;
+    final _selectedTag = context.watch<TagCubit>().state;
 
-    final onTagButtonTap = (Tag tag) =>
-      context.read<TagCubit>().selectTag(selectedTag == tag ? Tag.all : tag);
+    final _onTagButtonTap = (Tag tag) =>
+      context.read<TagCubit>().selectTag(_selectedTag == tag ? Tag.all : tag);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -24,8 +24,9 @@ class TagButtonBar extends StatelessWidget {
           ...tags.map((tag) => TagButton(
             key: Key('Tag_Button_${tag.index}'),
             tag: tag,
-            onTap: () => onTagButtonTap(tag),
-            selected: selectedTag == tag)),
+            onTap: () => _onTagButtonTap(tag),
+            selected: _selectedTag == tag)
+          ),
         ],
       ),
     );

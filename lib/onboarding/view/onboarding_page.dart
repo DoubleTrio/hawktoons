@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/onboarding/onboarding.dart';
 
-
-class OnBoardingPage extends Page {
+class OnBoardingPage extends Page<void> {
   const OnBoardingPage() : super(key: const ValueKey('OnBoardingPage'));
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
+      pageBuilder: (_, __, ___) => BlocProvider(
         create: (context) => OnboardingPageCubit(),
         child: const OnboardingScreen(),
       ),
@@ -20,7 +19,7 @@ class OnBoardingPage extends Page {
 }
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}): super(key: key);
+  const OnboardingScreen({Key? key}) : super(key: key);
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -37,7 +36,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _nextPage() {
     _pageController.nextPage(
-      duration: const Duration(milliseconds: 300), curve: Curves.easeInCubic);
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInCubic
+    );
   }
 
   @override
@@ -47,7 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final isLastPage = totalPages - 1 == currentPage.index;
 
     List<Widget> _buildPageIndicator() {
-      var list = <Widget>[];
+      final list = <Widget>[];
       for (var i = 0; i < totalPages; i++) {
         list.add(
           PageIndicator(isActive: i == currentPage.index ? true : false)
@@ -60,7 +61,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       context.read<OnboardingSeenCubit>().setSeenOnboarding();
     }
 
-    var _baseTextStyle = TextStyle(
+    final _baseTextStyle = TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
       color: colorScheme.onSurface
@@ -77,8 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: PageView(
                   physics: const BouncingScrollPhysics(),
                   controller: _pageController,
-                  onPageChanged: (int page) =>
-                    context
+                  onPageChanged: (int page) => context
                       .read<OnboardingPageCubit>()
                       .setOnBoardingPage(VisibleOnboardingPage.values[page]),
                   children: [

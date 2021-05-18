@@ -14,9 +14,8 @@ void main() {
     blocTest<OnboardingPageCubit, VisibleOnboardingPage>(
       'emits [VisibleOnboardingPage.dailyCartoon] when selectSortBy is invoked',
       build: () => OnboardingPageCubit(),
-      act: (cubit) => cubit.setOnBoardingPage(
-        VisibleOnboardingPage.dailyCartoon
-      ),
+      act: (cubit) =>
+        cubit.setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
       expect: () => [VisibleOnboardingPage.dailyCartoon],
     );
 

@@ -5,8 +5,8 @@ class OnboardingTextButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onPressed,
-    required this.textStyle})
-    : super(key: key);
+    required this.textStyle
+  }) : super(key: key);
 
   final String text;
   final VoidCallback onPressed;

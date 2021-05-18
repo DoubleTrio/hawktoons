@@ -6,8 +6,10 @@ void main() {
     group('UpdateTab', () {
       test('supports value comparisons', () {
         expect(UpdateTab(AppTab.all), UpdateTab(AppTab.all));
-        expect(UpdateTab(AppTab.daily).toString(),
-          UpdateTab(AppTab.daily).toString());
+        expect(
+          UpdateTab(AppTab.daily).toString(),
+          UpdateTab(AppTab.daily).toString(),
+        );
       });
     });
   });

@@ -13,15 +13,15 @@ class TimeAgo implements TimeConverter {
 
   @override
   String timeAgoSinceDate(Timestamp timestamp,
-    {bool numericDates = true, DateTime? date}) {
-    var notificationDate = timestamp.toDate();
+      {bool numericDates = true, DateTime? date}) {
+    final notificationDate = timestamp.toDate();
 
     final date2 = date ?? DateTime.now();
     final difference = date2.difference(notificationDate);
 
     if (difference.inDays > 8) {
-      var dateString =
-        DateFormat('dd MMM yyyy', locale).format(notificationDate);
+      final dateString =
+          DateFormat('dd MMM yyyy', locale).format(notificationDate);
       return dateString;
     } else if ((difference.inDays / 7).floor() >= 1) {
       return (numericDates) ? l10n.oneWeekNumeric : l10n.oneWeek;

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class OnboardingWidget extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const OnboardingWidget({
-    Key? key,
     required this.header,
     required this.body,
     this.child,
     this.assetImage,
-  }): super(key: key);
+  });
 
   final String header;
   final String body;

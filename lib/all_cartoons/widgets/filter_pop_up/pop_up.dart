@@ -4,7 +4,7 @@ import 'package:history_app/widgets/cartoon_scroll_bar.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class FilterPopUp extends StatelessWidget {
-  FilterPopUp({Key? key}): super(key: key);
+  FilterPopUp({Key? key}) : super(key: key);
 
   final modes = SortByMode.values;
   final tags = Tag.values.sublist(1);

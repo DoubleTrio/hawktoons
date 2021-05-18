@@ -7,8 +7,13 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('ThemeCubit', () {
-    setUpAll(() {
-      initHydratedBloc();
+    setUpAll(initHydratedBloc);
+
+    test('fromJson and toJson works', () {
+      expect(
+        ThemeCubit().fromJson(ThemeCubit().toJson(ThemeMode.light)),
+        ThemeMode.light
+      );
     });
 
     blocTest<ThemeCubit, ThemeMode>(

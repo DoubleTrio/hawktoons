@@ -1,1 +1,1 @@
-export 'visable_onboarding_page.dart';
+export 'visible_onboarding_page.dart';

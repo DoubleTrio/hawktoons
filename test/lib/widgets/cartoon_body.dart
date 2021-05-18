@@ -6,7 +6,6 @@ import '../helpers/helpers.dart';
 import '../keys.dart';
 import '../mocks.dart';
 
-
 void main() {
   group('CartoonBody', () {
     testWidgets('renders author', (tester) async {
@@ -14,7 +13,7 @@ void main() {
         SingleChildScrollView(
           child: CartoonBody(
             cartoon: mockPoliticalCartoon,
-            addImagePadding: false
+            addImagePadding: false,
           ),
         )
       );
@@ -26,7 +25,7 @@ void main() {
         SingleChildScrollView(
           child: CartoonBody(
             cartoon: mockPoliticalCartoon.copyWith(author: ''),
-            addImagePadding: false
+            addImagePadding: false,
           ),
         )
       );

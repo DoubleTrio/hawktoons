@@ -65,7 +65,7 @@ class AllCartoonsState extends Equatable {
     'filters: $filters, '
     'status: $status, '
     'hasReachedMax: $hasReachedMax '
-  '}';
+    '}';
 
   AllCartoonsState copyWith({
     List<PoliticalCartoon>? cartoons,
@@ -77,8 +77,6 @@ class AllCartoonsState extends Equatable {
       cartoons: cartoons ?? this.cartoons,
       filters: filters ?? this.filters,
       status: status ?? this.status,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax
-    );
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax);
   }
 }
-

@@ -1,22 +1,23 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/home/blocs/blocs.dart';
 import 'package:history_app/onboarding/cubits/cubits.dart';
+import 'package:history_app/onboarding/models/models.dart';
 import 'package:history_app/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-var mockFilter = const CartoonFilters(
+final mockFilter = const CartoonFilters(
   sortByMode: SortByMode.latestPosted,
   imageType: ImageType.all,
   tag: Tag.all
 );
 
-var mockPoliticalCartoon = PoliticalCartoon(
+final mockPoliticalCartoon = PoliticalCartoon(
   id: '2',
   author: 'Bob',
   timestamp: Timestamp.now(),
@@ -27,8 +28,8 @@ var mockPoliticalCartoon = PoliticalCartoon(
   type: ImageType.cartoon
 );
 
-class MockPoliticalCartoonRepository extends Mock implements
-  FirestorePoliticalCartoonRepository {}
+class MockPoliticalCartoonRepository extends Mock
+  implements FirestorePoliticalCartoonRepository {}
 
 class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
 
@@ -37,11 +38,10 @@ class MockAuthenticationBloc
   implements AuthenticationBloc {}
 
 class MockOnboardingSeenCubit extends MockCubit<bool>
-    implements OnboardingSeenCubit {}
+  implements OnboardingSeenCubit {}
 
 class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
   implements AllCartoonsBloc {}
-
 
 class MockTagCubit extends MockCubit<Tag> implements TagCubit {}
 
@@ -56,8 +56,8 @@ class MockScrollHeaderCubit extends MockCubit<bool>
 class MockTabBloc extends MockBloc<TabEvent, AppTab> implements TabBloc {}
 
 class MockDailyCartoonBloc
-    extends MockBloc<DailyCartoonEvent, DailyCartoonState>
-    implements DailyCartoonBloc {}
+  extends MockBloc<DailyCartoonEvent, DailyCartoonState>
+  implements DailyCartoonBloc {}
 
 class MockThemeCubit extends MockCubit<ThemeMode> implements ThemeCubit {}
 
@@ -66,3 +66,6 @@ class MockSelectCartoonCubit extends MockCubit<SelectPoliticalCartoonState>
 
 class MockImageTypeCubit extends MockCubit<ImageType>
   implements ImageTypeCubit {}
+
+class MockOnboardingPageCubit extends MockCubit<VisibleOnboardingPage>
+  implements OnboardingPageCubit {}
