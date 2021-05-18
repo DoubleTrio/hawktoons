@@ -6,30 +6,22 @@ import '../helpers/helpers.dart';
 import '../keys.dart';
 import '../mocks.dart';
 
-
 void main() {
   group('CartoonBody', () {
     testWidgets('renders author', (tester) async {
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: CartoonBody(
-            cartoon: mockPoliticalCartoon,
-            addImagePadding: false
-          ),
-        )
-      );
+      await tester.pumpApp(SingleChildScrollView(
+        child:
+            CartoonBody(cartoon: mockPoliticalCartoon, addImagePadding: false),
+      ));
       expect(find.byKey(cartoonSectionAuthorKey), findsOneWidget);
     });
 
     testWidgets('does not render author', (tester) async {
-      await tester.pumpApp(
-        SingleChildScrollView(
-          child: CartoonBody(
+      await tester.pumpApp(SingleChildScrollView(
+        child: CartoonBody(
             cartoon: mockPoliticalCartoon.copyWith(author: ''),
-            addImagePadding: false
-          ),
-        )
-      );
+            addImagePadding: false),
+      ));
       expect(find.byKey(cartoonSectionAuthorKey), findsNothing);
     });
   });

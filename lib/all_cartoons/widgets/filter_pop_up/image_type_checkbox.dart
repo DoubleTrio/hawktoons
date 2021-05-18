@@ -23,11 +23,10 @@ class ImageTypeCheckbox extends StatelessWidget {
       children: [
         Material(
           child: Checkbox(
-            key: Key('${keyString}_Checkbox'),
-            activeColor: theme.colorScheme.primary,
-            value: isSelected,
-            onChanged: (selected) => selected! ? onSelect() : onDeselect()
-          ),
+              key: Key('${keyString}_Checkbox'),
+              activeColor: theme.colorScheme.primary,
+              value: isSelected,
+              onChanged: (selected) => selected! ? onSelect() : onDeselect()),
         ),
         Text(text, style: theme.textTheme.subtitle1),
       ],

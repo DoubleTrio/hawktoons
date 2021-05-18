@@ -10,7 +10,6 @@ import '../../helpers/helpers.dart';
 import '../../keys.dart';
 import '../../mocks.dart';
 
-
 void main() {
   group('DetailsPage', () {
     late SelectCartoonCubit selectCartoonCubit;
@@ -23,25 +22,22 @@ void main() {
 
     setUpAll(() async {
       registerFallbackValue<SelectPoliticalCartoonState>(
-        SelectPoliticalCartoonState()
-      );
+          SelectPoliticalCartoonState());
       selectCartoonCubit = MockSelectCartoonCubit();
       when(() => selectCartoonCubit.state).thenReturn(
-        SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon)
-      );
+          SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon));
     });
 
-    testWidgets('cartoon body is present',(tester) async {
-      await tester.pumpApp(
-        wrapper(DetailsScreen(cartoon: mockPoliticalCartoon)
-      ));
+    testWidgets('cartoon body is present', (tester) async {
+      await tester
+          .pumpApp(wrapper(DetailsScreen(cartoon: mockPoliticalCartoon)));
       expect(find.byType(CartoonBody), findsOneWidget);
     });
 
-    testWidgets('deselects cartoon when back button is pressed',(tester) async {
-      await tester.pumpApp(
-        wrapper(DetailsScreen(cartoon: mockPoliticalCartoon)
-      ));
+    testWidgets('deselects cartoon when back button is pressed',
+        (tester) async {
+      await tester
+          .pumpApp(wrapper(DetailsScreen(cartoon: mockPoliticalCartoon)));
       await tester.tap(find.byKey(detailsPageBackButtonKey));
       verify(selectCartoonCubit.deselectCartoon).called(1);
     });

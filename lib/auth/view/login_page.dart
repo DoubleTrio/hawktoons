@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/auth/bloc/auth.dart';
 import 'package:history_app/widgets/loading_indicator.dart';
 
-class LoginPage extends Page {
+class LoginPage extends Page<void> {
   const LoginPage() : super(key: const ValueKey('LoginPage'));
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (_, __, ___) => const LoginScreen(),
       transitionDuration: const Duration(milliseconds: 1000),
@@ -17,12 +17,12 @@ class LoginPage extends Page {
 }
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen ({Key? key}): super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+        body: SafeArea(
       child: Column(
         children: [
           const Text(
@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
             child: TextButton(
               key: const Key('LoginPage_SignInAnonymouslyButton'),
               onPressed: () =>
-                context.read<AuthenticationBloc>().add(SignInAnonymously()),
+                  context.read<AuthenticationBloc>().add(SignInAnonymously()),
               child: const Text('Sign in anonymously'),
             ),
           ),

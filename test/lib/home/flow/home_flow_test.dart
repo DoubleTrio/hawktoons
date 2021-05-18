@@ -18,7 +18,6 @@ import '../../helpers/helpers.dart';
 import '../../keys.dart';
 import '../../mocks.dart';
 
-
 void main() {
   group('HomeFlow', () {
     setupCloudFirestoreMocks();
@@ -48,6 +47,7 @@ void main() {
         BlocProvider.value(value: imageTypeCubit)
       ], child: child);
     }
+
     setUpAll(() async {
       await Firebase.initializeApp();
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
@@ -55,8 +55,7 @@ void main() {
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
-        SelectPoliticalCartoonState()
-      );
+          SelectPoliticalCartoonState());
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Tag>(Tag.all);
@@ -75,14 +74,12 @@ void main() {
       selectCartoonCubit = MockSelectCartoonCubit();
       imageTypeCubit = MockImageTypeCubit();
 
-      when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial()
-      );
+      when(() => allCartoonsBloc.state)
+          .thenReturn(const AllCartoonsState.initial());
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
-      when(() => selectCartoonCubit.state).thenReturn(
-        SelectPoliticalCartoonState()
-      );
+      when(() => selectCartoonCubit.state)
+          .thenReturn(SelectPoliticalCartoonState());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
     });
 
@@ -94,7 +91,8 @@ void main() {
         expect(find.byType(TabSelector), findsOneWidget);
       });
 
-      testWidgets('tabBloc.add(UpdateTab(AppTab.all)) '
+      testWidgets(
+          'tabBloc.add(UpdateTab(AppTab.all)) '
           'is invoked when the "All" tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(wrapper(const HomeFlow()));
@@ -102,7 +100,8 @@ void main() {
         verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
       });
 
-      testWidgets('tabBloc.add(UpdateTab(AppTab.daily)) '
+      testWidgets(
+          'tabBloc.add(UpdateTab(AppTab.daily)) '
           'is invoked when the "Daily" tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.all);
         when(() => scrollHeaderCubit.state).thenReturn(false);

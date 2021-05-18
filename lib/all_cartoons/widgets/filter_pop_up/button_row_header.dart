@@ -4,17 +4,14 @@ import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class ButtonRowHeader extends StatelessWidget {
-  const ButtonRowHeader({Key? key}): super(key: key);
+  const ButtonRowHeader({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _selectedTag = context.watch<TagCubit>().state;
     final _sortByMode = context.watch<SortByCubit>().state;
     final _imageType = context.watch<ImageTypeCubit>().state;
     final filters = CartoonFilters(
-      sortByMode: _sortByMode,
-      imageType: _imageType,
-      tag: _selectedTag
-    );
+        sortByMode: _sortByMode, imageType: _imageType, tag: _selectedTag);
 
     void _filter() {
       Navigator.of(context).pop();
@@ -24,9 +21,7 @@ class ButtonRowHeader extends StatelessWidget {
           content: Text('Filter applied!'),
         ),
       );
-      context.read<AllCartoonsBloc>().add(LoadAllCartoons(
-        filters
-      ));
+      context.read<AllCartoonsBloc>().add(LoadAllCartoons(filters));
     }
 
     void _reset() {
@@ -46,22 +41,20 @@ class ButtonRowHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton(
-            key: const Key('ButtonRowHeader_ResetButton'),
-            onPressed: _reset,
-            child: Text(
-              'Reset',
-              style: TextStyle(color: onSurface),
-            )
-          ),
+              key: const Key('ButtonRowHeader_ResetButton'),
+              onPressed: _reset,
+              child: Text(
+                'Reset',
+                style: TextStyle(color: onSurface),
+              )),
           Row(
             children: [
               Text(
                 'Filters',
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: onSurface
-                ),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: onSurface),
               ),
               const SizedBox(width: 6),
               Icon(Icons.filter_list, color: onSurface),

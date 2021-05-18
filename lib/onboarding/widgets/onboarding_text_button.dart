@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class OnboardingTextButton extends StatelessWidget {
-  const OnboardingTextButton({
-    Key? key,
-    required this.text,
-    required this.onPressed,
-    required this.textStyle})
-    : super(key: key);
+  const OnboardingTextButton(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      required this.textStyle})
+      : super(key: key);
 
   final String text;
   final VoidCallback onPressed;

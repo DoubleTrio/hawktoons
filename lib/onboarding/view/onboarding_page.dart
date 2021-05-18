@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/onboarding/onboarding.dart';
 
-
-class OnBoardingPage extends Page {
+class OnBoardingPage extends Page<void> {
   const OnBoardingPage() : super(key: const ValueKey('OnBoardingPage'));
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
         create: (context) => OnboardingPageCubit(),
@@ -20,7 +19,7 @@ class OnBoardingPage extends Page {
 }
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}): super(key: key);
+  const OnboardingScreen({Key? key}) : super(key: key);
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -37,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _nextPage() {
     _pageController.nextPage(
-      duration: const Duration(milliseconds: 300), curve: Curves.easeInCubic);
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInCubic);
   }
 
   @override
@@ -50,8 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       var list = <Widget>[];
       for (var i = 0; i < totalPages; i++) {
         list.add(
-          PageIndicator(isActive: i == currentPage.index ? true : false)
-        );
+            PageIndicator(isActive: i == currentPage.index ? true : false));
       }
       return list;
     }
@@ -61,10 +59,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
 
     var _baseTextStyle = TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-      color: colorScheme.onSurface
-    );
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: colorScheme.onSurface);
 
     return Scaffold(
       body: SafeArea(
@@ -77,30 +74,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: PageView(
                   physics: const BouncingScrollPhysics(),
                   controller: _pageController,
-                  onPageChanged: (int page) =>
-                    context
+                  onPageChanged: (int page) => context
                       .read<OnboardingPageCubit>()
                       .setOnBoardingPage(VisibleOnboardingPage.values[page]),
                   children: [
                     const OnboardingWidget(
-                      header: 'Welcome to Hawktoons',
-                      body: 'An educational, ad-free app to learn history '
-                        'at different time periods through '
-                        'political cartoons and images.'
-                    ),
+                        key: Key('OnboardingWidget_Welcome'),
+                        header: 'Welcome to Hawktoons',
+                        body: 'An educational, ad-free app to learn history '
+                            'at different time periods through '
+                            'political cartoons and images.'),
                     const OnboardingWidget(
-                      header: 'New cartoon every week',
-                      body: 'Learn something new with a political cartoon '
-                        'or image every week. Each will include a '
-                        'brief description given the context of the time '
-                        'period.'
-                    ),
+                        key: Key('OnboardingWidget_Daily'),
+                        header: 'New cartoon every week',
+                        body: 'Learn something new with a political cartoon '
+                            'or image every week. Each will include a '
+                            'brief description given the context of the time '
+                            'period.'),
                     const OnboardingWidget(
-                      header: 'See past cartoons',
-                      body: 'Missed a political cartoon? Don\'t worry! '
-                        'You can view past political images '
-                        'and filter them by their tags and image type.'
-                    ),
+                        key: Key('OnboardingWidget_Weekly'),
+                        header: 'See past cartoons',
+                        body: 'Missed a political cartoon? Don\'t worry! '
+                            'You can view past political images '
+                            'and filter them by their tags and image type.'),
                   ],
                 ),
               ),
@@ -109,18 +105,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AnimatedOpacity(
-                    opacity: isLastPage ? 0 : 1,
-                    duration: const Duration(milliseconds: 300),
-                    child: IgnorePointer(
-                      ignoring: isLastPage,
-                      child: OnboardingTextButton(
-                        key: const Key('OnboardingPage_SetSeenOnboarding'),
-                        text: 'Skip',
-                        onPressed: _completeOnboarding,
-                        textStyle: _baseTextStyle,
-                      ),
-                    )
-                  ),
+                      opacity: isLastPage ? 0 : 1,
+                      duration: const Duration(milliseconds: 300),
+                      child: IgnorePointer(
+                        ignoring: isLastPage,
+                        child: OnboardingTextButton(
+                          key: const Key('OnboardingPage_SetSeenOnboarding'),
+                          text: 'Skip',
+                          onPressed: _completeOnboarding,
+                          textStyle: _baseTextStyle,
+                        ),
+                      )),
                   const SizedBox(width: 40),
                   ..._buildPageIndicator(),
                   const SizedBox(width: 40),
@@ -128,9 +123,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     key: const Key('OnboardingPage_NextPage'),
                     text: isLastPage ? 'Start' : 'Next',
                     onPressed: isLastPage ? _completeOnboarding : _nextPage,
-                    textStyle: _baseTextStyle.copyWith(
-                      color: colorScheme.primary
-                    ),
+                    textStyle:
+                        _baseTextStyle.copyWith(color: colorScheme.primary),
                   ),
                 ],
               ),

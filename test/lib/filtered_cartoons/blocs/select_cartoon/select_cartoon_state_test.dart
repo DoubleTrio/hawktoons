@@ -17,10 +17,9 @@ void main() {
       );
       expect(SelectPoliticalCartoonState().cartoonSelected, false);
       expect(
-        SelectPoliticalCartoonState(
-          cartoon: MockPoliticalCartoon()
-        ).cartoonSelected, true
-      );
+          SelectPoliticalCartoonState(cartoon: MockPoliticalCartoon())
+              .cartoonSelected,
+          true);
     });
   });
 }

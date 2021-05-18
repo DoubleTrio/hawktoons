@@ -5,10 +5,7 @@ import 'package:history_app/onboarding/onboarding.dart';
 void main() {
   group('OnboardingSeenCubit', () {
     test('initial state is false', () {
-      expect(
-        OnboardingSeenCubit().state,
-        equals(false)
-      );
+      expect(OnboardingSeenCubit().state, equals(false));
     });
 
     blocTest<OnboardingSeenCubit, bool>(

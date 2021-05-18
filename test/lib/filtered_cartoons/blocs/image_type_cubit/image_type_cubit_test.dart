@@ -28,7 +28,7 @@ void main() {
 
     blocTest<ImageTypeCubit, ImageType>(
       'emits [ImageType.photo, ImageType.cartoon] when '
-          'electImageType is called twice',
+      'electImageType is called twice',
       build: () => ImageTypeCubit(),
       seed: () => ImageType.cartoon,
       act: (cubit) => cubit.deselectImageType(),

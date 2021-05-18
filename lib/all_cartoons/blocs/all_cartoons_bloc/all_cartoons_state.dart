@@ -4,32 +4,24 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 enum CartoonStatus { initial, success, loading, failure }
 
 class CartoonFilters extends Equatable {
-  const CartoonFilters({
-    required this.sortByMode,
-    required this.imageType,
-    required this.tag
-  });
+  const CartoonFilters(
+      {required this.sortByMode, required this.imageType, required this.tag});
 
-  const CartoonFilters.initial({
-    this.sortByMode = SortByMode.latestPosted,
-    this.imageType = ImageType.all,
-    this.tag = Tag.all
-  });
+  const CartoonFilters.initial(
+      {this.sortByMode = SortByMode.latestPosted,
+      this.imageType = ImageType.all,
+      this.tag = Tag.all});
 
   final SortByMode sortByMode;
   final ImageType imageType;
   final Tag tag;
 
-  CartoonFilters copyWith({
-    SortByMode? sortByMode,
-    ImageType? imageType,
-    Tag? tag
-  }) {
+  CartoonFilters copyWith(
+      {SortByMode? sortByMode, ImageType? imageType, Tag? tag}) {
     return CartoonFilters(
-      sortByMode: sortByMode ?? this.sortByMode,
-      imageType: imageType ?? this.imageType,
-      tag: tag ?? this.tag
-    );
+        sortByMode: sortByMode ?? this.sortByMode,
+        imageType: imageType ?? this.imageType,
+        tag: tag ?? this.tag);
   }
 
   @override
@@ -61,24 +53,21 @@ class AllCartoonsState extends Equatable {
 
   @override
   String toString() => 'AllCartoonsState { '
-    'cartoons: $cartoons, '
-    'filters: $filters, '
-    'status: $status, '
-    'hasReachedMax: $hasReachedMax '
-  '}';
+      'cartoons: $cartoons, '
+      'filters: $filters, '
+      'status: $status, '
+      'hasReachedMax: $hasReachedMax '
+      '}';
 
-  AllCartoonsState copyWith({
-    List<PoliticalCartoon>? cartoons,
-    CartoonFilters? filters,
-    CartoonStatus? status,
-    bool? hasReachedMax
-  }) {
+  AllCartoonsState copyWith(
+      {List<PoliticalCartoon>? cartoons,
+      CartoonFilters? filters,
+      CartoonStatus? status,
+      bool? hasReachedMax}) {
     return AllCartoonsState(
-      cartoons: cartoons ?? this.cartoons,
-      filters: filters ?? this.filters,
-      status: status ?? this.status,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax
-    );
+        cartoons: cartoons ?? this.cartoons,
+        filters: filters ?? this.filters,
+        status: status ?? this.status,
+        hasReachedMax: hasReachedMax ?? this.hasReachedMax);
   }
 }
-

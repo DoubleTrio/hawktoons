@@ -5,7 +5,7 @@ import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class SortByTileListView extends StatelessWidget {
-  const SortByTileListView({Key? key, required this.modes}): super(key: key);
+  const SortByTileListView({Key? key, required this.modes}) : super(key: key);
 
   final List<SortByMode> modes;
 
@@ -17,18 +17,16 @@ class SortByTileListView extends StatelessWidget {
     };
 
     return ListView.builder(
-      physics: const ClampingScrollPhysics(),
-      itemCount: modes.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        var mode = modes[index];
-        return SortByTile(
-          key: Key('SortByMode_Button_${mode.index}'),
-          selected: mode == selectedSortByMode,
-          onTap: () => onSortByTileTap(mode),
-          header: mode.header
-        );
-      }
-    );
+        physics: const ClampingScrollPhysics(),
+        itemCount: modes.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          var mode = modes[index];
+          return SortByTile(
+              key: Key('SortByMode_Button_${mode.index}'),
+              selected: mode == selectedSortByMode,
+              onTap: () => onSortByTileTap(mode),
+              header: mode.header);
+        });
   }
 }

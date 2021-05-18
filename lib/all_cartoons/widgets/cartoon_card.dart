@@ -8,9 +8,8 @@ import 'package:history_app/utils/time_ago.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class CartoonCard extends StatelessWidget {
-
-  CartoonCard({Key? key, required this.cartoon, required this.onTap}):
-    super(key: key);
+  CartoonCard({Key? key, required this.cartoon, required this.onTap})
+      : super(key: key);
 
   final PoliticalCartoon cartoon;
   final VoidCallback onTap;
@@ -45,21 +44,20 @@ class CartoonCard extends StatelessWidget {
                     const BorderRadius.vertical(top: Radius.circular(10)),
                 child: Container(
                   constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height / 3),
+                      maxHeight: MediaQuery.of(context).size.height / 3),
                   child: CachedNetworkImage(
                     imageUrl: cartoon.downloadUrl,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) =>
-                      LinearProgressIndicator(
-                        value: downloadProgress.progress,
-                        backgroundColor: primary
-                      ),
+                            LinearProgressIndicator(
+                                value: downloadProgress.progress,
+                                backgroundColor: primary),
                   ),
                 ),
               )),
               ClipRRect(
                 borderRadius:
-                  const BorderRadius.vertical(bottom: Radius.circular(10.0)),
+                    const BorderRadius.vertical(bottom: Radius.circular(10.0)),
                 child: Container(
                   padding: const EdgeInsets.all(12),
                   color: cardColor,
@@ -68,27 +66,26 @@ class CartoonCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${cartoon.type.imageType} '
-                        '(${cartoon.publishedString})',
-                        style: TextStyle(color: onBackground)
-                      ),
+                          '${cartoon.type.imageType} '
+                          '(${cartoon.publishedString})',
+                          style: TextStyle(color: onBackground)),
                       const SizedBox(height: 8),
                       if (cartoon.author != '') ...[
-                      RichText(
-                        key: Key('CartoonCard_Author_${cartoon.id}'),
-                        text: TextSpan(
-                          text: 'By ',
-                          style: TextStyle(color: onSurface),
-                          children: [
-                            TextSpan(
-                              text: cartoon.author,
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic, color: onSurface),
-                            )
-                          ]
-                        )
-                      ),
-                      const SizedBox(height: 12)],
+                        RichText(
+                            key: Key('CartoonCard_Author_${cartoon.id}'),
+                            text: TextSpan(
+                                text: 'By ',
+                                style: TextStyle(color: onSurface),
+                                children: [
+                                  TextSpan(
+                                    text: cartoon.author,
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        color: onSurface),
+                                  )
+                                ])),
+                        const SizedBox(height: 12)
+                      ],
                       Row(
                         children: [
                           Icon(
@@ -100,9 +97,9 @@ class CartoonCard extends StatelessWidget {
                           Flexible(
                             child: Text(
                               TimeAgo(
-                                l10n: context.l10n,
-                                locale: Platform.localeName
-                              ).timeAgoSinceDate(cartoon.timestamp),
+                                      l10n: context.l10n,
+                                      locale: Platform.localeName)
+                                  .timeAgoSinceDate(cartoon.timestamp),
                               style: TextStyle(color: onBackground),
                               softWrap: true,
                             ),
@@ -114,13 +111,10 @@ class CartoonCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'Tags: ${cartoon.tags.map((tag) => tag.index)
-                                .toList().join(', ')}',
-                            style: TextStyle(
-                              color: theme.colorScheme.onBackground
-                              .withOpacity(0.2)
-                            )
-                          ),
+                              'Tags: ${cartoon.tags.map((tag) => tag.index).join(', ')}',
+                              style: TextStyle(
+                                  color: theme.colorScheme.onBackground
+                                      .withOpacity(0.2))),
                         ],
                       ),
                     ],

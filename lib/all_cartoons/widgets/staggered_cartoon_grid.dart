@@ -45,10 +45,9 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
           final _sortByMode = context.read<SortByCubit>().state;
           final _imageType = context.read<ImageTypeCubit>().state;
           final filters = CartoonFilters(
-            sortByMode: _sortByMode,
-            imageType: _imageType,
-            tag: _selectedTag
-          );
+              sortByMode: _sortByMode,
+              imageType: _imageType,
+              tag: _selectedTag);
           context.read<AllCartoonsBloc>().add(LoadMoreCartoons(filters));
         }
       });
@@ -71,8 +70,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   Widget build(BuildContext context) {
     var itemCount = widget.cartoons.length + 2;
     var isLoading = context.select<AllCartoonsBloc, bool>(
-      (value) => value.state.status == CartoonStatus.loading
-    );
+        (value) => value.state.status == CartoonStatus.loading);
 
     return Expanded(
       child: CartoonScrollBar(
@@ -96,8 +94,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
               if (index == itemCount - 1) {
                 if (isLoading) {
                   return const LoadingIndicator(
-                    key: Key('StaggeredCartoonGrid_LoadingIndicator')
-                  );
+                      key: Key('StaggeredCartoonGrid_LoadingIndicator'));
                 } else {
                   return const SizedBox.shrink();
                 }
@@ -108,11 +105,11 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                 key: Key('CartoonCard_${cartoon.id}'),
                 cartoon: cartoon,
                 onTap: () =>
-                  context.read<SelectCartoonCubit>().selectCartoon(cartoon),
+                    context.read<SelectCartoonCubit>().selectCartoon(cartoon),
               );
             },
             staggeredTileBuilder: (index) =>
-              StaggeredTile.fit(index == 0 || index == itemCount - 1 ? 2 : 1),
+                StaggeredTile.fit(index == 0 || index == itemCount - 1 ? 2 : 1),
           ),
         ),
       ),

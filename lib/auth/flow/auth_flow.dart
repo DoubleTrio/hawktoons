@@ -2,15 +2,14 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/auth/auth.dart';
-import 'package:history_app/theme/theme.dart';
 import 'package:history_app/home/flow/home_flow.dart';
 
-class AuthFlowPage extends Page {
+class AuthFlowPage extends Page<void> {
   const AuthFlowPage() : super(key: const ValueKey('AuthFlowPage'));
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) => const AuthFlow(),
       transitionDuration: const Duration(milliseconds: 500),
@@ -33,19 +32,17 @@ class AuthFlowPage extends Page {
 }
 
 class AuthFlow extends StatelessWidget {
-  const AuthFlow({Key? key}): super(key: key);
+  const AuthFlow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<AuthenticationState>(
-      state: context.watch<AuthenticationBloc>().state,
-      onGeneratePages: (state, pages) {
-        return [
-          const LoginPage(),
-          if (state is Authenticated)
-          const HomeFlowPage()
-        ];
-      }
-    );
+        state: context.watch<AuthenticationBloc>().state,
+        onGeneratePages: (state, pages) {
+          return [
+            const LoginPage(),
+            if (state is Authenticated) const HomeFlowPage()
+          ];
+        });
   }
 }

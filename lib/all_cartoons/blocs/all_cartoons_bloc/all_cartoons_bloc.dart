@@ -7,24 +7,28 @@ import 'package:rxdart/rxdart.dart';
 
 class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   AllCartoonsBloc({required this.cartoonRepository})
-    : super(const AllCartoonsState.initial());
+      : super(const AllCartoonsState.initial());
 
   final int limit = 15;
   final FirestorePoliticalCartoonRepository cartoonRepository;
 
   @override
   Stream<Transition<AllCartoonsEvent, AllCartoonsState>> transformEvents(
-    Stream<AllCartoonsEvent> events,
-    TransitionFunction<AllCartoonsEvent, AllCartoonsState> transitionFn
-  ) {
-    return events.debounceTime(
-      const Duration(milliseconds: 100)).switchMap(transitionFn);
+      Stream<AllCartoonsEvent> events,
+      TransitionFunction<AllCartoonsEvent, AllCartoonsState> transitionFn) {
+    final nonDebounceStream =
+        events.where((event) => event is! LoadMoreCartoons);
+    final debounceStream = events
+        .where((event) => event is LoadMoreCartoons)
+        .debounceTime(const Duration(milliseconds: 200));
+    return super.transformEvents(
+        MergeStream([nonDebounceStream, debounceStream]), transitionFn);
   }
 
   @override
   Stream<AllCartoonsState> mapEventToState(
-      AllCartoonsEvent event,
-      ) async* {
+    AllCartoonsEvent event,
+  ) async* {
     if (event is LoadAllCartoons) {
       yield* _mapLoadAllCartoonsToState(event);
     } else if (event is LoadMoreCartoons) {
@@ -32,48 +36,47 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     }
   }
 
-  Stream<AllCartoonsState> _mapLoadAllCartoonsToState
-      (LoadAllCartoons event) async* {
+  Stream<AllCartoonsState> _mapLoadAllCartoonsToState(
+      LoadAllCartoons event) async* {
     yield state.copyWith(status: CartoonStatus.initial, filters: event.filters);
     try {
-      var cartoons = await cartoonRepository.politicalCartoons(
+      final cartoons = await cartoonRepository.politicalCartoons(
         sortByMode: event.filters.sortByMode,
         imageType: event.filters.imageType,
         tag: event.filters.tag,
         limit: limit,
       );
       yield state.copyWith(
-        cartoons: cartoons,
-        status: CartoonStatus.success,
-        hasReachedMax: limit > cartoons.length
-      );
+          cartoons: cartoons,
+          status: CartoonStatus.success,
+          hasReachedMax: limit > cartoons.length);
     } on Exception {
       yield state.copyWith(status: CartoonStatus.failure);
     }
   }
-
 
   Stream<AllCartoonsState> _mapLoadMoreCartoonsEventToState(
       LoadMoreCartoons event) async* {
     try {
       if (!state.hasReachedMax && state.status != CartoonStatus.loading) {
         yield state.copyWith(status: CartoonStatus.loading);
-        var cartoons = await cartoonRepository.loadMorePoliticalCartoons(
+        final moreCartoons = await cartoonRepository.loadMorePoliticalCartoons(
           sortByMode: event.filters.sortByMode,
           imageType: event.filters.imageType,
           tag: event.filters.tag,
           limit: limit,
         );
         yield state.copyWith(
-          cartoons: List.of(state.cartoons)..addAll(cartoons),
-          hasReachedMax: cartoons.isEmpty ? true : false,
+          cartoons: List.of(state.cartoons)..addAll(moreCartoons),
+          hasReachedMax: limit > moreCartoons.length,
           status: CartoonStatus.success,
         );
       }
     } on Exception {
-     yield state.copyWith(status: CartoonStatus.failure);
+      yield state.copyWith(status: CartoonStatus.failure);
     }
   }
+
   @override
   Future<void> close() {
     return super.close();

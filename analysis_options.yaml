@@ -1,4 +1,12 @@
 include: package:very_good_analysis/analysis_options.yaml
+analyzer:
+  exclude: [set_up_firestore_mock.dart]
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+  errors:
+    close_sinks: ignore
+
 linter:
   rules:
     public_member_api_docs: false

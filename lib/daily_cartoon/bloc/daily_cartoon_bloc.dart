@@ -7,7 +7,7 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
   DailyCartoonBloc({required this.dailyCartoonRepository})
-    : super(DailyCartoonInProgress());
+      : super(DailyCartoonInProgress());
 
   final PoliticalCartoonRepository dailyCartoonRepository;
   late StreamSubscription? _dailyCartoonSubscription;
@@ -27,9 +27,9 @@ class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
 
   Stream<DailyCartoonState> _mapLoadDailyCartoonToState() async* {
     _dailyCartoonSubscription =
-      dailyCartoonRepository.getLatestPoliticalCartoon().listen((cartoon) {
-        add(UpdateDailyCartoon(cartoon));
-    }, onError: (err) {
+        dailyCartoonRepository.getLatestPoliticalCartoon().listen((cartoon) {
+      add(UpdateDailyCartoon(cartoon));
+    }, onError: (dynamic err) {
       if (err is FirebaseException) {
         var code = err.code;
         if (code == 'permission-denied') {

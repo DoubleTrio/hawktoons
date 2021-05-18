@@ -48,6 +48,7 @@ void main() {
         ], child: child),
       );
     }
+
     setUpAll(() async {
       await Firebase.initializeApp();
 
@@ -63,7 +64,6 @@ void main() {
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
       registerFallbackValue<ImageType>(ImageType.all);
 
-
       tabBloc = MockTabBloc();
       allCartoonsBloc = MockAllCartoonsBloc();
       tagCubit = MockTagCubit();
@@ -75,21 +75,19 @@ void main() {
       cartoonRepository = MockPoliticalCartoonRepository();
       imageTypeCubit = MockImageTypeCubit();
 
-
-      when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial()
-      );
+      when(() => allCartoonsBloc.state)
+          .thenReturn(const AllCartoonsState.initial());
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
       when(() => tagCubit.state).thenReturn(Tag.all);
       when(cartoonRepository.getLatestPoliticalCartoon)
-        .thenAnswer((_) => Stream.value(mockCartoon));
+          .thenAnswer((_) => Stream.value(mockCartoon));
       when(() => cartoonRepository.politicalCartoons(
-        sortByMode: sortByCubit.state,
-        imageType: imageTypeCubit.state,
-        tag: tagCubit.state,
-      )).thenAnswer((_) => Future.value([mockCartoon]));
+            sortByMode: sortByCubit.state,
+            imageType: imageTypeCubit.state,
+            tag: tagCubit.state,
+          )).thenAnswer((_) => Future.value([mockCartoon]));
     });
 
     group('LoginPage', () {
@@ -104,11 +102,10 @@ void main() {
       testWidgets('shows HomeFlow', (tester) async {
         when(() => sortByCubit.state).thenReturn(SortByMode.latestPublished);
         when(() => authenticationBloc.state)
-          .thenReturn(Authenticated('user-id'));
+            .thenReturn(Authenticated('user-id'));
         when(() => scrollHeaderCubit.state).thenReturn(false);
         when(() => allCartoonsBloc.state).thenReturn(
-          const AllCartoonsState.initial().copyWith(cartoons: [mockCartoon])
-        );
+            const AllCartoonsState.initial().copyWith(cartoons: [mockCartoon]));
         await tester.pumpApp(wrapper(const AuthFlow()));
         expect(find.byType(HomeFlow), findsOneWidget);
       });

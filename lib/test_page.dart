@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class TestPagePage extends Page {
+class TestPagePage extends Page<void> {
   TestPagePage() : super(key: const ValueKey('TestPagePage'));
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) => const TestPage(),
       transitionDuration: const Duration(milliseconds: 0),
@@ -16,7 +16,7 @@ class TestPagePage extends Page {
 }
 
 class TestPage extends StatefulWidget {
-  const TestPage({Key? key}): super(key: key);
+  const TestPage({Key? key}) : super(key: key);
 
   @override
   _TestPageState createState() => _TestPageState();
@@ -43,15 +43,15 @@ class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
     var testCartoon = PoliticalCartoon(
-      published: Timestamp.now(),
-      author: '',
-      timestamp: Timestamp.fromDate(
-        DateTime.now().subtract(const Duration(minutes: 2))),
-      description: 'Map of the election of 1860',
-      tags: [Tag.tag5, Tag.tag19],
-      downloadUrl: 'https://firebasestorage.googleapis.com/v0/b/daily-political-cartoon.appspot.com/o/election_of_1860_map.jpg?alt=media&token=9915d509-7c27-4112-90b9-5981d0fa3be2',
-      type: ImageType.infographic
-    );
+        published: Timestamp.now(),
+        author: '',
+        timestamp: Timestamp.fromDate(
+            DateTime.now().subtract(const Duration(minutes: 2))),
+        description: 'Map of the election of 1860',
+        tags: [Tag.tag5, Tag.tag19],
+        downloadUrl:
+            'https://firebasestorage.googleapis.com/v0/b/daily-political-cartoon.appspot.com/o/election_of_1860_map.jpg?alt=media&token=9915d509-7c27-4112-90b9-5981d0fa3be2',
+        type: ImageType.infographic);
 
     return SafeArea(
       child: Material(

@@ -13,15 +13,15 @@ import 'package:history_app/widgets/page_header.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
 import 'package:intl/intl.dart';
 
-class DailyCartoonPage extends Page {
+class DailyCartoonPage extends Page<void> {
   const DailyCartoonPage() : super(key: const ValueKey('DailyCartoonPage'));
 
   @override
   Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
+    return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
-        DailyCartoonScreen(),
+          DailyCartoonScreen(),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
@@ -36,20 +36,19 @@ class DailyCartoonScreen extends StatelessWidget {
       var state = bloc.state;
       if (state is DailyCartoonLoaded) {
         return DateFormat.yMMMMEEEEd(Platform.localeName)
-          .format(state.dailyCartoon.timestamp.toDate());
+            .format(state.dailyCartoon.timestamp.toDate());
       }
       return ' ';
     });
     return Scaffold(
       appBar: AppBar(
-        leading: CustomIconButton(
-          key: const Key('DailyCartoonScreen_Button_Logout'),
-          icon: const Icon(Icons.exit_to_app_rounded),
-          onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
-        ),
-        title: ScaffoldTitle(title: title),
-        centerTitle: true
-      ),
+          leading: CustomIconButton(
+            key: const Key('DailyCartoonScreen_Button_Logout'),
+            icon: const Icon(Icons.exit_to_app_rounded),
+            onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
+          ),
+          title: ScaffoldTitle(title: title),
+          centerTitle: true),
       body: const SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: PoliticalCartoonCardLoader(),
@@ -59,7 +58,7 @@ class DailyCartoonScreen extends StatelessWidget {
 }
 
 class PoliticalCartoonCardLoader extends StatelessWidget {
-  const PoliticalCartoonCardLoader({Key? key}): super(key: key);
+  const PoliticalCartoonCardLoader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +85,7 @@ class PoliticalCartoonCardLoader extends StatelessWidget {
         );
       } else {
         return const SizedBox(
-          key: Key('DailyCartoonScreen_DailyCartoonFailed'));
+            key: Key('DailyCartoonScreen_DailyCartoonFailed'));
       }
     });
   }

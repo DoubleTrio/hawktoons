@@ -5,10 +5,9 @@ import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-
 class ImageTypeCheckboxRow extends StatelessWidget {
-  const ImageTypeCheckboxRow({Key? key, required this.imageTypes })
-    : super(key: key);
+  const ImageTypeCheckboxRow({Key? key, required this.imageTypes})
+      : super(key: key);
 
   final List<ImageType> imageTypes;
 
@@ -26,8 +25,9 @@ class ImageTypeCheckboxRow extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: Theme.of(context).textTheme.subtitle1!.fontSize!
-          * 3 * (imageTypes.length / 2).ceil(),
+      height: Theme.of(context).textTheme.subtitle1!.fontSize! *
+          3 *
+          (imageTypes.length / 2).ceil(),
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: StaggeredGridView.countBuilder(
         physics: const BouncingScrollPhysics(),
@@ -35,7 +35,6 @@ class ImageTypeCheckboxRow extends StatelessWidget {
         crossAxisSpacing: 3.0,
         itemCount: imageTypes.length,
         itemBuilder: (context, index) {
-
           var type = imageTypes[index];
           return ImageTypeCheckbox(
             key: Key('ImageTypeCheckbox_${type.index}'),

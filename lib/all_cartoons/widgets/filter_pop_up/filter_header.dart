@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FilterHeader extends StatelessWidget {
-  const FilterHeader({Key? key, required this.header}): super(key: key);
+  const FilterHeader({Key? key, required this.header}) : super(key: key);
 
   final String header;
 
@@ -14,10 +14,9 @@ class FilterHeader extends StatelessWidget {
       child: Text(
         header,
         style: TextStyle(
-          color: theme.colorScheme.onSurface,
-          fontSize: 22,
-          fontWeight: FontWeight.bold
-        ),
+            color: theme.colorScheme.onSurface,
+            fontSize: 22,
+            fontWeight: FontWeight.bold),
       ),
     );
   }

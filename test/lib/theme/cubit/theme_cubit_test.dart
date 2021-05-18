@@ -7,9 +7,7 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('ThemeCubit', () {
-    setUpAll(() {
-      initHydratedBloc();
-    });
+    setUpAll(initHydratedBloc);
 
     blocTest<ThemeCubit, ThemeMode>(
       'emits [ThemeMode.dark] when changeTheme is called',

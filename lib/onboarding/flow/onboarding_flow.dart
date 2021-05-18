@@ -5,14 +5,15 @@ import 'package:history_app/auth/auth.dart';
 import 'package:history_app/onboarding/onboarding.dart';
 
 class OnboardingFlow extends StatelessWidget {
-  const OnboardingFlow({Key? key}): super(key: key);
+  const OnboardingFlow({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<bool>(
-      state: context.watch<OnboardingSeenCubit>().state,
-      onGeneratePages: (onboardingSeen, context) {
-        return [onboardingSeen ? const AuthFlowPage() : const OnBoardingPage()];
-      }
-    );
+        state: context.watch<OnboardingSeenCubit>().state,
+        onGeneratePages: (onboardingSeen, context) {
+          return [
+            onboardingSeen ? const AuthFlowPage() : const OnBoardingPage()
+          ];
+        });
   }
 }

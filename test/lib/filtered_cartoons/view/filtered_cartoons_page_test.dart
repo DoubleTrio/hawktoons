@@ -41,8 +41,7 @@ void main() {
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<SelectPoliticalCartoonState>(
-          SelectPoliticalCartoonState()
-      );
+          SelectPoliticalCartoonState());
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
 
@@ -57,27 +56,23 @@ void main() {
     });
 
     testWidgets(
-      'renders widget '
-      'with Key(\'AllCartoonsPage_FilteredCartoonsLoading\') '
-      'when state is FilteredCartoonsLoading', (tester) async {
-      when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial()
-      );
+        'renders widget '
+        'with Key(\'AllCartoonsPage_FilteredCartoonsLoading\') '
+        'when state is FilteredCartoonsLoading', (tester) async {
+      when(() => allCartoonsBloc.state)
+          .thenReturn(const AllCartoonsState.initial());
       when(() => scrollHeaderCubit.state).thenReturn(false);
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       expect(find.byKey(filteredCartoonsLoadingKey), findsOneWidget);
     });
 
     testWidgets(
-      'renders widget with '
-      'Key(\'AllCartoonsPage_FilteredCartoonsLoaded\') '
-      'when state is FilteredCartoonsLoaded', (tester) async {
+        'renders widget with '
+        'Key(\'AllCartoonsPage_FilteredCartoonsLoaded\') '
+        'when state is FilteredCartoonsLoaded', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
-          status: CartoonStatus.success,
-          cartoons: [mockPoliticalCartoon]
-        )
-      );
+          const AllCartoonsState.initial().copyWith(
+              status: CartoonStatus.success, cartoons: [mockPoliticalCartoon]));
 
       await mockNetworkImagesFor(
         () => tester.pumpApp(wrapper(const FilteredCartoonsScreen())),
@@ -86,38 +81,35 @@ void main() {
     });
 
     testWidgets(
-      'renders widget '
-      'with Key(\'AllCartoonsPage_FilteredCartoonsFailed\'); '
-      'when state is FilteredCartoonFailed', (tester) async {
-      when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
-          status: CartoonStatus.failure,
-        )
-      );
+        'renders widget '
+        'with Key(\'AllCartoonsPage_FilteredCartoonsFailed\'); '
+        'when state is FilteredCartoonFailed', (tester) async {
+      when(() => allCartoonsBloc.state)
+          .thenReturn(const AllCartoonsState.initial().copyWith(
+        status: CartoonStatus.failure,
+      ));
 
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       expect(find.byKey(filteredCartoonsFailedKey), findsOneWidget);
     });
 
-    testWidgets('opens bottom sheet '
+    testWidgets(
+        'opens bottom sheet '
         'when filter icon is pressed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
-          cartoons: [mockPoliticalCartoon]
-        )
-      );
+          const AllCartoonsState.initial()
+              .copyWith(cartoons: [mockPoliticalCartoon]));
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       await tester.tap(find.byKey(filterButtonKey));
       verify(showBottomSheetCubit.openSheet).called(1);
     });
 
-    testWidgets('logs out '
+    testWidgets(
+        'logs out '
         'when logout button is pressed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
-          cartoons: [mockPoliticalCartoon]
-        )
-      );
+          const AllCartoonsState.initial()
+              .copyWith(cartoons: [mockPoliticalCartoon]));
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       await tester.tap(find.byKey(filterLogoutButtonKey));
       verify(() => authenticationBloc.add(Logout())).called(1);

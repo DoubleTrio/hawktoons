@@ -11,7 +11,6 @@ import '../../helpers/helpers.dart';
 import '../../keys.dart';
 import '../../mocks.dart';
 
-
 void main() {
   group('DailyCartoonScreen', () {
     late DailyCartoonBloc dailyCartoonBloc;
@@ -40,9 +39,7 @@ void main() {
         'when state is DailyCartoonInProgress()', (tester) async {
       var state = DailyCartoonInProgress();
       when(() => dailyCartoonBloc.state).thenReturn(state);
-      await tester.pumpApp(
-        wrapper(DailyCartoonScreen())
-      );
+      await tester.pumpApp(wrapper(DailyCartoonScreen()));
       expect(find.byKey(dailyCartoonInProgressKey), findsOneWidget);
     });
 
@@ -51,9 +48,8 @@ void main() {
         'when state is DailyCartoonLoaded', (tester) async {
       var state = DailyCartoonLoaded(mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
-      await mockNetworkImagesFor(() => tester.pumpApp(
-        wrapper(DailyCartoonScreen())
-      ));
+      await mockNetworkImagesFor(
+          () => tester.pumpApp(wrapper(DailyCartoonScreen())));
       expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
     });
 

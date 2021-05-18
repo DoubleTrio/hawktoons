@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ScaffoldTitle extends StatelessWidget {
-
-  const ScaffoldTitle({Key? key, required this.title}): super(key: key);
+  const ScaffoldTitle({Key? key, required this.title}) : super(key: key);
 
   final String title;
 

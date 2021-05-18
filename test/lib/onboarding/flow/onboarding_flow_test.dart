@@ -10,7 +10,6 @@ import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
-
 void main() {
   group('OnboardingFlow', () {
     late OnboardingSeenCubit onboardingSeenCubit;
