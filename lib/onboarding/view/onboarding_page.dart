@@ -83,14 +83,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       .setOnBoardingPage(VisibleOnboardingPage.values[page]),
                   children: [
                     const OnboardingWidget(
-                      key: Key('OnboardingWidget_Welcome'),
                       header: 'Welcome to Hawktoons',
                       body: 'An educational, ad-free app to learn history '
                         'at different time periods through '
                         'political cartoons and images.'
                     ),
                     const OnboardingWidget(
-                      key: Key('OnboardingWidget_Daily'),
                       header: 'New cartoon every week',
                       body: 'Learn something new with a political cartoon '
                         'or image every week. Each will include a '
@@ -98,7 +96,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         'period.'
                     ),
                     const OnboardingWidget(
-                      key: Key('OnboardingWidget_Weekly'),
                       header: 'See past cartoons',
                       body: 'Missed a political cartoon? Don\'t worry! '
                         'You can view past political images '

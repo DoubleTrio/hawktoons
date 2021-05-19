@@ -2,7 +2,7 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/all_cartoons/flow/filtered_flow.dart';
+import 'package:history_app/all_cartoons/flow/cartoon_flow.dart';
 import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/home/blocs/blocs.dart';
@@ -82,59 +82,51 @@ class HomeFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final activeTab = context.watch<TabBloc>().state;
-    void _logout() {
-      context.read<AuthenticationBloc>().add(Logout());
-    }
+
     void _closeSheet() {
       context.read<ShowBottomSheetCubit>().closeSheet();
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        _logout();
-        return true;
-      },
-      child: Scaffold(
-        bottomNavigationBar: TabSelector(
-          activeTab: activeTab,
-          onTabSelected: (tab) =>
-              BlocProvider.of<TabBloc>(context).add(UpdateTab(tab)),
-        ),
-        body: BlocListener<ShowBottomSheetCubit, bool>(
-          listener: (context, shouldShowBottomSheet) {
-            if (shouldShowBottomSheet) {
-              final _imageTypeCubit = context.read<ImageTypeCubit>();
-              final _tagCubit = context.read<TagCubit>();
-              final _sortByCubit = context.read<SortByCubit>();
-              final _allCartoonsBloc = context.read<AllCartoonsBloc>();
-              showModalBottomSheet<void>(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                ),
-                isScrollControlled: true,
-                context: context,
-                builder: (context) {
-                  return MultiBlocProvider(providers: [
-                    BlocProvider.value(value: _imageTypeCubit),
-                    BlocProvider.value(value: _tagCubit),
-                    BlocProvider.value(value: _sortByCubit),
-                    BlocProvider.value(value: _allCartoonsBloc)
-                  ], child: FilterPopUp());
-                }
-              ).whenComplete(_closeSheet);
-            }
-          },
-          child: FlowBuilder<AppTab>(
-            state: context.watch<TabBloc>().state,
-            onGeneratePages: (AppTab state, pages) {
-              switch (state) {
-                case AppTab.daily:
-                  return [const DailyCartoonPage()];
-                default:
-                  return [const FilteredFlowPage()];
+    return Scaffold(
+      bottomNavigationBar: TabSelector(
+        activeTab: activeTab,
+        onTabSelected: (tab) =>
+          BlocProvider.of<TabBloc>(context).add(UpdateTab(tab)),
+      ),
+      body: BlocListener<ShowBottomSheetCubit, bool>(
+        listener: (context, shouldShowBottomSheet) {
+          if (shouldShowBottomSheet) {
+            final _imageTypeCubit = context.read<ImageTypeCubit>();
+            final _tagCubit = context.read<TagCubit>();
+            final _sortByCubit = context.read<SortByCubit>();
+            final _allCartoonsBloc = context.read<AllCartoonsBloc>();
+            showModalBottomSheet<void>(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              isScrollControlled: true,
+              context: context,
+              builder: (context) {
+                return MultiBlocProvider(providers: [
+                  BlocProvider.value(value: _imageTypeCubit),
+                  BlocProvider.value(value: _tagCubit),
+                  BlocProvider.value(value: _sortByCubit),
+                  BlocProvider.value(value: _allCartoonsBloc)
+                ], child: FilterPopUp());
               }
+            ).whenComplete(_closeSheet);
+          }
+        },
+        child: FlowBuilder<AppTab>(
+          state: context.watch<TabBloc>().state,
+          onGeneratePages: (AppTab state, pages) {
+            switch (state) {
+              case AppTab.daily:
+                return [const DailyCartoonPage()];
+              default:
+                return [const CartoonFlowPage()];
             }
-          ),
+          }
         ),
       ),
     );

@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 
-class FilteredFlowPage extends Page<void> {
-  const FilteredFlowPage() : super(key: const ValueKey('FilteredFlowPage'));
+class CartoonFlowPage extends Page<void> {
+  const CartoonFlowPage() : super(key: const ValueKey('CartoonFlowPage'));
 
   @override
   Route createRoute(BuildContext context) {
     return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (_, __, ___) => const FilteredFlow(),
+      pageBuilder: (_, __, ___) => const CartoonFlow(),
       transitionDuration: const Duration(milliseconds: 1000),
     );
   }
 }
 
-class FilteredFlow extends StatelessWidget {
-  const FilteredFlow({Key? key}) : super(key: key);
+class CartoonFlow extends StatelessWidget {
+  const CartoonFlow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

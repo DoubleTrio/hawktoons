@@ -14,7 +14,7 @@ import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
 void main() {
-  group('FilteredFlow', () {
+  group('CartoonFlow', () {
     late AllCartoonsBloc allCartoonsBloc;
     late TagCubit tagCubit;
     late SortByCubit sortByCubit;
@@ -64,7 +64,7 @@ void main() {
         .thenReturn(SelectPoliticalCartoonState()
       );
 
-      await tester.pumpApp(wrapper(const FilteredFlow()));
+      await tester.pumpApp(wrapper(const CartoonFlow()));
       expect(find.byType(FilteredCartoonsScreen), findsOneWidget);
     });
 
@@ -78,7 +78,7 @@ void main() {
       );
 
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(const FilteredFlow())),
+        () => tester.pumpApp(wrapper(const CartoonFlow())),
       );
 
       expect(find.byType(DetailsScreen), findsOneWidget);
@@ -95,7 +95,7 @@ void main() {
         )
       );
 
-      await tester.pumpApp(wrapper(const FilteredFlow()));
+      await tester.pumpApp(wrapper(const CartoonFlow()));
 
       await tester.tap(find.byType(CartoonCard).first);
 

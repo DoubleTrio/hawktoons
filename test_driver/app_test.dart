@@ -24,11 +24,11 @@ final nextPageOnboardingButton = find.byValueKey('OnboardingPage_NextPage');
 final setSeenOnboardingButton =
   find.byValueKey('OnboardingPage_SetSeenOnboarding');
 
-final filteredCartoonsLoading =
+final allCartoonsLoading =
   find.byValueKey('AllCartoonsPage_FilteredCartoonsLoading');
-final filteredCartoonsLoaded =
+final allCartoonsLoaded =
   find.byValueKey('AllCartoonsPage_FilteredCartoonsLoaded');
-final filteredCartoonsFailed =
+final allCartoonsFailed =
   find.byValueKey('AllCartoonsPage_FilteredCartoonsFailed');
 final filterButton = find.byValueKey('AllCartoonsPage_FilterButton');
 final filterLogoutButton = find.byValueKey('AllCartoonsPage_LogoutButton');
@@ -107,7 +107,7 @@ void main() {
       );
 
       await driver.tap(allCartoonsTab);
-      await driver.waitFor(filteredCartoonsLoaded);
+      await driver.waitFor(allCartoonsLoaded);
 
       await driver.tap(filterButton);
       
@@ -130,14 +130,14 @@ void main() {
 
       await driver.tap(sortByTile);
       await driver.tap(applyFilterButton);
-      await driver.waitFor(filteredCartoonsLoaded);
+      await driver.waitFor(allCartoonsLoaded);
 
       await driver.tap(find.byValueKey('CartoonCard_LN7FeDDb6NaS4PUphgRd'));
 
       await driver.waitFor(find.byType('DetailsScreen'));
       sleep(const Duration(seconds: 2));
       await driver.tap(detailsPageBackButton);
-      expect(filteredCartoonsLoaded, isNotNull);
+      expect(allCartoonsLoaded, isNotNull);
       await driver.tap(changeThemeTab);
 
       await driver.tap(filterButton);
@@ -147,7 +147,7 @@ void main() {
 
       await driver.tap(resetFilterButton);
       await driver.tap(applyFilterButton);
-      await driver.waitFor(filteredCartoonsLoaded);
+      await driver.waitFor(allCartoonsLoaded);
       sleep(const Duration(milliseconds: 500));
       await driver.tap(dailyCartoonTab);
       await driver.tap(dailyCartoonLogoutButton);

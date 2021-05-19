@@ -64,7 +64,7 @@ void main() {
         .thenReturn(const AllCartoonsState.initial());
       when(() => scrollHeaderCubit.state).thenReturn(false);
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
-      expect(find.byKey(filteredCartoonsLoadingKey), findsOneWidget);
+      expect(find.byKey(allCartoonsLoadingKey), findsOneWidget);
     });
 
     testWidgets(
@@ -81,7 +81,7 @@ void main() {
       await mockNetworkImagesFor(
         () => tester.pumpApp(wrapper(const FilteredCartoonsScreen())),
       );
-      expect(find.byKey(filteredCartoonsLoadedKey), findsOneWidget);
+      expect(find.byKey(allCartoonsLoadedKey), findsOneWidget);
     });
 
     testWidgets(
@@ -95,7 +95,7 @@ void main() {
       );
 
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
-      expect(find.byKey(filteredCartoonsFailedKey), findsOneWidget);
+      expect(find.byKey(allCartoonsFailedKey), findsOneWidget);
     });
 
     testWidgets(

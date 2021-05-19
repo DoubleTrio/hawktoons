@@ -19,10 +19,10 @@ const dailyCartoonLogoutButtonKey = Key('DailyCartoonScreen_Button_Logout');
 const nextPageOnboardingButtonKey = Key('OnboardingPage_NextPage');
 const setSeenOnboardingButtonKey = Key('OnboardingPage_SetSeenOnboarding');
 
-const filteredCartoonsLoadingKey =
+const allCartoonsLoadingKey =
     Key('AllCartoonsPage_FilteredCartoonsLoading');
-const filteredCartoonsLoadedKey = Key('AllCartoonsPage_FilteredCartoonsLoaded');
-const filteredCartoonsFailedKey = Key('AllCartoonsPage_FilteredCartoonsFailed');
+const allCartoonsLoadedKey = Key('AllCartoonsPage_FilteredCartoonsLoaded');
+const allCartoonsFailedKey = Key('AllCartoonsPage_FilteredCartoonsFailed');
 const filterButtonKey = Key('AllCartoonsPage_FilterButton');
 const filterLogoutButtonKey = Key('AllCartoonsPage_LogoutButton');
 

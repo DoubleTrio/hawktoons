@@ -31,6 +31,10 @@ class DailyCartoonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _logout() {
+      context.read<AuthenticationBloc>().add(Logout());
+    }
+
     final title = context.select((DailyCartoonBloc bloc) {
       final state = bloc.state;
       if (state is DailyCartoonLoaded) {
@@ -44,7 +48,7 @@ class DailyCartoonScreen extends StatelessWidget {
         leading: CustomIconButton(
           key: const Key('DailyCartoonScreen_Button_Logout'),
           icon: const Icon(Icons.exit_to_app_rounded),
-          onPressed: () => context.read<AuthenticationBloc>().add(Logout()),
+          onPressed: _logout,
         ),
         title: ScaffoldTitle(title: title),
         centerTitle: true

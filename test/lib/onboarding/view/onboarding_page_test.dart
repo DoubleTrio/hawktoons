@@ -7,12 +7,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 import '../../keys.dart';
-
-class MockOnboardingPageCubit extends MockCubit<VisibleOnboardingPage>
-    implements OnboardingPageCubit {}
-
-class MockOnboardingSeenCubit extends MockCubit<bool>
-    implements OnboardingSeenCubit {}
+import '../../mocks.dart';
 
 void main() {
   group('OnboardingPage', () {

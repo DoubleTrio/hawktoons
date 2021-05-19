@@ -6,6 +6,7 @@ import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/home/blocs/blocs.dart';
 import 'package:history_app/onboarding/cubits/cubits.dart';
+import 'package:history_app/onboarding/models/models.dart';
 import 'package:history_app/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -65,3 +66,6 @@ class MockSelectCartoonCubit extends MockCubit<SelectPoliticalCartoonState>
 
 class MockImageTypeCubit extends MockCubit<ImageType>
   implements ImageTypeCubit {}
+
+class MockOnboardingPageCubit extends MockCubit<VisibleOnboardingPage>
+  implements OnboardingPageCubit {}

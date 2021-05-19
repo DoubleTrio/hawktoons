@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/home/home.dart';
@@ -44,7 +45,7 @@ void main() {
         BlocProvider.value(value: tabBloc),
         BlocProvider.value(value: scrollHeaderCubit),
         BlocProvider.value(value: selectCartoonCubit),
-        BlocProvider.value(value: imageTypeCubit)
+        BlocProvider.value(value: imageTypeCubit),
       ], child: child);
     }
 
@@ -54,6 +55,8 @@ void main() {
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
         FakeSelectPoliticalCartoonState()
       );
@@ -127,7 +130,7 @@ void main() {
 
     group('FilterPopUp', () {
       setUp(() {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
+        when(() => tabBloc.state).thenReturn(AppTab.all);
         when(() => tagCubit.state).thenReturn(Tag.all);
         when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
         whenListen(showBottomSheetCubit, Stream.value(true));

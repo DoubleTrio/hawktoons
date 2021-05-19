@@ -31,7 +31,6 @@ class FilteredCartoonsScreen extends StatelessWidget {
     void _logout() {
       context.read<AuthenticationBloc>().add(Logout());
     }
-
     return Scaffold(
       appBar: AppBar(
         leading: CustomIconButton(
