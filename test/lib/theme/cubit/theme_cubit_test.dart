@@ -9,6 +9,13 @@ void main() {
   group('ThemeCubit', () {
     setUpAll(initHydratedBloc);
 
+    test('fromJson and toJson works', () {
+      expect(
+        ThemeCubit().fromJson(ThemeCubit().toJson(ThemeMode.light)),
+        ThemeMode.light
+      );
+    });
+
     blocTest<ThemeCubit, ThemeMode>(
       'emits [ThemeMode.dark] when changeTheme is called',
       seed: () => ThemeMode.light,

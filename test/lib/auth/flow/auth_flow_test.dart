@@ -74,9 +74,6 @@ void main() {
       authenticationBloc = MockAuthenticationBloc();
       cartoonRepository = MockPoliticalCartoonRepository();
       imageTypeCubit = MockImageTypeCubit();
-
-      when(() => allCartoonsBloc.state)
-        .thenReturn(const AllCartoonsState.initial());
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
@@ -84,10 +81,11 @@ void main() {
       when(cartoonRepository.getLatestPoliticalCartoon)
         .thenAnswer((_) => Stream.value(mockCartoon));
       when(() => cartoonRepository.politicalCartoons(
-        sortByMode: sortByCubit.state,
-        imageType: imageTypeCubit.state,
-        tag: tagCubit.state,
-      )).thenAnswer((_) => Future.value([mockCartoon]));
+        sortByMode: SortByMode.latestPosted,
+        imageType: ImageType.all,
+        tag: Tag.all,
+        limit: 15,
+      )).thenAnswer((_) => Future.value([mockPoliticalCartoon]));
     });
 
     group('LoginPage', () {
@@ -100,12 +98,11 @@ void main() {
 
     group('HomeFlow', () {
       testWidgets('shows HomeFlow', (tester) async {
-        when(() => sortByCubit.state).thenReturn(SortByMode.latestPublished);
         when(() => authenticationBloc.state)
           .thenReturn(Authenticated('user-id'));
         when(() => scrollHeaderCubit.state).thenReturn(false);
         when(() => allCartoonsBloc.state).thenReturn(
-          const AllCartoonsState.initial().copyWith(cartoons: [mockCartoon]));
+          const AllCartoonsState.initial());
         await tester.pumpApp(wrapper(const AuthFlow()));
         expect(find.byType(HomeFlow), findsOneWidget);
       });
