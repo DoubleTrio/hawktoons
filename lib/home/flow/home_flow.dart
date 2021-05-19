@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/all_cartoons/flow/cartoon_flow.dart';
-import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/home/blocs/blocs.dart';
 import 'package:history_app/widgets/tab_selector.dart';

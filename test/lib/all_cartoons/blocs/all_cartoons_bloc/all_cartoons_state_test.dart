@@ -22,7 +22,7 @@ void main() {
       test('copyWith works', () {
         expect(
           const CartoonFilters.initial(),
-          isNot(equals(const CartoonFilters(
+          isNot(equals(const CartoonFilters.initial().copyWith(
             sortByMode: SortByMode.latestPosted,
             imageType: ImageType.infographic,
             tag: Tag.tag5,
