@@ -17,12 +17,13 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
       Stream<AllCartoonsEvent> events,
       TransitionFunction<AllCartoonsEvent, AllCartoonsState> transitionFn) {
     final nonDebounceStream =
-        events.where((event) => event is! LoadMoreCartoons);
+      events.where((event) => event is! LoadMoreCartoons);
     final debounceStream = events
-        .where((event) => event is LoadMoreCartoons)
-        .debounceTime(const Duration(milliseconds: 200));
+      .where((event) => event is LoadMoreCartoons)
+      .debounceTime(const Duration(milliseconds: 200));
     return super.transformEvents(
-        MergeStream([nonDebounceStream, debounceStream]), transitionFn);
+      MergeStream([nonDebounceStream, debounceStream]), transitionFn
+    );
   }
 
   @override
@@ -39,6 +40,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   Stream<AllCartoonsState> _mapLoadAllCartoonsToState(
       LoadAllCartoons event) async* {
     yield state.copyWith(status: CartoonStatus.initial, filters: event.filters);
+
     try {
       final cartoons = await cartoonRepository.politicalCartoons(
         sortByMode: event.filters.sortByMode,
@@ -47,9 +49,10 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
         limit: limit,
       );
       yield state.copyWith(
-          cartoons: cartoons,
-          status: CartoonStatus.success,
-          hasReachedMax: limit > cartoons.length);
+        cartoons: cartoons,
+        status: CartoonStatus.success,
+        hasReachedMax: limit > cartoons.length
+      );
     } on Exception {
       yield state.copyWith(status: CartoonStatus.failure);
     }

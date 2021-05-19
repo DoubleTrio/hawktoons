@@ -11,7 +11,10 @@ class ButtonRowHeader extends StatelessWidget {
     final _sortByMode = context.watch<SortByCubit>().state;
     final _imageType = context.watch<ImageTypeCubit>().state;
     final filters = CartoonFilters(
-        sortByMode: _sortByMode, imageType: _imageType, tag: _selectedTag);
+      sortByMode: _sortByMode,
+      imageType: _imageType,
+      tag: _selectedTag
+    );
 
     void _filter() {
       Navigator.of(context).pop();
@@ -41,20 +44,22 @@ class ButtonRowHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton(
-              key: const Key('ButtonRowHeader_ResetButton'),
-              onPressed: _reset,
-              child: Text(
-                'Reset',
-                style: TextStyle(color: onSurface),
-              )),
+            key: const Key('ButtonRowHeader_ResetButton'),
+            onPressed: _reset,
+            child: Text(
+              'Reset',
+              style: TextStyle(color: onSurface),
+            ),
+          ),
           Row(
             children: [
               Text(
                 'Filters',
                 style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: onSurface),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: onSurface
+                ),
               ),
               const SizedBox(width: 6),
               Icon(Icons.filter_list, color: onSurface),

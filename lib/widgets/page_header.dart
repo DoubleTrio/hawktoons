@@ -11,10 +11,12 @@ class PageHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       width: double.infinity,
       child: Text(header,
-          style: Theme.of(context)
-              .textTheme
-              .headline3!
-              .copyWith(fontWeight: FontWeight.bold)),
+        style: Theme.of(context)
+          .textTheme
+          .headline3!
+          .copyWith(fontWeight: FontWeight.bold
+        )
+      ),
     );
   }
 }

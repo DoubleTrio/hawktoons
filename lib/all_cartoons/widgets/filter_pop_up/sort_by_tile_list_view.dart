@@ -11,22 +11,24 @@ class SortByTileListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedSortByMode = context.watch<SortByCubit>().state;
-    final onSortByTileTap = (SortByMode sortByMode) {
+    final _selectedSortByMode = context.watch<SortByCubit>().state;
+    final _onSortByTileTap = (SortByMode sortByMode) {
       return context.read<SortByCubit>().selectSortBy(sortByMode);
     };
 
     return ListView.builder(
-        physics: const ClampingScrollPhysics(),
-        itemCount: modes.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          var mode = modes[index];
-          return SortByTile(
-              key: Key('SortByMode_Button_${mode.index}'),
-              selected: mode == selectedSortByMode,
-              onTap: () => onSortByTileTap(mode),
-              header: mode.header);
-        });
+      physics: const ClampingScrollPhysics(),
+      itemCount: modes.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        final mode = modes[index];
+        return SortByTile(
+          key: Key('SortByMode_Button_${mode.index}'),
+          selected: mode == _selectedSortByMode,
+          onTap: () => _onSortByTileTap(mode),
+          header: mode.header
+        );
+      }
+    );
   }
 }

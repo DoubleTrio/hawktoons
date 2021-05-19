@@ -11,10 +11,10 @@ class TagButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedTag = context.watch<TagCubit>().state;
+    final _selectedTag = context.watch<TagCubit>().state;
 
-    final onTagButtonTap = (Tag tag) =>
-        context.read<TagCubit>().selectTag(selectedTag == tag ? Tag.all : tag);
+    final _onTagButtonTap = (Tag tag) =>
+      context.read<TagCubit>().selectTag(_selectedTag == tag ? Tag.all : tag);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -22,10 +22,11 @@ class TagButtonBar extends StatelessWidget {
         spacing: 5,
         children: [
           ...tags.map((tag) => TagButton(
-              key: Key('Tag_Button_${tag.index}'),
-              tag: tag,
-              onTap: () => onTagButtonTap(tag),
-              selected: selectedTag == tag)),
+            key: Key('Tag_Button_${tag.index}'),
+            tag: tag,
+            onTap: () => _onTagButtonTap(tag),
+            selected: _selectedTag == tag)
+          ),
         ],
       ),
     );

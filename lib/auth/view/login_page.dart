@@ -21,40 +21,43 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _signInAnonymously = () =>
+      context.read<AuthenticationBloc>().add(SignInAnonymously());
+
     return Scaffold(
-        body: SafeArea(
-      child: Column(
-        children: [
-          const Text(
-            'Hawktoons App',
-            style: TextStyle(fontSize: 30),
-          ),
-          Center(
-            child: TextButton(
-              key: const Key('LoginPage_SignInAnonymouslyButton'),
-              onPressed: () =>
-                  context.read<AuthenticationBloc>().add(SignInAnonymously()),
-              child: const Text('Sign in anonymously'),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const Text(
+              'Hawktoons App',
+              style: TextStyle(fontSize: 30),
             ),
-          ),
-          BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (context, state) {
-              if (state is Authenticated || state is Uninitialized) {
-                return const SizedBox.shrink();
-              }
-
-              if (state is LoggingIn) {
-                return const LoadingIndicator(key: Key('LoginPage_LoggingIn'));
-              }
-
-              return const Text(
-                'Login Error',
-                key: Key('LoginPage_LoginError'),
-              );
-            },
-          ),
-        ],
-      ),
-    ));
+            Center(
+              child: TextButton(
+                key: const Key('LoginPage_SignInAnonymouslyButton'),
+                onPressed: _signInAnonymously,
+                child: const Text('Sign in anonymously'),
+              ),
+            ),
+            BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              builder: (context, state) {
+                if (state is Authenticated || state is Uninitialized) {
+                  return const SizedBox.shrink();
+                }
+                if (state is LoggingIn) {
+                  return const LoadingIndicator(
+                    key: Key('LoginPage_LoggingIn')
+                  );
+                }
+                return const Text(
+                  'Login Error',
+                  key: Key('LoginPage_LoginError'),
+                );
+              },
+            ),
+          ],
+        ),
+      )
+    );
   }
 }

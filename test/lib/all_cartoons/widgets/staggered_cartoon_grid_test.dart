@@ -35,7 +35,8 @@ void main() {
 
     setUpAll(() async {
       registerFallbackValue<SelectPoliticalCartoonState>(
-          SelectPoliticalCartoonState());
+        FakeSelectPoliticalCartoonState()
+      );
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<Tag>(Tag.all);
@@ -91,10 +92,12 @@ void main() {
       );
 
       await tester.drag(
-          find.byType(StaggeredCartoonGrid), const Offset(0, -100));
+        find.byType(StaggeredCartoonGrid), const Offset(0, -100)
+      );
 
       await tester.drag(
-          find.byType(StaggeredCartoonGrid), const Offset(0, 100));
+        find.byType(StaggeredCartoonGrid), const Offset(0, 100)
+      );
 
       verifyInOrder([
         scrollHeaderCubit.onScrollPastHeader,
@@ -110,26 +113,30 @@ void main() {
           child: Column(
             children: [
               StaggeredCartoonGrid(
-                  cartoons: List.filled(6, mockPoliticalCartoon)),
+                cartoons: List.filled(16, mockPoliticalCartoon)
+              ),
             ],
           ),
         ))),
       );
 
       await tester.drag(
-          find.byType(StaggeredCartoonGrid), const Offset(0, -800));
-      var filters = CartoonFilters(
-          sortByMode: sortByCubit.state,
-          imageType: imageTypeCubit.state,
-          tag: tagCubit.state);
+        find.byType(StaggeredCartoonGrid), const Offset(0, -2000)
+      );
+
+      final filters = CartoonFilters(
+        sortByMode: sortByCubit.state,
+        imageType: imageTypeCubit.state,
+        tag: tagCubit.state
+      );
 
       verify(() => allCartoonsBloc.add(LoadMoreCartoons(filters)));
     });
 
     testWidgets('staggered grid shows loading indicator', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-          const AllCartoonsState.initial()
-              .copyWith(status: CartoonStatus.loading));
+        const AllCartoonsState.initial().copyWith(status: CartoonStatus.loading)
+      );
       await mockNetworkImagesFor(
         () => tester.pumpApp(wrapper(Container(
           width: 500,

@@ -37,15 +37,16 @@ void main() {
         final timeAgo = TimeAgo(l10n: l10n, locale: 'en');
         return Column(
           children: [
-            ...durations
-                .map((date) =>
-                    Text(timeAgo.timeAgoSinceDate(timestamp, date: date)))
-                .toList()
+            ...durations.map((date) =>
+              Text(timeAgo.timeAgoSinceDate(timestamp, date: date))
+            )
           ],
         );
       }));
-      expect(find.text(DateFormat('dd MMM yyyy', 'en').format(dateTime)),
-          findsOneWidget);
+      expect(
+        find.text(DateFormat('dd MMM yyyy', 'en').format(dateTime)),
+        findsOneWidget,
+      );
       expect(find.text('1 week ago'), findsOneWidget);
       expect(find.text('1 day ago'), findsOneWidget);
       expect(find.text('5 days ago'), findsOneWidget);
@@ -63,16 +64,21 @@ void main() {
         final timeAgo = TimeAgo(l10n: l10n, locale: 'en');
         return Column(
           children: [
-            ...durations
-                .map((date) => Text(timeAgo.timeAgoSinceDate(timestamp,
-                    date: date, numericDates: false)))
-                .toList()
+            ...durations.map((date) => Text(
+              timeAgo.timeAgoSinceDate(
+                timestamp,
+                date: date,
+                numericDates: false
+              )
+            ))
           ],
         );
       }));
-      expect(find.text(DateFormat('dd MMM yyyy', 'en').format(dateTime)),
-          findsOneWidget);
 
+      expect(
+        find.text(DateFormat('dd MMM yyyy', 'en').format(dateTime)),
+        findsOneWidget
+      );
       expect(find.text('Last week'), findsOneWidget);
       expect(find.text('Yesterday'), findsOneWidget);
       expect(find.text('5 days ago'), findsOneWidget);

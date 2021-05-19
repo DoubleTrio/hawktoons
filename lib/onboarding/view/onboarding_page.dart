@@ -9,7 +9,7 @@ class OnBoardingPage extends Page<void> {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) => BlocProvider(
+      pageBuilder: (_, __, ___) => BlocProvider(
         create: (context) => OnboardingPageCubit(),
         child: const OnboardingScreen(),
       ),
@@ -36,7 +36,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _nextPage() {
     _pageController.nextPage(
-        duration: const Duration(milliseconds: 300), curve: Curves.easeInCubic);
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInCubic
+    );
   }
 
   @override
@@ -46,10 +48,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final isLastPage = totalPages - 1 == currentPage.index;
 
     List<Widget> _buildPageIndicator() {
-      var list = <Widget>[];
+      final list = <Widget>[];
       for (var i = 0; i < totalPages; i++) {
         list.add(
-            PageIndicator(isActive: i == currentPage.index ? true : false));
+          PageIndicator(isActive: i == currentPage.index ? true : false)
+        );
       }
       return list;
     }
@@ -58,10 +61,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       context.read<OnboardingSeenCubit>().setSeenOnboarding();
     }
 
-    var _baseTextStyle = TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: colorScheme.onSurface);
+    final _baseTextStyle = TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      color: colorScheme.onSurface
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -79,24 +83,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       .setOnBoardingPage(VisibleOnboardingPage.values[page]),
                   children: [
                     const OnboardingWidget(
-                        key: Key('OnboardingWidget_Welcome'),
-                        header: 'Welcome to Hawktoons',
-                        body: 'An educational, ad-free app to learn history '
-                            'at different time periods through '
-                            'political cartoons and images.'),
+                      key: Key('OnboardingWidget_Welcome'),
+                      header: 'Welcome to Hawktoons',
+                      body: 'An educational, ad-free app to learn history '
+                        'at different time periods through '
+                        'political cartoons and images.'
+                    ),
                     const OnboardingWidget(
-                        key: Key('OnboardingWidget_Daily'),
-                        header: 'New cartoon every week',
-                        body: 'Learn something new with a political cartoon '
-                            'or image every week. Each will include a '
-                            'brief description given the context of the time '
-                            'period.'),
+                      key: Key('OnboardingWidget_Daily'),
+                      header: 'New cartoon every week',
+                      body: 'Learn something new with a political cartoon '
+                        'or image every week. Each will include a '
+                        'brief description given the context of the time '
+                        'period.'
+                    ),
                     const OnboardingWidget(
-                        key: Key('OnboardingWidget_Weekly'),
-                        header: 'See past cartoons',
-                        body: 'Missed a political cartoon? Don\'t worry! '
-                            'You can view past political images '
-                            'and filter them by their tags and image type.'),
+                      key: Key('OnboardingWidget_Weekly'),
+                      header: 'See past cartoons',
+                      body: 'Missed a political cartoon? Don\'t worry! '
+                        'You can view past political images '
+                        'and filter them by their tags and image type.'
+                    ),
                   ],
                 ),
               ),
@@ -105,17 +112,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AnimatedOpacity(
-                      opacity: isLastPage ? 0 : 1,
-                      duration: const Duration(milliseconds: 300),
-                      child: IgnorePointer(
-                        ignoring: isLastPage,
-                        child: OnboardingTextButton(
-                          key: const Key('OnboardingPage_SetSeenOnboarding'),
-                          text: 'Skip',
-                          onPressed: _completeOnboarding,
-                          textStyle: _baseTextStyle,
-                        ),
-                      )),
+                    opacity: isLastPage ? 0 : 1,
+                    duration: const Duration(milliseconds: 300),
+                    child: IgnorePointer(
+                      ignoring: isLastPage,
+                      child: OnboardingTextButton(
+                        key: const Key('OnboardingPage_SetSeenOnboarding'),
+                        text: 'Skip',
+                        onPressed: _completeOnboarding,
+                        textStyle: _baseTextStyle,
+                      ),
+                    )
+                  ),
                   const SizedBox(width: 40),
                   ..._buildPageIndicator(),
                   const SizedBox(width: 40),
@@ -123,8 +131,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     key: const Key('OnboardingPage_NextPage'),
                     text: isLastPage ? 'Start' : 'Next',
                     onPressed: isLastPage ? _completeOnboarding : _nextPage,
-                    textStyle:
-                        _baseTextStyle.copyWith(color: colorScheme.primary),
+                    textStyle: _baseTextStyle.copyWith(
+                      color: colorScheme.primary
+                    ),
                   ),
                 ],
               ),

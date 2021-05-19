@@ -19,8 +19,3 @@ class Logout extends AuthenticationEvent {
   @override
   List<Object> get props => [];
 }
-
-// class SignInWithGoogle extends AuthenticationEvent {
-//
-//
-// }

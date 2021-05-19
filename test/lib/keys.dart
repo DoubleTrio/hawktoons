@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'mocks.dart';
 
-var cartoonSectionAuthorKey =
+final cartoonSectionAuthorKey =
     Key('CartoonSection_Author_${mockPoliticalCartoon.id}');
 
 const dailyCartoonTabKey = Key('TabSelector_DailyTab');

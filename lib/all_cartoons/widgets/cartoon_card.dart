@@ -111,7 +111,8 @@ class CartoonCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                              'Tags: ${cartoon.tags.map((tag) => tag.index).join(', ')}',
+                              'Tags: ${cartoon.tags.map((tag) => tag.index)
+                                .join(', ')}',
                               style: TextStyle(
                                   color: theme.colorScheme.onBackground
                                       .withOpacity(0.2))),

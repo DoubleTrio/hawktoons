@@ -6,6 +6,7 @@ import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../keys.dart';
 import '../../mocks.dart';
@@ -15,29 +16,40 @@ void main() {
     late SelectCartoonCubit selectCartoonCubit;
 
     Widget wrapper(Widget child) {
-      return MultiBlocProvider(providers: [
-        BlocProvider.value(value: selectCartoonCubit),
-      ], child: child);
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider.value(
+            value: selectCartoonCubit
+          ),
+      ],
+        child: child
+      );
     }
 
-    setUpAll(() async {
+    setUp(() async {
       registerFallbackValue<SelectPoliticalCartoonState>(
-          SelectPoliticalCartoonState());
+        FakeSelectPoliticalCartoonState()
+      );
       selectCartoonCubit = MockSelectCartoonCubit();
       when(() => selectCartoonCubit.state).thenReturn(
-          SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon));
+        SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon)
+      );
     });
 
     testWidgets('cartoon body is present', (tester) async {
-      await tester
-          .pumpApp(wrapper(DetailsScreen(cartoon: mockPoliticalCartoon)));
+      await tester.pumpApp(
+        wrapper(DetailsScreen(
+          cartoon: mockPoliticalCartoon
+        ))
+      );
       expect(find.byType(CartoonBody), findsOneWidget);
     });
 
     testWidgets('deselects cartoon when back button is pressed',
         (tester) async {
-      await tester
-          .pumpApp(wrapper(DetailsScreen(cartoon: mockPoliticalCartoon)));
+      await tester.pumpApp(wrapper(
+        DetailsScreen(cartoon: mockPoliticalCartoon)
+      ));
       await tester.tap(find.byKey(detailsPageBackButtonKey));
       verify(selectCartoonCubit.deselectCartoon).called(1);
     });

@@ -16,18 +16,23 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<FirebaseUserRepository>(
-            create: (_) => FirebaseUserRepository()),
+          create: (_) => FirebaseUserRepository()
+        ),
         RepositoryProvider<FirestorePoliticalCartoonRepository>(
-            create: (_) => FirestorePoliticalCartoonRepository()),
+          create: (_) => FirestorePoliticalCartoonRepository()
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<OnboardingSeenCubit>(
-              create: (_) => OnboardingSeenCubit()),
+            create: (_) => OnboardingSeenCubit()
+          ),
           BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
           BlocProvider<AuthenticationBloc>(
-              create: (context) => AuthenticationBloc(
-                  userRepository: context.read<FirebaseUserRepository>())),
+            create: (context) => AuthenticationBloc(
+              userRepository: context.read<FirebaseUserRepository>()
+            )
+          ),
         ],
         child: const AppView(),
       ),
@@ -42,20 +47,21 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeMode = context.watch<ThemeCubit>().state;
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        themeMode: themeMode,
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: themeMode == ThemeMode.dark
-              ? SystemUiOverlayStyle.light
-              : SystemUiOverlayStyle.dark,
-          child: const OnboardingFlow(),
-        ));
+      debugShowCheckedModeBanner: false,
+      themeMode: themeMode,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: themeMode == ThemeMode.dark
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
+        child: const OnboardingFlow(),
+      )
+    );
   }
 }

@@ -31,9 +31,10 @@ class OnboardingWidget extends StatelessWidget {
           Text(
             body,
             style: TextStyle(
-                fontSize: 17,
-                color: Theme.of(context).colorScheme.onBackground,
-                letterSpacing: 1.1),
+              fontSize: 17,
+              color: Theme.of(context).colorScheme.onBackground,
+              letterSpacing: 1.1
+            ),
             textAlign: TextAlign.center,
           ),
         ],

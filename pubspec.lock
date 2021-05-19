@@ -35,7 +35,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.0"
+    version: "2.6.1"
   bloc:
     dependency: "direct main"
     description:
@@ -374,6 +374,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  google_sign_in:
+    dependency: transitive
+    description:
+      name: google_sign_in
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.3"
+  google_sign_in_platform_interface:
+    dependency: transitive
+    description:
+      name: google_sign_in_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  google_sign_in_web:
+    dependency: transitive
+    description:
+      name: google_sign_in_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.0"
   hive:
     dependency: transitive
     description:
@@ -592,9 +613,11 @@ packages:
   political_cartoon_repository:
     dependency: "direct main"
     description:
-      path: "../../repository/political_cartoon_repository"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: ae539fc19a191e5d3d06c1da5eeead148bb5f179
+      url: "https://github.com/DoubleTrio/political_cartoon_repository.git"
+    source: git
     version: "1.0.0"
   pool:
     dependency: transitive
@@ -624,6 +647,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   rxdart:
     dependency: "direct main"
     description:

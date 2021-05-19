@@ -16,7 +16,7 @@ void main() {
     });
 
     test('initial state AllCartoonsState.initial', () {
-      var state = const AllCartoonsState.initial();
+      final state = const AllCartoonsState.initial();
       expect(AllCartoonsBloc(cartoonRepository: cartoonRepository).state,
           equals(state));
     });

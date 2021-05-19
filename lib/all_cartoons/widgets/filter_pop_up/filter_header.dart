@@ -14,9 +14,10 @@ class FilterHeader extends StatelessWidget {
       child: Text(
         header,
         style: TextStyle(
-            color: theme.colorScheme.onSurface,
-            fontSize: 22,
-            fontWeight: FontWeight.bold),
+          color: theme.colorScheme.onSurface,
+          fontSize: 22,
+          fontWeight: FontWeight.bold
+        ),
       ),
     );
   }

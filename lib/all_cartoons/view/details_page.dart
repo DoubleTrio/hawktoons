@@ -7,7 +7,7 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DetailsPage extends Page<void> {
   DetailsPage({required this.cartoon})
-      : super(key: const ValueKey('DetailsPage'));
+    : super(key: const ValueKey('DetailsPage'));
 
   final PoliticalCartoon cartoon;
 
@@ -16,15 +16,15 @@ class DetailsPage extends Page<void> {
     return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
-          DetailsScreen(cartoon: cartoon),
+        DetailsScreen(cartoon: cartoon),
       transitionDuration: const Duration(milliseconds: 500),
       reverseTransitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = const Offset(1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
+        final begin = const Offset(1.0, 0.0);
+        final end = Offset.zero;
+        final curve = Curves.ease;
 
-        var tween = Tween(begin: begin, end: end)
+        final tween = Tween(begin: begin, end: end)
           ..chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
@@ -47,14 +47,17 @@ class DetailsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-        appBar: AppBar(
-            leading: CustomIconButton(
+      appBar: AppBar(
+        leading: CustomIconButton(
           key: const Key('DetailsPage_BackButton'),
           icon: const Icon(Icons.arrow_back),
           onPressed: _deselectCartoon,
-        )),
-        body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: CartoonBody(cartoon: cartoon, addImagePadding: false)));
+        )
+      ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: CartoonBody(cartoon: cartoon, addImagePadding: false)
+      ),
+    );
   }
 }

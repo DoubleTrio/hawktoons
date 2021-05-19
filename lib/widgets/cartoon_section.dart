@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CartoonSection extends StatelessWidget {
   const CartoonSection({Key? key, required this.title, required this.body})
-      : super(key: key);
+    : super(key: key);
 
   final String title;
   final Widget body;
@@ -19,9 +19,10 @@ class CartoonSection extends StatelessWidget {
           Text(
             title,
             style: theme.textTheme.bodyText1!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onBackground,
-                letterSpacing: 1.1),
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onBackground,
+              letterSpacing: 1.1
+            ),
           ),
           const SizedBox(height: 18),
           body,

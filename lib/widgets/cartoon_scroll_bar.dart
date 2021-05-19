@@ -9,9 +9,10 @@ class CartoonScrollBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return RawScrollbar(
-        radius: const Radius.circular(10),
-        thickness: 4,
-        thumbColor: theme.colorScheme.onBackground.withOpacity(0.2),
-        child: child);
+      radius: const Radius.circular(10),
+      thickness: 4,
+      thumbColor: theme.colorScheme.onBackground.withOpacity(0.2),
+      child: child
+    );
   }
 }

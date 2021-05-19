@@ -5,8 +5,7 @@ import 'package:history_app/home/blocs/blocs.dart';
 void main() {
   group('TabsBloc', () {
     test('initial state is AppTab.daily', () {
-      var state = AppTab.daily;
-      expect(TabBloc().state, equals(state));
+      expect(TabBloc().state, equals(AppTab.daily));
     });
 
     blocTest<TabBloc, AppTab>(

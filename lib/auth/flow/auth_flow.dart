@@ -14,10 +14,10 @@ class AuthFlowPage extends Page<void> {
       pageBuilder: (context, animation, secondaryAnimation) => const AuthFlow(),
       transitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = const Offset(1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-        var tween = Tween(begin: begin, end: end)
+        final begin = const Offset(1.0, 0.0);
+        final end = Offset.zero;
+        final curve = Curves.ease;
+        final tween = Tween(begin: begin, end: end)
           ..chain(CurveTween(curve: curve));
         return SlideTransition(
           position: animation.drive(tween),
@@ -37,12 +37,13 @@ class AuthFlow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlowBuilder<AuthenticationState>(
-        state: context.watch<AuthenticationBloc>().state,
-        onGeneratePages: (state, pages) {
-          return [
-            const LoginPage(),
-            if (state is Authenticated) const HomeFlowPage()
-          ];
-        });
+      state: context.watch<AuthenticationBloc>().state,
+      onGeneratePages: (state, pages) {
+        return [
+          const LoginPage(),
+          if (state is Authenticated) const HomeFlowPage()
+        ];
+      }
+    );
   }
 }

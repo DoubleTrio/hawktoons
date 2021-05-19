@@ -5,7 +5,7 @@ import '../../../mocks.dart';
 
 void main() {
   group('SelectPoliticalCartoonState', () {
-    var cartoon = MockPoliticalCartoon();
+    final cartoon = MockPoliticalCartoon();
     test('supports value comparisons', () {
       expect(
         SelectPoliticalCartoonState(),
@@ -17,9 +17,11 @@ void main() {
       );
       expect(SelectPoliticalCartoonState().cartoonSelected, false);
       expect(
-          SelectPoliticalCartoonState(cartoon: MockPoliticalCartoon())
-              .cartoonSelected,
-          true);
+        SelectPoliticalCartoonState(
+          cartoon: MockPoliticalCartoon()
+        ).cartoonSelected,
+        true
+      );
     });
   });
 }

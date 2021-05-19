@@ -27,8 +27,8 @@ void main() {
     });
 
     testWidgets(
-        'AuthenticationBloc adds SignInAnonymously '
-        'when sign in button is tapped', (tester) async {
+      'AuthenticationBloc adds SignInAnonymously '
+      'when sign in button is tapped', (tester) async {
       when(() => authenticationBloc.state).thenReturn(Uninitialized());
       await tester.pumpApp(
         wrapper(const LoginScreen()),
@@ -38,10 +38,9 @@ void main() {
     });
 
     testWidgets(
-        'finds Key(\'LoginPage_LoggingIn\') '
-        'when state is LoggingIn', (tester) async {
-      var state = LoggingIn();
-      when(() => authenticationBloc.state).thenReturn(state);
+      'finds Key(\'LoginPage_LoggingIn\') '
+      'when state is LoggingIn', (tester) async {
+      when(() => authenticationBloc.state).thenReturn(LoggingIn());
       await tester.pumpApp(
         wrapper(const LoginScreen()),
       );
@@ -49,10 +48,9 @@ void main() {
     });
 
     testWidgets(
-        'finds Key(\'LoginPage_LoginError\') '
-        'when state is LoginError', (tester) async {
-      var state = LoginError();
-      when(() => authenticationBloc.state).thenReturn(state);
+      'finds Key(\'LoginPage_LoginError\') '
+      'when state is LoginError', (tester) async {
+      when(() => authenticationBloc.state).thenReturn(LoginError());
       await tester.pumpApp(
         wrapper(const LoginScreen()),
       );

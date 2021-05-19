@@ -55,7 +55,8 @@ void main() {
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
-          SelectPoliticalCartoonState());
+        FakeSelectPoliticalCartoonState()
+      );
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Tag>(Tag.all);
@@ -75,25 +76,24 @@ void main() {
       imageTypeCubit = MockImageTypeCubit();
 
       when(() => allCartoonsBloc.state)
-          .thenReturn(const AllCartoonsState.initial());
+        .thenReturn(const AllCartoonsState.initial());
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
       when(() => selectCartoonCubit.state)
-          .thenReturn(SelectPoliticalCartoonState());
+        .thenReturn(SelectPoliticalCartoonState());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
     });
 
     group('TabSelector', () {
       testWidgets('finds TabSelector', (tester) async {
-        var state = AppTab.daily;
-        when(() => tabBloc.state).thenReturn(state);
+        when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(wrapper(const HomeFlow()));
         expect(find.byType(TabSelector), findsOneWidget);
       });
 
       testWidgets(
-          'tabBloc.add(UpdateTab(AppTab.all)) '
-          'is invoked when the "All" tab is tapped', (tester) async {
+        'tabBloc.add(UpdateTab(AppTab.all)) '
+        'is invoked when the "All" tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(wrapper(const HomeFlow()));
         await tester.tap(find.byKey(allCartoonTabKey));
@@ -101,8 +101,8 @@ void main() {
       });
 
       testWidgets(
-          'tabBloc.add(UpdateTab(AppTab.daily)) '
-          'is invoked when the "Daily" tab is tapped', (tester) async {
+        'tabBloc.add(UpdateTab(AppTab.daily)) '
+        'is invoked when the "Daily" tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.all);
         when(() => scrollHeaderCubit.state).thenReturn(false);
 

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
-
 final dailyCartoonTab = find.byValueKey('TabSelector_DailyTab');
 final allCartoonsTab = find.byValueKey('TabSelector_AllTab');
 final changeThemeTab = find.byValueKey('TabSelector_ChangeTheme');
@@ -53,11 +52,11 @@ void main() {
   group('Hawktoons integration test', () {
     late FlutterDriver driver;
 
-    setUpAll(() async {
+    setUp(() async {
       driver = await FlutterDriver.connect();
     });
     
-    tearDownAll(() async {
+    tearDown(() async {
       await driver.close();
     });
 

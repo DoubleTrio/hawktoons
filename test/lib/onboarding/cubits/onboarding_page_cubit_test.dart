@@ -6,14 +6,16 @@ void main() {
   group('OnboardingPageCubit', () {
     test('initial state is VisibleOnboardingPage.welcome', () {
       expect(
-          OnboardingPageCubit().state, equals(VisibleOnboardingPage.welcome));
+        OnboardingPageCubit().state,
+        equals(VisibleOnboardingPage.welcome)
+      );
     });
 
     blocTest<OnboardingPageCubit, VisibleOnboardingPage>(
       'emits [VisibleOnboardingPage.dailyCartoon] when selectSortBy is invoked',
       build: () => OnboardingPageCubit(),
       act: (cubit) =>
-          cubit.setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
+        cubit.setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
       expect: () => [VisibleOnboardingPage.dailyCartoon],
     );
 
