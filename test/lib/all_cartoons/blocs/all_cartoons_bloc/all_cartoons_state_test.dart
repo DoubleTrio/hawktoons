@@ -27,7 +27,7 @@ void main() {
             imageType: ImageType.infographic,
             tag: Tag.tag5,
           ).copyWith(
-            tag: Tag.tag1,
+            sortByMode: SortByMode.latestPublished
           )))
         );
       });

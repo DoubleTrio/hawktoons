@@ -15,7 +15,7 @@ class AllCartoonsPage extends Page<void> {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (context, animation, secondaryAnimation) =>
+      pageBuilder: (_, __, ___) =>
         const FilteredCartoonsScreen(),
       transitionDuration: const Duration(milliseconds: 800),
     );

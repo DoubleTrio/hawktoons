@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   AllCartoonsBloc({required this.cartoonRepository})
-      : super(const AllCartoonsState.initial());
+    : super(const AllCartoonsState.initial());
 
   final int limit = 15;
   final FirestorePoliticalCartoonRepository cartoonRepository;
@@ -40,7 +40,6 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   Stream<AllCartoonsState> _mapLoadAllCartoonsToState(
       LoadAllCartoons event) async* {
     yield state.copyWith(status: CartoonStatus.initial, filters: event.filters);
-
     try {
       final cartoons = await cartoonRepository.politicalCartoons(
         sortByMode: event.filters.sortByMode,
