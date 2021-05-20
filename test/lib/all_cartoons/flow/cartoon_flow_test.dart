@@ -4,10 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/all_cartoons/view/details_page.dart';
-import 'package:history_app/auth/bloc/auth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
@@ -16,43 +14,29 @@ import '../../mocks.dart';
 void main() {
   group('CartoonFlow', () {
     late AllCartoonsBloc allCartoonsBloc;
-    late TagCubit tagCubit;
-    late SortByCubit sortByCubit;
-    late ShowBottomSheetCubit showBottomSheetCubit;
-    late AuthenticationBloc authenticationBloc;
-    late ScrollHeaderCubit scrollHeaderCubit;
     late SelectCartoonCubit selectCartoonCubit;
+    late ScrollHeaderCubit scrollHeaderCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
-        BlocProvider.value(value: selectCartoonCubit),
-        BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: showBottomSheetCubit),
+        BlocProvider.value(value: selectCartoonCubit),
         BlocProvider.value(value: scrollHeaderCubit),
-        BlocProvider.value(value: authenticationBloc),
       ], child: child);
     }
 
-    setUpAll(() async {
+    setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
-      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<SelectPoliticalCartoonState>(
         FakeSelectPoliticalCartoonState()
       );
-      registerFallbackValue<Tag>(Tag.all);
-      registerFallbackValue<SortByMode>(SortByMode.latestPosted);
+    });
 
+    setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
-      tagCubit = MockTagCubit();
-      sortByCubit = MockSortByCubit();
-      showBottomSheetCubit = MockShowBottomSheetCubit();
-      authenticationBloc = MockAuthenticationBloc();
-      scrollHeaderCubit = MockScrollHeaderCubit();
       selectCartoonCubit = MockSelectCartoonCubit();
+      scrollHeaderCubit = MockScrollHeaderCubit();
       when(() => scrollHeaderCubit.state).thenReturn(false);
     });
 
@@ -85,7 +69,6 @@ void main() {
     });
 
     testWidgets('transitions to DetailsPage', (tester) async {
-      when(() => scrollHeaderCubit.state).thenReturn(false);
       when(() => selectCartoonCubit.state)
         .thenReturn(SelectPoliticalCartoonState());
       when(() => allCartoonsBloc.state).thenReturn(

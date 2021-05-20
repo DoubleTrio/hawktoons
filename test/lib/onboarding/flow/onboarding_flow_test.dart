@@ -12,21 +12,21 @@ import '../../mocks.dart';
 
 void main() {
   group('OnboardingFlow', () {
-    late OnboardingSeenCubit onboardingSeenCubit;
     late AuthenticationBloc authenticationBloc;
+    late OnboardingSeenCubit onboardingSeenCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
-        BlocProvider.value(value: onboardingSeenCubit),
         BlocProvider.value(value: authenticationBloc),
+        BlocProvider.value(value: onboardingSeenCubit),
       ], child: child);
     }
 
     setUpAll(() {
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
-      onboardingSeenCubit = MockOnboardingSeenCubit();
       authenticationBloc = MockAuthenticationBloc();
+      onboardingSeenCubit = MockOnboardingSeenCubit();
     });
 
     testWidgets('screen is OnboardingScreen', (tester) async {

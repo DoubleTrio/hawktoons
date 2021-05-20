@@ -23,12 +23,14 @@ void main() {
       ], child: child);
     }
 
-    setUpAll(() async {
+    setUpAll(() {
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+    });
 
+    setUp(() {
       dailyCartoonBloc = MockDailyCartoonBloc();
       authenticationBloc = MockAuthenticationBloc();
     });

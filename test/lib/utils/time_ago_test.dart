@@ -13,7 +13,7 @@ void main() {
     late Timestamp timestamp;
     late DateTime dateTime;
 
-    setUpAll(() async {
+    setUpAll(() {
       timestamp = Timestamp.now();
       dateTime = timestamp.toDate();
       durations = [

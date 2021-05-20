@@ -30,7 +30,7 @@ void main() {
 
     testWidgets('setOnboarding page called twice when swiped', (tester) async {
       when(() => onboardingPageCubit.state)
-          .thenReturn(VisibleOnboardingPage.welcome);
+        .thenReturn(VisibleOnboardingPage.welcome);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
       await tester.drag(find.byType(OnboardingWidget), const Offset(-1000, 0));
@@ -39,19 +39,19 @@ void main() {
 
       verifyInOrder([
         () => onboardingPageCubit
-            .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
         () => onboardingPageCubit
-            .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
+          .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
         () => onboardingPageCubit
-            .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
       ]);
     });
 
     testWidgets(
-        'setOnboarding page called twice '
-        'when next button is tapped', (tester) async {
+      'setOnboarding page called twice '
+      'when next button is tapped', (tester) async {
       when(() => onboardingPageCubit.state)
-          .thenReturn(VisibleOnboardingPage.welcome);
+        .thenReturn(VisibleOnboardingPage.welcome);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
       await tester.tap(find.byKey(nextPageOnboardingButtonKey));
@@ -62,17 +62,17 @@ void main() {
 
       verifyInOrder([
         () => onboardingPageCubit
-            .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
         () => onboardingPageCubit
-            .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
+          .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
       ]);
     });
 
     testWidgets(
-        'completes onboarding '
-        'when start button is tapped', (tester) async {
+      'completes onboarding '
+      'when start button is tapped', (tester) async {
       when(() => onboardingPageCubit.state)
-          .thenReturn(VisibleOnboardingPage.allCartoons);
+        .thenReturn(VisibleOnboardingPage.allCartoons);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
       await tester.tap(find.byKey(nextPageOnboardingButtonKey));
@@ -83,10 +83,10 @@ void main() {
     });
 
     testWidgets(
-        'completes onboarding '
-        'when skip button is tapped', (tester) async {
+      'completes onboarding '
+      'when skip button is tapped', (tester) async {
       when(() => onboardingPageCubit.state)
-          .thenReturn(VisibleOnboardingPage.dailyCartoon);
+        .thenReturn(VisibleOnboardingPage.dailyCartoon);
 
       await tester.pumpApp(wrapper(const OnboardingScreen()));
       await tester.tap(find.byKey(setSeenOnboardingButtonKey));

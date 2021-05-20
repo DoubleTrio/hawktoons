@@ -26,6 +26,12 @@ final darkTheme = ThemeData(
       )
     )
   ),
+  snackBarTheme: const SnackBarThemeData(
+    contentTextStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.black
+    ),
+  ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xFF3C3C3C),
   ),

@@ -17,38 +17,47 @@ void main() {
   group('StaggeredCartoonGrid', () {
     late AllCartoonsBloc allCartoonsBloc;
     late SelectCartoonCubit selectCartoonCubit;
-    late ScrollHeaderCubit scrollHeaderCubit;
     late SortByCubit sortByCubit;
     late ImageTypeCubit imageTypeCubit;
     late TagCubit tagCubit;
+    late ScrollHeaderCubit scrollHeaderCubit;
 
     Widget wrapper(Widget child) {
-      return MultiBlocProvider(providers: [
-        BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: selectCartoonCubit),
-        BlocProvider.value(value: scrollHeaderCubit),
-        BlocProvider.value(value: tagCubit),
-        BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: imageTypeCubit),
-      ], child: child);
+      return Scaffold(
+        body: Column(
+          children: [
+            MultiBlocProvider(providers: [
+              BlocProvider.value(value: allCartoonsBloc),
+              BlocProvider.value(value: selectCartoonCubit),
+              BlocProvider.value(value: sortByCubit),
+              BlocProvider.value(value: imageTypeCubit),
+              BlocProvider.value(value: tagCubit),
+              BlocProvider.value(value: scrollHeaderCubit),
+            ], child: child),
+          ],
+        ),
+      );
     }
 
-    setUpAll(() async {
+    setUpAll(() {
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
         FakeSelectPoliticalCartoonState()
       );
-      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
-      registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
       registerFallbackValue<ImageType>(ImageType.all);
+      registerFallbackValue<Tag>(Tag.all);
+    });
 
+    setUp(() {
       selectCartoonCubit = MockSelectCartoonCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
       allCartoonsBloc = MockAllCartoonsBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       imageTypeCubit = MockImageTypeCubit();
+
       when(() => selectCartoonCubit.state)
           .thenReturn(SelectPoliticalCartoonState());
       when(() => allCartoonsBloc.state)
@@ -60,11 +69,8 @@ void main() {
 
     testWidgets('sets cartoon', (tester) async {
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(Column(
-          children: [
-            StaggeredCartoonGrid(
-                cartoons: List.filled(3, mockPoliticalCartoon)),
-          ],
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid(
+          cartoons: List.filled(3, mockPoliticalCartoon),
         ))),
       );
       expect(find.byType(CartoonCard), findsNWidgets(3));
@@ -74,20 +80,13 @@ void main() {
       );
 
       verify(() => selectCartoonCubit.selectCartoon(mockPoliticalCartoon))
-          .called(1);
+        .called(1);
     });
 
     testWidgets('display scroll header after scrolling', (tester) async {
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(Container(
-          width: 500,
-          height: 500,
-          child: Column(
-            children: [
-              StaggeredCartoonGrid(
-                  cartoons: List.filled(10, mockPoliticalCartoon)),
-            ],
-          ),
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid(
+          cartoons: List.filled(10, mockPoliticalCartoon)
         ))),
       );
 
@@ -101,22 +100,14 @@ void main() {
 
       verifyInOrder([
         scrollHeaderCubit.onScrollPastHeader,
-        scrollHeaderCubit.onScrollBeforeHeader
+        scrollHeaderCubit.onScrollBeforeHeader,
       ]);
     });
 
     testWidgets('loads more cartoons when near bottom', (tester) async {
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(Container(
-          width: 500,
-          height: 1000,
-          child: Column(
-            children: [
-              StaggeredCartoonGrid(
-                cartoons: List.filled(16, mockPoliticalCartoon)
-              ),
-            ],
-          ),
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid(
+          cartoons: List.filled(16, mockPoliticalCartoon)
         ))),
       );
 
@@ -138,15 +129,8 @@ void main() {
         const AllCartoonsState.initial().copyWith(status: CartoonStatus.loading)
       );
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(Container(
-          width: 500,
-          height: 1000,
-          child: Column(
-            children: [
-              StaggeredCartoonGrid(
-                  cartoons: List.filled(2, mockPoliticalCartoon)),
-            ],
-          ),
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid(
+          cartoons: List.filled(2, mockPoliticalCartoon)
         ))),
       );
       expect(find.byKey(_staggeredGridLoadingKey), findsOneWidget);

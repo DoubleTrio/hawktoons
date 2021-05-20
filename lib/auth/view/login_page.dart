@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             const Text(
               'Hawktoons App',
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             Center(
               child: TextButton(
