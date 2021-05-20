@@ -40,7 +40,10 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 80),
                     const Text(
                       'Welcome to Hawktoons!',
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 15.0),

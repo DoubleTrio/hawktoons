@@ -3,26 +3,30 @@ import 'dart:io';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
-final dailyCartoonTab = find.byValueKey('TabSelector_DailyTab');
-final allCartoonsTab = find.byValueKey('TabSelector_AllTab');
-final changeThemeTab = find.byValueKey('TabSelector_ChangeTheme');
-final detailsPageBackButton = find.byValueKey('DetailsPage_BackButton');
-
-final dailyCartoonInProgress =
-  find.byValueKey('DailyCartoonScreen_DailyCartoonInProgress');
-
-final dailyCartoonLoaded =
-  find.byValueKey('DailyCartoonScreen_DailyCartoonLoaded');
-
-final dailyCartoonFailed =
-  find.byValueKey('DailyCartoonScreen_DailyCartoonFailed');
-
-final dailyCartoonLogoutButton =
-  find.byValueKey('DailyCartoonScreen_Button_Logout');
+final pageView = find.byType('PageView');
+final filterPopUp = find.byType('FilterPopUp');
 
 final nextPageOnboardingButton = find.byValueKey('OnboardingPage_NextPage');
 final setSeenOnboardingButton =
   find.byValueKey('OnboardingPage_SetSeenOnboarding');
+
+final loginLoadingIndicator = find.byValueKey('LoginPage_LoggingIn');
+final loginError = find.byValueKey('LoginPage_LoginError');
+final signInAnonymouslyButton =
+  find.byValueKey('LoginPage_SignInAnonymouslyButton');
+
+final dailyCartoonTab = find.byValueKey('TabSelector_DailyTab');
+final allCartoonsTab = find.byValueKey('TabSelector_AllTab');
+final changeThemeTab = find.byValueKey('TabSelector_ChangeTheme');
+
+final dailyCartoonLogoutButton =
+  find.byValueKey('DailyCartoonScreen_Button_Logout');
+final dailyCartoonInProgress =
+  find.byValueKey('DailyCartoonScreen_DailyCartoonInProgress');
+final dailyCartoonLoaded =
+  find.byValueKey('DailyCartoonScreen_DailyCartoonLoaded');
+final dailyCartoonFailed =
+  find.byValueKey('DailyCartoonScreen_DailyCartoonFailed');
 
 final allCartoonsLoading =
   find.byValueKey('AllCartoonsPage_FilteredCartoonsLoading');
@@ -30,13 +34,9 @@ final allCartoonsLoaded =
   find.byValueKey('AllCartoonsPage_FilteredCartoonsLoaded');
 final allCartoonsFailed =
   find.byValueKey('AllCartoonsPage_FilteredCartoonsFailed');
-final filterButton = find.byValueKey('AllCartoonsPage_FilterButton');
-final filterLogoutButton = find.byValueKey('AllCartoonsPage_LogoutButton');
 
-final loginLoadingIndicator = find.byValueKey('LoginPage_LoggingIn');
-final loginError = find.byValueKey('LoginPage_LoginError');
-final signInAnonymouslyButton =
-  find.byValueKey('LoginPage_SignInAnonymouslyButton');
+final filterButton = find.byValueKey('AllCartoonsPage_FilterButton');
+final cartoonLogoutButton = find.byValueKey('AllCartoonsPage_LogoutButton');
 
 final resetFilterButton = find.byValueKey('ButtonRowHeader_ResetButton');
 final applyFilterButton = find.byValueKey('ButtonRowHeader_ApplyFilterButton');
@@ -45,8 +45,9 @@ final tagButton = find.byValueKey('Tag_Button_6');
 final sortByTile = find.byValueKey('SortByMode_Button_1');
 final imageTypeButton = find.byValueKey('ImageTypeCheckbox_1_Checkbox');
 
-
-final pageView = find.byType('PageView');
+final cartoonCard = find.byValueKey('CartoonCard_LN7FeDDb6NaS4PUphgRd');
+final detailsScreen = find.byType('DetailsScreen');
+final detailsPageBackButton = find.byValueKey('DetailsPage_BackButton');
 
 void main() {
   group('Hawktoons integration test', () {
@@ -60,8 +61,8 @@ void main() {
       await driver.close();
     });
 
-    test('onboarding page', () async {
-      sleep(const Duration(seconds: 2));
+    test('end-to-end test', () async {
+      sleep(const Duration(seconds: 1));
       await driver.scroll(
         pageView,
         -400,
@@ -111,9 +112,9 @@ void main() {
 
       await driver.tap(filterButton);
       
-      await driver.waitFor(find.byType('FilterPopUp'));
+      await driver.waitFor(filterPopUp);
 
-      sleep(const Duration(seconds: 2));
+      sleep(const Duration(seconds: 1));
 
       await driver.waitFor(tagButton);
       await driver.tap(tagButton);
@@ -122,7 +123,7 @@ void main() {
       await driver.tap(imageTypeButton);
 
       await driver.scroll(
-        find.byType('FilterPopUp'),
+        filterPopUp,
         0,
         -200,
         const Duration(milliseconds: 500)
@@ -132,18 +133,18 @@ void main() {
       await driver.tap(applyFilterButton);
       await driver.waitFor(allCartoonsLoaded);
 
-      await driver.tap(find.byValueKey('CartoonCard_LN7FeDDb6NaS4PUphgRd'));
+      await driver.tap(cartoonCard);
 
-      await driver.waitFor(find.byType('DetailsScreen'));
-      sleep(const Duration(seconds: 2));
+      await driver.waitFor(detailsScreen);
+      sleep(const Duration(seconds: 1));
       await driver.tap(detailsPageBackButton);
       expect(allCartoonsLoaded, isNotNull);
       await driver.tap(changeThemeTab);
 
       await driver.tap(filterButton);
-      await driver.waitFor(find.byType('FilterPopUp'));
+      await driver.waitFor(filterPopUp);
 
-      sleep(const Duration(seconds: 2));
+      sleep(const Duration(seconds: 1));
 
       await driver.tap(resetFilterButton);
       await driver.tap(applyFilterButton);
@@ -151,7 +152,7 @@ void main() {
       sleep(const Duration(milliseconds: 500));
       await driver.tap(dailyCartoonTab);
       await driver.tap(dailyCartoonLogoutButton);
-      sleep(const Duration(milliseconds: 1000));
+      sleep(const Duration(milliseconds: 500));
     });
   });
 }
