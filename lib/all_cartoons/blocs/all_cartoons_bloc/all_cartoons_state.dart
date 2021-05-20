@@ -42,6 +42,7 @@ class AllCartoonsState extends Equatable {
     required this.filters,
     required this.status,
     required this.hasReachedMax,
+
   });
 
   const AllCartoonsState.initial({
@@ -65,7 +66,7 @@ class AllCartoonsState extends Equatable {
     'filters: $filters, '
     'status: $status, '
     'hasReachedMax: $hasReachedMax '
-    '}';
+  '}';
 
   AllCartoonsState copyWith({
     List<PoliticalCartoon>? cartoons,

@@ -17,11 +17,11 @@ class OnboardingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 40.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const SizedBox(height: 30.0),
+          const SizedBox(height: 80),
           Text(
             header,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),

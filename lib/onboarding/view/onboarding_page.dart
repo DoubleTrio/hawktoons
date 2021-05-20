@@ -61,6 +61,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       context.read<OnboardingSeenCubit>().setSeenOnboarding();
     }
 
+    void _onPageChanged(int page) {
+      context.read<OnboardingPageCubit>()
+        .setOnBoardingPage(VisibleOnboardingPage.values[page]);
+    }
+
     final _baseTextStyle = TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.bold,
@@ -78,9 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: PageView(
                   physics: const BouncingScrollPhysics(),
                   controller: _pageController,
-                  onPageChanged: (int page) => context
-                      .read<OnboardingPageCubit>()
-                      .setOnBoardingPage(VisibleOnboardingPage.values[page]),
+                  onPageChanged: _onPageChanged,
                   children: [
                     const OnboardingWidget(
                       header: 'Welcome to Hawktoons',

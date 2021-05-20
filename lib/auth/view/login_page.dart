@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/auth/bloc/auth.dart';
@@ -11,7 +12,7 @@ class LoginPage extends Page<void> {
     return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (_, __, ___) => const LoginScreen(),
-      transitionDuration: const Duration(milliseconds: 1000),
+      transitionDuration: const Duration(milliseconds: 0),
     );
   }
 }
@@ -24,38 +25,74 @@ class LoginScreen extends StatelessWidget {
     final _signInAnonymously = () =>
       context.read<AuthenticationBloc>().add(SignInAnonymously());
 
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            const Text(
-              'Hawktoons App',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            Center(
-              child: TextButton(
-                key: const Key('LoginPage_SignInAnonymouslyButton'),
-                onPressed: _signInAnonymously,
-                child: const Text('Sign in anonymously'),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 40.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.60,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 80),
+                    const Text(
+                      'Welcome to Hawktoons!',
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 15.0),
+                    Text(
+                      'To begin learning about history through '
+                      'political cartoons and images, '
+                      'sign in anonymously below!',
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: colorScheme.onBackground,
+                        letterSpacing: 1.1
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            BlocBuilder<AuthenticationBloc, AuthenticationState>(
-              builder: (context, state) {
-                if (state is Authenticated || state is Uninitialized) {
-                  return const SizedBox.shrink();
-                }
-                if (state is LoggingIn) {
-                  return const LoadingIndicator(
-                    key: Key('LoginPage_LoggingIn')
-                  );
-                }
-                return const Text(
-                  'Login Error',
-                  key: Key('LoginPage_LoginError'),
-                );
-              },
-            ),
-          ],
+              Column(
+                children: [
+                  ElevatedButton(
+                    key: const Key('LoginPage_SignInAnonymouslyButton'),
+                    onPressed: _signInAnonymously,
+                    child: Text(
+                      'Sign in anonymously',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                    builder: (context, state) {
+                      if (state is Authenticated || state is Uninitialized) {
+                        return const SizedBox.shrink();
+                      }
+                      if (state is LoggingIn) {
+                        return const LoadingIndicator(
+                            key: Key('LoginPage_LoggingIn')
+                        );
+                      }
+                      return const Text(
+                        'Login Error',
+                        key: Key('LoginPage_LoginError'),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       )
     );
