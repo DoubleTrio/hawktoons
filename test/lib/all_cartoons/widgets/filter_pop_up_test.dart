@@ -28,21 +28,23 @@ void main() {
       ], child: child);
     }
 
-    setUpAll(() async {
+    setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<Tag>(Tag.all);
+      registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
       registerFallbackValue<ImageType>(ImageType.all);
+    });
 
+    setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       imageTypeCubit = MockImageTypeCubit();
 
       when(() => allCartoonsBloc.state)
-        .thenReturn(const AllCartoonsState.initial());
+          .thenReturn(const AllCartoonsState.initial());
       when(() => tagCubit.state).thenReturn(Tag.all);
       when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);

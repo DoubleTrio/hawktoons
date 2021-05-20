@@ -7,15 +7,14 @@ import 'package:history_app/auth/bloc/auth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class MockFirebaseUserRepository extends Mock
-    implements FirebaseUserRepository {}
+import '../../mocks.dart';
 
 void main() {
   group('AuthenticationBloc', () {
     late UserRepository userRepository;
     final userId = 'user-id';
 
-    setUpAll(() {
+    setUp(() {
       userRepository = MockFirebaseUserRepository();
     });
 

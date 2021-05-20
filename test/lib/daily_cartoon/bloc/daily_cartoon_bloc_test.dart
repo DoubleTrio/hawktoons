@@ -49,33 +49,31 @@ void main() {
         when(cartoonRepository.getLatestPoliticalCartoon).thenAnswer(
           (_) => Stream.error('Error')
         );
-
         return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
       },
       act: (bloc) => bloc.add(LoadDailyCartoon()),
       expect: () => [DailyCartoonFailed('Error')],
-      verify: (_) {
+      verify: (_) =>
         verify(cartoonRepository.getLatestPoliticalCartoon)
-          .called(1);
-      });
+          .called(1)
+    );
 
     blocTest<DailyCartoonBloc, DailyCartoonState>(
         'Emits [] when LoadDailyCartoon throws permission denied '
         'FirebaseException',
         build: () {
           when(cartoonRepository.getLatestPoliticalCartoon).thenAnswer(
-              (_) => Stream.error(FirebaseException(
-                  plugin: 'test', code: 'permission-denied')));
-
-          return DailyCartoonBloc(
-              dailyCartoonRepository: cartoonRepository);
+            (_) => Stream.error(FirebaseException(
+              plugin: 'test', code: 'permission-denied'
+            ))
+          );
+          return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
         },
         act: (bloc) => bloc.add(LoadDailyCartoon()),
         expect: () => <DailyCartoonState>[],
-        verify: (_) {
-          verify(cartoonRepository.getLatestPoliticalCartoon)
-              .called(1);
-        });
+        verify: (_) =>
+          verify(cartoonRepository.getLatestPoliticalCartoon).called(1),
+        );
 
     blocTest<DailyCartoonBloc, DailyCartoonState>(
         'Emits [DailyCartoonFailed()] when LoadDailyCartoon'
@@ -87,9 +85,7 @@ void main() {
               code: 'error-code'
             ))
           );
-
-          return DailyCartoonBloc(
-              dailyCartoonRepository: cartoonRepository);
+          return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
         },
         act: (bloc) => bloc.add(LoadDailyCartoon()),
         expect: () => [DailyCartoonFailed('error-code')],

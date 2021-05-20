@@ -1,11 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/home/home.dart';
@@ -21,42 +19,37 @@ import '../../mocks.dart';
 
 void main() {
   group('HomeFlow', () {
-    setupCloudFirestoreMocks();
-
+    late AllCartoonsBloc allCartoonsBloc;
+    late DailyCartoonBloc dailyCartoonBloc;
     late ThemeCubit themeCubit;
     late TabBloc tabBloc;
-    late AllCartoonsBloc allCartoonsBloc;
     late TagCubit tagCubit;
     late SortByCubit sortByCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
-    late DailyCartoonBloc dailyCartoonBloc;
     late ScrollHeaderCubit scrollHeaderCubit;
     late SelectCartoonCubit selectCartoonCubit;
     late ImageTypeCubit imageTypeCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
-        BlocProvider.value(value: themeCubit),
-        BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: showBottomSheetCubit),
         BlocProvider.value(value: dailyCartoonBloc),
-        BlocProvider.value(value: tabBloc),
-        BlocProvider.value(value: scrollHeaderCubit),
         BlocProvider.value(value: selectCartoonCubit),
+        BlocProvider.value(value: tabBloc),
+        BlocProvider.value(value: tagCubit),
+        BlocProvider.value(value: sortByCubit),
         BlocProvider.value(value: imageTypeCubit),
+        BlocProvider.value(value: themeCubit),
+        BlocProvider.value(value: showBottomSheetCubit),
+        BlocProvider.value(value: scrollHeaderCubit),
       ], child: child);
     }
 
     setUpAll(() async {
-      await Firebase.initializeApp();
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
-      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
-      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
         FakeSelectPoliticalCartoonState()
       );
@@ -64,19 +57,21 @@ void main() {
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<Tag>(Tag.all);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
-      registerFallbackValue<ThemeMode>(ThemeMode.light);
       registerFallbackValue<ImageType>(ImageType.all);
+      registerFallbackValue<ThemeMode>(ThemeMode.light);
+    });
 
-      themeCubit = MockThemeCubit();
-      tabBloc = MockTabBloc();
+    setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
+      dailyCartoonBloc = MockDailyCartoonBloc();
+      selectCartoonCubit = MockSelectCartoonCubit();
+      tabBloc = MockTabBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
-      showBottomSheetCubit = MockShowBottomSheetCubit();
-      dailyCartoonBloc = MockDailyCartoonBloc();
-      scrollHeaderCubit = MockScrollHeaderCubit();
-      selectCartoonCubit = MockSelectCartoonCubit();
       imageTypeCubit = MockImageTypeCubit();
+      themeCubit = MockThemeCubit();
+      showBottomSheetCubit = MockShowBottomSheetCubit();
+      scrollHeaderCubit = MockScrollHeaderCubit();
 
       when(() => allCartoonsBloc.state)
         .thenReturn(const AllCartoonsState.initial());
@@ -85,6 +80,7 @@ void main() {
       when(() => selectCartoonCubit.state)
         .thenReturn(SelectPoliticalCartoonState());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
+      when(() => scrollHeaderCubit.state).thenReturn(false);
     });
 
     group('TabSelector', () {
@@ -116,7 +112,6 @@ void main() {
 
       testWidgets('changes theme when theme tab is tapped', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.daily);
-        when(() => scrollHeaderCubit.state).thenReturn(false);
         when(() => themeCubit.state).thenReturn(ThemeMode.dark);
 
         await tester.pumpApp(wrapper(const HomeFlow()));

@@ -31,6 +31,9 @@ final mockPoliticalCartoon = PoliticalCartoon(
 class MockPoliticalCartoonRepository extends Mock
   implements FirestorePoliticalCartoonRepository {}
 
+class MockFirebaseUserRepository extends Mock
+  implements FirebaseUserRepository {}
+
 class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
 
 class MockAuthenticationBloc

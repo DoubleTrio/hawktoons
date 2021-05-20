@@ -1,9 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:mocktail/mocktail.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
+import '../../mocks.dart';
 
 void main() {
   group('DailyCartoonEvent', () {

@@ -6,7 +6,6 @@ import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/auth/bloc/auth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
@@ -16,61 +15,48 @@ import '../../mocks.dart';
 void main() {
   group('AllCartoonsPage', () {
     late AllCartoonsBloc allCartoonsBloc;
-    late TagCubit tagCubit;
-    late SortByCubit sortByCubit;
-    late ShowBottomSheetCubit showBottomSheetCubit;
     late AuthenticationBloc authenticationBloc;
+    late ShowBottomSheetCubit showBottomSheetCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
-    late SelectCartoonCubit selectCartoonCubit;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
-        BlocProvider.value(value: tagCubit),
         BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: sortByCubit),
+        BlocProvider.value(value: authenticationBloc),
         BlocProvider.value(value: showBottomSheetCubit),
         BlocProvider.value(value: scrollHeaderCubit),
-        BlocProvider.value(value: authenticationBloc),
-        BlocProvider.value(value: selectCartoonCubit),
       ], child: child);
     }
 
-    setUpAll(() async {
+    setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
-      registerFallbackValue<SelectPoliticalCartoonState>(
-        FakeSelectPoliticalCartoonState()
-      );
-      registerFallbackValue<Tag>(Tag.all);
-      registerFallbackValue<SortByMode>(SortByMode.latestPosted);
+    });
 
+    setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
-      tagCubit = MockTagCubit();
-      sortByCubit = MockSortByCubit();
-      showBottomSheetCubit = MockShowBottomSheetCubit();
       authenticationBloc = MockAuthenticationBloc();
+      showBottomSheetCubit = MockShowBottomSheetCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
-      selectCartoonCubit = MockSelectCartoonCubit();
       when(() => scrollHeaderCubit.state).thenReturn(false);
     });
 
     testWidgets(
-        'renders widget '
-        'with Key(\'AllCartoonsPage_FilteredCartoonsLoading\') '
-        'when state is FilteredCartoonsLoading', (tester) async {
+      'renders widget '
+      'with Key(\'AllCartoonsPage_FilteredCartoonsLoading\') '
+      'when state is FilteredCartoonsLoading', (tester) async {
       when(() => allCartoonsBloc.state)
         .thenReturn(const AllCartoonsState.initial());
-      when(() => scrollHeaderCubit.state).thenReturn(false);
       await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
       expect(find.byKey(allCartoonsLoadingKey), findsOneWidget);
     });
 
     testWidgets(
-        'renders widget with '
-        'Key(\'AllCartoonsPage_FilteredCartoonsLoaded\') '
-        'when state is FilteredCartoonsLoaded', (tester) async {
+      'renders widget with '
+      'Key(\'AllCartoonsPage_FilteredCartoonsLoaded\') '
+      'when state is FilteredCartoonsLoaded', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.success,
@@ -85,9 +71,9 @@ void main() {
     });
 
     testWidgets(
-        'renders widget '
-        'with Key(\'AllCartoonsPage_FilteredCartoonsFailed\'); '
-        'when state is FilteredCartoonFailed', (tester) async {
+      'renders widget '
+      'with Key(\'AllCartoonsPage_FilteredCartoonsFailed\'); '
+      'when state is FilteredCartoonFailed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.failure,
@@ -99,8 +85,7 @@ void main() {
     });
 
     testWidgets(
-      'opens bottom sheet '
-      'when filter icon is pressed', (tester) async {
+      'opens bottom sheet when filter icon is pressed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           cartoons: [mockPoliticalCartoon]
@@ -112,8 +97,7 @@ void main() {
     });
 
     testWidgets(
-      'logs out '
-      'when logout button is pressed', (tester) async {
+      'logs out when logout button is pressed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           cartoons: [mockPoliticalCartoon]
