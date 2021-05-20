@@ -63,15 +63,6 @@ flutter:
     - assets/images/app/
 
   fonts:
-    - family: OpenSans
-      fonts:
-        - asset: assets/fonts/OpenSans/OpenSans-Regular.ttf
-        - asset: assets/fonts/OpenSans/OpenSans-Light.ttf
-          weight: 300
-        - asset: assets/fonts/OpenSans/OpenSans-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/OpenSans/OpenSans-Italic.ttf
-          style: italic
     - family: SanFrancisco
       fonts:
         - asset: assets/fonts/SanFrancisco/SFNSDisplay-Regular.otf
