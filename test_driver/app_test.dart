@@ -46,7 +46,7 @@ final sortByTile = find.byValueKey('SortByMode_Button_1');
 final imageTypeButton = find.byValueKey('ImageTypeCheckbox_1_Checkbox');
 
 final cartoonCard = find.byValueKey('CartoonCard_LN7FeDDb6NaS4PUphgRd');
-final DetailsView = find.byType('DetailsView');
+final detailsView = find.byType('DetailsView');
 final detailsPageBackButton = find.byValueKey('DetailsPage_BackButton');
 
 void main() {
@@ -135,7 +135,7 @@ void main() {
 
       await driver.tap(cartoonCard);
 
-      await driver.waitFor(DetailsView);
+      await driver.waitFor(detailsView);
       sleep(const Duration(seconds: 1));
       await driver.tap(detailsPageBackButton);
       expect(allCartoonsLoaded, isNotNull);
