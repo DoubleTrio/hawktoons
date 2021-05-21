@@ -20,20 +20,20 @@ final allCartoonsTab = find.byValueKey('TabSelector_AllTab');
 final changeThemeTab = find.byValueKey('TabSelector_ChangeTheme');
 
 final dailyCartoonLogoutButton =
-  find.byValueKey('DailyCartoonScreen_Button_Logout');
+  find.byValueKey('DailyCartoonView_Button_Logout');
 final dailyCartoonInProgress =
-  find.byValueKey('DailyCartoonScreen_DailyCartoonInProgress');
+  find.byValueKey('DailyCartoonView_DailyCartoonInProgress');
 final dailyCartoonLoaded =
-  find.byValueKey('DailyCartoonScreen_DailyCartoonLoaded');
+  find.byValueKey('DailyCartoonView_DailyCartoonLoaded');
 final dailyCartoonFailed =
-  find.byValueKey('DailyCartoonScreen_DailyCartoonFailed');
+  find.byValueKey('DailyCartoonView_DailyCartoonFailed');
 
 final allCartoonsLoading =
-  find.byValueKey('AllCartoonsPage_FilteredCartoonsLoading');
+  find.byValueKey('AllCartoonsPage_AllCartoonsLoading');
 final allCartoonsLoaded =
-  find.byValueKey('AllCartoonsPage_FilteredCartoonsLoaded');
+  find.byValueKey('AllCartoonsPage_AllCartoonsLoaded');
 final allCartoonsFailed =
-  find.byValueKey('AllCartoonsPage_FilteredCartoonsFailed');
+  find.byValueKey('AllCartoonsPage_AllCartoonsFailed');
 
 final filterButton = find.byValueKey('AllCartoonsPage_FilterButton');
 final cartoonLogoutButton = find.byValueKey('AllCartoonsPage_LogoutButton');
@@ -46,7 +46,7 @@ final sortByTile = find.byValueKey('SortByMode_Button_1');
 final imageTypeButton = find.byValueKey('ImageTypeCheckbox_1_Checkbox');
 
 final cartoonCard = find.byValueKey('CartoonCard_LN7FeDDb6NaS4PUphgRd');
-final detailsScreen = find.byType('DetailsScreen');
+final DetailsView = find.byType('DetailsView');
 final detailsPageBackButton = find.byValueKey('DetailsPage_BackButton');
 
 void main() {
@@ -135,7 +135,7 @@ void main() {
 
       await driver.tap(cartoonCard);
 
-      await driver.waitFor(detailsScreen);
+      await driver.waitFor(DetailsView);
       sleep(const Duration(seconds: 1));
       await driver.tap(detailsPageBackButton);
       expect(allCartoonsLoaded, isNotNull);

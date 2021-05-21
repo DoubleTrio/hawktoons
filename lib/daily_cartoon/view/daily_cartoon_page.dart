@@ -20,19 +20,19 @@ class DailyCartoonPage extends Page<void> {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (_, __, ___) => DailyCartoonScreen(),
+      pageBuilder: (_, __, ___) => DailyCartoonView(),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
 }
 
-class DailyCartoonScreen extends StatelessWidget {
-  DailyCartoonScreen({Key? key}) : super(key: key);
+class DailyCartoonView extends StatelessWidget {
+  DailyCartoonView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     void _logout() {
-      context.read<AuthenticationBloc>().add(Logout());
+      context.read<AuthenticationBloc>().add(const Logout());
     }
 
     final title = context.select((DailyCartoonBloc bloc) {
@@ -46,7 +46,7 @@ class DailyCartoonScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: CustomIconButton(
-          key: const Key('DailyCartoonScreen_Button_Logout'),
+          key: const Key('DailyCartoonView_Button_Logout'),
           icon: const Icon(Icons.exit_to_app_rounded),
           onPressed: _logout,
         ),
@@ -70,7 +70,7 @@ class PoliticalCartoonView extends StatelessWidget {
       builder: (context, state) {
         if (state is DailyCartoonInProgress) {
           return Column(
-            key: const Key('DailyCartoonScreen_DailyCartoonInProgress'),
+            key: const Key('DailyCartoonView_DailyCartoonInProgress'),
             children: [
               const SizedBox(height: 24),
               const LoadingIndicator(),
@@ -79,7 +79,7 @@ class PoliticalCartoonView extends StatelessWidget {
         } else if (state is DailyCartoonLoaded) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            key: const Key('DailyCartoonScreen_DailyCartoonLoaded'),
+            key: const Key('DailyCartoonView_DailyCartoonLoaded'),
             children: [
               const PageHeader(header: 'Latest'),
               const SizedBox(height: 12),
@@ -88,7 +88,7 @@ class PoliticalCartoonView extends StatelessWidget {
           );
         } else {
           return const SizedBox(
-            key: Key('DailyCartoonScreen_DailyCartoonFailed')
+            key: Key('DailyCartoonView_DailyCartoonFailed')
           );
         }
       }

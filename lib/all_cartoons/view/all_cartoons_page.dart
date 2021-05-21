@@ -16,20 +16,21 @@ class AllCartoonsPage extends Page<void> {
     return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (_, __, ___) =>
-        const FilteredCartoonsScreen(),
+        const AllCartoonsView(),
       transitionDuration: const Duration(milliseconds: 800),
     );
   }
 }
 
-class FilteredCartoonsScreen extends StatelessWidget {
-  const FilteredCartoonsScreen({Key? key}) : super(key: key);
+class AllCartoonsView extends StatelessWidget {
+  const AllCartoonsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final _shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
     void _logout() {
-      context.read<AuthenticationBloc>().add(Logout());
+      context.read<AuthenticationBloc>().add(const Logout());
     }
     return Scaffold(
       appBar: AppBar(
@@ -56,11 +57,20 @@ class FilteredCartoonsScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          BlocBuilder<AllCartoonsBloc, AllCartoonsState>(
+          BlocConsumer<AllCartoonsBloc, AllCartoonsState>(
+            listenWhen: (prev, curr) => prev.filters != curr.filters,
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  duration: Duration(seconds: 2),
+                  content: Text('Filter applied!'),
+                ),
+              );
+            },
             builder: (context, state) {
               if (state.status == CartoonStatus.initial) {
                 return Column(
-                  key: const Key('AllCartoonsPage_FilteredCartoonsLoading'),
+                  key: const Key('AllCartoonsPage_AllCartoonsLoading'),
                   children: [
                     const SizedBox(height: 24),
                     const LoadingIndicator(),
@@ -71,11 +81,20 @@ class FilteredCartoonsScreen extends StatelessWidget {
                   state.status == CartoonStatus.loading) {
                 return StaggeredCartoonGrid(
                   cartoons: state.cartoons,
-                  key: const Key('AllCartoonsPage_FilteredCartoonsLoaded'),
+                  key: const Key('AllCartoonsPage_AllCartoonsLoaded'),
                 );
               }
-              return const Text('Error',
-                key: Key('AllCartoonsPage_FilteredCartoonsFailed')
+              return SizedBox(
+                height: 30,
+                width: double.infinity,
+                child: Text(
+                  'An error has occurred while loading for images',
+                  key: const Key('AllCartoonsPage_AllCartoonsFailed'),
+                  style: TextStyle(
+                    color: colorScheme.error,
+                    fontSize: 14
+                  ),
+                ),
               );
             },
           ),

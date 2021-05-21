@@ -7,7 +7,7 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DailyCartoonBloc extends Bloc<DailyCartoonEvent, DailyCartoonState> {
   DailyCartoonBloc({required this.dailyCartoonRepository})
-    : super(DailyCartoonInProgress());
+    : super(const DailyCartoonInProgress());
 
   final PoliticalCartoonRepository dailyCartoonRepository;
   late StreamSubscription? _dailyCartoonSubscription;

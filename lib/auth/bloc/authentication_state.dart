@@ -3,25 +3,25 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract class AuthenticationState extends Equatable {
-  AuthenticationState();
+  const AuthenticationState();
 }
 
 class Uninitialized extends AuthenticationState {
-  @override
-  String toString() => 'Uninitialized';
+  const Uninitialized();
 
   @override
   List<Object> get props => [];
 }
 
 class LoggingIn extends AuthenticationState {
+  const LoggingIn();
 
   @override
   List<Object> get props => [];
 }
 
 class Authenticated extends AuthenticationState {
-  Authenticated(this.userId);
+  const Authenticated(this.userId);
 
   final String userId;
 
@@ -30,18 +30,21 @@ class Authenticated extends AuthenticationState {
 }
 
 class LoginError extends AuthenticationState {
+  const LoginError();
 
   @override
   List<Object> get props => [];
 }
 
 class LogoutError extends AuthenticationState {
+  const LogoutError();
 
   @override
   List<Object> get props => [];
 }
 
 class LoggingOut extends AuthenticationState {
+  const LoggingOut();
 
   @override
   List<Object> get props => [];

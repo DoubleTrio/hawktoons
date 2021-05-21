@@ -38,7 +38,7 @@ void main() {
 
     testWidgets('cartoon body is present', (tester) async {
       await tester.pumpApp(
-        wrapper(DetailsScreen(
+        wrapper(DetailsView(
           cartoon: mockPoliticalCartoon
         ))
       );
@@ -48,7 +48,7 @@ void main() {
     testWidgets('deselects cartoon when back button is pressed',
         (tester) async {
       await tester.pumpApp(wrapper(
-        DetailsScreen(cartoon: mockPoliticalCartoon)
+        DetailsView(cartoon: mockPoliticalCartoon)
       ));
       await tester.tap(find.byKey(detailsPageBackButtonKey));
       verify(selectCartoonCubit.deselectCartoon).called(1);

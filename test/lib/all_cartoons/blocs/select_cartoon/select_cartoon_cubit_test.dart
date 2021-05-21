@@ -9,7 +9,10 @@ void main() {
   PoliticalCartoon mockCartoon = MockPoliticalCartoon();
   group('SelectCartoonCubit', () {
     test('initial state is SelectPoliticalCartoonState()', () {
-      expect(SelectCartoonCubit().state, equals(SelectPoliticalCartoonState()));
+      expect(
+        SelectCartoonCubit().state,
+        equals(const SelectPoliticalCartoonState())
+      );
     });
 
     blocTest<SelectCartoonCubit, SelectPoliticalCartoonState>(
@@ -25,7 +28,7 @@ void main() {
       build: () => SelectCartoonCubit(),
       seed: () => SelectPoliticalCartoonState(cartoon: mockCartoon),
       act: (cubit) => cubit.deselectCartoon(),
-      expect: () => [SelectPoliticalCartoonState()],
+      expect: () => [const SelectPoliticalCartoonState()],
     );
 
     blocTest<SelectCartoonCubit, SelectPoliticalCartoonState>(
@@ -37,7 +40,7 @@ void main() {
         ..selectCartoon(mockCartoon),
       expect: () => [
         SelectPoliticalCartoonState(cartoon: mockCartoon),
-        SelectPoliticalCartoonState(),
+        const SelectPoliticalCartoonState(),
         SelectPoliticalCartoonState(cartoon: mockCartoon)
       ],
     );

@@ -51,7 +51,7 @@ class HomeFlowPage extends Page<void> {
             BlocProvider.value(value: _selectCartoonCubit),
             BlocProvider.value(value: _showBottomSheetCubit),
             BlocProvider.value(value: _dailyCartoonBloc
-              ..add(LoadDailyCartoon())),
+              ..add(const LoadDailyCartoon())),
             BlocProvider.value(value: _allCartoonsBloc
               ..add(LoadAllCartoons(filters))),
           ],

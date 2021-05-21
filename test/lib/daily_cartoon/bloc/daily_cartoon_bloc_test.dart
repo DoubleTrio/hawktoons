@@ -22,7 +22,7 @@ void main() {
       expect(
         DailyCartoonBloc(dailyCartoonRepository: cartoonRepository)
           .state,
-        equals(DailyCartoonInProgress()),
+        equals(const DailyCartoonInProgress()),
       );
     });
 
@@ -36,7 +36,7 @@ void main() {
           dailyCartoonRepository: cartoonRepository
         );
       },
-      act: (bloc) => bloc.add(LoadDailyCartoon()),
+      act: (bloc) => bloc.add(const LoadDailyCartoon()),
       expect: () => [DailyCartoonLoaded(politicalCartoon)],
       verify: (_) =>
         verify(cartoonRepository.getLatestPoliticalCartoon).called(1),
@@ -51,8 +51,8 @@ void main() {
         );
         return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
       },
-      act: (bloc) => bloc.add(LoadDailyCartoon()),
-      expect: () => [DailyCartoonFailed('Error')],
+      act: (bloc) => bloc.add(const LoadDailyCartoon()),
+      expect: () => [const DailyCartoonFailed('Error')],
       verify: (_) =>
         verify(cartoonRepository.getLatestPoliticalCartoon)
           .called(1)
@@ -69,7 +69,7 @@ void main() {
           );
           return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
         },
-        act: (bloc) => bloc.add(LoadDailyCartoon()),
+        act: (bloc) => bloc.add(const LoadDailyCartoon()),
         expect: () => <DailyCartoonState>[],
         verify: (_) =>
           verify(cartoonRepository.getLatestPoliticalCartoon).called(1),
@@ -87,8 +87,8 @@ void main() {
           );
           return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
         },
-        act: (bloc) => bloc.add(LoadDailyCartoon()),
-        expect: () => [DailyCartoonFailed('error-code')],
+        act: (bloc) => bloc.add(const LoadDailyCartoon()),
+        expect: () => [const DailyCartoonFailed('error-code')],
         verify: (_) =>
           verify(cartoonRepository.getLatestPoliticalCartoon).called(1),
         );

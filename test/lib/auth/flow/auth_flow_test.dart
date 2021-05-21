@@ -54,27 +54,30 @@ void main() {
         imageType: ImageType.all,
         tag: Tag.all,
         limit: 15,
-      )).thenAnswer((_) => Future.value([mockPoliticalCartoon]));
-      when(cartoonRepository.getLatestPoliticalCartoon)
-          .thenAnswer((_) => Stream.value(mockCartoon));
-      when(() => allCartoonsBloc.state).thenReturn(
-          const AllCartoonsState.initial()
+      )).thenAnswer((_) async => [mockPoliticalCartoon]);
+      when(cartoonRepository.getLatestPoliticalCartoon).thenAnswer(
+        (_) => Stream.value(mockCartoon)
       );
-      when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial()
+      );
+      when(() => dailyCartoonBloc.state).thenReturn(
+        const DailyCartoonInProgress()
+      );
     });
 
     group('LoginPage', () {
       testWidgets('shows LoginPage', (tester) async {
-        when(() => authenticationBloc.state).thenReturn(Uninitialized());
+        when(() => authenticationBloc.state).thenReturn(const Uninitialized());
         await tester.pumpApp(wrapper(const AuthFlow()));
-        expect(find.byType(LoginScreen), findsOneWidget);
+        expect(find.byType(LoginView), findsOneWidget);
       });
     });
 
     group('HomeFlow', () {
       testWidgets('shows HomeFlow', (tester) async {
         when(() => authenticationBloc.state)
-          .thenReturn(Authenticated('user-id'));
+          .thenReturn(const Authenticated('user-id'));
         await tester.pumpApp(wrapper(const AuthFlow()));
         expect(find.byType(HomeFlow), findsOneWidget);
       });

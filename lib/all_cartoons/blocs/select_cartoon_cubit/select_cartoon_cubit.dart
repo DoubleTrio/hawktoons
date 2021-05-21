@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class SelectPoliticalCartoonState extends Equatable {
-  SelectPoliticalCartoonState({this.cartoon});
+  const SelectPoliticalCartoonState({this.cartoon});
 
   final PoliticalCartoon? cartoon;
 
@@ -14,13 +14,13 @@ class SelectPoliticalCartoonState extends Equatable {
 }
 
 class SelectCartoonCubit extends Cubit<SelectPoliticalCartoonState> {
-  SelectCartoonCubit() : super(SelectPoliticalCartoonState());
+  SelectCartoonCubit() : super(const SelectPoliticalCartoonState());
 
   void selectCartoon(PoliticalCartoon cartoon) {
     return emit(SelectPoliticalCartoonState(cartoon: cartoon));
   }
 
   void deselectCartoon() {
-    return emit(SelectPoliticalCartoonState());
+    return emit(const SelectPoliticalCartoonState());
   }
 }

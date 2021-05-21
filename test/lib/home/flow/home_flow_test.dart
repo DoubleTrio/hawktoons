@@ -76,9 +76,11 @@ void main() {
       when(() => allCartoonsBloc.state)
         .thenReturn(const AllCartoonsState.initial());
       when(() => showBottomSheetCubit.state).thenReturn(false);
-      when(() => dailyCartoonBloc.state).thenReturn(DailyCartoonInProgress());
+      when(() => dailyCartoonBloc.state).thenReturn(
+        const DailyCartoonInProgress()
+      );
       when(() => selectCartoonCubit.state)
-        .thenReturn(SelectPoliticalCartoonState());
+        .thenReturn(const SelectPoliticalCartoonState());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
       when(() => scrollHeaderCubit.state).thenReturn(false);
     });

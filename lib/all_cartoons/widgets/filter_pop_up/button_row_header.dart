@@ -18,12 +18,6 @@ class ButtonRowHeader extends StatelessWidget {
 
     void _filter() {
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          duration: Duration(seconds: 2),
-          content: Text('Filter applied!'),
-        ),
-      );
       context.read<AllCartoonsBloc>().add(LoadAllCartoons(filters));
     }
 
@@ -38,43 +32,43 @@ class ButtonRowHeader extends StatelessWidget {
     final onSurface = colorScheme.onSurface;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton(
-            key: const Key('ButtonRowHeader_ResetButton'),
-            onPressed: _reset,
-            child: Text(
-              'Reset',
-              style: TextStyle(color: onSurface),
-            ),
-          ),
-          Row(
-            children: [
-              Text(
-                'Filters',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: onSurface
-                ),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextButton(
+              key: const Key('ButtonRowHeader_ResetButton'),
+              onPressed: _reset,
+              child: Text(
+                'Reset',
+                style: TextStyle(color: onSurface),
               ),
-              const SizedBox(width: 6),
-              Icon(Icons.filter_list, color: onSurface),
-            ],
-          ),
-          TextButton(
-            key: const Key('ButtonRowHeader_ApplyFilterButton'),
-            onPressed: _filter,
-            child: Text(
-              'Apply',
-              style: TextStyle(color: primary),
             ),
-          ),
-        ],
-      ),
+            Row(
+              children: [
+                Text(
+                  'Filters',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: onSurface
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Icon(Icons.filter_list, color: onSurface),
+              ],
+            ),
+            TextButton(
+              key: const Key('ButtonRowHeader_ApplyFilterButton'),
+              onPressed: _filter,
+              child: Text(
+                'Apply',
+                style: TextStyle(color: primary),
+              ),
+            ),
+          ],
+        )
     );
   }
 }

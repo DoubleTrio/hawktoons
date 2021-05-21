@@ -126,3 +126,4 @@ app.*.map.json
 !.idea/runConfigurations/
 
 google-services.json
+key.properties

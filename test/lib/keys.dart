@@ -11,18 +11,18 @@ const changeThemeTabKey = Key('TabSelector_ChangeTheme');
 const detailsPageBackButtonKey = Key('DetailsPage_BackButton');
 
 const dailyCartoonInProgressKey =
-    Key('DailyCartoonScreen_DailyCartoonInProgress');
-const dailyCartoonLoadedKey = Key('DailyCartoonScreen_DailyCartoonLoaded');
-const dailyCartoonFailedKey = Key('DailyCartoonScreen_DailyCartoonFailed');
-const dailyCartoonLogoutButtonKey = Key('DailyCartoonScreen_Button_Logout');
+    Key('DailyCartoonView_DailyCartoonInProgress');
+const dailyCartoonLoadedKey = Key('DailyCartoonView_DailyCartoonLoaded');
+const dailyCartoonFailedKey = Key('DailyCartoonView_DailyCartoonFailed');
+const dailyCartoonLogoutButtonKey = Key('DailyCartoonView_Button_Logout');
 
 const nextPageOnboardingButtonKey = Key('OnboardingPage_NextPage');
 const setSeenOnboardingButtonKey = Key('OnboardingPage_SetSeenOnboarding');
 
 const allCartoonsLoadingKey =
-    Key('AllCartoonsPage_FilteredCartoonsLoading');
-const allCartoonsLoadedKey = Key('AllCartoonsPage_FilteredCartoonsLoaded');
-const allCartoonsFailedKey = Key('AllCartoonsPage_FilteredCartoonsFailed');
+    Key('AllCartoonsPage_AllCartoonsLoading');
+const allCartoonsLoadedKey = Key('AllCartoonsPage_AllCartoonsLoaded');
+const allCartoonsFailedKey = Key('AllCartoonsPage_AllCartoonsFailed');
 const filterButtonKey = Key('AllCartoonsPage_FilterButton');
 const filterLogoutButtonKey = Key('AllCartoonsPage_LogoutButton');
 

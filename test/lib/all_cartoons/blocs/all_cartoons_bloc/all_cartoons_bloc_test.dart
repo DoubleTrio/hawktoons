@@ -7,7 +7,8 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import '../../../mocks.dart';
 
 void main() {
-  final mockCartoon = MockPoliticalCartoon();
+  final mockCartoons = [MockPoliticalCartoon()];
+
   group('AllCartoonsBloc', () {
     late FirestorePoliticalCartoonRepository cartoonRepository;
 
@@ -29,17 +30,17 @@ void main() {
             imageType: mockFilter.imageType,
             tag: mockFilter.tag,
             limit: 15,
-          )).thenAnswer((_) => Future.value([mockCartoon]));
+          )).thenAnswer((_) async => mockCartoons);
           return AllCartoonsBloc(cartoonRepository: cartoonRepository);
         },
         // wait: ,
         act: (bloc) => bloc.add(LoadAllCartoons(mockFilter)),
         expect: () => [
           const AllCartoonsState.initial(),
-          const AllCartoonsState.initial().copyWith(
-            cartoons: [mockCartoon],
-            status: CartoonStatus.success,
-            hasReachedMax: true,
+          AllCartoonsState.loadSuccess(
+            cartoons: mockCartoons,
+            filters: mockFilter,
+            hasReachedMax: true
           )
         ],
         verify: (_) =>
@@ -51,6 +52,32 @@ void main() {
           )).called(1));
 
     blocTest<AllCartoonsBloc, AllCartoonsState>(
+      'emits [] when first cartoons are already loaded '
+      'and the same filters are applied',
+      build: () {
+        when(() => cartoonRepository.politicalCartoons(
+          sortByMode: mockFilter.sortByMode,
+          imageType: mockFilter.imageType,
+          tag: mockFilter.tag,
+          limit: 15,
+        )).thenAnswer((_) async => mockCartoons);
+        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+      },
+      // wait: ,
+      act: (bloc) => bloc.add(LoadAllCartoons(mockFilter)),
+      seed: () => const AllCartoonsState.initial().copyWith(
+        hasLoadedInitial: true
+      ),
+      expect: () => <AllCartoonsState>[],
+      verify: (_) =>
+        verifyNever(() => cartoonRepository.politicalCartoons(
+          sortByMode: mockFilter.sortByMode,
+          imageType: mockFilter.imageType,
+          tag: mockFilter.tag,
+          limit: 15,
+      )));
+
+    blocTest<AllCartoonsBloc, AllCartoonsState>(
       'loads first set of images with not a reached max status',
       build: () {
         when(() => cartoonRepository.politicalCartoons(
@@ -58,7 +85,7 @@ void main() {
           imageType: mockFilter.imageType,
           tag: mockFilter.tag,
           limit: 15,
-        )).thenAnswer((_) => Future.value(List.filled(15, mockCartoon)));
+        )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
       // wait: ,
@@ -66,9 +93,10 @@ void main() {
       expect: () => <AllCartoonsState>[
         const AllCartoonsState.initial(),
         const AllCartoonsState.initial().copyWith(
-          cartoons: List.filled(15, mockCartoon),
+          cartoons: List.filled(15, mockCartoons[0]),
           status: CartoonStatus.success,
           hasReachedMax: false,
+          hasLoadedInitial: true,
         )
       ],
       verify: (_) => verify(() => cartoonRepository.politicalCartoons(
@@ -92,8 +120,11 @@ void main() {
       },
       act: (bloc) => bloc.add(LoadAllCartoons(mockFilter)),
       expect: () => [
-        const AllCartoonsState.initial(),
-        const AllCartoonsState.initial().copyWith(status: CartoonStatus.failure)
+        AllCartoonsState.initial(filters: mockFilter),
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.failure,
+          filters: mockFilter,
+        )
       ],
       verify: (_) => verify(() => cartoonRepository.politicalCartoons(
         sortByMode: mockFilter.sortByMode,
@@ -137,7 +168,7 @@ void main() {
           imageType: mockFilter.imageType,
           tag: mockFilter.tag,
           limit: 15,
-        )).thenAnswer((_) => Future.value([mockCartoon]));
+        )).thenAnswer((_) async => mockCartoons);
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
       wait: const Duration(milliseconds: 300),
@@ -147,7 +178,7 @@ void main() {
           .copyWith(status: CartoonStatus.loading),
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.success,
-          cartoons: [mockCartoon],
+          cartoons: mockCartoons,
           hasReachedMax: true,
         )
       ],
@@ -167,7 +198,7 @@ void main() {
           imageType: mockFilter.imageType,
           tag: mockFilter.tag,
           limit: 15,
-        )).thenAnswer((_) => Future.value(List.filled(15, mockCartoon)));
+        )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
       wait: const Duration(milliseconds: 300),
@@ -177,7 +208,7 @@ void main() {
           .copyWith(status: CartoonStatus.loading),
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.success,
-          cartoons: List.filled(15, mockCartoon),
+          cartoons: List.filled(15, mockCartoons[0]),
           hasReachedMax: false,
         )
       ],

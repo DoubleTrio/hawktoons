@@ -9,7 +9,8 @@ import 'authentication_state.dart';
 class AuthenticationBloc
   extends Bloc<AuthenticationEvent, AuthenticationState> {
 
-  AuthenticationBloc({required this.userRepository}) : super(Uninitialized());
+  AuthenticationBloc({required this.userRepository})
+    : super(const Uninitialized());
 
   final UserRepository userRepository;
 
@@ -26,7 +27,7 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapSignInAnonymouslyToState() async* {
     try {
-      yield LoggingIn();
+      yield const LoggingIn();
       final isSignedIn = await userRepository.isAuthenticated();
       if (!isSignedIn) {
         await userRepository.authenticate();
@@ -34,17 +35,17 @@ class AuthenticationBloc
       final userId = await userRepository.getUserId();
       yield Authenticated(userId);
     } on Exception {
-      yield LoginError();
+      yield const LoginError();
     }
   }
 
   Stream<AuthenticationState> _mapLogoutToState() async* {
     try {
-      yield LoggingOut();
+      yield const LoggingOut();
       await userRepository.logout();
-      yield Uninitialized();
+      yield const Uninitialized();
     } on Exception {
-      yield LogoutError();
+      yield const LogoutError();
     }
   }
 }
