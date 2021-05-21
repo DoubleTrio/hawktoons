@@ -32,7 +32,7 @@ void main() {
       when(() => onboardingPageCubit.state)
         .thenReturn(VisibleOnboardingPage.welcome);
 
-      await tester.pumpApp(wrapper(const OnboardingScreen()));
+      await tester.pumpApp(wrapper(const OnboardingView()));
       await tester.drag(find.byType(OnboardingWidget), const Offset(-1000, 0));
       await tester.drag(find.byType(OnboardingWidget), const Offset(-1000, 0));
       await tester.drag(find.byType(OnboardingWidget), const Offset(1000, 0));
@@ -53,7 +53,7 @@ void main() {
       when(() => onboardingPageCubit.state)
         .thenReturn(VisibleOnboardingPage.welcome);
 
-      await tester.pumpApp(wrapper(const OnboardingScreen()));
+      await tester.pumpApp(wrapper(const OnboardingView()));
       await tester.tap(find.byKey(nextPageOnboardingButtonKey));
       await tester.pumpAndSettle();
 
@@ -74,7 +74,7 @@ void main() {
       when(() => onboardingPageCubit.state)
         .thenReturn(VisibleOnboardingPage.allCartoons);
 
-      await tester.pumpApp(wrapper(const OnboardingScreen()));
+      await tester.pumpApp(wrapper(const OnboardingView()));
       await tester.tap(find.byKey(nextPageOnboardingButtonKey));
       await tester.pumpAndSettle();
 
@@ -88,7 +88,7 @@ void main() {
       when(() => onboardingPageCubit.state)
         .thenReturn(VisibleOnboardingPage.dailyCartoon);
 
-      await tester.pumpApp(wrapper(const OnboardingScreen()));
+      await tester.pumpApp(wrapper(const OnboardingView()));
       await tester.tap(find.byKey(setSeenOnboardingButtonKey));
       await tester.pumpAndSettle();
 

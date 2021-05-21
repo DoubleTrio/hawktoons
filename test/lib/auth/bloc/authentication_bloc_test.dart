@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:core';
 
 import 'package:bloc_test/bloc_test.dart';
@@ -19,10 +18,9 @@ void main() {
     });
 
     test('initial state is Uninitialized', () {
-      final state = Uninitialized();
       expect(
         AuthenticationBloc(userRepository: userRepository).state,
-        equals(state),
+        equals(const Uninitialized()),
       );
     });
 
@@ -31,15 +29,15 @@ void main() {
       'and authentication is successful',
       build: () {
         when(userRepository.isAuthenticated)
-          .thenAnswer((_) => Future.value(false));
+          .thenAnswer((_) async => false);
         when(userRepository.authenticate)
-          .thenAnswer((_) => Future.value(null));
+          .thenAnswer((_) async => null);
         when(userRepository.getUserId)
-          .thenAnswer((_) => Future.value(userId));
+          .thenAnswer((_) async => userId);
         return AuthenticationBloc(userRepository: userRepository);
       },
-      act: (bloc) => bloc.add(SignInAnonymously()),
-      expect: () => [LoggingIn(), Authenticated('user-id')],
+      act: (bloc) => bloc.add(const SignInAnonymously()),
+      expect: () => [const LoggingIn(), const Authenticated('user-id')],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.getUserId).called(1);
@@ -51,14 +49,14 @@ void main() {
       'when SignInAnonymously is added and authentication is not successful',
       build: () {
         when(userRepository.isAuthenticated)
-          .thenAnswer((_) => Future.value(false));
+          .thenAnswer((_) async => false);
         when(userRepository.authenticate).thenThrow(Exception('error'));
         when(userRepository.getUserId)
-          .thenAnswer((_) => Future.value(userId));
+          .thenAnswer((_) async => userId);
         return AuthenticationBloc(userRepository: userRepository);
       },
-      act: (bloc) => bloc.add(SignInAnonymously()),
-      expect: () => [LoggingIn(), LoginError()],
+      act: (bloc) => bloc.add(const SignInAnonymously()),
+      expect: () => [const LoggingIn(), const LoginError()],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.authenticate).called(1);
@@ -70,13 +68,13 @@ void main() {
       'when SignInAnonymously is added and user is already authenticated',
       build: () {
         when(userRepository.isAuthenticated)
-          .thenAnswer((_) => Future.value(true));
+          .thenAnswer((_) async => true);
         when(userRepository.getUserId)
-          .thenAnswer((_) => Future.value(userId));
+          .thenAnswer((_) async => userId);
         return AuthenticationBloc(userRepository: userRepository);
       },
-      act: (bloc) => bloc.add(SignInAnonymously()),
-      expect: () => [LoggingIn(), Authenticated(userId)],
+      act: (bloc) => bloc.add(const SignInAnonymously()),
+      expect: () => [const LoggingIn(), Authenticated(userId)],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verifyNever(userRepository.authenticate);
@@ -88,11 +86,11 @@ void main() {
       'emits [LoggingOut(), Uninitialized()] when Logout is added',
       build: () {
         when(userRepository.logout)
-          .thenAnswer((_) => Future.value(null));
+          .thenAnswer((_) async => null);
         return AuthenticationBloc(userRepository: userRepository);
       },
-      act: (bloc) => bloc.add(Logout()),
-      expect: () => [LoggingOut(), Uninitialized()],
+      act: (bloc) => bloc.add(const Logout()),
+      expect: () => [const LoggingOut(), const Uninitialized()],
       verify: (_) {
         verify(userRepository.logout).called(1);
       }
@@ -104,8 +102,8 @@ void main() {
         when(userRepository.logout).thenThrow(Exception());
         return AuthenticationBloc(userRepository: userRepository);
       },
-      act: (bloc) => bloc.add(Logout()),
-      expect: () => [LoggingOut(), LogoutError()],
+      act: (bloc) => bloc.add(const Logout()),
+      expect: () => [const LoggingOut(), const LogoutError()],
       verify: (_) {
         verify(userRepository.logout).called(1);
       }

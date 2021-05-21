@@ -6,13 +6,14 @@ abstract class DailyCartoonEvent extends Equatable {
 }
 
 class LoadDailyCartoon extends DailyCartoonEvent {
+  const LoadDailyCartoon();
 
   @override
   List<Object> get props => [];
 }
 
 class UpdateDailyCartoon extends DailyCartoonEvent {
-  UpdateDailyCartoon(this.cartoon);
+  const UpdateDailyCartoon(this.cartoon);
 
   final PoliticalCartoon cartoon;
 
@@ -21,7 +22,7 @@ class UpdateDailyCartoon extends DailyCartoonEvent {
 }
 
 class ErrorDailyCartoonEvent extends DailyCartoonEvent {
-  ErrorDailyCartoonEvent(this.errorMessage);
+  const ErrorDailyCartoonEvent(this.errorMessage);
 
   final String errorMessage;
 

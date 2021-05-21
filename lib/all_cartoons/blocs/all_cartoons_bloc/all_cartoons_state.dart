@@ -13,7 +13,7 @@ class CartoonFilters extends Equatable {
   const CartoonFilters.initial({
     this.sortByMode = SortByMode.latestPosted,
     this.imageType = ImageType.all,
-    this.tag = Tag.all
+    this.tag = Tag.all,
   });
 
   final SortByMode sortByMode;
@@ -37,12 +37,12 @@ class CartoonFilters extends Equatable {
 }
 
 class AllCartoonsState extends Equatable {
-  AllCartoonsState({
+  const AllCartoonsState({
     required this.cartoons,
     required this.filters,
     required this.status,
     required this.hasReachedMax,
-
+    required this.hasLoadedInitial,
   });
 
   const AllCartoonsState.initial({
@@ -50,34 +50,44 @@ class AllCartoonsState extends Equatable {
     this.filters = const CartoonFilters.initial(),
     this.status = CartoonStatus.initial,
     this.hasReachedMax = false,
+    this.hasLoadedInitial = false,
   });
+
+  const AllCartoonsState.loadSuccess({
+    required List<PoliticalCartoon> cartoons,
+    required CartoonFilters filters,
+    required bool hasReachedMax
+  }) : this(
+    cartoons: cartoons,
+    filters: filters,
+    status: CartoonStatus.success,
+    hasReachedMax: hasReachedMax,
+    hasLoadedInitial: true,
+  );
 
   final List<PoliticalCartoon> cartoons;
   final CartoonFilters filters;
   final CartoonStatus status;
   final bool hasReachedMax;
+  final bool hasLoadedInitial;
 
   @override
-  List<Object> get props => [cartoons, filters, status, hasReachedMax];
-
-  @override
-  String toString() => 'AllCartoonsState { '
-    'cartoons: $cartoons, '
-    'filters: $filters, '
-    'status: $status, '
-    'hasReachedMax: $hasReachedMax '
-  '}';
+  List<Object>
+    get props => [cartoons, filters, status, hasReachedMax, hasLoadedInitial];
 
   AllCartoonsState copyWith({
     List<PoliticalCartoon>? cartoons,
     CartoonFilters? filters,
     CartoonStatus? status,
-    bool? hasReachedMax
+    bool? hasReachedMax,
+    bool? hasLoadedInitial,
   }) {
     return AllCartoonsState(
       cartoons: cartoons ?? this.cartoons,
       filters: filters ?? this.filters,
       status: status ?? this.status,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax);
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      hasLoadedInitial: hasLoadedInitial ?? this.hasLoadedInitial,
+    );
   }
 }

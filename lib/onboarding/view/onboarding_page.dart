@@ -11,20 +11,20 @@ class OnBoardingPage extends Page<void> {
       settings: this,
       pageBuilder: (_, __, ___) => BlocProvider(
         create: (context) => OnboardingPageCubit(),
-        child: const OnboardingScreen(),
+        child: const OnboardingView(),
       ),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
 }
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+class OnboardingView extends StatefulWidget {
+  const OnboardingView({Key? key}) : super(key: key);
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  _OnboardingViewState createState() => _OnboardingViewState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingViewState extends State<OnboardingView> {
   final int totalPages = VisibleOnboardingPage.values.length;
   late PageController _pageController;
 

@@ -59,7 +59,7 @@ void main() {
       imageTypeCubit = MockImageTypeCubit();
 
       when(() => selectCartoonCubit.state)
-          .thenReturn(SelectPoliticalCartoonState());
+          .thenReturn(const SelectPoliticalCartoonState());
       when(() => allCartoonsBloc.state)
           .thenReturn(const AllCartoonsState.initial());
       when(() => tagCubit.state).thenReturn(Tag.all);

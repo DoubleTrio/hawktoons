@@ -20,12 +20,14 @@ void main() {
     late ImageTypeCubit imageTypeCubit;
 
     Widget wrapper(Widget child) {
-      return MultiBlocProvider(providers: [
-        BlocProvider.value(value: allCartoonsBloc),
-        BlocProvider.value(value: tagCubit),
-        BlocProvider.value(value: sortByCubit),
-        BlocProvider.value(value: imageTypeCubit),
-      ], child: child);
+      return Scaffold(
+        body: MultiBlocProvider(providers: [
+          BlocProvider.value(value: allCartoonsBloc),
+          BlocProvider.value(value: tagCubit),
+          BlocProvider.value(value: sortByCubit),
+          BlocProvider.value(value: imageTypeCubit),
+        ], child: child),
+      );
     }
 
     setUpAll(() {

@@ -1,3 +1,4 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/auth/bloc/auth.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
@@ -45,17 +47,17 @@ void main() {
 
     testWidgets(
       'renders widget '
-      'with Key(\'AllCartoonsPage_FilteredCartoonsLoading\') '
+      'with Key(\'AllCartoonsPage_AllCartoonsLoading\') '
       'when state is FilteredCartoonsLoading', (tester) async {
       when(() => allCartoonsBloc.state)
         .thenReturn(const AllCartoonsState.initial());
-      await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
+      await tester.pumpApp(wrapper(const AllCartoonsView()));
       expect(find.byKey(allCartoonsLoadingKey), findsOneWidget);
     });
 
     testWidgets(
       'renders widget with '
-      'Key(\'AllCartoonsPage_FilteredCartoonsLoaded\') '
+      'Key(\'AllCartoonsPage_AllCartoonsLoaded\') '
       'when state is FilteredCartoonsLoaded', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
@@ -65,14 +67,14 @@ void main() {
       );
 
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(const FilteredCartoonsScreen())),
+        () => tester.pumpApp(wrapper(const AllCartoonsView())),
       );
       expect(find.byKey(allCartoonsLoadedKey), findsOneWidget);
     });
 
     testWidgets(
       'renders widget '
-      'with Key(\'AllCartoonsPage_FilteredCartoonsFailed\'); '
+      'with Key(\'AllCartoonsPage_AllCartoonsFailed\'); '
       'when state is FilteredCartoonFailed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
@@ -80,7 +82,7 @@ void main() {
         )
       );
 
-      await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
+      await tester.pumpApp(wrapper(const AllCartoonsView()));
       expect(find.byKey(allCartoonsFailedKey), findsOneWidget);
     });
 
@@ -91,7 +93,7 @@ void main() {
           cartoons: [mockPoliticalCartoon]
         ),
       );
-      await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
+      await tester.pumpApp(wrapper(const AllCartoonsView()));
       await tester.tap(find.byKey(filterButtonKey));
       verify(showBottomSheetCubit.openSheet).called(1);
     });
@@ -103,9 +105,40 @@ void main() {
           cartoons: [mockPoliticalCartoon]
         ),
       );
-      await tester.pumpApp(wrapper(const FilteredCartoonsScreen()));
+      await tester.pumpApp(wrapper(const AllCartoonsView()));
       await tester.tap(find.byKey(filterLogoutButtonKey));
-      verify(() => authenticationBloc.add(Logout())).called(1);
+      verify(() => authenticationBloc.add(const Logout())).called(1);
+    });
+
+    testWidgets(
+      'shows SnackBar when new filter is applied', (tester) async {
+      whenListen<AllCartoonsState>(allCartoonsBloc,
+        Stream.value(
+          const AllCartoonsState.initial().copyWith(
+            filters: const CartoonFilters.initial().copyWith(
+              tag: Tag.worldHistory
+            )
+          )
+        ),
+        initialState: const AllCartoonsState.initial(),
+      );
+
+      await tester.pumpApp(wrapper(const AllCartoonsView()));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Filter applied!'), findsOneWidget);
+    });
+
+    testWidgets(
+        'does not show SnackBar when old filter is applied', (tester) async {
+      whenListen<AllCartoonsState>(allCartoonsBloc,
+        Stream.value(const AllCartoonsState.initial()),
+        initialState: const AllCartoonsState.initial(),
+      );
+
+      await tester.pumpApp(wrapper(const AllCartoonsView()));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(SnackBar), findsNothing);
     });
   });
 }

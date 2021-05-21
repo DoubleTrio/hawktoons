@@ -6,7 +6,7 @@ abstract class AllCartoonsEvent extends Equatable {
 }
 
 class LoadAllCartoons extends AllCartoonsEvent {
-  LoadAllCartoons(this.filters);
+  const LoadAllCartoons(this.filters);
 
   final CartoonFilters filters;
 
@@ -15,7 +15,7 @@ class LoadAllCartoons extends AllCartoonsEvent {
 }
 
 class LoadMoreCartoons extends AllCartoonsEvent {
-  LoadMoreCartoons(this.filters);
+  const LoadMoreCartoons(this.filters);
 
   final CartoonFilters filters;
 

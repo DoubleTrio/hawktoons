@@ -45,11 +45,11 @@ void main() {
         .thenReturn(const AllCartoonsState.initial()
       );
       when(() => selectCartoonCubit.state)
-        .thenReturn(SelectPoliticalCartoonState()
+        .thenReturn(const SelectPoliticalCartoonState()
       );
 
       await tester.pumpApp(wrapper(const CartoonFlow()));
-      expect(find.byType(FilteredCartoonsScreen), findsOneWidget);
+      expect(find.byType(AllCartoonsView), findsOneWidget);
     });
 
     testWidgets('shows DetailsPage', (tester) async {
@@ -65,12 +65,12 @@ void main() {
         () => tester.pumpApp(wrapper(const CartoonFlow())),
       );
 
-      expect(find.byType(DetailsScreen), findsOneWidget);
+      expect(find.byType(DetailsView), findsOneWidget);
     });
 
     testWidgets('transitions to DetailsPage', (tester) async {
       when(() => selectCartoonCubit.state)
-        .thenReturn(SelectPoliticalCartoonState());
+        .thenReturn(const SelectPoliticalCartoonState());
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           cartoons: [mockPoliticalCartoon],

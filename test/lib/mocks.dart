@@ -11,11 +11,7 @@ import 'package:history_app/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-final mockFilter = const CartoonFilters(
-  sortByMode: SortByMode.latestPosted,
-  imageType: ImageType.all,
-  tag: Tag.all
-);
+final mockFilter = const CartoonFilters.initial();
 
 final mockPoliticalCartoon = PoliticalCartoon(
   id: '2',

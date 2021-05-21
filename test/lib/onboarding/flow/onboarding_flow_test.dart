@@ -29,15 +29,15 @@ void main() {
       onboardingSeenCubit = MockOnboardingSeenCubit();
     });
 
-    testWidgets('screen is OnboardingScreen', (tester) async {
+    testWidgets('screen is OnboardingView', (tester) async {
       when(() => onboardingSeenCubit.state).thenReturn(false);
       await tester.pumpApp(wrapper(const OnboardingFlow()));
-      expect(find.byType(OnboardingScreen), findsOneWidget);
+      expect(find.byType(OnboardingView), findsOneWidget);
     });
 
     testWidgets('screen is AuthFlow', (tester) async {
       when(() => onboardingSeenCubit.state).thenReturn(true);
-      when(() => authenticationBloc.state).thenReturn(Uninitialized());
+      when(() => authenticationBloc.state).thenReturn(const Uninitialized());
       await tester.pumpApp(wrapper(const OnboardingFlow()));
       expect(find.byType(AuthFlow), findsOneWidget);
     });

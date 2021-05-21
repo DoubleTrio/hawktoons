@@ -11,19 +11,19 @@ class LoginPage extends Page<void> {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (_, __, ___) => const LoginScreen(),
+      pageBuilder: (_, __, ___) => const LoginView(),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
 }
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginView extends StatelessWidget {
+  const LoginView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _signInAnonymously = () =>
-      context.read<AuthenticationBloc>().add(SignInAnonymously());
+      context.read<AuthenticationBloc>().add(const SignInAnonymously());
 
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -83,12 +83,16 @@ class LoginScreen extends StatelessWidget {
                       }
                       if (state is LoggingIn) {
                         return const LoadingIndicator(
-                            key: Key('LoginPage_LoggingIn')
+                          key: Key('LoginPage_LoggingIn')
                         );
                       }
-                      return const Text(
-                        'Login Error',
-                        key: Key('LoginPage_LoginError'),
+                      return Text(
+                        'A login error has occurred',
+                        key: const Key('LoginPage_LoginError'),
+                        style: TextStyle(
+                          color: colorScheme.error,
+                          fontSize: 14
+                        ),
                       );
                     },
                   ),

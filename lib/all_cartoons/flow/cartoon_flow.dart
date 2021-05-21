@@ -11,7 +11,7 @@ class CartoonFlowPage extends Page<void> {
     return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (_, __, ___) => const CartoonFlow(),
-      transitionDuration: const Duration(milliseconds: 1000),
+      transitionDuration: const Duration(milliseconds: 0),
     );
   }
 }

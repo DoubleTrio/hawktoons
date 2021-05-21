@@ -16,7 +16,7 @@ class DetailsPage extends Page<void> {
     return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
-        DetailsScreen(cartoon: cartoon),
+        DetailsView(cartoon: cartoon),
       transitionDuration: const Duration(milliseconds: 500),
       reverseTransitionDuration: const Duration(milliseconds: 500),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -35,8 +35,8 @@ class DetailsPage extends Page<void> {
   }
 }
 
-class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key, required this.cartoon}) : super(key: key);
+class DetailsView extends StatelessWidget {
+  const DetailsView({Key? key, required this.cartoon}) : super(key: key);
 
   final PoliticalCartoon cartoon;
 

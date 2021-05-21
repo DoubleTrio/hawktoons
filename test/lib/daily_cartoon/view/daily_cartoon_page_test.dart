@@ -12,7 +12,7 @@ import '../../keys.dart';
 import '../../mocks.dart';
 
 void main() {
-  group('DailyCartoonScreen', () {
+  group('DailyCartoonView', () {
     late DailyCartoonBloc dailyCartoonBloc;
     late AuthenticationBloc authenticationBloc;
 
@@ -37,40 +37,40 @@ void main() {
 
     testWidgets(
       'renders widget with '
-      'Key(\'DailyCartoonScreen_DailyCartoonInProgress\') '
+      'Key(\'DailyCartoonView_DailyCartoonInProgress\') '
       'when state is DailyCartoonInProgress()', (tester) async {
-      final state = DailyCartoonInProgress();
+      final state = const DailyCartoonInProgress();
       when(() => dailyCartoonBloc.state).thenReturn(state);
-      await tester.pumpApp(wrapper(DailyCartoonScreen()));
+      await tester.pumpApp(wrapper(DailyCartoonView()));
       expect(find.byKey(dailyCartoonInProgressKey), findsOneWidget);
     });
 
     testWidgets(
-      'renders widget with Key(\'DailyCartoonScreen_DailyCartoonLoaded\') '
+      'renders widget with Key(\'DailyCartoonView_DailyCartoonLoaded\') '
       'when state is DailyCartoonLoaded', (tester) async {
       final state = DailyCartoonLoaded(mockPoliticalCartoon);
       when(() => dailyCartoonBloc.state).thenReturn(state);
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(DailyCartoonScreen()))
+        () => tester.pumpApp(wrapper(DailyCartoonView()))
       );
       expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
     });
 
     testWidgets(
-      'renders widget with Key(\'DailyCartoonScreen_DailyCartoonFailed\') '
+      'renders widget with Key(\'DailyCartoonView_DailyCartoonFailed\') '
       'when state is DailyCartoonFailed', (tester) async {
-      final state = DailyCartoonFailed('Error');
+      final state = const DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
-      await tester.pumpApp(wrapper(DailyCartoonScreen()));
+      await tester.pumpApp(wrapper(DailyCartoonView()));
       expect(find.byKey(dailyCartoonFailedKey), findsOneWidget);
     });
 
     testWidgets('logs out when logout button is tapped', (tester) async {
-      final state = DailyCartoonFailed('Error');
+      final state = const DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
-      await tester.pumpApp(wrapper(DailyCartoonScreen()));
+      await tester.pumpApp(wrapper(DailyCartoonView()));
       await tester.tap(find.byKey(dailyCartoonLogoutButtonKey));
-      verify(() => authenticationBloc.add(Logout()));
+      verify(() => authenticationBloc.add(const Logout()));
     });
   });
 }

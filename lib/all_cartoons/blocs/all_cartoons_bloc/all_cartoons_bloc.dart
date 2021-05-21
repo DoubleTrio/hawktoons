@@ -39,6 +39,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
 
   Stream<AllCartoonsState> _mapLoadAllCartoonsToState(
       LoadAllCartoons event) async* {
+    if (event.filters == state.filters && state.hasLoadedInitial) return;
     yield state.copyWith(status: CartoonStatus.initial, filters: event.filters);
     try {
       final cartoons = await cartoonRepository.politicalCartoons(
@@ -47,13 +48,16 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
         tag: event.filters.tag,
         limit: limit,
       );
-      yield state.copyWith(
+      yield AllCartoonsState.loadSuccess(
         cartoons: cartoons,
-        status: CartoonStatus.success,
-        hasReachedMax: limit > cartoons.length
+        filters: event.filters,
+        hasReachedMax: limit > cartoons.length,
       );
     } on Exception {
-      yield state.copyWith(status: CartoonStatus.failure);
+      yield state.copyWith(
+        status: CartoonStatus.failure,
+        filters: event.filters
+      );
     }
   }
 
