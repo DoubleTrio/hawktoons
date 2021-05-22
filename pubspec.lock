@@ -615,7 +615,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "2b68bfb472136de003b68bcbbe1bb81e93475b81"
+      resolved-ref: f8409252e6a1989a75f453ad7081dc6460dcfb00
       url: "https://github.com/DoubleTrio/political_cartoon_repository.git"
     source: git
     version: "1.0.0"
