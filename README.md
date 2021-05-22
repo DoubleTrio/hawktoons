@@ -6,7 +6,7 @@
 [![codecov][codecov_badge]]([hawktoons_code_coverage])
 
 ## About this App 📷
-Hawkstoons is an educational political cartoon and image app which aims to teach people something new history at different time periods and places. In collaboration with the history department at Hamburg Area High School, who are willing to commit a week analyzing a historical image and putting them on app!
+Hawkstoons is an educational political cartoon and image app which aims to teach people something new history at different time periods and places. In collaboration with the history department at school, who are willing to commit a week analyzing a historical image and putting them on app!
 
 
 
