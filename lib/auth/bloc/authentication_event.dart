@@ -9,6 +9,9 @@ class SignInAnonymously extends AuthenticationEvent {
 
   @override
   List<Object> get props => [];
+
+  @override
+  String toString() => 'SignInAnonymously';
 }
 
 class Logout extends AuthenticationEvent {

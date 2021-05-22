@@ -13,12 +13,17 @@ void main() {
         expect(Uninitialized().toString(), Uninitialized().toString());
       });
     });
+
     group('Authenticated', () {
       final userId = 'user-id';
       test('supports value comparisons', () {
         expect(
           Authenticated(userId),
           Authenticated(userId),
+        );
+        expect(
+          Authenticated(userId).toString(),
+          Authenticated(userId).toString(),
         );
       });
     });
@@ -29,6 +34,10 @@ void main() {
           LoginError(),
           LoginError(),
         );
+        expect(
+          LoginError().toString(),
+          LoginError().toString(),
+        );
       });
     });
 
@@ -38,21 +47,35 @@ void main() {
           LoggingIn(),
           LoggingIn(),
         );
+        expect(
+          LoggingIn().toString(),
+          LoggingIn().toString(),
+        );
       });
     });
+
     group('LoggingOut', () {
       test('supports value comparisons', () {
         expect(
           LoggingOut(),
           LoggingOut(),
         );
+        expect(
+          LoggingOut().toString(),
+          LoggingOut().toString(),
+        );
       });
     });
+
     group('LogoutError', () {
       test('supports value comparisons', () {
         expect(
           LogoutError(),
           LogoutError(),
+        );
+        expect(
+          LogoutError().toString(),
+          LogoutError().toString(),
         );
       });
     });

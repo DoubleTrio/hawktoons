@@ -10,6 +10,9 @@ class LoadDailyCartoon extends DailyCartoonEvent {
 
   @override
   List<Object> get props => [];
+
+  @override
+  String toString() => 'LoadDailyCartoon';
 }
 
 class UpdateDailyCartoon extends DailyCartoonEvent {
@@ -19,6 +22,9 @@ class UpdateDailyCartoon extends DailyCartoonEvent {
 
   @override
   List<Object> get props => [cartoon];
+
+  @override
+  String toString() => 'UpdateDailyCartoon { cartoon: $cartoon }';
 }
 
 class ErrorDailyCartoonEvent extends DailyCartoonEvent {
@@ -28,4 +34,7 @@ class ErrorDailyCartoonEvent extends DailyCartoonEvent {
 
   @override
   List<Object> get props => [errorMessage];
+
+  @override
+  String toString() => 'ErrorDailyCartoonEvent($errorMessage)';
 }

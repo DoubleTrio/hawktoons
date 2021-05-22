@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
-@immutable
 abstract class AuthenticationState extends Equatable {
   const AuthenticationState();
 }
@@ -11,6 +9,9 @@ class Uninitialized extends AuthenticationState {
 
   @override
   List<Object> get props => [];
+
+  @override
+  String toString() => 'Uninitialized';
 }
 
 class LoggingIn extends AuthenticationState {
@@ -18,6 +19,19 @@ class LoggingIn extends AuthenticationState {
 
   @override
   List<Object> get props => [];
+
+  @override
+  String toString() => 'LoggingIn';
+}
+
+class LoggingOut extends AuthenticationState {
+  const LoggingOut();
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'LoggingOut';
 }
 
 class Authenticated extends AuthenticationState {
@@ -27,6 +41,9 @@ class Authenticated extends AuthenticationState {
 
   @override
   List<Object> get props => [userId];
+
+  @override
+  String toString() => 'Authenticated($userId)';
 }
 
 class LoginError extends AuthenticationState {
@@ -34,6 +51,9 @@ class LoginError extends AuthenticationState {
 
   @override
   List<Object> get props => [];
+
+  @override
+  String toString() => 'LoginError';
 }
 
 class LogoutError extends AuthenticationState {
@@ -41,11 +61,7 @@ class LogoutError extends AuthenticationState {
 
   @override
   List<Object> get props => [];
-}
-
-class LoggingOut extends AuthenticationState {
-  const LoggingOut();
 
   @override
-  List<Object> get props => [];
+  String toString() => 'LogoutError';
 }

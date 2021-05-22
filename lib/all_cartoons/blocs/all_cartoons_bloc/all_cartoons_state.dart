@@ -1,48 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:history_app/all_cartoons/blocs/all_cartoons_bloc/models.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
-
-enum CartoonStatus {
-  initial,
-  refreshInitial,
-  success,
-  refreshSuccess,
-  loadingMore,
-  failure,
-  refreshFailure,
-}
-
-class CartoonFilters extends Equatable {
-  const CartoonFilters({
-    required this.sortByMode,
-    required this.imageType,
-    required this.tag
-  });
-
-  const CartoonFilters.initial({
-    this.sortByMode = SortByMode.latestPosted,
-    this.imageType = ImageType.all,
-    this.tag = Tag.all,
-  });
-
-  final SortByMode sortByMode;
-  final ImageType imageType;
-  final Tag tag;
-
-  CartoonFilters copyWith({
-    SortByMode? sortByMode,
-    ImageType? imageType,
-    Tag? tag
-  }) {
-    return CartoonFilters(
-      sortByMode: sortByMode ?? this.sortByMode,
-      imageType: imageType ?? this.imageType,
-      tag: tag ?? this.tag
-    );
-  }
-
-  @override
-  List<Object?> get props => [sortByMode, imageType, tag];
-}
 
 class AllCartoonsState extends Equatable {
   const AllCartoonsState({
@@ -98,4 +56,14 @@ class AllCartoonsState extends Equatable {
       hasLoadedInitial: hasLoadedInitial ?? this.hasLoadedInitial,
     );
   }
+
+  @override
+  String toString() =>
+    'AllCartoonsState { '
+      'cartoons: $cartoons, '
+      'filters: $filters, '
+      'status: $status, '
+      'hasReachedMax: $hasReachedMax, '
+      'hasLoadedInitial: $hasLoadedInitial '
+    '}';
 }

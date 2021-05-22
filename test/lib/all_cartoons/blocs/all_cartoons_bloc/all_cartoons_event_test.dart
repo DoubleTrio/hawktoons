@@ -20,17 +20,21 @@ void main() {
           LoadCartoons(mockFilter.copyWith(tag: Tag.tag2)),
           isNot(LoadCartoons(mockFilter)),
         );
+        expect(
+          LoadCartoons(mockFilter).toString(),
+          LoadCartoons(mockFilter).toString(),
+        );
       });
     });
     group('LoadMoreCartoons', () {
       test('supports value comparisons', () {
         expect(
-          LoadMoreCartoons(mockFilter),
-          LoadMoreCartoons(mockFilter),
+          LoadMoreCartoons(),
+          LoadMoreCartoons(),
         );
         expect(
-          LoadMoreCartoons(mockFilter.copyWith(tag: Tag.tag1)),
-          isNot(LoadMoreCartoons(mockFilter)),
+          LoadMoreCartoons().toString(),
+          LoadMoreCartoons().toString(),
         );
       });
     });
@@ -39,6 +43,10 @@ void main() {
         expect(
           RefreshCartoons(),
           RefreshCartoons(),
+        );
+        expect(
+          RefreshCartoons().toString(),
+          RefreshCartoons().toString(),
         );
       });
     });

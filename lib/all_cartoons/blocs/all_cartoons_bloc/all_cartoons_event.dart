@@ -12,15 +12,19 @@ class LoadCartoons extends AllCartoonsEvent {
 
   @override
   List<Object> get props => [filters];
+
+  @override
+  String toString() => 'LoadCartoons { filters: $filters }';
 }
 
 class LoadMoreCartoons extends AllCartoonsEvent {
-  const LoadMoreCartoons(this.filters);
-
-  final CartoonFilters filters;
+  const LoadMoreCartoons();
 
   @override
-  List<Object> get props => [filters];
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'LoadMoreCartoons';
 }
 
 class RefreshCartoons extends AllCartoonsEvent {
@@ -28,4 +32,7 @@ class RefreshCartoons extends AllCartoonsEvent {
 
   @override
   List<Object> get props => [];
+
+  @override
+  String toString() => 'RefreshCartoons';
 }

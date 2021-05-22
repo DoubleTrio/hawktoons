@@ -20,7 +20,6 @@ class CartoonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final primary = colorScheme.primary;
     final onBackground = colorScheme.onBackground;
     final onSurface = colorScheme.onSurface;
     final cardColor = theme.cardColor;
@@ -44,14 +43,15 @@ class CartoonCard extends StatelessWidget {
                     const BorderRadius.vertical(top: Radius.circular(10)),
                 child: Container(
                   constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height / 3),
+                    maxHeight: MediaQuery.of(context).size.height / 3
+                  ),
                   child: CachedNetworkImage(
                     imageUrl: cartoon.downloadUrl,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            LinearProgressIndicator(
-                                value: downloadProgress.progress,
-                                backgroundColor: primary),
+                    progressIndicatorBuilder: (_, url, downloadProgress) =>
+                      LinearProgressIndicator(
+                        value: downloadProgress.progress,
+                        backgroundColor: Colors.transparent,
+                      ),
                   ),
                 ),
               )),
@@ -72,18 +72,21 @@ class CartoonCard extends StatelessWidget {
                       const SizedBox(height: 8),
                       if (cartoon.author != '') ...[
                         RichText(
-                            key: Key('CartoonCard_Author_${cartoon.id}'),
-                            text: TextSpan(
-                                text: 'By ',
-                                style: TextStyle(color: onSurface),
-                                children: [
-                                  TextSpan(
-                                    text: cartoon.author,
-                                    style: TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        color: onSurface),
-                                  )
-                                ])),
+                          key: Key('CartoonCard_Author_${cartoon.id}'),
+                          text: TextSpan(
+                            text: 'By ',
+                            style: TextStyle(color: onSurface),
+                            children: [
+                              TextSpan(
+                                text: cartoon.author,
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: onSurface,
+                                ),
+                              )
+                            ]
+                          )
+                        ),
                         const SizedBox(height: 12)
                       ],
                       Row(
@@ -97,9 +100,9 @@ class CartoonCard extends StatelessWidget {
                           Flexible(
                             child: Text(
                               TimeAgo(
-                                      l10n: context.l10n,
-                                      locale: Platform.localeName)
-                                  .timeAgoSinceDate(cartoon.timestamp),
+                                l10n: context.l10n,
+                                locale: Platform.localeName
+                              ).timeAgoSinceDate(cartoon.timestamp),
                               style: TextStyle(color: onBackground),
                               softWrap: true,
                             ),
@@ -111,11 +114,14 @@ class CartoonCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                              'Tags: ${cartoon.tags.map((tag) => tag.index)
-                                .join(', ')}',
-                              style: TextStyle(
-                                  color: theme.colorScheme.onBackground
-                                      .withOpacity(0.2))),
+                            'Tags: ${cartoon.tags.map((tag) => tag.index)
+                              .join(', ')}',
+                            style: TextStyle(
+                              color: theme.colorScheme.onBackground.withOpacity(
+                                0.2
+                              )
+                            )
+                          ),
                         ],
                       ),
                     ],

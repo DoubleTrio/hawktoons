@@ -12,7 +12,8 @@ import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
-const _staggeredGridLoadingMoreKey = Key('StaggeredCartoonGrid_LoadingMoreIndicator');
+const _staggeredGridLoadingMoreKey =
+  Key('StaggeredCartoonGrid_LoadingMoreIndicator');
 
 void main() {
   group('StaggeredCartoonGrid', () {
@@ -126,13 +127,7 @@ void main() {
         find.byType(StaggeredCartoonGrid), const Offset(0, -2000)
       );
 
-      final filters = CartoonFilters(
-        sortByMode: sortByCubit.state,
-        imageType: imageTypeCubit.state,
-        tag: tagCubit.state
-      );
-
-      verify(() => allCartoonsBloc.add(LoadMoreCartoons(filters)));
+      verify(() => allCartoonsBloc.add(const LoadMoreCartoons()));
     });
 
     testWidgets('staggered grid shows loading more indicator', (tester) async {
@@ -170,7 +165,8 @@ void main() {
       verify(() => allCartoonsBloc.add(const RefreshCartoons())).called(1);
     });
 
-    testWidgets('staggered grid triggers error snackbar when refresh returns an error', (tester) async {
+    testWidgets('staggered grid triggers '
+      'snackbar when refresh returns an error', (tester) async {
       whenListen(
         allCartoonsBloc,
         Stream.value(const AllCartoonsState.initial().copyWith(

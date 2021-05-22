@@ -176,13 +176,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  custom_refresh_indicator:
-    dependency: "direct main"
-    description:
-      name: custom_refresh_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0-nullsafety.1"
   dart_style:
     dependency: transitive
     description:
@@ -620,9 +613,11 @@ packages:
   political_cartoon_repository:
     dependency: "direct main"
     description:
-      path: "../../repository/political_cartoon_repository"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "2b68bfb472136de003b68bcbbe1bb81e93475b81"
+      url: "https://github.com/DoubleTrio/political_cartoon_repository.git"
+    source: git
     version: "1.0.0"
   pool:
     dependency: transitive

@@ -13,6 +13,7 @@ import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 class StaggeredCartoonGrid extends StatefulWidget {
   StaggeredCartoonGrid({Key? key}) : super(key: key);
 
+
   @override
   _StaggeredCartoonGridState createState() => _StaggeredCartoonGridState();
 }
@@ -21,7 +22,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   late ScrollController _scrollController;
   late Completer<void> _refreshCompleter;
 
-  final delta = 200.0;
+  final delta = 250.0;
 
   @override
   void initState() {
@@ -40,16 +41,8 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
           context.read<ScrollHeaderCubit>().onScrollBeforeHeader();
         }
 
-        if (maxScroll - currentScroll <= delta) {
-          final _selectedTag = context.read<TagCubit>().state;
-          final _sortByMode = context.read<SortByCubit>().state;
-          final _imageType = context.read<ImageTypeCubit>().state;
-          final filters = CartoonFilters(
-            sortByMode: _sortByMode,
-            imageType: _imageType,
-            tag: _selectedTag
-          );
-          context.read<AllCartoonsBloc>().add(LoadMoreCartoons(filters));
+        if ((maxScroll - currentScroll <= delta) && currentScroll > 0) {
+          context.read<AllCartoonsBloc>().add(const LoadMoreCartoons());
         }
       });
       _scrollController.position.isScrollingNotifier.addListener(() {
@@ -64,6 +57,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _refreshCompleter.complete();
     super.dispose();
   }
 
@@ -94,7 +88,9 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
 
     Future<void> _refresh() async {
       context.read<AllCartoonsBloc>().add(const RefreshCartoons());
-      return _refreshCompleter.future;
+      return _refreshCompleter.future.timeout(
+        const Duration(seconds: 20),
+      );
     }
 
     Widget _buildInitialErrorIndicator() {
@@ -126,10 +122,12 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
               }
 
               if (state.status == CartoonStatus.refreshFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    duration: Duration(seconds: 2),
-                    content: Text('Failed to refresh images'),
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    const SnackBar(
+                      duration: Duration(seconds: 2),
+                      content: Text('Failed to refresh images'),
                   ),
                 );
               }
@@ -161,7 +159,6 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                       ]
                     );
                   }
-
                   if (index == _itemCount - 1) {
                     if (_isLoadingMore) {
                       return const LoadingIndicator(

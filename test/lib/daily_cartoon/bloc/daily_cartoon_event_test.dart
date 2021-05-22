@@ -12,13 +12,22 @@ void main() {
           LoadDailyCartoon(),
           LoadDailyCartoon(),
         );
+        expect(
+          LoadDailyCartoon().toString(),
+          LoadDailyCartoon().toString(),
+        );
       });
     });
     group('ErrorDailyCartoonEvent', () {
+      final errorMessage = 'Error message';
       test('supports value comparisons', () {
         expect(
-          ErrorDailyCartoonEvent('Error message'),
-          ErrorDailyCartoonEvent('Error message'),
+          ErrorDailyCartoonEvent(errorMessage),
+          ErrorDailyCartoonEvent(errorMessage),
+        );
+        expect(
+          ErrorDailyCartoonEvent(errorMessage).toString(),
+          ErrorDailyCartoonEvent(errorMessage).toString(),
         );
       });
     });
@@ -29,6 +38,10 @@ void main() {
         expect(
           UpdateDailyCartoon(cartoon),
           UpdateDailyCartoon(cartoon),
+        );
+        expect(
+          UpdateDailyCartoon(cartoon).toString(),
+          UpdateDailyCartoon(cartoon).toString(),
         );
       });
     });

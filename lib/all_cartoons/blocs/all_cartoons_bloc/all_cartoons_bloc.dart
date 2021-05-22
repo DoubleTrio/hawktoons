@@ -33,7 +33,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     if (event is LoadCartoons) {
       yield* _mapLoadCartoonsToState(event);
     } else if (event is LoadMoreCartoons) {
-      yield* _mapLoadMoreCartoonsEventToState(event);
+      yield* _mapLoadMoreCartoonsEventToState();
     } else if (event is RefreshCartoons) {
       yield* _mapRefreshCartoonsToState();
     }
@@ -70,23 +70,22 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     }
   }
 
-  Stream<AllCartoonsState> _mapLoadMoreCartoonsEventToState(
-      LoadMoreCartoons event) async* {
+  Stream<AllCartoonsState> _mapLoadMoreCartoonsEventToState() async* {
+    if (state.hasReachedMax || state.status == CartoonStatus.loadingMore)
+      return;
     try {
-      if (!state.hasReachedMax && state.status != CartoonStatus.loadingMore) {
-        yield state.copyWith(status: CartoonStatus.loadingMore);
-        final moreCartoons = await cartoonRepository.loadMorePoliticalCartoons(
-          sortByMode: event.filters.sortByMode,
-          imageType: event.filters.imageType,
-          tag: event.filters.tag,
-          limit: limit,
-        );
-        yield state.copyWith(
-          cartoons: List.of(state.cartoons)..addAll(moreCartoons),
-          hasReachedMax: limit > moreCartoons.length,
-          status: CartoonStatus.success,
-        );
-      }
+      yield state.copyWith(status: CartoonStatus.loadingMore);
+      final moreCartoons = await cartoonRepository.loadMorePoliticalCartoons(
+        sortByMode: state.filters.sortByMode,
+        imageType: state.filters.imageType,
+        tag: state.filters.tag,
+        limit: limit,
+      );
+      yield state.copyWith(
+        cartoons: List.of(state.cartoons)..addAll(moreCartoons),
+        hasReachedMax: limit > moreCartoons.length,
+        status: CartoonStatus.success,
+      );
     } on Exception {
       yield state.copyWith(status: CartoonStatus.failure);
     }

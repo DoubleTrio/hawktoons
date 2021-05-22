@@ -9,8 +9,13 @@ void main() {
     group('DailyCartoonInProgress', () {
       test('supports value comparisons', () {
         expect(DailyCartoonInProgress(), DailyCartoonInProgress());
+        expect(
+          DailyCartoonInProgress().toString(),
+          DailyCartoonInProgress().toString(),
+        );
       });
     });
+
     group('DailyCartoonLoaded', () {
       final cartoon = MockPoliticalCartoon();
       test('supports value comparisons', () {
@@ -18,13 +23,23 @@ void main() {
           DailyCartoonLoaded(cartoon),
           DailyCartoonLoaded(cartoon),
         );
+        expect(
+          DailyCartoonLoaded(cartoon).toString(),
+          DailyCartoonLoaded(cartoon).toString(),
+        );
       });
     });
+
     group('DailyCartoonFailed', () {
+      final errorMessage = 'Error message';
       test('supports value comparisons', () {
         expect(
-          DailyCartoonFailed('Error message'),
-          DailyCartoonFailed('Error message'),
+          DailyCartoonFailed(errorMessage),
+          DailyCartoonFailed(errorMessage),
+        );
+        expect(
+          DailyCartoonFailed(errorMessage).toString(),
+          DailyCartoonFailed(errorMessage).toString(),
         );
       });
     });

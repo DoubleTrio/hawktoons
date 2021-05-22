@@ -16,10 +16,14 @@ void main() {
         SelectPoliticalCartoonState(cartoon: cartoon),
         SelectPoliticalCartoonState(cartoon: cartoon),
       );
+      expect(
+        SelectPoliticalCartoonState(cartoon: cartoon).toString(),
+        SelectPoliticalCartoonState(cartoon: cartoon).toString(),
+      );
       expect(SelectPoliticalCartoonState().cartoonSelected, false);
       expect(
         SelectPoliticalCartoonState(
-          cartoon: MockPoliticalCartoon()
+          cartoon: MockPoliticalCartoon(),
         ).cartoonSelected,
         true
       );

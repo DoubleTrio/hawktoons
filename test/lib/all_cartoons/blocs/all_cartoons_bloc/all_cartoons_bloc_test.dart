@@ -146,7 +146,7 @@ void main() {
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
       wait: const Duration(milliseconds: 300),
-      act: (bloc) => bloc.add(LoadMoreCartoons(mockFilter)),
+      act: (bloc) => bloc.add(const LoadMoreCartoons()),
       expect: () => [
         const AllCartoonsState.initial()
           .copyWith(status: CartoonStatus.loadingMore),
@@ -172,7 +172,7 @@ void main() {
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
       wait: const Duration(milliseconds: 300),
-      act: (bloc) => bloc.add(LoadMoreCartoons(mockFilter)),
+      act: (bloc) => bloc.add(const LoadMoreCartoons()),
       expect: () => [
         const AllCartoonsState.initial()
           .copyWith(status: CartoonStatus.loadingMore),
@@ -202,7 +202,7 @@ void main() {
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
       wait: const Duration(milliseconds: 300),
-      act: (bloc) => bloc.add(LoadMoreCartoons(mockFilter)),
+      act: (bloc) => bloc.add(const LoadMoreCartoons()),
       expect: () => [
         const AllCartoonsState.initial()
           .copyWith(status: CartoonStatus.loadingMore),

@@ -17,12 +17,12 @@ class DetailsPage extends Page<void> {
       settings: this,
       pageBuilder: (context, animation, secondaryAnimation) =>
         DetailsView(cartoon: cartoon),
-      transitionDuration: const Duration(milliseconds: 500),
-      reverseTransitionDuration: const Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 400),
+      reverseTransitionDuration: const Duration(milliseconds: 400),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final begin = const Offset(1.0, 0.0);
         final end = Offset.zero;
-        final curve = Curves.ease;
+        final curve = Curves.easeInCubic;
 
         final tween = Tween(begin: begin, end: end)
           ..chain(CurveTween(curve: curve));
