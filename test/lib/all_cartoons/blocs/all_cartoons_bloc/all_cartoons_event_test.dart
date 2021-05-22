@@ -1,12 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../../mocks.dart';
-
-class MockPoliticalCartoon extends Mock implements PoliticalCartoon {}
 
 void main() {
   group('AllCartoonsEvent', () {
@@ -26,6 +23,7 @@ void main() {
         );
       });
     });
+
     group('LoadMoreCartoons', () {
       test('supports value comparisons', () {
         expect(
@@ -38,6 +36,7 @@ void main() {
         );
       });
     });
+
     group('RefreshCartoons', () {
       test('supports value comparisons', () {
         expect(
