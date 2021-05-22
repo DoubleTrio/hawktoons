@@ -1,7 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-enum CartoonStatus { initial, success, loading, failure }
+enum CartoonStatus {
+  initial,
+  refreshInitial,
+  success,
+  refreshSuccess,
+  loadingMore,
+  failure,
+  refreshFailure,
+}
 
 class CartoonFilters extends Equatable {
   const CartoonFilters({
@@ -54,7 +62,7 @@ class AllCartoonsState extends Equatable {
   });
 
   const AllCartoonsState.loadSuccess({
-    required List<PoliticalCartoon> cartoons,
+    required PoliticalCartoonList cartoons,
     required CartoonFilters filters,
     required bool hasReachedMax
   }) : this(
@@ -65,7 +73,7 @@ class AllCartoonsState extends Equatable {
     hasLoadedInitial: true,
   );
 
-  final List<PoliticalCartoon> cartoons;
+  final PoliticalCartoonList cartoons;
   final CartoonFilters filters;
   final CartoonStatus status;
   final bool hasReachedMax;
@@ -76,7 +84,7 @@ class AllCartoonsState extends Equatable {
     get props => [cartoons, filters, status, hasReachedMax, hasLoadedInitial];
 
   AllCartoonsState copyWith({
-    List<PoliticalCartoon>? cartoons,
+    PoliticalCartoonList? cartoons,
     CartoonFilters? filters,
     CartoonStatus? status,
     bool? hasReachedMax,

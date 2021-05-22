@@ -62,8 +62,9 @@ class _OnboardingViewState extends State<OnboardingView> {
     }
 
     void _onPageChanged(int page) {
-      context.read<OnboardingPageCubit>()
-        .setOnBoardingPage(VisibleOnboardingPage.values[page]);
+      context.read<OnboardingPageCubit>().setOnBoardingPage(
+        VisibleOnboardingPage.values[page]
+      );
     }
 
     final _baseTextStyle = TextStyle(

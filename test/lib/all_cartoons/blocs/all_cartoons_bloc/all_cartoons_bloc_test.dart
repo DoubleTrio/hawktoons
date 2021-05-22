@@ -34,7 +34,7 @@ void main() {
           return AllCartoonsBloc(cartoonRepository: cartoonRepository);
         },
         // wait: ,
-        act: (bloc) => bloc.add(LoadAllCartoons(mockFilter)),
+        act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
         expect: () => [
           const AllCartoonsState.initial(),
           AllCartoonsState.loadSuccess(
@@ -64,7 +64,7 @@ void main() {
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
       // wait: ,
-      act: (bloc) => bloc.add(LoadAllCartoons(mockFilter)),
+      act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
       seed: () => const AllCartoonsState.initial().copyWith(
         hasLoadedInitial: true
       ),
@@ -89,7 +89,7 @@ void main() {
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
       // wait: ,
-      act: (bloc) => bloc.add(LoadAllCartoons(mockFilter)),
+      act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
       expect: () => <AllCartoonsState>[
         const AllCartoonsState.initial(),
         const AllCartoonsState.initial().copyWith(
@@ -118,7 +118,7 @@ void main() {
         )).thenThrow(Exception('Error'));
         return AllCartoonsBloc(cartoonRepository: cartoonRepository);
       },
-      act: (bloc) => bloc.add(LoadAllCartoons(mockFilter)),
+      act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
       expect: () => [
         AllCartoonsState.initial(filters: mockFilter),
         const AllCartoonsState.initial().copyWith(
@@ -149,7 +149,7 @@ void main() {
       act: (bloc) => bloc.add(LoadMoreCartoons(mockFilter)),
       expect: () => [
         const AllCartoonsState.initial()
-          .copyWith(status: CartoonStatus.loading),
+          .copyWith(status: CartoonStatus.loadingMore),
         const AllCartoonsState.initial().copyWith(status: CartoonStatus.failure)
       ],
       verify: (_) => verify(() => cartoonRepository.loadMorePoliticalCartoons(
@@ -175,7 +175,7 @@ void main() {
       act: (bloc) => bloc.add(LoadMoreCartoons(mockFilter)),
       expect: () => [
         const AllCartoonsState.initial()
-          .copyWith(status: CartoonStatus.loading),
+          .copyWith(status: CartoonStatus.loadingMore),
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.success,
           cartoons: mockCartoons,
@@ -205,7 +205,7 @@ void main() {
       act: (bloc) => bloc.add(LoadMoreCartoons(mockFilter)),
       expect: () => [
         const AllCartoonsState.initial()
-          .copyWith(status: CartoonStatus.loading),
+          .copyWith(status: CartoonStatus.loadingMore),
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.success,
           cartoons: List.filled(15, mockCartoons[0]),
@@ -213,6 +213,70 @@ void main() {
         )
       ],
       verify: (_) => verify(() => cartoonRepository.loadMorePoliticalCartoons(
+        sortByMode: mockFilter.sortByMode,
+        imageType: mockFilter.imageType,
+        tag: mockFilter.tag,
+        limit: 15,
+      )).called(1),
+    );
+
+
+    blocTest<AllCartoonsBloc, AllCartoonsState>(
+      'bloc refreshes cartoons and emits the correct states',
+      build: () {
+        when(() => cartoonRepository.politicalCartoons(
+          sortByMode: mockFilter.sortByMode,
+          imageType: mockFilter.imageType,
+          tag: mockFilter.tag,
+          limit: 15,
+        )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
+        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+      },
+      wait: const Duration(milliseconds: 300),
+      seed: () =>
+        const AllCartoonsState.initial().copyWith(filters: mockFilter),
+      act: (bloc) => bloc.add(const RefreshCartoons()),
+      expect: () => [
+        const AllCartoonsState.initial()
+            .copyWith(status: CartoonStatus.refreshInitial),
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.refreshSuccess,
+          cartoons: List.filled(15, mockCartoons[0]),
+          hasLoadedInitial: true,
+          hasReachedMax: false,
+        )
+      ],
+      verify: (_) => verify(() => cartoonRepository.politicalCartoons(
+        sortByMode: mockFilter.sortByMode,
+        imageType: mockFilter.imageType,
+        tag: mockFilter.tag,
+        limit: 15,
+      )).called(1),
+    );
+
+    blocTest<AllCartoonsBloc, AllCartoonsState>(
+      'bloc refreshes cartoons, errors and emits correct states',
+      build: () {
+        when(() => cartoonRepository.politicalCartoons(
+          sortByMode: mockFilter.sortByMode,
+          imageType: mockFilter.imageType,
+          tag: mockFilter.tag,
+          limit: 15,
+        )).thenThrow(Exception('Error'));
+        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+      },
+      wait: const Duration(milliseconds: 300),
+      seed: () =>
+        const AllCartoonsState.initial().copyWith(filters: mockFilter),
+      act: (bloc) => bloc.add(const RefreshCartoons()),
+      expect: () => [
+        const AllCartoonsState.initial()
+          .copyWith(status: CartoonStatus.refreshInitial),
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.refreshFailure,
+        ),
+      ],
+      verify: (_) => verify(() => cartoonRepository.politicalCartoons(
         sortByMode: mockFilter.sortByMode,
         imageType: mockFilter.imageType,
         tag: mockFilter.tag,

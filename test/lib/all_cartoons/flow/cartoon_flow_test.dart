@@ -53,8 +53,11 @@ void main() {
     });
 
     testWidgets('shows DetailsPage', (tester) async {
-      when(() => allCartoonsBloc.state)
-        .thenReturn(const AllCartoonsState.initial()
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.success,
+          cartoons: [mockPoliticalCartoon]
+        )
       );
 
       when(() => selectCartoonCubit.state).thenReturn(

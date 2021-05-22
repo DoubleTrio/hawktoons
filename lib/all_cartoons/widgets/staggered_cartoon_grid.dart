@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
@@ -8,9 +11,7 @@ import 'package:history_app/widgets/page_header.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class StaggeredCartoonGrid extends StatefulWidget {
-  StaggeredCartoonGrid({Key? key, required this.cartoons}) : super(key: key);
-
-  final List<PoliticalCartoon> cartoons;
+  StaggeredCartoonGrid({Key? key}) : super(key: key);
 
   @override
   _StaggeredCartoonGridState createState() => _StaggeredCartoonGridState();
@@ -18,17 +19,16 @@ class StaggeredCartoonGrid extends StatefulWidget {
 
 class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   late ScrollController _scrollController;
-  final _headerKey = GlobalKey();
+  late Completer<void> _refreshCompleter;
+
   final delta = 200.0;
 
   @override
   void initState() {
+    _refreshCompleter = Completer<void>();
     _scrollController = ScrollController();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      final renderBox =
-          _headerKey.currentContext!.findRenderObject() as RenderBox;
-
-      final height = renderBox.size.height;
+      final height = 30;
 
       _scrollController.addListener(() {
         final maxScroll = _scrollController.position.maxScrollExtent;
@@ -67,56 +67,123 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
     super.dispose();
   }
 
+  Widget _buildInitialIndicator() {
+    return const LoadingIndicator(
+      key: Key('AllCartoonsPage_AllCartoonsLoading')
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _itemCount = widget.cartoons.length + 2;
-    final _isLoading = context.select<AllCartoonsBloc, bool>(
-        (value) => value.state.status == CartoonStatus.loading);
+    final theme = Theme.of(context);
+    final _isLoadingMore = context.select<AllCartoonsBloc, bool>(
+      (value) => value.state.status == CartoonStatus.loadingMore
+    );
+
+    final _isLoadingInitial = context.select<AllCartoonsBloc, bool>(
+      (value) => value.state.status == CartoonStatus.initial
+    );
+
+    final _isLoadingInitialError = context.select<AllCartoonsBloc, bool>(
+      (value) => value.state.status == CartoonStatus.failure
+    );
 
     void _selectCartoon(PoliticalCartoon cartoon) {
       context.read<SelectCartoonCubit>().selectCartoon(cartoon);
     }
 
-    return Expanded(
+    Future<void> _refresh() async {
+      context.read<AllCartoonsBloc>().add(const RefreshCartoons());
+      return _refreshCompleter.future;
+    }
+
+    Widget _buildInitialErrorIndicator() {
+      return SizedBox(
+        height: 30,
+        width: double.infinity,
+        child: Text(
+          'An error has occurred while loading for images',
+          key: const Key('AllCartoonsPage_AllCartoonsFailed'),
+          style: TextStyle(
+            color: theme.colorScheme.error,
+            fontSize: 14,
+          ),
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      backgroundColor: theme.bottomAppBarColor,
+      onRefresh: _refresh,
       child: CartoonScrollBar(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: StaggeredGridView.countBuilder(
-            controller: _scrollController,
-            physics: const BouncingScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 3.0,
-            crossAxisSpacing: 3.0,
-            itemCount: _itemCount,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return PageHeader(
-                  header: 'All',
-                  key: _headerKey,
+          child: BlocConsumer<AllCartoonsBloc, AllCartoonsState>(
+            listener: (context, state) {
+              if (state.status == CartoonStatus.refreshSuccess) {
+                _refreshCompleter.complete();
+                _refreshCompleter = Completer();
+              }
+
+              if (state.status == CartoonStatus.refreshFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    duration: Duration(seconds: 2),
+                    content: Text('Failed to refresh images'),
+                  ),
                 );
               }
-
-              if (index == _itemCount - 1) {
-                if (_isLoading) {
-                  return const LoadingIndicator(
-                    key: Key('StaggeredCartoonGrid_LoadingIndicator')
-                  );
-                } else {
-                  return const SizedBox.shrink();
-                }
-              }
-
-              final cartoon = widget.cartoons[index - 1];
-              return CartoonCard(
-                key: Key('CartoonCard_${cartoon.id}'),
-                cartoon: cartoon,
-                onTap: () => _selectCartoon(cartoon),
-              );
             },
-            staggeredTileBuilder: (index) =>
-              StaggeredTile.fit(
-                index == 0 || index == _itemCount - 1 ? 2 : 1
-              ),
+            buildWhen: (prev, curr) => prev.cartoons != curr.cartoons,
+            builder: (context, state) {
+              final _itemCount = state.cartoons.length + 2;
+              return StaggeredGridView.countBuilder(
+                controller: _scrollController,
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()
+                ),
+                crossAxisCount: 2,
+                mainAxisSpacing: 3.0,
+                crossAxisSpacing: 3.0,
+                itemCount: _itemCount,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Column(
+                      children: [
+                        if (_isLoadingInitial)
+                          _buildInitialIndicator(),
+                        const PageHeader(
+                          header: 'All',
+                        ),
+
+                        if (_isLoadingInitialError)
+                          _buildInitialErrorIndicator(),
+                      ]
+                    );
+                  }
+
+                  if (index == _itemCount - 1) {
+                    if (_isLoadingMore) {
+                      return const LoadingIndicator(
+                        key: Key('StaggeredCartoonGrid_LoadingMoreIndicator')
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }
+
+                  final cartoon = state.cartoons[index - 1];
+                  return CartoonCard(
+                    key: Key('CartoonCard_${cartoon.id}'),
+                    cartoon: cartoon,
+                    onTap: () => _selectCartoon(cartoon),
+                  );
+                },
+                staggeredTileBuilder: (index) =>
+                  StaggeredTile.fit(
+                    index == 0 || index == _itemCount - 1 ? 2 : 1
+                  ),
+              );
+            }
           ),
         ),
       ),

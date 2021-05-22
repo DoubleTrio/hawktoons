@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/home/blocs/blocs.dart';
-import 'package:history_app/theme/theme.dart';
 
 class TabSelector extends StatelessWidget {
   TabSelector({
     Key? key,
     required this.activeTab,
-    required this.onTabSelected,
+    required this.onTabChanged,
+    required this.onThemeChanged,
   }) : super(key: key);
 
   final AppTab activeTab;
-  final Function(AppTab) onTabSelected;
+  final ValueChanged<AppTab> onTabChanged;
+  final VoidCallback onThemeChanged;
 
   final int totalTabs = AppTab.values.length;
 
@@ -20,9 +20,6 @@ class TabSelector extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final middleTabWidth = screenWidth * 0.20;
     final width = screenWidth / totalTabs - (middleTabWidth / totalTabs);
-    void _changeTheme() {
-      context.read<ThemeCubit>().changeTheme();
-    }
 
     return Row(children: [
       CustomBottomTabItem(
@@ -30,14 +27,14 @@ class TabSelector extends StatelessWidget {
         icon: const Icon(Icons.article_outlined),
         label: 'Latest',
         width: width,
-        onTap: () => onTabSelected(AppTab.daily),
+        onTap: () => onTabChanged(AppTab.daily),
         selected: AppTab.daily == activeTab
       ),
       CustomBottomTabItem(
         key: const Key('TabSelector_ChangeTheme'),
         icon: const Icon(Icons.lightbulb_outline),
         width: middleTabWidth,
-        onTap: _changeTheme,
+        onTap: onThemeChanged,
         selected: false
       ),
       CustomBottomTabItem(
@@ -45,7 +42,7 @@ class TabSelector extends StatelessWidget {
         icon: const Icon(Icons.list),
         label: 'All',
         width: width,
-        onTap: () => onTabSelected(AppTab.all),
+        onTap: () => onTabChanged(AppTab.all),
         selected: AppTab.all == activeTab
       ),
     ]);

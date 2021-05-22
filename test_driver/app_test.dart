@@ -38,7 +38,8 @@ final allCartoonsFailed =
 final filterButton = find.byValueKey('AllCartoonsPage_FilterButton');
 final cartoonLogoutButton = find.byValueKey('AllCartoonsPage_LogoutButton');
 
-final resetFilterButton = find.byValueKey('ButtonRowHeader_ResetButton');
+final resetFilterButton = find.byValueKey(
+    'ButtonRowHeader_ResetButton');
 final applyFilterButton = find.byValueKey('ButtonRowHeader_ApplyFilterButton');
 
 final tagButton = find.byValueKey('Tag_Button_6');
@@ -61,7 +62,7 @@ void main() {
       await driver.close();
     });
 
-    test('end-to-end test', () async {
+    test('completes onboarding flow', () async {
       sleep(const Duration(seconds: 1));
       await driver.scroll(
         pageView,
@@ -94,24 +95,27 @@ void main() {
       await driver.tap(nextPageOnboardingButton);
       await driver.tap(setSeenOnboardingButton);
 
-      await driver.runUnsynchronized(() =>
-        driver.tap(signInAnonymouslyButton)
-      );
-
-      expect(loginLoadingIndicator, isNotNull);
-
-
       await driver.waitFor(dailyCartoonLoaded);
+    });
 
+
+    test('complete login flow', () async {
       await driver.runUnsynchronized(() =>
-        driver.tap(changeThemeTab)
+          driver.tap(signInAnonymouslyButton)
+      );
+      expect(loginLoadingIndicator, isNotNull);
+    });
+
+    test('completes home flow', () async {
+      await driver.runUnsynchronized(() =>
+          driver.tap(changeThemeTab)
       );
 
       await driver.tap(allCartoonsTab);
       await driver.waitFor(allCartoonsLoaded);
 
       await driver.tap(filterButton);
-      
+
       await driver.waitFor(filterPopUp);
 
       sleep(const Duration(seconds: 1));
@@ -126,26 +130,20 @@ void main() {
         filterPopUp,
         0,
         -200,
-        const Duration(milliseconds: 500)
+        const Duration(milliseconds: 500),
       );
-
       await driver.tap(sortByTile);
       await driver.tap(applyFilterButton);
       await driver.waitFor(allCartoonsLoaded);
-
       await driver.tap(cartoonCard);
-
       await driver.waitFor(detailsView);
       sleep(const Duration(seconds: 1));
       await driver.tap(detailsPageBackButton);
       expect(allCartoonsLoaded, isNotNull);
       await driver.tap(changeThemeTab);
-
       await driver.tap(filterButton);
       await driver.waitFor(filterPopUp);
-
       sleep(const Duration(seconds: 1));
-
       await driver.tap(resetFilterButton);
       await driver.tap(applyFilterButton);
       await driver.waitFor(allCartoonsLoaded);

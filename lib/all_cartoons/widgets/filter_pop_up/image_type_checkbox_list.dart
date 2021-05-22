@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class ImageTypeCheckboxRow extends StatelessWidget {
-  const ImageTypeCheckboxRow({Key? key, required this.imageTypes})
+class ImageTypeCheckboxList extends StatelessWidget {
+  const ImageTypeCheckboxList({
+    Key? key,
+    required this.imageTypes,
+    required this.selectedImageType,
+    required this.onDeselect,
+    required this.onSelect,
+  })
     : super(key: key);
 
   final List<ImageType> imageTypes;
+  final ImageType selectedImageType;
+  final VoidCallback onDeselect;
+  final ValueChanged<ImageType> onSelect;
 
   @override
   Widget build(BuildContext context) {
-    final _selectedImageType = context.watch<ImageTypeCubit>().state;
-
-    void _deselect() {
-      context.read<ImageTypeCubit>().deselectImageType();
-    }
-
-    void _select(ImageType? type) {
-      context.read<ImageTypeCubit>().selectImageType(type!);
-    }
     return Container(
       width: double.infinity,
       height: 100,
@@ -37,9 +35,9 @@ class ImageTypeCheckboxRow extends StatelessWidget {
             key: Key('ImageTypeCheckbox_${type.index}'),
             keyString: 'ImageTypeCheckbox_${type.index}',
             text: type.imageType,
-            isSelected: _selectedImageType == type,
-            onSelect: () => _select(type),
-            onDeselect: _deselect,
+            isSelected: selectedImageType == type,
+            onSelect: () => onSelect(type),
+            onDeselect: onDeselect,
           );
         },
         staggeredTileBuilder: (index) => const StaggeredTile.fit(1),

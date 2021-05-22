@@ -5,6 +5,7 @@ import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/all_cartoons/flow/cartoon_flow.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:history_app/home/blocs/blocs.dart';
+import 'package:history_app/theme/theme.dart';
 import 'package:history_app/widgets/tab_selector.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -53,7 +54,7 @@ class HomeFlowPage extends Page<void> {
             BlocProvider.value(value: _dailyCartoonBloc
               ..add(const LoadDailyCartoon())),
             BlocProvider.value(value: _allCartoonsBloc
-              ..add(LoadAllCartoons(filters))),
+              ..add(LoadCartoons(filters))),
           ],
           child: const HomeFlow()
         ),
@@ -86,11 +87,19 @@ class HomeFlow extends StatelessWidget {
       context.read<ShowBottomSheetCubit>().closeSheet();
     }
 
+    void _changeTheme() {
+      context.read<ThemeCubit>().changeTheme();
+    }
+
+    void _onTabChanged(AppTab tab) {
+      context.read<TabBloc>().add(UpdateTab(tab));
+    }
+
     return Scaffold(
       bottomNavigationBar: TabSelector(
         activeTab: activeTab,
-        onTabSelected: (tab) =>
-          BlocProvider.of<TabBloc>(context).add(UpdateTab(tab)),
+        onTabChanged: _onTabChanged,
+        onThemeChanged: _changeTheme,
       ),
       body: BlocListener<ShowBottomSheetCubit, bool>(
         listener: (context, shouldShowBottomSheet) {

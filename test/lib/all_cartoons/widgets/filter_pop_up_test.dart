@@ -53,10 +53,12 @@ void main() {
     });
 
     testWidgets('selects sorting mode', (tester) async {
-      await tester.pumpApp(wrapper(
-        const SortByTileListView(modes: SortByMode.values)
-      ));
-
+      await tester.pumpApp(wrapper(FilterPopUp()));
+      await tester.dragUntilVisible(
+        find.byKey(sortByTileKey),
+        find.byType(FilterPopUp),
+        const Offset(0, -50)
+      );
       await tester.tap(find.byKey(sortByTileKey));
       await tester.pumpAndSettle();
       verify(() => sortByCubit.selectSortBy(sortByMode)).called(1);
@@ -105,13 +107,13 @@ void main() {
         tag: tag
       );
 
-      verify(() => allCartoonsBloc.add(LoadAllCartoons(filters))).called(1);
+      verify(() => allCartoonsBloc.add(LoadCartoons(filters))).called(1);
     });
 
     testWidgets('selects image type', (tester) async {
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
       await tester.pumpApp(wrapper(
-        ImageTypeCheckboxRow(imageTypes: ImageType.values.sublist(1))
+        FilterPopUp()
       ));
 
       await tester.tap(find.descendant(
@@ -126,7 +128,7 @@ void main() {
     testWidgets('deselects image type', (tester) async {
       when(() => imageTypeCubit.state).thenReturn(imageType);
       await tester.pumpApp(wrapper(
-        ImageTypeCheckboxRow(imageTypes: ImageType.values.sublist(1))
+        FilterPopUp()
       ));
 
       await tester.tap(

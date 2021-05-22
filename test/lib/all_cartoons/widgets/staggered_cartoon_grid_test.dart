@@ -1,3 +1,4 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,7 @@ import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
-const _staggeredGridLoadingKey = Key('StaggeredCartoonGrid_LoadingIndicator');
+const _staggeredGridLoadingMoreKey = Key('StaggeredCartoonGrid_LoadingMoreIndicator');
 
 void main() {
   group('StaggeredCartoonGrid', () {
@@ -24,18 +25,14 @@ void main() {
 
     Widget wrapper(Widget child) {
       return Scaffold(
-        body: Column(
-          children: [
-            MultiBlocProvider(providers: [
-              BlocProvider.value(value: allCartoonsBloc),
-              BlocProvider.value(value: selectCartoonCubit),
-              BlocProvider.value(value: sortByCubit),
-              BlocProvider.value(value: imageTypeCubit),
-              BlocProvider.value(value: tagCubit),
-              BlocProvider.value(value: scrollHeaderCubit),
-            ], child: child),
-          ],
-        ),
+        body: MultiBlocProvider(providers: [
+          BlocProvider.value(value: allCartoonsBloc),
+          BlocProvider.value(value: selectCartoonCubit),
+          BlocProvider.value(value: sortByCubit),
+          BlocProvider.value(value: imageTypeCubit),
+          BlocProvider.value(value: tagCubit),
+          BlocProvider.value(value: scrollHeaderCubit),
+        ], child: child),
       );
     }
 
@@ -67,11 +64,17 @@ void main() {
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
     });
 
+    tearDown(resetMocktailState);
+
     testWidgets('sets cartoon', (tester) async {
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.success,
+          cartoons: List.filled(3, mockPoliticalCartoon
+        ))
+      );
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(StaggeredCartoonGrid(
-          cartoons: List.filled(3, mockPoliticalCartoon),
-        ))),
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid())),
       );
       expect(find.byType(CartoonCard), findsNWidgets(3));
 
@@ -84,10 +87,14 @@ void main() {
     });
 
     testWidgets('display scroll header after scrolling', (tester) async {
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.success,
+          cartoons: List.filled(10, mockPoliticalCartoon
+        ))
+      );
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(StaggeredCartoonGrid(
-          cartoons: List.filled(10, mockPoliticalCartoon)
-        ))),
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid())),
       );
 
       await tester.drag(
@@ -105,10 +112,14 @@ void main() {
     });
 
     testWidgets('loads more cartoons when near bottom', (tester) async {
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.success,
+          cartoons: List.filled(16, mockPoliticalCartoon
+        ))
+      );
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(StaggeredCartoonGrid(
-          cartoons: List.filled(16, mockPoliticalCartoon)
-        ))),
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid())),
       );
 
       await tester.drag(
@@ -124,16 +135,85 @@ void main() {
       verify(() => allCartoonsBloc.add(LoadMoreCartoons(filters)));
     });
 
-    testWidgets('staggered grid shows loading indicator', (tester) async {
+    testWidgets('staggered grid shows loading more indicator', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(status: CartoonStatus.loading)
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.loadingMore,
+          cartoons: List.filled(2, mockPoliticalCartoon
+        ))
       );
       await mockNetworkImagesFor(
-        () => tester.pumpApp(wrapper(StaggeredCartoonGrid(
-          cartoons: List.filled(2, mockPoliticalCartoon)
-        ))),
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid())),
       );
-      expect(find.byKey(_staggeredGridLoadingKey), findsOneWidget);
+      expect(find.byKey(_staggeredGridLoadingMoreKey), findsOneWidget);
+    });
+
+    testWidgets('staggered grid refreshes successfully', (tester) async {
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.success,
+          cartoons: List.filled(2, mockPoliticalCartoon)
+        )
+      );
+      await mockNetworkImagesFor(
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid())),
+      );
+
+      await tester.fling(
+        find.byType(StaggeredCartoonGrid),
+        const Offset(0, 2000),
+        60
+      );
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
+      verify(() => allCartoonsBloc.add(const RefreshCartoons())).called(1);
+    });
+
+    testWidgets('staggered grid triggers error snackbar when refresh returns an error', (tester) async {
+      whenListen(
+        allCartoonsBloc,
+        Stream.value(const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.refreshFailure
+        )),
+        initialState: const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.success,
+          cartoons: List.filled(2, mockPoliticalCartoon)
+        ),
+      );
+
+      await mockNetworkImagesFor(
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid())),
+      );
+
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Failed to refresh images'), findsOneWidget);
+    });
+
+    testWidgets('restarts complete '
+      'when status is refresh success', (tester) async {
+      whenListen(
+        allCartoonsBloc,
+        Stream.periodic(const Duration(seconds: 2),
+          (i) => const AllCartoonsState.initial().copyWith(
+            status: CartoonStatus.refreshSuccess
+          )
+        ).take(1),
+
+        initialState: const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.refreshInitial,
+          cartoons: List.filled(2, mockPoliticalCartoon)
+        ),
+      );
+
+      await mockNetworkImagesFor(
+        () => tester.pumpApp(wrapper(StaggeredCartoonGrid())),
+      );
+
+      expect(allCartoonsBloc.state.status, CartoonStatus.refreshInitial);
+      await tester.pump(const Duration(seconds: 2));
+      expect(allCartoonsBloc.state.status, CartoonStatus.refreshSuccess);
     });
   });
 }

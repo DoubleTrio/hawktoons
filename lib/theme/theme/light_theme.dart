@@ -31,6 +31,7 @@ final lightTheme = ThemeData(
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: lightPrimary,
+    brightness: Brightness.dark,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: lightColorScheme.background,

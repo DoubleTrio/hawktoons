@@ -8,14 +8,14 @@ void main() {
       expect(
         const AllCartoonsState.initial(),
         isNot(equals(const AllCartoonsState.initial().copyWith(
-          status: CartoonStatus.loading
+          status: CartoonStatus.loadingMore
         )))
       );
       expect(
         const AllCartoonsState.initial()
-          .copyWith(status: CartoonStatus.loading),
+          .copyWith(status: CartoonStatus.loadingMore),
         const AllCartoonsState.initial()
-          .copyWith(status: CartoonStatus.loading),
+          .copyWith(status: CartoonStatus.loadingMore),
       );
     });
     group('CartoonFilters', () {

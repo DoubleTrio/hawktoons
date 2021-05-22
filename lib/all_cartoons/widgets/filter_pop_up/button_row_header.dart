@@ -1,32 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/all_cartoons/blocs/blocs.dart';
-import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class ButtonRowHeader extends StatelessWidget {
-  const ButtonRowHeader({Key? key}) : super(key: key);
+  const ButtonRowHeader({
+    Key? key,
+    required this.onReset,
+    required this.onFilter,
+  }) : super(key: key);
+
+  final VoidCallback onReset;
+  final VoidCallback onFilter;
+
   @override
   Widget build(BuildContext context) {
-    final _selectedTag = context.watch<TagCubit>().state;
-    final _sortByMode = context.watch<SortByCubit>().state;
-    final _imageType = context.watch<ImageTypeCubit>().state;
-    final filters = CartoonFilters(
-      sortByMode: _sortByMode,
-      imageType: _imageType,
-      tag: _selectedTag
-    );
-
-    void _filter() {
-      Navigator.of(context).pop();
-      context.read<AllCartoonsBloc>().add(LoadAllCartoons(filters));
-    }
-
-    void _reset() {
-      context.read<ImageTypeCubit>().deselectImageType();
-      context.read<TagCubit>().selectTag(Tag.all);
-      context.read<SortByCubit>().selectSortBy(SortByMode.latestPosted);
-    }
-
     final colorScheme = Theme.of(context).colorScheme;
     final primary = colorScheme.primary;
     final onSurface = colorScheme.onSurface;
@@ -39,7 +24,7 @@ class ButtonRowHeader extends StatelessWidget {
           children: [
             TextButton(
               key: const Key('ButtonRowHeader_ResetButton'),
-              onPressed: _reset,
+              onPressed: onReset,
               child: Text(
                 'Reset',
                 style: TextStyle(color: onSurface),
@@ -61,7 +46,7 @@ class ButtonRowHeader extends StatelessWidget {
             ),
             TextButton(
               key: const Key('ButtonRowHeader_ApplyFilterButton'),
-              onPressed: _filter,
+              onPressed: onFilter,
               child: Text(
                 'Apply',
                 style: TextStyle(color: primary),

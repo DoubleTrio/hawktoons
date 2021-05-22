@@ -5,8 +5,8 @@ abstract class AllCartoonsEvent extends Equatable {
   const AllCartoonsEvent();
 }
 
-class LoadAllCartoons extends AllCartoonsEvent {
-  const LoadAllCartoons(this.filters);
+class LoadCartoons extends AllCartoonsEvent {
+  const LoadCartoons(this.filters);
 
   final CartoonFilters filters;
 
@@ -21,4 +21,11 @@ class LoadMoreCartoons extends AllCartoonsEvent {
 
   @override
   List<Object> get props => [filters];
+}
+
+class RefreshCartoons extends AllCartoonsEvent {
+  const RefreshCartoons();
+
+  @override
+  List<Object> get props => [];
 }

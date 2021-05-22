@@ -48,7 +48,7 @@ void main() {
     testWidgets(
       'renders widget '
       'with Key(\'AllCartoonsPage_AllCartoonsLoading\') '
-      'when state is FilteredCartoonsLoading', (tester) async {
+      'when state is AllCartoonsLoading', (tester) async {
       when(() => allCartoonsBloc.state)
         .thenReturn(const AllCartoonsState.initial());
       await tester.pumpApp(wrapper(const AllCartoonsView()));
@@ -56,9 +56,8 @@ void main() {
     });
 
     testWidgets(
-      'renders widget with '
-      'Key(\'AllCartoonsPage_AllCartoonsLoaded\') '
-      'when state is FilteredCartoonsLoaded', (tester) async {
+      'renders a cartoon'
+      'when status is CartoonStatus.success', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.success,
@@ -69,13 +68,13 @@ void main() {
       await mockNetworkImagesFor(
         () => tester.pumpApp(wrapper(const AllCartoonsView())),
       );
-      expect(find.byKey(allCartoonsLoadedKey), findsOneWidget);
+      expect(find.byType(CartoonCard), findsOneWidget);
     });
 
     testWidgets(
       'renders widget '
       'with Key(\'AllCartoonsPage_AllCartoonsFailed\'); '
-      'when state is FilteredCartoonFailed', (tester) async {
+      'when state is AllCartoonFailed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
           status: CartoonStatus.failure,

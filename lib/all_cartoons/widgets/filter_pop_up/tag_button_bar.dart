@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:history_app/all_cartoons/widgets/filter_pop_up/tag_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButtonBar extends StatelessWidget {
-  const TagButtonBar({Key? key, required this.tags}) : super(key: key);
+  const TagButtonBar({
+    Key? key,
+    required this.tags,
+    required this.selectedTag,
+    required this.onTagChanged,
+  }) : super(key: key);
 
   final List<Tag> tags;
+  final ValueChanged<Tag> onTagChanged;
+  final Tag selectedTag;
 
   @override
   Widget build(BuildContext context) {
-    final _selectedTag = context.watch<TagCubit>().state;
-
-    final _onTagButtonTap = (Tag tag) =>
-      context.read<TagCubit>().selectTag(_selectedTag == tag ? Tag.all : tag);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Wrap(
@@ -24,9 +24,9 @@ class TagButtonBar extends StatelessWidget {
           ...tags.map((tag) => TagButton(
             key: Key('Tag_Button_${tag.index}'),
             tag: tag,
-            onTap: () => _onTagButtonTap(tag),
-            selected: _selectedTag == tag)
-          ),
+            onTap: () => onTagChanged(tag),
+            selected: selectedTag == tag,
+          )),
         ],
       ),
     );

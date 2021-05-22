@@ -5,7 +5,6 @@ import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:history_app/auth/auth.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
-import 'package:history_app/widgets/loading_indicator.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
 
 class AllCartoonsPage extends Page<void> {
@@ -17,7 +16,7 @@ class AllCartoonsPage extends Page<void> {
       settings: this,
       pageBuilder: (_, __, ___) =>
         const AllCartoonsView(),
-      transitionDuration: const Duration(milliseconds: 800),
+      transitionDuration: const Duration(milliseconds: 0),
     );
   }
 }
@@ -27,11 +26,16 @@ class AllCartoonsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final _shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
+
     void _logout() {
       context.read<AuthenticationBloc>().add(const Logout());
     }
+
+    void _openFilterSheet() {
+      context.read<ShowBottomSheetCubit>().openSheet();
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: CustomIconButton(
@@ -51,54 +55,28 @@ class AllCartoonsView extends StatelessWidget {
           CustomIconButton(
             key: const Key('AllCartoonsPage_FilterButton'),
             icon: const Icon(Icons.filter_list),
-            onPressed: () => context.read<ShowBottomSheetCubit>().openSheet(),
+            onPressed: _openFilterSheet,
           )
         ]
       ),
-      body: Column(
-        children: [
-          BlocConsumer<AllCartoonsBloc, AllCartoonsState>(
-            listenWhen: (prev, curr) => prev.filters != curr.filters,
-            listener: (context, state) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  duration: Duration(seconds: 2),
-                  content: Text('Filter applied!'),
-                ),
-              );
-            },
-            builder: (context, state) {
-              if (state.status == CartoonStatus.initial) {
-                return Column(
-                  key: const Key('AllCartoonsPage_AllCartoonsLoading'),
-                  children: [
-                    const SizedBox(height: 24),
-                    const LoadingIndicator(),
-                  ],
-                );
-              }
-              if (state.status == CartoonStatus.success ||
-                  state.status == CartoonStatus.loading) {
-                return StaggeredCartoonGrid(
-                  cartoons: state.cartoons,
-                  key: const Key('AllCartoonsPage_AllCartoonsLoaded'),
-                );
-              }
-              return SizedBox(
-                height: 30,
-                width: double.infinity,
-                child: Text(
-                  'An error has occurred while loading for images',
-                  key: const Key('AllCartoonsPage_AllCartoonsFailed'),
-                  style: TextStyle(
-                    color: colorScheme.error,
-                    fontSize: 14
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
+      body: BlocConsumer<AllCartoonsBloc, AllCartoonsState>(
+        listenWhen: (prev, curr) => prev.filters != curr.filters,
+        listener: (context, state) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              duration: Duration(seconds: 2),
+              content: Text('Filter applied!'),
+            ),
+          );
+        },
+        buildWhen: (prev, curr) {
+          return prev.status != curr.status;
+        },
+        builder: (context, state) {
+          return StaggeredCartoonGrid(
+            key: const Key('AllCartoonsPage_AllCartoonsLoaded'),
+          );
+        }
       ),
     );
   }
