@@ -11,12 +11,15 @@ class FilterHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 12 * 2),
       width: double.infinity,
-      child: Text(
-        header,
-        style: TextStyle(
-          color: theme.colorScheme.onSurface,
-          fontSize: 22,
-          fontWeight: FontWeight.bold
+      child: Semantics(
+        header: true,
+        child: Text(
+          header,
+          style: TextStyle(
+            color: theme.colorScheme.onSurface,
+            fontSize: 22,
+            fontWeight: FontWeight.bold
+          ),
         ),
       ),
     );

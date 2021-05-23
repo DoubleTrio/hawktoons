@@ -66,13 +66,17 @@ class LoginView extends StatelessWidget {
                   ElevatedButton(
                     key: const Key('LoginPage_SignInAnonymouslyButton'),
                     onPressed: _signInAnonymously,
-                    child: Text(
-                      'Sign in anonymously',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: colorScheme.onPrimary,
-                        fontWeight: FontWeight.bold
-                      )
+                    child: Semantics(
+                      button: true,
+                      label: 'Sign in anonymously button',
+                      hint: 'Click to sign in anonymously',
+                      child: Text(
+                        'Sign in anonymously',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: colorScheme.onPrimary,
+                        )
+                      ),
                     ),
                   ),
                   const SizedBox(height: 15),

@@ -55,12 +55,19 @@ class DailyCartoonView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: CustomIconButton(
-          key: const Key('DailyCartoonView_Button_Logout'),
-          icon: const Icon(Icons.exit_to_app_rounded),
-          onPressed: _logout,
+        leading: Semantics(
+          child: CustomIconButton(
+            label: 'Logout button',
+            hint: 'Tap to logout',
+            key: const Key('DailyCartoonView_Button_Logout'),
+            icon: const Icon(Icons.exit_to_app_rounded),
+            onPressed: _logout,
+          ),
         ),
-        title: ScaffoldTitle(title: title),
+        title: Semantics(
+          label: title == ' ' ? '' : 'The image was posted on $title',
+          child: ScaffoldTitle(title: title)
+        ),
         centerTitle: true
       ),
       body: SingleChildScrollView(
@@ -89,7 +96,10 @@ class PoliticalCartoonView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             key: const Key('DailyCartoonView_DailyCartoonLoaded'),
             children: [
-              const PageHeader(header: 'Latest'),
+              Semantics(
+                excludeSemantics: true,
+                child: const PageHeader(header: 'Latest')
+              ),
               const SizedBox(height: 12),
               CartoonBody(cartoon: state.dailyCartoon),
             ],

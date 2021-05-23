@@ -101,10 +101,13 @@ class _HomeFlowState extends State<HomeFlow> {
     }
 
     return Scaffold(
-      bottomNavigationBar: TabSelector(
-        activeTab: activeTab,
-        onTabChanged: _onTabChanged,
-        onThemeChanged: _changeTheme,
+      bottomNavigationBar: Semantics(
+        label: 'Bottom tab bar',
+        child: TabSelector(
+          activeTab: activeTab,
+          onTabChanged: _onTabChanged,
+          onThemeChanged: _changeTheme,
+        ),
       ),
       body: BlocListener<ShowBottomSheetCubit, bool>(
         listener: (context, shouldShowBottomSheet) {

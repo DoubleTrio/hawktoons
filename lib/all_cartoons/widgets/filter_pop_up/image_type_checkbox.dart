@@ -19,18 +19,26 @@ class ImageTypeCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      children: [
-        Material(
-          child: Checkbox(
-            key: Key('${keyString}_Checkbox'),
-            activeColor: theme.colorScheme.primary,
-            value: isSelected,
-            onChanged: (selected) => selected! ? onSelect() : onDeselect()
+    return Semantics(
+      child: Row(
+        children: [
+          Material(
+            child: Semantics(
+              hint: 'Tap to filter political image by text',
+              label: '$text image type',
+              enabled: isSelected,
+              selected: isSelected,
+              child: Checkbox(
+                key: Key('${keyString}_Checkbox'),
+                activeColor: theme.colorScheme.primary,
+                value: isSelected,
+                onChanged: (selected) => selected! ? onSelect() : onDeselect()
+              ),
+            ),
           ),
-        ),
-        Text(text, style: theme.textTheme.subtitle1),
-      ],
+          Text(text, style: theme.textTheme.subtitle1),
+        ],
+      ),
     );
   }
 }

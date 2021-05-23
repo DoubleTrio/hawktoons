@@ -118,6 +118,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                     child: IgnorePointer(
                       ignoring: isLastPage,
                       child: OnboardingTextButton(
+                        excludeSemantics: isLastPage,
+                        label: 'Skip introduction button',
+                        hint: 'Tap to skip the introduction',
                         key: const Key('OnboardingPage_SetSeenOnboarding'),
                         text: 'Skip',
                         onPressed: _completeOnboarding,
@@ -129,6 +132,12 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ..._buildPageIndicator(),
                   const SizedBox(width: 40),
                   OnboardingTextButton(
+                    label: isLastPage
+                      ? 'Start button'
+                      : 'Next page button',
+                    hint: isLastPage
+                      ? 'Tap to go to the login page'
+                      : 'Tap to move to the next page',
                     key: const Key('OnboardingPage_NextPage'),
                     text: isLastPage ? 'Start' : 'Next',
                     onPressed: isLastPage ? _completeOnboarding : _nextPage,

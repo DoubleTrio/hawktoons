@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:history_app/utils/time_ago.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -21,7 +22,10 @@ class CartoonCard extends StatelessWidget {
     final onBackground = colorScheme.onBackground;
     final onSurface = colorScheme.onSurface;
     final cardColor = theme.cardColor;
-
+    final dateText = TimeAgo(
+        l10n: context.l10n,
+        locale: Platform.localeName
+    ).timeAgoSinceDate(cartoon.timestamp);
     return Material(
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
@@ -43,20 +47,23 @@ class CartoonCard extends StatelessWidget {
                   constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height / 3
                   ),
-                  child: CachedNetworkImage(
-                    imageUrl: cartoon.downloadUrl,
-                    progressIndicatorBuilder: (_, url, downloadProgress) =>
-                      Shimmer.fromColors(
-                        baseColor: theme.dividerColor,
-                        highlightColor: theme.backgroundColor,
-                        child: Container(
-                          width: double.infinity,
-                          height: 150,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
+                  child: Semantics(
+                    image: true,
+                    child: CachedNetworkImage(
+                      imageUrl: cartoon.downloadUrl,
+                      progressIndicatorBuilder: (_, __, ___) =>
+                        Shimmer.fromColors(
+                          baseColor: theme.dividerColor,
+                          highlightColor: theme.backgroundColor,
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
+                    ),
                   ),
                 ),
               )),
@@ -70,62 +77,71 @@ class CartoonCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      Semantics(
+                        sortKey: const OrdinalSortKey(1),
+                        child: Text(
                           '${cartoon.type.imageType} '
                           '(${cartoon.publishedString})',
-                          style: TextStyle(color: onBackground)),
+                          style: TextStyle(color: onBackground)
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       if (cartoon.author != '') ...[
-                        RichText(
-                          key: Key('CartoonCard_Author_${cartoon.id}'),
-                          text: TextSpan(
-                            text: 'By ',
-                            style: TextStyle(color: onSurface),
-                            children: [
-                              TextSpan(
-                                text: cartoon.author,
-                                style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: onSurface,
-                                ),
-                              )
-                            ]
-                          )
+                        Semantics(
+                          sortKey: const OrdinalSortKey(0),
+                          child: RichText(
+                            key: Key('CartoonCard_Author_${cartoon.id}'),
+                            text: TextSpan(
+                              text: 'By ',
+                              style: TextStyle(color: onSurface),
+                              children: [
+                                TextSpan(
+                                  text: cartoon.author,
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    color: onSurface,
+                                  ),
+                                )
+                              ]
+                            )
+                          ),
                         ),
                         const SizedBox(height: 12)
                       ],
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.timer,
-                            size: 20,
-                            color: onBackground,
-                          ),
-                          const SizedBox(width: 4),
-                          Flexible(
-                            child: Text(
-                              TimeAgo(
-                                l10n: context.l10n,
-                                locale: Platform.localeName
-                              ).timeAgoSinceDate(cartoon.timestamp),
-                              style: TextStyle(color: onBackground),
-                              softWrap: true,
+                      Semantics(
+                        label: 'Posted $dateText',
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.timer,
+                              size: 20,
+                              color: onBackground,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                dateText,
+                                style: TextStyle(color: onBackground),
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'Tags: ${cartoon.tags.map((tag) => tag.index)
-                              .join(', ')}',
-                            style: TextStyle(
-                              color: theme.colorScheme.onBackground.withOpacity(
-                                0.2
+                          Semantics(
+                            sortKey: const OrdinalSortKey(2),
+                            child: Text(
+                              'Tags: ${cartoon.tags.map((tag) => tag.index)
+                                .join(', ')}',
+                              style: TextStyle(
+                                color: theme.colorScheme
+                                  .onBackground.withOpacity(0.2)
                               )
-                            )
+                            ),
                           ),
                         ],
                       ),

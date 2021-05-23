@@ -25,7 +25,9 @@ class TagButton extends StatelessWidget {
     return TextButton(
       onPressed: onTap,
       style: ButtonStyle(
-        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(padding)),
+        padding: MaterialStateProperty.all<EdgeInsets>(
+          EdgeInsets.all(padding)
+        ),
         foregroundColor: MaterialStateProperty.all<Color>(btnColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -34,9 +36,16 @@ class TagButton extends StatelessWidget {
           )
         )
       ),
-      child: Text(
-        tag.name,
-        style: TextStyle(fontSize: 12, color: btnColor),
+      child: Semantics(
+        hint: 'Tap to select this tag to filter images',
+        label: '${tag.name} tag',
+        enabled: selected,
+        selected: selected,
+        button: true,
+        child: Text(
+          tag.name,
+          style: TextStyle(fontSize: 12, color: btnColor),
+        ),
       ),
     );
   }

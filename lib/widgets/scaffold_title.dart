@@ -7,6 +7,12 @@ class ScaffoldTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title, style: const TextStyle(color: Colors.white));
+    return Semantics(
+      header: true,
+      child: Text(
+        title,
+        style: const TextStyle(color: Colors.white)
+      )
+    );
   }
 }

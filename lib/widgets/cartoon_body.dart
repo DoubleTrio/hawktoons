@@ -32,20 +32,23 @@ class CartoonBody extends StatelessWidget {
               constraints: BoxConstraints(
                 maxHeight: maxImageHeight,
               ),
-              child: CachedNetworkImage(
-                imageUrl: cartoon.downloadUrl,
-                progressIndicatorBuilder: (_, __, ___) =>
-                    Shimmer.fromColors(
-                      baseColor: theme.dividerColor,
-                      highlightColor: theme.backgroundColor,
-                      child: Container(
-                        width: double.infinity,
-                        height: maxImageHeight,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+              child: Semantics(
+                image: true,
+                child: CachedNetworkImage(
+                  imageUrl: cartoon.downloadUrl,
+                  progressIndicatorBuilder: (_, __, ___) =>
+                      Shimmer.fromColors(
+                        baseColor: theme.dividerColor,
+                        highlightColor: theme.backgroundColor,
+                        child: Container(
+                          width: double.infinity,
+                          height: maxImageHeight,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
+                ),
               ),
             ),
           ),

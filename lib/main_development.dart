@@ -19,6 +19,8 @@ void main() async {
     storageDirectory: await getTemporaryDirectory(),
   );
 
+  await HydratedBloc.storage.clear();
+
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };

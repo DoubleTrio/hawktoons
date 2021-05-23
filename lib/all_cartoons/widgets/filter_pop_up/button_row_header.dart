@@ -25,9 +25,14 @@ class ButtonRowHeader extends StatelessWidget {
             TextButton(
               key: const Key('ButtonRowHeader_ResetButton'),
               onPressed: onReset,
-              child: Text(
-                'Reset',
-                style: TextStyle(color: onSurface),
+              child: Semantics(
+                button: true,
+                hint: 'Tap to reset the image filters',
+                label: 'Reset button',
+                child: Text(
+                  'Reset',
+                  style: TextStyle(color: onSurface),
+                ),
               ),
             ),
             Row(
@@ -44,12 +49,19 @@ class ButtonRowHeader extends StatelessWidget {
                 Icon(Icons.filter_list, color: onSurface),
               ],
             ),
-            TextButton(
-              key: const Key('ButtonRowHeader_ApplyFilterButton'),
-              onPressed: onFilter,
-              child: Text(
-                'Apply',
-                style: TextStyle(color: primary),
+            Semantics(
+              child: TextButton(
+                key: const Key('ButtonRowHeader_ApplyFilterButton'),
+                onPressed: onFilter,
+                child: Semantics(
+                  button: true,
+                  hint: 'Tap to apply the image filters',
+                  label: 'Apply filters button',
+                  child: Text(
+                    'Apply',
+                    style: TextStyle(color: primary),
+                  ),
+                ),
               ),
             ),
           ],

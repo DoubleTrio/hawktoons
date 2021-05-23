@@ -49,6 +49,8 @@ class DetailsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: CustomIconButton(
+          label: 'Back button',
+          hint: 'Tap to navigate back to all the political images',
           key: const Key('DetailsPage_BackButton'),
           icon: const Icon(Icons.arrow_back),
           onPressed: _deselectCartoon,

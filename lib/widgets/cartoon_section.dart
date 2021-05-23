@@ -16,12 +16,15 @@ class CartoonSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 24),
-          Text(
-            title,
-            style: theme.textTheme.bodyText1!.copyWith(
-              fontWeight: FontWeight.bold,
-              color: theme.colorScheme.onBackground,
-              letterSpacing: 1.1
+          Semantics(
+            header: true,
+            child: Text(
+              title,
+              style: theme.textTheme.bodyText1!.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.onBackground,
+                letterSpacing: 1.1
+              ),
             ),
           ),
           const SizedBox(height: 18),

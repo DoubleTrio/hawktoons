@@ -18,42 +18,50 @@ class SortByTile extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Material(
-      child: InkWell(
-        highlightColor: theme.colorScheme.primary.withOpacity(0.2),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12 * 2),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(top: 15, bottom: 5),
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(header,
-                      textAlign: TextAlign.start,
-                      style: theme.textTheme.subtitle1!.copyWith(
-                        color: selected
-                          ? colorScheme.primary
-                          : colorScheme.onSurface
-                      )
+      child: ExcludeSemantics(
+        child: InkWell(
+          highlightColor: theme.colorScheme.primary.withOpacity(0.2),
+          onTap: onTap,
+          child: Semantics(
+            hint: 'Tap to sort by $header',
+            label: '$header button',
+            enabled: true,
+            selected: selected,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12 * 2),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(top: 15, bottom: 5),
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(header,
+                          textAlign: TextAlign.start,
+                          style: theme.textTheme.subtitle1!.copyWith(
+                            color: selected
+                              ? colorScheme.primary
+                              : colorScheme.onSurface
+                          )
+                        ),
+                        if (selected)
+                          Icon(
+                            Icons.check,
+                            color: colorScheme.primary,
+                            size: 18,
+                          ),
+                      ],
                     ),
-                    if (selected)
-                      Icon(
-                        Icons.check,
-                        color: colorScheme.primary,
-                        size: 18,
-                      ),
-                  ],
-                ),
+                  ),
+                  Divider(
+                    color: colorScheme.onBackground,
+                    thickness: 1,
+                    height: 1,
+                  ),
+                ],
               ),
-              Divider(
-                color: colorScheme.onBackground,
-                thickness: 1,
-                height: 1,
-              ),
-            ],
+            ),
           ),
         ),
       ),

@@ -22,10 +22,13 @@ class OnboardingWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SizedBox(height: 80),
-          Text(
-            header,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-            textAlign: TextAlign.center,
+          Semantics(
+            header: true,
+            child: Text(
+              header,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              textAlign: TextAlign.center,
+            ),
           ),
           const SizedBox(height: 15.0),
           Text(

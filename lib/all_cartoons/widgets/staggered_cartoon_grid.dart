@@ -135,50 +135,59 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
             buildWhen: (prev, curr) => prev.cartoons != curr.cartoons,
             builder: (context, state) {
               final _itemCount = state.cartoons.length + 2;
-              return StaggeredGridView.countBuilder(
-                controller: _scrollController,
-                physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()
-                ),
-                crossAxisCount: 2,
-                mainAxisSpacing: 3.0,
-                crossAxisSpacing: 3.0,
-                itemCount: _itemCount,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Column(
-                      children: [
-                        if (_isLoadingInitial)
-                          _buildInitialIndicator(),
-                        const PageHeader(
-                          header: 'All',
-                        ),
+              return Semantics(
+                hint: 'Swipe down quickly to refresh or swipe up to '
+                  'scroll down. There are currently ${state.cartoons.length} '
+                  'loaded',
+                label: 'Political images scroll view',
+                child: StaggeredGridView.countBuilder(
+                  controller: _scrollController,
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()
+                  ),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 3.0,
+                  crossAxisSpacing: 3.0,
+                  itemCount: _itemCount,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return Column(
+                        children: [
+                          if (_isLoadingInitial)
+                            _buildInitialIndicator(),
+                          Semantics(
+                            excludeSemantics: true,
+                            child: const PageHeader(
+                              header: 'All',
+                            ),
+                          ),
 
-                        if (_isLoadingInitialError)
-                          _buildInitialErrorIndicator(),
-                      ]
-                    );
-                  }
-                  if (index == _itemCount - 1) {
-                    if (_isLoadingMore) {
-                      return const LoadingIndicator(
-                        key: Key('StaggeredCartoonGrid_LoadingMoreIndicator')
+                          if (_isLoadingInitialError)
+                            _buildInitialErrorIndicator(),
+                        ]
                       );
                     }
-                    return const SizedBox.shrink();
-                  }
+                    if (index == _itemCount - 1) {
+                      if (_isLoadingMore) {
+                        return const LoadingIndicator(
+                          key: Key('StaggeredCartoonGrid_LoadingMoreIndicator')
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    }
 
-                  final cartoon = state.cartoons[index - 1];
-                  return CartoonCard(
-                    key: Key('CartoonCard_${cartoon.id}'),
-                    cartoon: cartoon,
-                    onTap: () => _selectCartoon(cartoon),
-                  );
-                },
-                staggeredTileBuilder: (index) =>
-                  StaggeredTile.fit(
-                    index == 0 || index == _itemCount - 1 ? 2 : 1
-                  ),
+                    final cartoon = state.cartoons[index - 1];
+                    return CartoonCard(
+                      key: Key('CartoonCard_${cartoon.id}'),
+                      cartoon: cartoon,
+                      onTap: () => _selectCartoon(cartoon),
+                    );
+                  },
+                  staggeredTileBuilder: (index) =>
+                    StaggeredTile.fit(
+                      index == 0 || index == _itemCount - 1 ? 2 : 1
+                    ),
+                ),
               );
             }
           ),

@@ -5,12 +5,18 @@ class OnboardingTextButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onPressed,
-    required this.textStyle
+    required this.hint,
+    required this.label,
+    required this.textStyle,
+    this.excludeSemantics = false,
   }) : super(key: key);
 
   final String text;
   final VoidCallback onPressed;
+  final String hint;
+  final String label;
   final TextStyle textStyle;
+  final bool excludeSemantics;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,13 @@ class OnboardingTextButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: TextButton(
         onPressed: onPressed,
-        child: Text(text, style: textStyle),
+        child: Semantics(
+          excludeSemantics: excludeSemantics,
+          label: label,
+          hint: hint,
+          button: true,
+          child: Text(text, style: textStyle),
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:history_app/home/blocs/blocs.dart';
 
 class TabSelector extends StatelessWidget {
@@ -22,28 +23,46 @@ class TabSelector extends StatelessWidget {
     final width = screenWidth / totalTabs - (middleTabWidth / totalTabs);
 
     return Row(children: [
-      CustomBottomTabItem(
-        key: const Key('TabSelector_DailyTab'),
-        icon: const Icon(Icons.article_outlined),
-        label: 'Latest',
-        width: width,
-        onTap: () => onTabChanged(AppTab.daily),
-        selected: AppTab.daily == activeTab
+      Semantics(
+        sortKey: const OrdinalSortKey(0),
+        button: true,
+        label: 'Latest political images tab',
+        hint: 'Navigate to latest image',
+        child: CustomBottomTabItem(
+          key: const Key('TabSelector_DailyTab'),
+          icon: const Icon(Icons.article_outlined),
+          label: 'Latest',
+          width: width,
+          onTap: () => onTabChanged(AppTab.daily),
+          selected: AppTab.daily == activeTab
+        ),
       ),
-      CustomBottomTabItem(
-        key: const Key('TabSelector_ChangeTheme'),
-        icon: const Icon(Icons.lightbulb_outline),
-        width: middleTabWidth,
-        onTap: onThemeChanged,
-        selected: false
+      Semantics(
+        sortKey: const OrdinalSortKey(2),
+        button: true,
+        label: 'Change theme tab button',
+        hint: 'Press to switch between light and dark theme',
+        child: CustomBottomTabItem(
+          key: const Key('TabSelector_ChangeTheme'),
+          icon: const Icon(Icons.lightbulb_outline),
+          width: middleTabWidth,
+          onTap: onThemeChanged,
+          selected: false
+        ),
       ),
-      CustomBottomTabItem(
-        key: const Key('TabSelector_AllTab'),
-        icon: const Icon(Icons.list),
-        label: 'All',
-        width: width,
-        onTap: () => onTabChanged(AppTab.all),
-        selected: AppTab.all == activeTab
+      Semantics(
+        sortKey: const OrdinalSortKey(1),
+        button: true,
+        label: 'All political images tab',
+        hint: 'Navigate to all posted political images',
+        child: CustomBottomTabItem(
+          key: const Key('TabSelector_AllTab'),
+          icon: const Icon(Icons.list),
+          label: 'All',
+          width: width,
+          onTap: () => onTabChanged(AppTab.all),
+          selected: AppTab.all == activeTab
+        ),
       ),
     ]);
   }

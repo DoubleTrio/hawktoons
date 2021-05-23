@@ -42,20 +42,27 @@ class AllCartoonsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: CustomIconButton(
+          label: 'Logout button',
+          hint: 'Tap to logout',
           key: const Key('AllCartoonsPage_LogoutButton'),
           icon: const Icon(Icons.exit_to_app_rounded),
           onPressed: _logout,
         ),
-        title: AnimatedOpacity(
-          opacity: _shouldDisplayTitle ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 800),
-          child: const ScaffoldTitle(
-            title: 'All Images',
+        title: Semantics(
+          excludeSemantics: true,
+          child: AnimatedOpacity(
+            opacity: _shouldDisplayTitle ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 800),
+            child: const ScaffoldTitle(
+              title: 'All Images',
+            ),
           ),
         ),
         centerTitle: true,
         actions: [
           CustomIconButton(
+            label: 'Filter images button',
+            hint: 'Tap to open the image filter page',
             key: const Key('AllCartoonsPage_FilterButton'),
             icon: const Icon(Icons.filter_list),
             onPressed: _openFilterSheet,
