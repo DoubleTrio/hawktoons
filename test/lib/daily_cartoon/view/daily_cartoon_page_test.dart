@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/auth/bloc/auth.dart';
 import 'package:history_app/daily_cartoon/daily_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
@@ -14,11 +15,13 @@ import '../../mocks.dart';
 void main() {
   group('DailyCartoonView', () {
     late DailyCartoonBloc dailyCartoonBloc;
+    late AllCartoonsBloc allCartoonsBloc;
     late AuthenticationBloc authenticationBloc;
 
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
         BlocProvider.value(value: dailyCartoonBloc),
+        BlocProvider.value(value: allCartoonsBloc),
         BlocProvider.value(value: authenticationBloc),
       ], child: child);
     }
@@ -26,12 +29,15 @@ void main() {
     setUpAll(() {
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
+      registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     });
 
     setUp(() {
       dailyCartoonBloc = MockDailyCartoonBloc();
+      allCartoonsBloc = MockAllCartoonsBloc();
       authenticationBloc = MockAuthenticationBloc();
     });
 
@@ -70,7 +76,9 @@ void main() {
       when(() => dailyCartoonBloc.state).thenReturn(state);
       await tester.pumpApp(wrapper(DailyCartoonView()));
       await tester.tap(find.byKey(dailyCartoonLogoutButtonKey));
-      verify(() => authenticationBloc.add(const Logout()));
+      verify(() => authenticationBloc.add(const Logout())).called(1);
+      verify(allCartoonsBloc.close).called(1);
+      verify(dailyCartoonBloc.close).called(1);
     });
   });
 }

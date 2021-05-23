@@ -14,6 +14,7 @@ final darkTheme = ThemeData(
   brightness: Brightness.dark,
   fontFamily: 'SanFrancisco',
   dividerColor: Colors.grey.shade900,
+  backgroundColor: const Color(0xFF2B2B2B),
   colorScheme: darkColorScheme,
   highlightColor: darkPrimary.withOpacity(0.2),
   splashColor: darkPrimary.withOpacity(0.1),

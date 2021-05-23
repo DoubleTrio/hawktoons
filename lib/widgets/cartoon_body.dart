@@ -2,20 +2,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:history_app/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CartoonBody extends StatelessWidget {
   const CartoonBody({
     Key? key,
     required this.cartoon,
-    required this.addImagePadding
   }) : super(key: key);
 
   final PoliticalCartoon cartoon;
-  final bool addImagePadding;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final height = MediaQuery.of(context).size.height;
+    final maxImageHeight = height / 2.5;
 
     final _bodyTextStyle = theme.textTheme.bodyText1!
       .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05);
@@ -25,13 +26,27 @@ class CartoonBody extends StatelessWidget {
       key: Key('CartoonBody_${cartoon.id}'),
       children: [
         Container(
-          padding: EdgeInsets.symmetric(vertical: addImagePadding ? 12 : 0),
           color: Theme.of(context).dividerColor,
           child: Center(
             child: Container(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height / 2),
-              child: CachedNetworkImage(imageUrl: cartoon.downloadUrl),
+                maxHeight: maxImageHeight,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: cartoon.downloadUrl,
+                progressIndicatorBuilder: (_, __, ___) =>
+                    Shimmer.fromColors(
+                      baseColor: theme.dividerColor,
+                      highlightColor: theme.backgroundColor,
+                      child: Container(
+                        width: double.infinity,
+                        height: maxImageHeight,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+              ),
             ),
           ),
         ),

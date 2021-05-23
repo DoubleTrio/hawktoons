@@ -1,8 +1,10 @@
 export 'bullet_body.dart';
 export 'cartoon_body.dart';
+export 'cartoon_body_placeholder.dart';
 export 'cartoon_scroll_bar.dart';
 export 'cartoon_section.dart';
 export 'cartoon_section_divider.dart';
+export 'cartoon_section_placeholder.dart';
 export 'custom_icon_button.dart';
 export 'page_header.dart';
 export 'scaffold_title.dart';

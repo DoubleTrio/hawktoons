@@ -13,7 +13,6 @@ void main() {
         SingleChildScrollView(
           child: CartoonBody(
             cartoon: mockPoliticalCartoon,
-            addImagePadding: false,
           ),
         )
       );
@@ -25,7 +24,6 @@ void main() {
         SingleChildScrollView(
           child: CartoonBody(
             cartoon: mockPoliticalCartoon.copyWith(author: ''),
-            addImagePadding: false,
           ),
         )
       );

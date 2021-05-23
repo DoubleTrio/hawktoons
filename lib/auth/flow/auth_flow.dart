@@ -41,7 +41,7 @@ class AuthFlow extends StatelessWidget {
       onGeneratePages: (state, pages) {
         return [
           const LoginPage(),
-          if (state is Authenticated) const HomeFlowPage()
+          if (state is Authenticated) const HomeFlowPage(),
         ];
       }
     );

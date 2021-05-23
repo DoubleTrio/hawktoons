@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:history_app/all_cartoons/widgets/widgets.dart';
 import 'package:history_app/auth/auth.dart';
+import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
 
@@ -29,6 +30,8 @@ class AllCartoonsView extends StatelessWidget {
     final _shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
 
     void _logout() {
+      context.read<AllCartoonsBloc>().close();
+      context.read<DailyCartoonBloc>().close();
       context.read<AuthenticationBloc>().add(const Logout());
     }
 

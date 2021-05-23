@@ -26,6 +26,7 @@ dependencies:
     git:
       url: https://github.com/DoubleTrio/political_cartoon_repository.git
       ref: main
+  shimmer: ^2.0.0
 #  political_cartoon_repository:
 #    path: ../../repository/political_cartoon_repository
 dev_dependencies:

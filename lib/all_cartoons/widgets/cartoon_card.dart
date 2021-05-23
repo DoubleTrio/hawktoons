@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:history_app/l10n/l10n.dart';
 import 'package:history_app/utils/time_ago.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CartoonCard extends StatelessWidget {
   CartoonCard({Key? key, required this.cartoon, required this.onTap})
@@ -13,8 +13,6 @@ class CartoonCard extends StatelessWidget {
 
   final PoliticalCartoon cartoon;
   final VoidCallback onTap;
-
-  final temp = Uint8List(500);
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +46,16 @@ class CartoonCard extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: cartoon.downloadUrl,
                     progressIndicatorBuilder: (_, url, downloadProgress) =>
-                      LinearProgressIndicator(
-                        value: downloadProgress.progress,
-                        backgroundColor: Colors.transparent,
+                      Shimmer.fromColors(
+                        baseColor: theme.dividerColor,
+                        highlightColor: theme.backgroundColor,
+                        child: Container(
+                          width: double.infinity,
+                          height: 150,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                   ),
                 ),

@@ -14,7 +14,8 @@ final lightTheme = ThemeData(
   brightness: Brightness.light,
   fontFamily: 'SanFrancisco',
   primaryColor: lightPrimary,
-  dividerColor: Colors.grey.shade200,
+  dividerColor: Colors.grey.shade300,
+  backgroundColor: Colors.grey.shade100,
   highlightColor: lightPrimary.withOpacity(0.2),
   splashColor: lightPrimary.withOpacity(0.1),
   textButtonTheme: TextButtonThemeData(

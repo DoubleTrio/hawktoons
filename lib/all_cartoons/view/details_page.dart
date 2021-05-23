@@ -56,7 +56,7 @@ class DetailsView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: CartoonBody(cartoon: cartoon, addImagePadding: false)
+        child: CartoonBody(cartoon: cartoon)
       ),
     );
   }

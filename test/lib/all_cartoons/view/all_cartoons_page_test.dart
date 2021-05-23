@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/auth/bloc/auth.dart';
+import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -17,6 +18,7 @@ import '../../mocks.dart';
 void main() {
   group('AllCartoonsPage', () {
     late AllCartoonsBloc allCartoonsBloc;
+    late DailyCartoonBloc dailyCartoonBloc;
     late AuthenticationBloc authenticationBloc;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
@@ -24,6 +26,7 @@ void main() {
     Widget wrapper(Widget child) {
       return MultiBlocProvider(providers: [
         BlocProvider.value(value: allCartoonsBloc),
+        BlocProvider.value(value: dailyCartoonBloc),
         BlocProvider.value(value: authenticationBloc),
         BlocProvider.value(value: showBottomSheetCubit),
         BlocProvider.value(value: scrollHeaderCubit),
@@ -33,12 +36,15 @@ void main() {
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
+      registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
+      registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     });
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
+      dailyCartoonBloc = MockDailyCartoonBloc();
       authenticationBloc = MockAuthenticationBloc();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
@@ -106,6 +112,8 @@ void main() {
       );
       await tester.pumpApp(wrapper(const AllCartoonsView()));
       await tester.tap(find.byKey(filterLogoutButtonKey));
+      verify(allCartoonsBloc.close).called(1);
+      verify(dailyCartoonBloc.close).called(1);
       verify(() => authenticationBloc.add(const Logout())).called(1);
     });
 

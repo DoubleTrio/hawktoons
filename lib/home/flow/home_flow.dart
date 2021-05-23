@@ -76,9 +76,14 @@ class HomeFlowPage extends Page<void> {
   }
 }
 
-class HomeFlow extends StatelessWidget {
+class HomeFlow extends StatefulWidget {
   const HomeFlow({Key? key}) : super(key: key);
 
+  @override
+  State<HomeFlow> createState() => _HomeFlowState();
+}
+
+class _HomeFlowState extends State<HomeFlow> {
   @override
   Widget build(BuildContext context) {
     final activeTab = context.watch<TabBloc>().state;
