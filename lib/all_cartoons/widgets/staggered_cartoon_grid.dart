@@ -22,7 +22,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
   late ScrollController _scrollController;
   late Completer<void> _refreshCompleter;
 
-  final delta = 250.0;
+  final delta = 200.0;
 
   @override
   void initState() {

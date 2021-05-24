@@ -69,7 +69,7 @@ class AllCartoonsView extends StatelessWidget {
           )
         ]
       ),
-      body: BlocConsumer<AllCartoonsBloc, AllCartoonsState>(
+      body: BlocListener<AllCartoonsBloc, AllCartoonsState>(
         listenWhen: (prev, curr) => prev.filters != curr.filters,
         listener: (context, state) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -79,14 +79,9 @@ class AllCartoonsView extends StatelessWidget {
             ),
           );
         },
-        buildWhen: (prev, curr) {
-          return prev.status != curr.status;
-        },
-        builder: (context, state) {
-          return StaggeredCartoonGrid(
-            key: const Key('AllCartoonsPage_AllCartoonsLoaded'),
-          );
-        }
+        child: StaggeredCartoonGrid(
+          key: const Key('AllCartoonsPage_AllCartoonsLoaded'),
+        ),
       ),
     );
   }

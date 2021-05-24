@@ -16,7 +16,7 @@ class CartoonBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
-    final maxImageHeight = height / 2.5;
+    final maxImageHeight = height / 3;
 
     final _bodyTextStyle = theme.textTheme.bodyText1!
       .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05);
@@ -37,17 +37,17 @@ class CartoonBody extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: cartoon.downloadUrl,
                   progressIndicatorBuilder: (_, __, ___) =>
-                      Shimmer.fromColors(
-                        baseColor: theme.dividerColor,
-                        highlightColor: theme.backgroundColor,
-                        child: Container(
-                          width: double.infinity,
-                          height: maxImageHeight,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                          ),
+                    Shimmer.fromColors(
+                      baseColor: theme.dividerColor,
+                      highlightColor: theme.backgroundColor,
+                      child: Container(
+                        width: double.infinity,
+                        height: maxImageHeight,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
                         ),
                       ),
+                    ),
                 ),
               ),
             ),

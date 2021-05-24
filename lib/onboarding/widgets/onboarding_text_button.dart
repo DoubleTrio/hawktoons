@@ -20,17 +20,14 @@ class OnboardingTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: TextButton(
-        onPressed: onPressed,
-        child: Semantics(
-          excludeSemantics: excludeSemantics,
-          label: label,
-          hint: hint,
-          button: true,
-          child: Text(text, style: textStyle),
-        ),
+    return TextButton(
+      onPressed: onPressed,
+      child: Semantics(
+        excludeSemantics: excludeSemantics,
+        label: label,
+        hint: hint,
+        button: true,
+        child: Text(text, style: textStyle),
       ),
     );
   }

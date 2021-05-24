@@ -7,7 +7,7 @@ class TagButton extends StatelessWidget {
     required this.tag,
     required this.onTap,
     required this.selected,
-    this.padding = 12
+    this.padding = 12,
     }) : super(key: key);
 
   final Tag tag;
@@ -26,13 +26,13 @@ class TagButton extends StatelessWidget {
       onPressed: onTap,
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsets>(
-          EdgeInsets.all(padding)
+          EdgeInsets.all(padding),
         ),
         foregroundColor: MaterialStateProperty.all<Color>(btnColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: BorderSide(color: btnColor)
+            borderRadius: BorderRadius.circular(50.0),
+            side: BorderSide(color: btnColor),
           )
         )
       ),
@@ -44,7 +44,7 @@ class TagButton extends StatelessWidget {
         button: true,
         child: Text(
           tag.name,
-          style: TextStyle(fontSize: 12, color: btnColor),
+          style: TextStyle(fontSize: 14, color: btnColor),
         ),
       ),
     );

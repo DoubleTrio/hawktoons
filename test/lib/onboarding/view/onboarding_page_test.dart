@@ -22,10 +22,32 @@ void main() {
 
     setUpAll(() {
       registerFallbackValue<VisibleOnboardingPage>(
-          VisibleOnboardingPage.welcome);
+        VisibleOnboardingPage.welcome
+      );
       onboardingPageCubit = MockOnboardingPageCubit();
       onboardingSeenCubit = MockOnboardingSeenCubit();
       when(() => onboardingSeenCubit.state).thenReturn(false);
+    });
+
+    group('semantics', () {
+      testWidgets('passes guidelines for light theme', (tester) async {
+        when(() => onboardingPageCubit.state)
+          .thenReturn(VisibleOnboardingPage.allCartoons);
+        await tester.pumpApp(wrapper(const OnboardingView()));
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+
+      testWidgets('passes guidelines for dark theme', (tester) async {
+        when(() => onboardingPageCubit.state)
+          .thenReturn(VisibleOnboardingPage.allCartoons);
+        await tester.pumpApp(
+          wrapper(const OnboardingView()),
+          mode: ThemeMode.dark,
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
     });
 
     testWidgets('setOnboarding page called twice when swiped', (tester) async {
@@ -73,12 +95,12 @@ void main() {
       'when start button is tapped', (tester) async {
       when(() => onboardingPageCubit.state)
         .thenReturn(VisibleOnboardingPage.allCartoons);
-
+      
       await tester.pumpApp(wrapper(const OnboardingView()));
-      await tester.tap(find.byKey(nextPageOnboardingButtonKey));
-      await tester.pumpAndSettle();
-
       expect(find.text('Start'), findsOneWidget);
+      await tester.tap(find.byKey(startCompleteOnboardingButtonKey));
+      await tester.pumpAndSettle();
+      
       verify(onboardingSeenCubit.setSeenOnboarding).called(1);
     });
 

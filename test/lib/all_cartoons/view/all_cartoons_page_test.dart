@@ -51,6 +51,39 @@ void main() {
       when(() => scrollHeaderCubit.state).thenReturn(false);
     });
 
+    group('semantics', () {
+      testWidgets('passes guidelines for light theme', (tester) async {
+        when(() => allCartoonsBloc.state).thenReturn(
+          const AllCartoonsState.initial().copyWith(
+            status: CartoonStatus.success,
+            cartoons: [mockPoliticalCartoon],
+          )
+        );
+        await mockNetworkImagesFor(
+          () => tester.pumpApp(wrapper(const AllCartoonsView())),
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+
+      testWidgets('passes guidelines for dark theme', (tester) async {
+        when(() => allCartoonsBloc.state).thenReturn(
+          const AllCartoonsState.initial().copyWith(
+            status: CartoonStatus.success,
+            cartoons: [mockPoliticalCartoon],
+          )
+        );
+        await mockNetworkImagesFor(
+          () => tester.pumpApp(
+            wrapper(const AllCartoonsView()),
+            mode: ThemeMode.dark,
+          ),
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+    });
+
     testWidgets(
       'renders widget '
       'with Key(\'AllCartoonsPage_AllCartoonsLoading\') '

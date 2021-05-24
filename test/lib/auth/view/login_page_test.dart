@@ -27,6 +27,27 @@ void main() {
       authenticationBloc = MockAuthenticationBloc();
     });
 
+    group('semantics', () {
+      testWidgets('passes semantics for light theme', (tester) async {
+        when(() => authenticationBloc.state).thenReturn(const Uninitialized());
+        await tester.pumpApp(
+          wrapper(const LoginView()),
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+
+      testWidgets('passes semantics for dark theme', (tester) async {
+        when(() => authenticationBloc.state).thenReturn(const Uninitialized());
+        await tester.pumpApp(
+          wrapper(const LoginView()),
+          mode: ThemeMode.dark,
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+    });
+
     testWidgets(
       'AuthenticationBloc adds SignInAnonymously '
       'when sign in button is tapped', (tester) async {

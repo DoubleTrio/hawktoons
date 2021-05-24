@@ -21,14 +21,14 @@ class DailyCartoonPage extends Page<void> {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (_, __, ___) => DailyCartoonView(),
+      pageBuilder: (_, __, ___) => const DailyCartoonView(),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
 }
 
 class DailyCartoonView extends StatelessWidget {
-  DailyCartoonView({Key? key}) : super(key: key);
+  const DailyCartoonView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -85,31 +85,33 @@ class PoliticalCartoonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
-      builder: (context, state) {
-        if (state is DailyCartoonInProgress) {
-          return const CartoonBodyPlaceholder(
-            key: Key('DailyCartoonView_DailyCartoonInProgress')
-          );
-        } else if (state is DailyCartoonLoaded) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            key: const Key('DailyCartoonView_DailyCartoonLoaded'),
-            children: [
-              Semantics(
-                excludeSemantics: true,
-                child: const PageHeader(header: 'Latest')
-              ),
-              const SizedBox(height: 12),
-              CartoonBody(cartoon: state.dailyCartoon),
-            ],
-          );
-        } else {
-          return const SizedBox(
-            key: Key('DailyCartoonView_DailyCartoonFailed')
-          );
-        }
-      }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Semantics(
+          excludeSemantics: true,
+          child: const PageHeader(header: 'Latest')
+        ),
+        const SizedBox(height: 12),
+        BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
+          builder: (context, state) {
+            if (state is DailyCartoonInProgress) {
+              return const CartoonBodyPlaceholder(
+                key: Key('DailyCartoonView_DailyCartoonInProgress')
+              );
+            } else if (state is DailyCartoonLoaded) {
+              return CartoonBody(
+                key: const Key('DailyCartoonView_DailyCartoonLoaded'),
+                cartoon: state.dailyCartoon
+              );
+            } else {
+              return const SizedBox(
+                key: Key('DailyCartoonView_DailyCartoonFailed')
+              );
+            }
+          }
+        ),
+      ],
     );
   }
 }

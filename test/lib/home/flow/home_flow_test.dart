@@ -85,6 +85,28 @@ void main() {
       when(() => scrollHeaderCubit.state).thenReturn(false);
     });
 
+
+    group('semantics', () {
+      testWidgets('passes guidelines for light theme', (tester) async {
+        when(() => tabBloc.state).thenReturn(AppTab.daily);
+        await tester.pumpApp(wrapper(const HomeFlow()));
+
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+
+      testWidgets('passes guidelines for dark theme', (tester) async {
+        when(() => tabBloc.state).thenReturn(AppTab.daily);
+        await tester.pumpApp(
+          wrapper(const HomeFlow()),
+          mode: ThemeMode.dark,
+        );
+
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+    });
+
     group('TabSelector', () {
       testWidgets('finds TabSelector', (tester) async {
         when(() => tabBloc.state).thenReturn(AppTab.daily);

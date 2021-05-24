@@ -20,11 +20,14 @@ final darkTheme = ThemeData(
   splashColor: darkPrimary.withOpacity(0.1),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
+      padding: MaterialStateProperty.all<EdgeInsets>(
+        const EdgeInsets.all(16),
+      ),
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0)
-        )
-      )
+          borderRadius: BorderRadius.circular(80),
+        ),
+      ),
     )
   ),
   snackBarTheme: const SnackBarThemeData(

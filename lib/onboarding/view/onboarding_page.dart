@@ -131,20 +131,34 @@ class _OnboardingViewState extends State<OnboardingView> {
                   const SizedBox(width: 40),
                   ..._buildPageIndicator(),
                   const SizedBox(width: 40),
-                  OnboardingTextButton(
-                    label: isLastPage
-                      ? 'Start button'
-                      : 'Next page button',
-                    hint: isLastPage
-                      ? 'Tap to go to the login page'
-                      : 'Tap to move to the next page',
-                    key: const Key('OnboardingPage_NextPage'),
-                    text: isLastPage ? 'Start' : 'Next',
-                    onPressed: isLastPage ? _completeOnboarding : _nextPage,
-                    textStyle: _baseTextStyle.copyWith(
-                      color: colorScheme.primary
+                  AnimatedCrossFade(
+                    firstCurve: Curves.ease,
+                    firstChild: OnboardingTextButton(
+                      label: 'Next page button',
+                      hint: 'Tap to move to the last page',
+                      key: const Key('OnboardingPage_NextPage'),
+                      text: 'Next',
+                      onPressed: _nextPage,
+                      textStyle: _baseTextStyle.copyWith(
+                        color: colorScheme.primary
+                      ),
                     ),
-                  ),
+                    secondCurve: Curves.ease,
+                    secondChild: OnboardingTextButton(
+                      label: 'Start button',
+                      hint: 'Tap to move to the next page',
+                      key: const Key('OnboardingPage_StartButton'),
+                      text: 'Start',
+                      onPressed: _completeOnboarding,
+                      textStyle: _baseTextStyle.copyWith(
+                        color: colorScheme.primary
+                      ),
+                    ),
+                    crossFadeState: isLastPage
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
+                    duration: const Duration(milliseconds: 100),
+                  )
                 ],
               ),
             ],

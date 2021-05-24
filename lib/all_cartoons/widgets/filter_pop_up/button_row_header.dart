@@ -23,6 +23,11 @@ class ButtonRowHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton(
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.all(8),
+                ),
+              ),
               key: const Key('ButtonRowHeader_ResetButton'),
               onPressed: onReset,
               child: Semantics(
@@ -31,7 +36,7 @@ class ButtonRowHeader extends StatelessWidget {
                 label: 'Reset button',
                 child: Text(
                   'Reset',
-                  style: TextStyle(color: onSurface),
+                  style: TextStyle(color: onSurface, fontSize: 16),
                 ),
               ),
             ),
@@ -51,15 +56,17 @@ class ButtonRowHeader extends StatelessWidget {
             ),
             Semantics(
               child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.all(8),
+                  ),
+                ),
                 key: const Key('ButtonRowHeader_ApplyFilterButton'),
                 onPressed: onFilter,
                 child: Semantics(
-                  button: true,
-                  hint: 'Tap to apply the image filters',
-                  label: 'Apply filters button',
                   child: Text(
                     'Apply',
-                    style: TextStyle(color: primary),
+                    style: TextStyle(color: primary, fontSize: 16),
                   ),
                 ),
               ),

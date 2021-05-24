@@ -18,6 +18,7 @@ const dailyCartoonLogoutButtonKey = Key('DailyCartoonView_Button_Logout');
 
 const nextPageOnboardingButtonKey = Key('OnboardingPage_NextPage');
 const setSeenOnboardingButtonKey = Key('OnboardingPage_SetSeenOnboarding');
+const startCompleteOnboardingButtonKey = Key('OnboardingPage_StartButton');
 
 const allCartoonsLoadingKey =
     Key('AllCartoonsPage_AllCartoonsLoading');

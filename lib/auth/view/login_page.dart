@@ -52,7 +52,7 @@ class LoginView extends StatelessWidget {
                       'political cartoons and images, '
                       'sign in anonymously below!',
                       style: TextStyle(
-                        fontSize: 17,
+                        fontSize: 18,
                         color: colorScheme.onBackground,
                         letterSpacing: 1.1
                       ),
@@ -63,23 +63,32 @@ class LoginView extends StatelessWidget {
               ),
               Column(
                 children: [
-                  ElevatedButton(
-                    key: const Key('LoginPage_SignInAnonymouslyButton'),
-                    onPressed: _signInAnonymously,
-                    child: Semantics(
-                      button: true,
-                      label: 'Sign in anonymously button',
-                      hint: 'Click to sign in anonymously',
-                      child: Text(
-                        'Sign in anonymously',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: colorScheme.onPrimary,
-                        )
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      key: const Key('LoginPage_SignInAnonymouslyButton'),
+                      onPressed: _signInAnonymously,
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                          const EdgeInsets.all(16),
+                        ),
+                      ),
+                      child: Semantics(
+                        button: true,
+                        label: 'Sign in anonymously button',
+                        hint: 'Click to sign in anonymously',
+                        child: Text(
+                          'Sign in anonymously',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: colorScheme.onPrimary,
+                            fontWeight: FontWeight.bold,
+                          )
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 16),
                   BlocBuilder<AuthenticationBloc, AuthenticationState>(
                     builder: (context, state) {
                       if (state is Authenticated || state is Uninitialized) {

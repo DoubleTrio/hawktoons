@@ -21,8 +21,8 @@ void main() {
           BlocProvider.value(
             value: selectCartoonCubit
           ),
-      ],
-        child: child
+        ],
+        child: child,
       );
     }
 
@@ -31,16 +31,40 @@ void main() {
         FakeSelectPoliticalCartoonState()
       );
       selectCartoonCubit = MockSelectCartoonCubit();
+
       when(() => selectCartoonCubit.state).thenReturn(
         SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon)
       );
     });
 
+    group('semantics', () {
+      testWidgets('passes guidelines for light theme', (tester) async {
+        await tester.pumpApp(
+          wrapper(
+            DetailsView(cartoon: mockPoliticalCartoon),
+          ),
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+
+      testWidgets('passes guidelines for dark theme', (tester) async {
+        await tester.pumpApp(
+          wrapper(
+            DetailsView(cartoon: mockPoliticalCartoon),
+          ),
+          mode: ThemeMode.dark,
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+        expect(tester, meetsGuideline(androidTapTargetGuideline));
+      });
+    });
+
     testWidgets('cartoon body is present', (tester) async {
       await tester.pumpApp(
-        wrapper(DetailsView(
-          cartoon: mockPoliticalCartoon
-        ))
+        wrapper(
+          DetailsView(cartoon: mockPoliticalCartoon),
+        )
       );
       expect(find.byType(CartoonBody), findsOneWidget);
     });

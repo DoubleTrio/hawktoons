@@ -52,6 +52,24 @@ void main() {
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
     });
 
+    // TODO - adjust ui to fix android text guidelines
+    group('semantics', () {
+      testWidgets('passes guidelines for light theme', (tester) async {
+        await tester.pumpApp(
+          wrapper(FilterPopUp()),
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+      });
+
+      testWidgets('passes guidelines for dark theme', (tester) async {
+        await tester.pumpApp(
+          wrapper(FilterPopUp()),
+          mode: ThemeMode.dark,
+        );
+        expect(tester, meetsGuideline(textContrastGuideline));
+      });
+    });
+
     testWidgets('selects sorting mode', (tester) async {
       await tester.pumpApp(wrapper(FilterPopUp()));
       await tester.dragUntilVisible(
@@ -113,8 +131,14 @@ void main() {
     testWidgets('selects image type', (tester) async {
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
       await tester.pumpApp(wrapper(
-        FilterPopUp()
+        FilterPopUp(),
       ));
+
+      await tester.dragUntilVisible(
+        find.byKey(imageTypeButtonKey),
+        find.byType(FilterPopUp),
+        const Offset(0, -50),
+      );
 
       await tester.tap(find.descendant(
         of: find.byKey(imageTypeButtonKey),
@@ -130,6 +154,12 @@ void main() {
       await tester.pumpApp(wrapper(
         FilterPopUp()
       ));
+
+      await tester.dragUntilVisible(
+        find.byKey(imageTypeButtonKey),
+        find.byType(FilterPopUp),
+        const Offset(0, -50),
+      );
 
       await tester.tap(
         find.descendant(
