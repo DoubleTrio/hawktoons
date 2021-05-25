@@ -151,7 +151,7 @@ void main() {
       'when SignInWithGoogle is added and user sign throws an error',
       build: () {
         when(userRepository.isAuthenticated)
-          .thenAnswer((_) async => false);;
+          .thenAnswer((_) async => false);
         when(userRepository.signInWithGoogle)
           .thenThrow(Exception('error'));
         return AuthenticationBloc(userRepository: userRepository);

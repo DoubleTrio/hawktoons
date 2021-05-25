@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
 import 'package:history_app/all_cartoons/blocs/blocs.dart';
-import 'package:history_app/widgets/cartoon_scroll_bar.dart';
+import 'package:history_app/widgets/app_scroll_bar.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class FilterPopUp extends StatelessWidget {
@@ -67,10 +67,24 @@ class FilterPopUp extends StatelessWidget {
               color: theme.colorScheme.onBackground,
             ),
             Expanded(
-              child: CartoonScrollBar(
+              child: AppScrollBar(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Column(children: [
+                    const SizedBox(height: 12),
+                    const FilterHeader(header: 'Sort By'),
+                    SortByTileListView(
+                        modes: modes,
+                        onTileTap: _onSortByTileSelect
+                    ),
+                    const SizedBox(height: 24),
+                    const FilterHeader(header: 'Image Type'),
+                    ImageTypeCheckboxList(
+                      imageTypes: imageTypes,
+                      selectedImageType: _selectedImageType,
+                      onSelect: _selectImageType,
+                      onDeselect: _deselectImageType,
+                    ),
                     const SizedBox(height: 12),
                     const FilterHeader(header: 'Tags'),
                     const SizedBox(height: 6),
@@ -80,20 +94,6 @@ class FilterPopUp extends StatelessWidget {
                       onTagChanged: _onTagChanged,
                     ),
                     const SizedBox(height: 12),
-                    const FilterHeader(header: 'Image Type'),
-                    ImageTypeCheckboxList(
-                      imageTypes: imageTypes,
-                      selectedImageType: _selectedImageType,
-                      onSelect: _selectImageType,
-                      onDeselect: _deselectImageType,
-                    ),
-                    const SizedBox(height: 12),
-                    const FilterHeader(header: 'Sort By'),
-                    SortByTileListView(
-                      modes: modes,
-                      onTileTap: _onSortByTileSelect
-                    ),
-                    const SizedBox(height: 20),
                   ]),
                 ),
               ),

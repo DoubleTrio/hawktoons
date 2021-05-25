@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/widgets/widgets.dart';
+import 'package:history_app/widgets/cartoon_body/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';
@@ -14,17 +12,6 @@ import '../../mocks.dart';
 void main() {
   group('DetailsPage', () {
     late SelectCartoonCubit selectCartoonCubit;
-
-    Widget wrapper(Widget child) {
-      return MultiBlocProvider(
-        providers: [
-          BlocProvider.value(
-            value: selectCartoonCubit
-          ),
-        ],
-        child: child,
-      );
-    }
 
     setUp(() async {
       registerFallbackValue<SelectPoliticalCartoonState>(
@@ -40,9 +27,8 @@ void main() {
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
-          wrapper(
-            DetailsView(cartoon: mockPoliticalCartoon),
-          ),
+          DetailsView(cartoon: mockPoliticalCartoon),
+          selectCartoonCubit: selectCartoonCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -50,10 +36,9 @@ void main() {
 
       testWidgets('passes guidelines for dark theme', (tester) async {
         await tester.pumpApp(
-          wrapper(
-            DetailsView(cartoon: mockPoliticalCartoon),
-          ),
+          DetailsView(cartoon: mockPoliticalCartoon),
           mode: ThemeMode.dark,
+          selectCartoonCubit: selectCartoonCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -62,18 +47,18 @@ void main() {
 
     testWidgets('cartoon body is present', (tester) async {
       await tester.pumpApp(
-        wrapper(
-          DetailsView(cartoon: mockPoliticalCartoon),
-        )
+        DetailsView(cartoon: mockPoliticalCartoon),
+        selectCartoonCubit: selectCartoonCubit,
       );
       expect(find.byType(CartoonBody), findsOneWidget);
     });
 
-    testWidgets('deselects cartoon when back button is pressed',
-        (tester) async {
-      await tester.pumpApp(wrapper(
-        DetailsView(cartoon: mockPoliticalCartoon)
-      ));
+    testWidgets('deselects cartoon when back button '
+      'is pressed', (tester) async {
+      await tester.pumpApp(
+        DetailsView(cartoon: mockPoliticalCartoon),
+        selectCartoonCubit: selectCartoonCubit,
+      );
       await tester.tap(find.byKey(detailsPageBackButtonKey));
       verify(selectCartoonCubit.deselectCartoon).called(1);
     });

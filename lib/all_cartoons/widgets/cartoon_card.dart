@@ -23,8 +23,8 @@ class CartoonCard extends StatelessWidget {
     final onSurface = colorScheme.onSurface;
     final cardColor = theme.cardColor;
     final dateText = TimeAgo(
-        l10n: context.l10n,
-        locale: Platform.localeName
+      l10n: context.l10n,
+      locale: Platform.localeName,
     ).timeAgoSinceDate(cartoon.timestamp);
     return Material(
       child: InkWell(
@@ -40,9 +40,10 @@ class CartoonCard extends StatelessWidget {
           child: Column(
             children: [
               Center(
-                  child: ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(10)),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(10),
+                  ),
                 child: Container(
                   constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height / 3

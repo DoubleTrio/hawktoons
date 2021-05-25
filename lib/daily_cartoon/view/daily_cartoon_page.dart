@@ -7,7 +7,7 @@ import 'package:history_app/all_cartoons/blocs/all_cartoons_bloc/all_cartoons_bl
 import 'package:history_app/auth/bloc/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon_bloc.dart';
-import 'package:history_app/widgets/cartoon_body.dart';
+import 'package:history_app/widgets/cartoon_body/cartoon_body.dart';
 import 'package:history_app/widgets/custom_icon_button.dart';
 import 'package:history_app/widgets/page_header.dart';
 import 'package:history_app/widgets/scaffold_title.dart';
@@ -70,7 +70,7 @@ class DailyCartoonView extends StatelessWidget {
         ),
         centerTitle: true
       ),
-      body: CartoonScrollBar(
+      body: AppScrollBar(
         child: SingleChildScrollView(
           physics: _isLoading
             ? const NeverScrollableScrollPhysics()

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:history_app/widgets/widgets.dart';
+import 'package:history_app/widgets/cartoon_body/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -82,7 +82,7 @@ class CartoonBody extends StatelessWidget {
                 body: Column(
                   children: [
                     ...cartoon.tags.map((tag) =>
-                      BulletBody(text: tag.name, style: _bodyTextStyle)
+                      CartoonBulletBody(text: tag.name, style: _bodyTextStyle)
                     )
                   ],
                 ),

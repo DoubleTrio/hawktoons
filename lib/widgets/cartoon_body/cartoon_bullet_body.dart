@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BulletBody extends StatelessWidget {
-  const BulletBody({Key? key, required this.text, required this.style})
+class CartoonBulletBody extends StatelessWidget {
+  const CartoonBulletBody({Key? key, required this.text, required this.style})
     : super(key: key);
 
   final String text;

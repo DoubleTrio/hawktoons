@@ -5,13 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/widgets/cartoon_scroll_bar.dart';
+import 'package:history_app/widgets/app_scroll_bar.dart';
 import 'package:history_app/widgets/loading_indicator.dart';
 import 'package:history_app/widgets/page_header.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class StaggeredCartoonGrid extends StatefulWidget {
-  StaggeredCartoonGrid({Key? key}) : super(key: key);
+  const StaggeredCartoonGrid({Key? key}) : super(key: key);
 
 
   @override
@@ -116,7 +116,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
     return RefreshIndicator(
       backgroundColor: theme.bottomAppBarColor,
       onRefresh: _refresh,
-      child: CartoonScrollBar(
+      child: AppScrollBar(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: BlocConsumer<AllCartoonsBloc, AllCartoonsState>(

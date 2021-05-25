@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const lightPrimary = Color(4284612846);
+
 final lightColorScheme = const ColorScheme.light().copyWith(
   primary: lightPrimary,
   primaryVariant: lightPrimary.withOpacity(0.8),
@@ -31,7 +32,7 @@ final lightTheme = ThemeData(
     ),
   ),
   snackBarTheme: const SnackBarThemeData(
-    contentTextStyle: TextStyle(fontWeight: FontWeight.bold)
+    contentTextStyle: TextStyle(fontWeight: FontWeight.bold),
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: lightPrimary,

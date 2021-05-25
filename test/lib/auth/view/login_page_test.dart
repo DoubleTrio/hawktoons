@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/auth/auth.dart';
 import 'package:history_app/auth/bloc/auth.dart';
@@ -14,10 +13,6 @@ void main() {
   group('LoginPage', () {
     late AuthenticationBloc authenticationBloc;
 
-    Widget wrapper(Widget child) {
-      return BlocProvider.value(value: authenticationBloc, child: child);
-    }
-
     setUpAll(() {
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
@@ -25,23 +20,24 @@ void main() {
 
     setUp(() {
       authenticationBloc = MockAuthenticationBloc();
+      when(() => authenticationBloc.state).thenReturn(const Uninitialized());
     });
 
     group('semantics', () {
       testWidgets('passes semantics for light theme', (tester) async {
-        when(() => authenticationBloc.state).thenReturn(const Uninitialized());
         await tester.pumpApp(
-          wrapper(const LoginView()),
+          const LoginView(),
+          authenticationBloc: authenticationBloc,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
       });
 
       testWidgets('passes semantics for dark theme', (tester) async {
-        when(() => authenticationBloc.state).thenReturn(const Uninitialized());
         await tester.pumpApp(
-          wrapper(const LoginView()),
+          const LoginView(),
           mode: ThemeMode.dark,
+          authenticationBloc: authenticationBloc,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -51,9 +47,9 @@ void main() {
     testWidgets(
       'AuthenticationBloc adds SignInAnonymously '
       'when sign in anonymously button is tapped', (tester) async {
-      when(() => authenticationBloc.state).thenReturn(const Uninitialized());
       await tester.pumpApp(
-        wrapper(const LoginView()),
+        const LoginView(),
+        authenticationBloc: authenticationBloc,
       );
       await tester.tap(find.byKey(signInAnonymouslyButtonKey));
       verify(() => authenticationBloc.add(const SignInAnonymously())).called(1);
@@ -62,9 +58,9 @@ void main() {
     testWidgets(
       'AuthenticationBloc adds SignInWithGoogle '
       'when sign in with google button is tapped', (tester) async {
-      when(() => authenticationBloc.state).thenReturn(const Uninitialized());
       await tester.pumpApp(
-        wrapper(const LoginView()),
+        const LoginView(),
+        authenticationBloc: authenticationBloc,
       );
       await tester.tap(find.byKey(signInWithGoogleButtonKey));
       verify(() => authenticationBloc.add(const SignInWithGoogle())).called(1);
@@ -75,7 +71,8 @@ void main() {
       'when state is LoggingIn', (tester) async {
       when(() => authenticationBloc.state).thenReturn(const LoggingIn());
       await tester.pumpApp(
-        wrapper(const LoginView()),
+        const LoginView(),
+        authenticationBloc: authenticationBloc,
       );
       expect(find.byKey(loggingInKey), findsOneWidget);
     });
@@ -85,7 +82,8 @@ void main() {
       'when state is LoginError', (tester) async {
       when(() => authenticationBloc.state).thenReturn(const LoginError());
       await tester.pumpApp(
-        wrapper(const LoginView()),
+        const LoginView(),
+        authenticationBloc: authenticationBloc,
       );
       expect(find.byKey(unauthenticatedKey), findsOneWidget);
     });

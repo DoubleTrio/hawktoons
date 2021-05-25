@@ -13,7 +13,7 @@ void main() {
     late FirestorePoliticalCartoonRepository cartoonRepository;
 
     setUp(() {
-      cartoonRepository = MockPoliticalCartoonRepository();
+      cartoonRepository = MockCartoonRepository();
     });
 
     test('initial state AllCartoonsState.initial', () {

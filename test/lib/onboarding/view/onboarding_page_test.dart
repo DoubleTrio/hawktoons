@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/onboarding/onboarding.dart';
 import 'package:mocktail/mocktail.dart';
@@ -13,37 +12,35 @@ void main() {
     late OnboardingPageCubit onboardingPageCubit;
     late OnboardingSeenCubit onboardingSeenCubit;
 
-    Widget wrapper(Widget child) {
-      return MultiBlocProvider(providers: [
-        BlocProvider.value(value: onboardingPageCubit),
-        BlocProvider.value(value: onboardingSeenCubit)
-      ], child: child);
-    }
-
     setUpAll(() {
       registerFallbackValue<VisibleOnboardingPage>(
         VisibleOnboardingPage.welcome
       );
+    });
+
+    setUp(() {
       onboardingPageCubit = MockOnboardingPageCubit();
       onboardingSeenCubit = MockOnboardingSeenCubit();
+
       when(() => onboardingSeenCubit.state).thenReturn(false);
+      when(() => onboardingPageCubit.state)
+        .thenReturn(VisibleOnboardingPage.welcome);
     });
 
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
-        when(() => onboardingPageCubit.state)
-          .thenReturn(VisibleOnboardingPage.allCartoons);
-        await tester.pumpApp(wrapper(const OnboardingView()));
+        await tester.pumpApp(
+          const OnboardingView(),
+          onboardingPageCubit: onboardingPageCubit,
+        );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
       });
 
       testWidgets('passes guidelines for dark theme', (tester) async {
-        when(() => onboardingPageCubit.state)
-          .thenReturn(VisibleOnboardingPage.allCartoons);
         await tester.pumpApp(
-          wrapper(const OnboardingView()),
-          mode: ThemeMode.dark,
+          const OnboardingView(),
+          onboardingPageCubit: onboardingPageCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -51,10 +48,10 @@ void main() {
     });
 
     testWidgets('setOnboarding page called twice when swiped', (tester) async {
-      when(() => onboardingPageCubit.state)
-        .thenReturn(VisibleOnboardingPage.welcome);
-
-      await tester.pumpApp(wrapper(const OnboardingView()));
+      await tester.pumpApp(
+        const OnboardingView(),
+        onboardingPageCubit: onboardingPageCubit,
+      );
       await tester.drag(find.byType(OnboardingWidget), const Offset(-1000, 0));
       await tester.drag(find.byType(OnboardingWidget), const Offset(-1000, 0));
       await tester.drag(find.byType(OnboardingWidget), const Offset(1000, 0));
@@ -72,10 +69,11 @@ void main() {
     testWidgets(
       'setOnboarding page called twice '
       'when next button is tapped', (tester) async {
-      when(() => onboardingPageCubit.state)
-        .thenReturn(VisibleOnboardingPage.welcome);
+      await tester.pumpApp(
+        const OnboardingView(),
+        onboardingPageCubit: onboardingPageCubit,
+      );
 
-      await tester.pumpApp(wrapper(const OnboardingView()));
       await tester.tap(find.byKey(nextPageOnboardingButtonKey));
       await tester.pumpAndSettle();
 
@@ -95,8 +93,12 @@ void main() {
       'when start button is tapped', (tester) async {
       when(() => onboardingPageCubit.state)
         .thenReturn(VisibleOnboardingPage.allCartoons);
-      
-      await tester.pumpApp(wrapper(const OnboardingView()));
+
+      await tester.pumpApp(
+        const OnboardingView(),
+        onboardingPageCubit: onboardingPageCubit,
+        onboardingSeenCubit: onboardingSeenCubit,
+      );
       expect(find.text('Start'), findsOneWidget);
       await tester.tap(find.byKey(startCompleteOnboardingButtonKey));
       await tester.pumpAndSettle();
@@ -110,7 +112,11 @@ void main() {
       when(() => onboardingPageCubit.state)
         .thenReturn(VisibleOnboardingPage.dailyCartoon);
 
-      await tester.pumpApp(wrapper(const OnboardingView()));
+      await tester.pumpApp(
+        const OnboardingView(),
+        onboardingPageCubit: onboardingPageCubit,
+        onboardingSeenCubit: onboardingSeenCubit,
+      );
       await tester.tap(find.byKey(setSeenOnboardingButtonKey));
       await tester.pumpAndSettle();
 

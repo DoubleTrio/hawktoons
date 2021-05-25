@@ -24,7 +24,7 @@ final mockPoliticalCartoon = PoliticalCartoon(
   type: ImageType.cartoon
 );
 
-class MockPoliticalCartoonRepository extends Mock
+class MockCartoonRepository extends Mock
   implements FirestorePoliticalCartoonRepository {}
 
 class MockFirebaseUserRepository extends Mock

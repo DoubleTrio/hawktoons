@@ -13,7 +13,7 @@ void main() {
     final politicalCartoon = MockPoliticalCartoon();
 
     setUp(() {
-      cartoonRepository = MockPoliticalCartoonRepository();
+      cartoonRepository = MockCartoonRepository();
     });
 
     tearDown(() => reset(cartoonRepository));

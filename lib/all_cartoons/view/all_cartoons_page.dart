@@ -79,8 +79,8 @@ class AllCartoonsView extends StatelessWidget {
             ),
           );
         },
-        child: StaggeredCartoonGrid(
-          key: const Key('AllCartoonsPage_AllCartoonsLoaded'),
+        child: const StaggeredCartoonGrid(
+          key: Key('AllCartoonsPage_AllCartoonsLoaded'),
         ),
       ),
     );
