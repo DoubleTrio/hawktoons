@@ -19,7 +19,7 @@ class TagButtonBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Wrap(
-        // spacing: 5,
+        spacing: 5,
         children: [
           ...tags.map((tag) => TagButton(
             key: Key('Tag_Button_${tag.index}'),

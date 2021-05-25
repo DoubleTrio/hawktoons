@@ -14,9 +14,22 @@ class SignInAnonymously extends AuthenticationEvent {
   String toString() => 'SignInAnonymously';
 }
 
+class SignInWithGoogle extends AuthenticationEvent {
+  const SignInWithGoogle();
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'SignInWithGoogle';
+}
+
 class Logout extends AuthenticationEvent {
   const Logout();
 
   @override
   List<Object> get props => [];
+
+  @override
+  String toString() => 'Logout';
 }

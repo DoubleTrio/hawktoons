@@ -50,13 +50,24 @@ void main() {
 
     testWidgets(
       'AuthenticationBloc adds SignInAnonymously '
-      'when sign in button is tapped', (tester) async {
+      'when sign in anonymously button is tapped', (tester) async {
       when(() => authenticationBloc.state).thenReturn(const Uninitialized());
       await tester.pumpApp(
         wrapper(const LoginView()),
       );
       await tester.tap(find.byKey(signInAnonymouslyButtonKey));
       verify(() => authenticationBloc.add(const SignInAnonymously())).called(1);
+    });
+
+    testWidgets(
+      'AuthenticationBloc adds SignInWithGoogle '
+      'when sign in with google button is tapped', (tester) async {
+      when(() => authenticationBloc.state).thenReturn(const Uninitialized());
+      await tester.pumpApp(
+        wrapper(const LoginView()),
+      );
+      await tester.tap(find.byKey(signInWithGoogleButtonKey));
+      verify(() => authenticationBloc.add(const SignInWithGoogle())).called(1);
     });
 
     testWidgets(

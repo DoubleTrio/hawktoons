@@ -77,7 +77,7 @@ void main() {
     group('HomeFlow', () {
       testWidgets('shows HomeFlow', (tester) async {
         when(() => authenticationBloc.state)
-          .thenReturn(const Authenticated('user-id'));
+          .thenReturn(Authenticated(FakeUser()));
         await tester.pumpApp(wrapper(const AuthFlow()));
         expect(find.byType(HomeFlow), findsOneWidget);
       });

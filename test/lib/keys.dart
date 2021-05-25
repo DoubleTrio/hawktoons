@@ -30,6 +30,7 @@ const filterLogoutButtonKey = Key('AllCartoonsPage_LogoutButton');
 const loggingInKey = Key('LoginPage_LoggingIn');
 const unauthenticatedKey = Key('LoginPage_LoginError');
 const signInAnonymouslyButtonKey = Key('LoginPage_SignInAnonymouslyButton');
+const signInWithGoogleButtonKey = Key('LoginPage_SignInWithGoogleButton');
 
 const resetFilterButtonKey = Key('ButtonRowHeader_ResetButton');
 const applyFilterButtonKey = Key('ButtonRowHeader_ApplyFilterButton');

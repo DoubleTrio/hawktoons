@@ -95,8 +95,6 @@ void main() {
 
       await driver.tap(nextPageOnboardingButton);
       await driver.tap(setSeenOnboardingButton);
-
-      await driver.waitFor(dailyCartoonLoaded);
     });
 
 

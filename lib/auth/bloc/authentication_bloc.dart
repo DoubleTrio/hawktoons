@@ -20,6 +20,8 @@ class AuthenticationBloc
   ) async* {
     if (event is SignInAnonymously) {
       yield* _mapSignInAnonymouslyToState();
+    } else if (event is SignInWithGoogle) {
+      yield* _mapSignWithGoogleToState();
     } else if (event is Logout) {
       yield* _mapLogoutToState();
     }
@@ -32,8 +34,26 @@ class AuthenticationBloc
       if (!isSignedIn) {
         await userRepository.authenticate();
       }
-      final userId = await userRepository.getUserId();
-      yield Authenticated(userId);
+      final user = await userRepository.getUser();
+      yield Authenticated(user);
+    } on Exception {
+      yield const LoginError();
+    }
+  }
+
+  Stream<AuthenticationState> _mapSignWithGoogleToState() async* {
+    try {
+      yield const LoggingIn();
+      final isSignedIn = await userRepository.isAuthenticated();
+      if (!isSignedIn) {
+        await userRepository.signInWithGoogle();
+      }
+      final user = await userRepository.getUser();
+      if (user != null) {
+        yield Authenticated(user);
+      } else {
+        yield const Uninitialized();
+      }
     } on Exception {
       yield const LoginError();
     }

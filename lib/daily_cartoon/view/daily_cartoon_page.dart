@@ -70,11 +70,13 @@ class DailyCartoonView extends StatelessWidget {
         ),
         centerTitle: true
       ),
-      body: SingleChildScrollView(
-        physics: _isLoading
-          ? const NeverScrollableScrollPhysics()
-          : const BouncingScrollPhysics(),
-        child: const PoliticalCartoonView(),
+      body: CartoonScrollBar(
+        child: SingleChildScrollView(
+          physics: _isLoading
+            ? const NeverScrollableScrollPhysics()
+            : const BouncingScrollPhysics(),
+          child: const PoliticalCartoonView(),
+        ),
       ),
     );
   }

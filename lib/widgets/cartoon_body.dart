@@ -16,7 +16,7 @@ class CartoonBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
-    final maxImageHeight = height / 3;
+    final maxImageHeight = height / 2.5;
 
     final _bodyTextStyle = theme.textTheme.bodyText1!
       .copyWith(color: theme.colorScheme.onSurface, letterSpacing: 1.05);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class ButtonRowHeader extends StatelessWidget {
   const ButtonRowHeader({
@@ -31,6 +32,7 @@ class ButtonRowHeader extends StatelessWidget {
               key: const Key('ButtonRowHeader_ResetButton'),
               onPressed: onReset,
               child: Semantics(
+                sortKey: const OrdinalSortKey(1),
                 button: true,
                 hint: 'Tap to reset the image filters',
                 label: 'Reset button',
@@ -64,6 +66,10 @@ class ButtonRowHeader extends StatelessWidget {
                 key: const Key('ButtonRowHeader_ApplyFilterButton'),
                 onPressed: onFilter,
                 child: Semantics(
+                  sortKey: const OrdinalSortKey(0),
+                  button: true,
+                  hint: 'Tap to apply your current image filters',
+                  label: 'Apply filter button',
                   child: Text(
                     'Apply',
                     style: TextStyle(color: primary, fontSize: 16),

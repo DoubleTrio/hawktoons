@@ -12,14 +12,14 @@ class CartoonBodyPlaceholder extends StatelessWidget {
     final width = size.width;
     final height = size.height;
 
-    final shortBodyIndexes = [0, 2];
+    final shortBodyIndexes = [0, 1];
     final shortBodyWidth = width / 5;
     final longBodyWidth = width;
 
     final headerWidth = width / 3;
-    final multiBodyIndexes = [3];
+    final multiBodyIndexes = [2];
 
-    final imageHeight = height / 3;
+    final imageHeight = height / 2.5;
     final bodyHeight = height - imageHeight;
 
     final itemCount = 4;

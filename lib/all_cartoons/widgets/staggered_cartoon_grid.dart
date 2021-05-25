@@ -93,6 +93,11 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
       );
     }
 
+    void _restartCompleter() {
+      _refreshCompleter.complete();
+      _refreshCompleter = Completer();
+    }
+
     Widget _buildInitialErrorIndicator() {
       return SizedBox(
         height: 30,
@@ -117,8 +122,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
           child: BlocConsumer<AllCartoonsBloc, AllCartoonsState>(
             listener: (context, state) {
               if (state.status == CartoonStatus.refreshSuccess) {
-                _refreshCompleter.complete();
-                _refreshCompleter = Completer();
+                _restartCompleter();
               }
 
               if (state.status == CartoonStatus.refreshFailure) {
@@ -130,6 +134,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                       content: Text('Failed to refresh images'),
                   ),
                 );
+                _restartCompleter();
               }
             },
             buildWhen: (prev, curr) => prev.cartoons != curr.cartoons,

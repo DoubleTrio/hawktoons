@@ -16,6 +16,20 @@ void main() {
         );
       });
     });
+
+    group('SignInWithGoogle', () {
+      test('supports value comparisons', () {
+        expect(
+          SignInWithGoogle(),
+          SignInWithGoogle(),
+        );
+        expect(
+          SignInWithGoogle().toString(),
+          SignInWithGoogle().toString(),
+        );
+      });
+    });
+
     group('Logout', () {
       test('supports value comparisons', () {
         expect(

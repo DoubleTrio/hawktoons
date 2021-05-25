@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:history_app/all_cartoons/blocs/blocs.dart';
 import 'package:history_app/auth/auth.dart';
 import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:history_app/home/home.dart';
 import 'package:mockito/mockito.dart';
+
+class FakeUser extends Fake implements User {}
 
 class FakeSelectPoliticalCartoonState extends Fake
   implements SelectPoliticalCartoonState {}

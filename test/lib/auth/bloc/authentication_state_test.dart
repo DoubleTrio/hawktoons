@@ -2,6 +2,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:history_app/auth/bloc/authentication_state.dart';
 
+import '../../fakes.dart';
+
 void main() {
   group('AuthenticationState', () {
     group('Uninitialized', () {
@@ -15,15 +17,15 @@ void main() {
     });
 
     group('Authenticated', () {
-      final userId = 'user-id';
+      final mockUser = FakeUser();
       test('supports value comparisons', () {
         expect(
-          Authenticated(userId),
-          Authenticated(userId),
+          Authenticated(mockUser),
+          Authenticated(mockUser),
         );
         expect(
-          Authenticated(userId).toString(),
-          Authenticated(userId).toString(),
+          Authenticated(mockUser).toString(),
+          Authenticated(mockUser).toString(),
         );
       });
     });
