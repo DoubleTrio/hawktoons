@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:history_app/all_cartoons/blocs/all_cartoons_bloc/models.dart';
+import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/models.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class AllCartoonsState extends Equatable {

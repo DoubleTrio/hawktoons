@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/all_cartoons/blocs/all_cartoons_bloc/all_cartoons_bloc.dart';
-import 'package:history_app/auth/bloc/auth.dart';
-import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:history_app/daily_cartoon/bloc/daily_cartoon_bloc.dart';
-import 'package:history_app/widgets/cartoon_body/cartoon_body.dart';
-import 'package:history_app/widgets/custom_icon_button.dart';
-import 'package:history_app/widgets/page_header.dart';
-import 'package:history_app/widgets/scaffold_title.dart';
-import 'package:history_app/widgets/widgets.dart';
+import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons_bloc.dart';
+import 'package:hawktoons/auth/bloc/auth.dart';
+import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
+import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon_bloc.dart';
+import 'package:hawktoons/widgets/cartoon_body/cartoon_body.dart';
+import 'package:hawktoons/widgets/custom_icon_button.dart';
+import 'package:hawktoons/widgets/page_header.dart';
+import 'package:hawktoons/widgets/scaffold_title.dart';
+import 'package:hawktoons/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
 class DailyCartoonPage extends Page<void> {
@@ -52,6 +52,10 @@ class DailyCartoonView extends StatelessWidget {
     final _isLoading = context.select<DailyCartoonBloc, bool>(
       (bloc) => bloc.state is DailyCartoonInProgress
     );
+
+    void _openDrawer() {
+      Scaffold.of(context).openDrawer();
+    }
 
     return Scaffold(
       appBar: AppBar(

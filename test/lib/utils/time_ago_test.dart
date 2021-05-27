@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/l10n/l10n.dart';
-import 'package:history_app/utils/time_ago.dart';
+import 'package:hawktoons/l10n/l10n.dart';
+import 'package:hawktoons/utils/time_ago.dart';
 import 'package:intl/intl.dart';
 
 import '../helpers/helpers.dart';

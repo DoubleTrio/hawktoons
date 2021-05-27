@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/all_cartoons/blocs/blocs.dart';
-import 'package:history_app/widgets/app_scroll_bar.dart';
-import 'package:history_app/widgets/cartoon_body/cartoon_body.dart';
-import 'package:history_app/widgets/custom_icon_button.dart';
+import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
+import 'package:hawktoons/widgets/app_scroll_bar.dart';
+import 'package:hawktoons/widgets/cartoon_body/cartoon_body.dart';
+import 'package:hawktoons/widgets/custom_icon_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DetailsPage extends Page<void> {

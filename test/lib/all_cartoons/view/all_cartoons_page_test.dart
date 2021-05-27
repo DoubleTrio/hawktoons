@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/auth/bloc/auth.dart';
-import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
+import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/auth/bloc/auth.dart';
+import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

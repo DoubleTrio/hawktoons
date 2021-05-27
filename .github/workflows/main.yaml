@@ -1,4 +1,4 @@
-name: history_app
+name: hawktoons
 
 on: [pull_request, push]
 

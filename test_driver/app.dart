@@ -1,5 +1,5 @@
 import 'package:flutter_driver/driver_extension.dart';
-import 'package:history_app/main_production.dart' as app;
+import 'package:hawktoons/main_production.dart' as app;
 
 void main() {
   enableFlutterDriverExtension();

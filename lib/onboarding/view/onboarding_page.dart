@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/onboarding/onboarding.dart';
+import 'package:hawktoons/onboarding/onboarding.dart';
 
 class OnBoardingPage extends Page<void> {
   const OnBoardingPage() : super(key: const ValueKey('OnBoardingPage'));

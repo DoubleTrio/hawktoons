@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:history_app/auth/auth.dart';
-import 'package:history_app/l10n/l10n.dart';
-import 'package:history_app/onboarding/onboarding.dart';
-import 'package:history_app/theme/theme.dart';
+import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/l10n/l10n.dart';
+import 'package:hawktoons/onboarding/onboarding.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class App extends StatelessWidget {

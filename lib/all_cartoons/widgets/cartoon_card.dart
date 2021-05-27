@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:history_app/l10n/l10n.dart';
-import 'package:history_app/utils/time_ago.dart';
+import 'package:hawktoons/l10n/l10n.dart';
+import 'package:hawktoons/utils/time_ago.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:shimmer/shimmer.dart';
 

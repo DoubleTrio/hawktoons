@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/auth/auth.dart';
-import 'package:history_app/auth/flow/auth_flow.dart';
-import 'package:history_app/auth/view/login_page.dart';
-import 'package:history_app/home/home.dart';
+import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/auth/flow/auth_flow.dart';
+import 'package:hawktoons/auth/view/login_page.dart';
+import 'package:hawktoons/home/home.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

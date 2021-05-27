@@ -1,8 +1,8 @@
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/auth/auth.dart';
-import 'package:history_app/onboarding/onboarding.dart';
+import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/onboarding/onboarding.dart';
 
 class OnboardingFlow extends StatelessWidget {
   const OnboardingFlow({Key? key}) : super(key: key);

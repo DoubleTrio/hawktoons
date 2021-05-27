@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/app/app.dart';
-import 'package:history_app/onboarding/flow/onboarding_flow.dart';
+import 'package:hawktoons/app/app.dart';
+import 'package:hawktoons/onboarding/flow/onboarding_flow.dart';
 import 'helpers/helpers.dart';
 
 void main() {

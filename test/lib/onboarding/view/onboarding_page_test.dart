@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/onboarding/onboarding.dart';
+import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';

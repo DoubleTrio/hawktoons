@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
+import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 void main() {

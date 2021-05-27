@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/home/blocs/blocs.dart';
+import 'package:hawktoons/home/blocs/blocs.dart';
 
 void main() {
   group('TabEvent', () {

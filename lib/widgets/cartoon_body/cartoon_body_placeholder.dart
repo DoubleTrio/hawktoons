@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:history_app/widgets/cartoon_body/widgets.dart';
+import 'package:hawktoons/widgets/cartoon_body/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CartoonBodyPlaceholder extends StatelessWidget {

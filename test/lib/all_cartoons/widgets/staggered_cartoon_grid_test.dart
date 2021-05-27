@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:mocktail/mocktail.dart';
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';

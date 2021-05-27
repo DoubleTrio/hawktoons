@@ -1,12 +1,12 @@
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/all_cartoons/flow/cartoon_flow.dart';
-import 'package:history_app/daily_cartoon/daily_cartoon.dart';
-import 'package:history_app/home/blocs/blocs.dart';
-import 'package:history_app/theme/theme.dart';
-import 'package:history_app/widgets/tab_selector.dart';
+import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/all_cartoons/flow/cartoon_flow.dart';
+import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
+import 'package:hawktoons/home/blocs/blocs.dart';
+import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/widgets/tab_selector.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class HomeFlowPage extends Page<void> {
@@ -76,14 +76,9 @@ class HomeFlowPage extends Page<void> {
   }
 }
 
-class HomeFlow extends StatefulWidget {
-  const HomeFlow({Key? key}) : super(key: key);
+class HomeFlow extends StatelessWidget {
+  const HomeFlow({Key? key}): super(key: key);
 
-  @override
-  State<HomeFlow> createState() => _HomeFlowState();
-}
-
-class _HomeFlowState extends State<HomeFlow> {
   @override
   Widget build(BuildContext context) {
     final activeTab = context.watch<TabBloc>().state;

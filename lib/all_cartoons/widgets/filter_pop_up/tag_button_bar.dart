@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:history_app/all_cartoons/widgets/filter_pop_up/tag_button.dart';
+import 'package:hawktoons/all_cartoons/widgets/filter_pop_up/tag_button.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButtonBar extends StatelessWidget {

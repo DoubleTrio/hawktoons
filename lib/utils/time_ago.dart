@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:history_app/l10n/l10n.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:intl/intl.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

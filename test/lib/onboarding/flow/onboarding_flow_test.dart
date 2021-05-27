@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/auth/auth.dart';
-import 'package:history_app/auth/bloc/auth.dart';
-import 'package:history_app/onboarding/onboarding.dart';
+import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/auth/bloc/auth.dart';
+import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/auth/bloc/authentication_state.dart';
+import 'package:hawktoons/auth/bloc/authentication_state.dart';
 
 import '../../fakes.dart';
 

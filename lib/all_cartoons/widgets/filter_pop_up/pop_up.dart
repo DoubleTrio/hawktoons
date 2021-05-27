@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/all_cartoons/all_cartoons.dart';
-import 'package:history_app/all_cartoons/blocs/blocs.dart';
-import 'package:history_app/widgets/app_scroll_bar.dart';
+import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
+import 'package:hawktoons/widgets/app_scroll_bar.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class FilterPopUp extends StatelessWidget {

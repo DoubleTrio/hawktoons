@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:history_app/all_cartoons/blocs/select_cartoon_cubit/models.dart';
+import 'package:hawktoons/all_cartoons/blocs/select_cartoon_cubit/models.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class SelectCartoonCubit extends Cubit<SelectPoliticalCartoonState> {

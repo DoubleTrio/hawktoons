@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:history_app/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';

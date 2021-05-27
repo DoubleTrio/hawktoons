@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/all_cartoons/blocs/blocs.dart';
-import 'package:history_app/all_cartoons/widgets/widgets.dart';
-import 'package:history_app/auth/auth.dart';
-import 'package:history_app/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:history_app/widgets/custom_icon_button.dart';
-import 'package:history_app/widgets/scaffold_title.dart';
+import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
+import 'package:hawktoons/all_cartoons/widgets/widgets.dart';
+import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
+import 'package:hawktoons/widgets/custom_icon_button.dart';
+import 'package:hawktoons/widgets/scaffold_title.dart';
 
 class AllCartoonsPage extends Page<void> {
   AllCartoonsPage() : super(key: const ValueKey('AllCartoonsPage'));

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:history_app/auth/bloc/auth.dart';
-import 'package:history_app/widgets/elevated_icon_button.dart';
-import 'package:history_app/widgets/loading_indicator.dart';
+import 'package:hawktoons/auth/bloc/auth.dart';
+import 'package:hawktoons/widgets/elevated_icon_button.dart';
+import 'package:hawktoons/widgets/loading_indicator.dart';
 
 class LoginPage extends Page<void> {
   const LoginPage() : super(key: const ValueKey('LoginPage'));
