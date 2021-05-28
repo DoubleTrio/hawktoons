@@ -9,6 +9,7 @@ import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:mocktail/mocktail.dart';
+
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
@@ -40,38 +41,6 @@ void main() {
       when(() => tabBloc.state).thenReturn(AppTab.daily);
     });
 
-
-    group('semantics', () {
-      testWidgets('passes guidelines for light theme', (tester) async {
-        whenListen(appDrawerCubit, Stream.value(true), initialState: false);
-        await tester.pumpApp(
-          const DrawerStackView(),
-          appDrawerCubit: appDrawerCubit,
-          dailyCartoonBloc: dailyCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
-          tabBloc: tabBloc,
-        );
-        await tester.pump();
-        expect(tester, meetsGuideline(textContrastGuideline));
-        expect(tester, meetsGuideline(androidTapTargetGuideline));
-      });
-
-      testWidgets('passes guidelines for dark theme', (tester) async {
-        whenListen(appDrawerCubit, Stream.value(true), initialState: false);
-        await tester.pumpApp(
-          const DrawerStackView(),
-          mode: ThemeMode.dark,
-          appDrawerCubit: appDrawerCubit,
-          dailyCartoonBloc: dailyCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
-          tabBloc: tabBloc,
-        );
-        await tester.pump();
-        expect(tester, meetsGuideline(textContrastGuideline));
-        expect(tester, meetsGuideline(androidTapTargetGuideline));
-      });
-    });
-
     group('DrawerStackView', () {
       testWidgets('opens drawer when swiped to the right', (tester) async {
         when(() => appDrawerCubit.state).thenReturn(false);
@@ -85,14 +54,73 @@ void main() {
         await tester.fling(
           find.byType(DailyCartoonView),
           const Offset(600, 0),
-          80
+          80,
         );
         verify(appDrawerCubit.openDrawer).called(1);
         expect(find.byType(AppDrawerPage), findsOneWidget);
       });
 
+      testWidgets('does not open drawer when '
+        'swiped to the right not far enough', (tester) async {
+        when(() => appDrawerCubit.state).thenReturn(false);
+        await tester.pumpApp(
+          const DrawerStackView(),
+          appDrawerCubit: appDrawerCubit,
+          dailyCartoonBloc: dailyCartoonBloc,
+          showBottomSheetCubit: showBottomSheetCubit,
+          tabBloc: tabBloc,
+        );
+        await tester.fling(
+          find.byType(DailyCartoonView),
+          const Offset(100, 0),
+          20,
+        );
+        await tester.pump(const Duration(seconds: 1));
+        await tester.pump(const Duration(seconds: 1));
+        verifyNever(appDrawerCubit.openDrawer);
+        expect(find.byType(AppDrawerPage), findsOneWidget);
+      });
+
+      testWidgets('creates velocity fling animation', (tester) async {
+        when(() => appDrawerCubit.state).thenReturn(false);
+        await tester.pumpApp(
+          const DrawerStackView(),
+          appDrawerCubit: appDrawerCubit,
+          dailyCartoonBloc: dailyCartoonBloc,
+          showBottomSheetCubit: showBottomSheetCubit,
+          tabBloc: tabBloc,
+        );
+        await tester.fling(
+          find.byType(DailyCartoonView),
+          const Offset(300, 0),
+          3000,
+        );
+      });
+
+      testWidgets('does open drawer '
+          'when swiped right just enough (animation forwards)', (tester) async {
+        when(() => appDrawerCubit.state).thenReturn(false);
+        await tester.pumpApp(
+          const DrawerStackView(),
+          appDrawerCubit: appDrawerCubit,
+          dailyCartoonBloc: dailyCartoonBloc,
+          showBottomSheetCubit: showBottomSheetCubit,
+          tabBloc: tabBloc,
+        );
+
+        await tester.fling(
+          find.byType(DailyCartoonView),
+          const Offset(200, 0),
+          60,
+        );
+
+        await tester.pump(const Duration(seconds: 1));
+        await tester.pump(const Duration(seconds: 1));
+        verify(appDrawerCubit.openDrawer).called(1);
+      });
+
       testWidgets('closes drawer when swiped to the left '
-        'when drawer is open', (tester) async {
+        'when drawer is open (animation reverses)', (tester) async {
         whenListen(appDrawerCubit, Stream.value(true), initialState: false);
 
         await tester.pumpApp(

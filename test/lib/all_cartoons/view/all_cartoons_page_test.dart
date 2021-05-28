@@ -118,7 +118,7 @@ void main() {
         scrollHeaderCubit: scrollHeaderCubit,
         showBottomSheetCubit: showBottomSheetCubit,
       );
-      await tester.tap(find.byKey(filterButtonKey));
+      await tester.tap(find.byKey(allCartoonsFilterButtonKey));
       verify(showBottomSheetCubit.openSheet).called(1);
     });
 

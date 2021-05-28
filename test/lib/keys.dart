@@ -25,7 +25,7 @@ const allCartoonsLoadingKey =
     Key('AllCartoonsPage_AllCartoonsLoading');
 const allCartoonsLoadedKey = Key('AllCartoonsPage_AllCartoonsLoaded');
 const allCartoonsFailedKey = Key('AllCartoonsPage_AllCartoonsFailed');
-const filterButtonKey = Key('AllCartoonsPage_FilterButton');
+const allCartoonsFilterButtonKey = Key('AllCartoonsPage_FilterButton');
 const allCartoonsMenuButtonKey = Key('AllCartoonsView_OpenDrawer');
 
 const loggingInKey = Key('LoginPage_LoggingIn');

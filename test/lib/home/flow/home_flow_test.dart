@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
 import 'package:hawktoons/home/home.dart';
 import 'package:hawktoons/tab/tab.dart';
@@ -88,6 +87,7 @@ void main() {
         when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(
           const HomeFlow(),
+          mode: ThemeMode.dark,
           dailyCartoonBloc: dailyCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
