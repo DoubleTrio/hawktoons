@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
-import 'package:hawktoons/auth/bloc/auth.dart';
+import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -12,21 +12,19 @@ import '../../mocks.dart';
 void main() {
   group('DailyCartoonView', () {
     late AllCartoonsBloc allCartoonsBloc;
-    late AuthenticationBloc authenticationBloc;
     late DailyCartoonBloc dailyCartoonBloc;
+    late AppDrawerCubit appDrawerCubit;
 
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
-      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
     });
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
-      authenticationBloc = MockAuthenticationBloc();
+      appDrawerCubit = MockAppDrawerCubit();
       dailyCartoonBloc = MockDailyCartoonBloc();
 
       final state = DailyCartoonLoaded(mockPoliticalCartoon);
@@ -88,19 +86,17 @@ void main() {
       expect(find.byKey(dailyCartoonFailedKey), findsOneWidget);
     });
 
-    testWidgets('logs out when logout button is tapped', (tester) async {
+    testWidgets('open drawer when menu icon is tapped', (tester) async {
       final state = const DailyCartoonFailed('Error');
       when(() => dailyCartoonBloc.state).thenReturn(state);
       await tester.pumpApp(
         const DailyCartoonView(),
-        authenticationBloc: authenticationBloc,
         allCartoonsBloc: allCartoonsBloc,
+        appDrawerCubit: appDrawerCubit,
         dailyCartoonBloc: dailyCartoonBloc,
       );
-      await tester.tap(find.byKey(dailyCartoonLogoutButtonKey));
-      verify(() => authenticationBloc.add(const Logout())).called(1);
-      verify(allCartoonsBloc.close).called(1);
-      verify(dailyCartoonBloc.close).called(1);
+      await tester.tap(find.byKey(dailyCartoonMenuButtonKey));
+      verify(appDrawerCubit.openDrawer).called(1);
     });
   });
 }

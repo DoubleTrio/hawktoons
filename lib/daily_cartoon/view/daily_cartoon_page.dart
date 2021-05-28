@@ -3,14 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons_bloc.dart';
-import 'package:hawktoons/auth/bloc/auth.dart';
+import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon_bloc.dart';
-import 'package:hawktoons/widgets/cartoon_body/cartoon_body.dart';
-import 'package:hawktoons/widgets/custom_icon_button.dart';
-import 'package:hawktoons/widgets/page_header.dart';
-import 'package:hawktoons/widgets/scaffold_title.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -32,11 +26,6 @@ class DailyCartoonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _logout() {
-      context.read<AllCartoonsBloc>().close();
-      context.read<DailyCartoonBloc>().close();
-      context.read<AuthenticationBloc>().add(const Logout());
-    }
 
     final title = context.select<DailyCartoonBloc, String>(
       (DailyCartoonBloc bloc) {
@@ -54,18 +43,18 @@ class DailyCartoonView extends StatelessWidget {
     );
 
     void _openDrawer() {
-      Scaffold.of(context).openDrawer();
+      context.read<AppDrawerCubit>().openDrawer();
     }
 
     return Scaffold(
       appBar: AppBar(
         leading: Semantics(
           child: CustomIconButton(
-            label: 'Logout button',
-            hint: 'Tap to logout',
-            key: const Key('DailyCartoonView_Button_Logout'),
-            icon: const Icon(Icons.exit_to_app_rounded),
-            onPressed: _logout,
+            label: 'Open drawer button',
+            hint: 'Tap to open the side drawer',
+            key: const Key('DailyCartoonView_OpenDrawer'),
+            icon: const Icon(Icons.menu),
+            onPressed: _openDrawer,
           ),
         ),
         title: Semantics(

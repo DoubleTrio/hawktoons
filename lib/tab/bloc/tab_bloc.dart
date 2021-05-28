@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-
-import '../models/models.dart';
-import 'tab_event.dart';
+import 'package:hawktoons/tab/tab.dart';
 
 class TabBloc extends Bloc<TabEvent, AppTab> {
   TabBloc() : super(AppTab.daily);

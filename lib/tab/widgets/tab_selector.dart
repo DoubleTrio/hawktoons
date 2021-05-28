@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:hawktoons/home/blocs/blocs.dart';
+import 'package:hawktoons/tab/tab.dart';
 
 class TabSelector extends StatelessWidget {
   TabSelector({

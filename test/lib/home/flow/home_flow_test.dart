@@ -6,8 +6,8 @@ import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
 import 'package:hawktoons/home/home.dart';
+import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
-import 'package:hawktoons/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

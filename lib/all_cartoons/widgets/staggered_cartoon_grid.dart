@@ -5,9 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
-import 'package:hawktoons/widgets/app_scroll_bar.dart';
-import 'package:hawktoons/widgets/loading_indicator.dart';
-import 'package:hawktoons/widgets/page_header.dart';
+import 'package:hawktoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class StaggeredCartoonGrid extends StatefulWidget {

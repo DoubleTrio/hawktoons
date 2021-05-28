@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
-import 'package:hawktoons/all_cartoons/widgets/widgets.dart';
-import 'package:hawktoons/auth/auth.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:hawktoons/widgets/custom_icon_button.dart';
-import 'package:hawktoons/widgets/scaffold_title.dart';
+import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/app_drawer/cubit/app_drawer_cubit.dart';
+import 'package:hawktoons/widgets/widgets.dart';
 
 class AllCartoonsPage extends Page<void> {
   AllCartoonsPage() : super(key: const ValueKey('AllCartoonsPage'));
@@ -29,24 +26,22 @@ class AllCartoonsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final _shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
 
-    void _logout() {
-      context.read<AllCartoonsBloc>().close();
-      context.read<DailyCartoonBloc>().close();
-      context.read<AuthenticationBloc>().add(const Logout());
-    }
-
     void _openFilterSheet() {
       context.read<ShowBottomSheetCubit>().openSheet();
+    }
+
+    void _openDrawer() {
+      context.read<AppDrawerCubit>().openDrawer();
     }
 
     return Scaffold(
       appBar: AppBar(
         leading: CustomIconButton(
-          label: 'Logout button',
-          hint: 'Tap to logout',
-          key: const Key('AllCartoonsPage_LogoutButton'),
-          icon: const Icon(Icons.exit_to_app_rounded),
-          onPressed: _logout,
+          label: 'Open drawer button',
+          hint: 'Tap to open the side drawer',
+          key: const Key('AllCartoonsView_OpenDrawer'),
+          icon: const Icon(Icons.menu),
+          onPressed: _openDrawer,
         ),
         title: Semantics(
           excludeSemantics: true,

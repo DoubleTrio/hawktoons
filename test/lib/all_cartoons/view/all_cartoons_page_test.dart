@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
-import 'package:hawktoons/auth/bloc/auth.dart';
+import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -15,8 +15,8 @@ import '../../mocks.dart';
 void main() {
   group('AllCartoonsPage', () {
     late AllCartoonsBloc allCartoonsBloc;
+    late AppDrawerCubit appDrawerCubit;
     late DailyCartoonBloc dailyCartoonBloc;
-    late AuthenticationBloc authenticationBloc;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
 
@@ -25,16 +25,15 @@ void main() {
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
-      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
-      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     });
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
+      appDrawerCubit = MockAppDrawerCubit();
       dailyCartoonBloc = MockDailyCartoonBloc();
-      authenticationBloc = MockAuthenticationBloc();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
+
       when(() => scrollHeaderCubit.state).thenReturn(false);
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial().copyWith(
@@ -123,19 +122,16 @@ void main() {
       verify(showBottomSheetCubit.openSheet).called(1);
     });
 
-    testWidgets(
-      'logs out when logout button is pressed', (tester) async {
+    testWidgets('opens drawer when menu icon is tapped', (tester) async {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        appDrawerCubit: appDrawerCubit,
         dailyCartoonBloc: dailyCartoonBloc,
-        authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
       );
-      await tester.tap(find.byKey(filterLogoutButtonKey));
-      verify(allCartoonsBloc.close).called(1);
-      verify(dailyCartoonBloc.close).called(1);
-      verify(() => authenticationBloc.add(const Logout())).called(1);
+      await tester.tap(find.byKey(allCartoonsMenuButtonKey));
+      verify(appDrawerCubit.openDrawer).called(1);
     });
 
     testWidgets(

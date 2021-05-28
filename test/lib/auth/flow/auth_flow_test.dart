@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hawktoons/app_drawer/view/drawer_stack_page.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/auth/flow/auth_flow.dart';
 import 'package:hawktoons/auth/view/login_page.dart';
-import 'package:hawktoons/home/home.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -49,8 +49,8 @@ void main() {
       });
     });
 
-    group('HomeFlow', () {
-      testWidgets('shows HomeFlow', (tester) async {
+    group('DrawerStackView', () {
+      testWidgets('shows DrawerStackView', (tester) async {
         when(() => authenticationBloc.state)
           .thenReturn(Authenticated(FakeUser()));
         await tester.pumpApp(
@@ -58,7 +58,7 @@ void main() {
           cartoonRepository: cartoonRepository,
           authenticationBloc: authenticationBloc,
         );
-        expect(find.byType(HomeFlow), findsOneWidget);
+        expect(find.byType(DrawerStackView), findsOneWidget);
       });
     });
   });

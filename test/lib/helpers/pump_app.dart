@@ -4,13 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:hawktoons/home/blocs/blocs.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/onboarding/cubits/cubits.dart';
 import 'package:hawktoons/onboarding/cubits/onboarding_seen_cubit.dart';
 import 'package:hawktoons/onboarding/models/models.dart';
+import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
@@ -26,6 +27,7 @@ extension PumpApp on WidgetTester {
     FirestorePoliticalCartoonRepository? cartoonRepository,
     UserRepository? userRepository,
     AllCartoonsBloc? allCartoonsBloc,
+    AppDrawerCubit? appDrawerCubit,
     AuthenticationBloc? authenticationBloc,
     DailyCartoonBloc? dailyCartoonBloc,
     ImageTypeCubit? imageTypeCubit,
@@ -73,6 +75,9 @@ extension PumpApp on WidgetTester {
             providers: [
               BlocProvider.value(
                 value: allCartoonsBloc ?? MockAllCartoonsBloc()
+              ),
+              BlocProvider.value(
+                value: appDrawerCubit ?? MockAppDrawerCubit()
               ),
               BlocProvider.value(
                 value: authenticationBloc ?? MockAuthenticationBloc()

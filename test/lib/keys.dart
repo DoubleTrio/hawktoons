@@ -14,7 +14,8 @@ const dailyCartoonInProgressKey =
     Key('DailyCartoonView_DailyCartoonInProgress');
 const dailyCartoonLoadedKey = Key('DailyCartoonView_DailyCartoonLoaded');
 const dailyCartoonFailedKey = Key('DailyCartoonView_DailyCartoonFailed');
-const dailyCartoonLogoutButtonKey = Key('DailyCartoonView_Button_Logout');
+const dailyCartoonMenuButtonKey = Key('DailyCartoonView_OpenDrawer');
+
 
 const nextPageOnboardingButtonKey = Key('OnboardingPage_NextPage');
 const setSeenOnboardingButtonKey = Key('OnboardingPage_SetSeenOnboarding');
@@ -25,7 +26,7 @@ const allCartoonsLoadingKey =
 const allCartoonsLoadedKey = Key('AllCartoonsPage_AllCartoonsLoaded');
 const allCartoonsFailedKey = Key('AllCartoonsPage_AllCartoonsFailed');
 const filterButtonKey = Key('AllCartoonsPage_FilterButton');
-const filterLogoutButtonKey = Key('AllCartoonsPage_LogoutButton');
+const allCartoonsMenuButtonKey = Key('AllCartoonsView_OpenDrawer');
 
 const loggingInKey = Key('LoginPage_LoggingIn');
 const unauthenticatedKey = Key('LoginPage_LoginError');
