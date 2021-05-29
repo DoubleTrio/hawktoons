@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/widgets/cartoon_body/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:shimmer/shimmer.dart';
@@ -14,6 +15,7 @@ class CartoonBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
     final height = MediaQuery.of(context).size.height;
     final maxImageHeight = height / 2.5;
@@ -60,25 +62,25 @@ class CartoonBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CartoonSection(
-                title: 'PUBLISHED',
+                title: l10n.cartoonBodyPublishedText,
                 body: Text(cartoon.publishedString, style: _bodyTextStyle)
               ),
               if (cartoon.author != '') ...[
                 const CartoonSectionDivider(),
                 CartoonSection(
                   key: Key('CartoonSection_Author_${cartoon.id}'),
-                  title: 'AUTHOR',
+                  title: l10n.cartoonBodyAuthorText,
                   body: Text(cartoon.author, style: _bodyTextStyle)
                 )
               ],
               const CartoonSectionDivider(),
               CartoonSection(
-                title: 'IMAGE TYPE',
+                title: l10n.cartoonBodyImageTypeText,
                 body: Text(cartoon.type.imageType, style: _bodyTextStyle)
               ),
               const CartoonSectionDivider(),
               CartoonSection(
-                title: 'TAGS',
+                title: l10n.cartoonBodyTagsText,
                 body: Column(
                   children: [
                     ...cartoon.tags.map((tag) =>
@@ -89,7 +91,7 @@ class CartoonBody extends StatelessWidget {
               ),
               const CartoonSectionDivider(),
               CartoonSection(
-                title: 'DESCRIPTION',
+                title: l10n.cartoonBodyDescriptionText,
                 body: Text(cartoon.description, style: _bodyTextStyle)
               ),
             ],

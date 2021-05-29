@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/cubit/app_drawer_cubit.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
 class AllCartoonsPage extends Page<void> {
@@ -24,7 +25,8 @@ class AllCartoonsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
+    final l10n = context.l10n;
+    final shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
 
     void _openFilterSheet() {
       context.read<ShowBottomSheetCubit>().openSheet();
@@ -37,28 +39,28 @@ class AllCartoonsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: CustomIconButton(
-          label: 'Open drawer button',
-          hint: 'Tap to open the side drawer',
           key: const Key('AllCartoonsView_OpenDrawer'),
+          label: l10n.openDrawerLabel,
+          hint: l10n.openDrawerHint,
           icon: const Icon(Icons.menu),
           onPressed: _openDrawer,
         ),
         title: Semantics(
           excludeSemantics: true,
           child: AnimatedOpacity(
-            opacity: _shouldDisplayTitle ? 1.0 : 0.0,
+            opacity: shouldDisplayTitle ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 800),
-            child: const ScaffoldTitle(
-              title: 'All Images',
+            child: ScaffoldTitle(
+              title: l10n.allCartoonsPageScaffoldText,
             ),
           ),
         ),
         centerTitle: true,
         actions: [
           CustomIconButton(
-            label: 'Filter images button',
-            hint: 'Tap to open the image filter page',
             key: const Key('AllCartoonsPage_FilterButton'),
+            label: l10n.openFiltersPageLabel,
+            hint: l10n.openFiltersPageHint,
             icon: const Icon(Icons.filter_list),
             onPressed: _openFilterSheet,
           )
@@ -68,9 +70,9 @@ class AllCartoonsView extends StatelessWidget {
         listenWhen: (prev, curr) => prev.filters != curr.filters,
         listener: (context, state) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              duration: Duration(seconds: 2),
-              content: Text('Filter applied!'),
+            SnackBar(
+              duration: const Duration(seconds: 2),
+              content: Text(l10n.allCartoonsPageSnackBarFilterText),
             ),
           );
         },

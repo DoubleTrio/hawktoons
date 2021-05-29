@@ -42,7 +42,7 @@ void main() {
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
-          const AppDrawerPage(),
+          const AppDrawerPage(backgroundOpacity: 0),
           themeCubit: themeCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
@@ -51,7 +51,7 @@ void main() {
 
       testWidgets('passes guidelines for dark theme', (tester) async {
         await tester.pumpApp(
-          const AppDrawerPage(),
+          const AppDrawerPage(backgroundOpacity: 0),
           mode: ThemeMode.dark,
           themeCubit: themeCubit,
         );
@@ -62,7 +62,7 @@ void main() {
 
     testWidgets('logouts when logout list tile is tapped', (tester) async {
       await tester.pumpApp(
-        const AppDrawerPage(),
+        const AppDrawerPage(backgroundOpacity: 0),
         allCartoonsBloc: allCartoonsBloc,
         authenticationBloc: authenticationBloc,
         dailyCartoonBloc: dailyCartoonBloc,
@@ -77,7 +77,7 @@ void main() {
     testWidgets('opens privacy info page privacy '
       'list tile is tapped', (tester) async {
       await tester.pumpApp(
-        const AppDrawerPage(),
+        const AppDrawerPage(backgroundOpacity: 0),
         themeCubit: themeCubit,
       );
       await tester.tap(find.byKey(appDrawerPrivacyTileKey));
@@ -85,7 +85,7 @@ void main() {
 
     testWidgets('changes theme when list tile theme is tapped', (tester) async {
       await tester.pumpApp(
-        const AppDrawerPage(),
+        const AppDrawerPage(backgroundOpacity: 0),
         themeCubit: themeCubit,
       );
       await tester.tap(find.byKey(appDrawerChangeThemeTileKey));

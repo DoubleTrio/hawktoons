@@ -37,9 +37,9 @@ class DrawerStackPage extends Page<void> {
     final _tag = _tagCubit.state;
 
     final filters = CartoonFilters(
-        sortByMode: _sortByMode,
-        imageType: _imageType,
-        tag: _tag
+      sortByMode: _sortByMode,
+      imageType: _imageType,
+      tag: _tag
     );
 
     return PageRouteBuilder<void>(
@@ -47,10 +47,12 @@ class DrawerStackPage extends Page<void> {
       pageBuilder: (_, __, ___) => MultiBlocProvider(
         providers: [
           BlocProvider.value(value: _allCartoonsBloc
-            ..add(LoadCartoons(filters))),
+            ..add(LoadCartoons(filters))
+          ),
           BlocProvider.value(value: _appDrawerCubit),
           BlocProvider.value(value: _dailyCartoonBloc
-            ..add(const LoadDailyCartoon())),
+            ..add(const LoadDailyCartoon())
+          ),
           BlocProvider.value(value: _imageTypeCubit),
           BlocProvider.value(value: _scrollHeaderCubit),
           BlocProvider.value(value: _selectCartoonCubit),
@@ -68,7 +70,6 @@ class DrawerStackPage extends Page<void> {
         final curve = Curves.ease;
         final tween = Tween(begin: begin, end: end)
           ..chain(CurveTween(curve: curve));
-
         return SlideTransition(
           position: animation.drive(tween),
           child: child,
@@ -89,6 +90,7 @@ class _DrawerStackViewState extends State<DrawerStackView>
     with SingleTickerProviderStateMixin {
 
   bool _canBeDragged = false;
+  final double opacityPercentage = 0.20;
 
   late AnimationController animationController;
 
@@ -181,9 +183,11 @@ class _DrawerStackViewState extends State<DrawerStackView>
           builder: (context, child) {
             final value = animationController.value;
             final slide = drawerSwipeDistance * value;
+            final appDrawerOpacity =  opacityPercentage * (1 - value);
+            final homeScreenOpacity = opacityPercentage * 0.20;
             return Stack(
               children: [
-                const AppDrawerPage(),
+                AppDrawerPage(backgroundOpacity: appDrawerOpacity),
                 Transform(
                   transform: Matrix4.identity()..translate(slide),
                   child: Stack(
@@ -192,7 +196,7 @@ class _DrawerStackViewState extends State<DrawerStackView>
                       IgnorePointer(
                         ignoring: true,
                         child: Container(
-                          color: Colors.black.withOpacity(value * 0.20),
+                          color: Colors.black.withOpacity(homeScreenOpacity),
                         ),
                       ),
                     ],

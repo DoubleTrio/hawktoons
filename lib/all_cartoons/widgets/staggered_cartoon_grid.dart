@@ -5,12 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class StaggeredCartoonGrid extends StatefulWidget {
   const StaggeredCartoonGrid({Key? key}) : super(key: key);
-
 
   @override
   _StaggeredCartoonGridState createState() => _StaggeredCartoonGridState();
@@ -67,6 +67,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
     final _isLoadingMore = context.select<AllCartoonsBloc, bool>(
       (value) => value.state.status == CartoonStatus.loadingMore
@@ -127,9 +128,9 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
-                    const SnackBar(
-                      duration: Duration(seconds: 2),
-                      content: Text('Failed to refresh images'),
+                    SnackBar(
+                      duration: const Duration(seconds: 2),
+                      content: Text(l10n.allCartoonsRefreshErrorText),
                   ),
                 );
                 _restartCompleter();
@@ -139,10 +140,8 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
             builder: (context, state) {
               final _itemCount = state.cartoons.length + 2;
               return Semantics(
-                hint: 'Swipe down quickly to refresh or swipe up to '
-                  'scroll down. There are currently ${state.cartoons.length} '
-                  'loaded',
-                label: 'Political images scroll view',
+                label: l10n.allCartoonsPageScrollLabel,
+                hint: l10n.allCartoonsPageScrollHint,
                 child: StaggeredGridView.countBuilder(
                   controller: _scrollController,
                   physics: const BouncingScrollPhysics(
@@ -160,8 +159,8 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                             _buildInitialIndicator(),
                           Semantics(
                             excludeSemantics: true,
-                            child: const PageHeader(
-                              header: 'All',
+                            child: PageHeader(
+                              header: l10n.allCartoonsPageHeaderText,
                             ),
                           ),
 

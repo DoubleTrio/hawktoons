@@ -1,71 +1,305 @@
 {
     "@@locale": "en",
-    "dailyCartoonTitle": "Daily Cartoon",
-    "@dailyCartoonTitle": {
-        "description": "Text shown in the AppBar of the Daily Cartoon Page"
+    "onboardingPageHeader1": "Welcome to Hawktoons",
+    "@onboardingPageHeader1": {
+        "description": "Header shown on the first onboarding page"
     },
-
+    "onboardingPageHeader2": "New cartoons every week",
+    "@onboardingPageHeader2": {
+        "description": "Header shown on the second onboarding page"
+    },
+    "onboardingPageHeader3": "See past cartoons",
+    "@onboardingPageHeader3": {
+        "description": "Header shown on the third onboarding page"
+    },
+    "onboardingPageBody1": "An educational, ad-free app to learn history at different time periods through political cartoons and images.",
+    "@onboardingPageBody": {
+        "description": "Body text shown on the first onboarding page"
+    },
+    "onboardingPageBody2": "Learn something new with a political cartoon or image every week. Each will include a brief description given the context of the time period.",
+    "@onboardingPageBody2": {
+        "description": "Body text shown on the second onboarding page"
+    },
+    "onboardingPageBody3": "See past cartoons",
+    "@onboardingPageBody3": {
+        "description": "Body text shown on the third onboarding page"
+    },
+    "onboardingPageSkipButtonText": "Skip",
+    "@onboardingPageSkipButtonText": {
+        "description": "Button text shown on the onboarding page that completes the onboarding"
+    },
+    "onboardingPageSkipButtonLabel": "Skip onboarding button",
+    "@onboardingPageSkipButtonLabel": {
+        "description": "Semantic label for skip button"
+    },
+    "onboardingPageSkipButtonHint": "Tap to skip the onboarding introduction",
+    "@onboardingPageSkipButtonHint": {
+        "description": "Semantic hint for skip button"
+    },
+    "onboardingPageNextButtonText": "Next",
+    "@onboardingPageNextButtonText": {
+        "description": "Button text shown on the onboarding page that navigates to the next page"
+    },
+    "onboardingPageNextButtonLabel": "Next page button",
+    "@onboardingPageNextButtonLabel": {
+        "description": "Semantic label for next button"
+    },
+    "onboardingPageNextButtonHint": "Tap to move to the next page",
+    "@onboardingPageNextButtonHint": {
+        "description": "Semantic hint for next button"
+    },
+    "onboardingPageStartButtonText": "Start",
+    "@onboardingPageStartButtonText": {
+        "description": "Button text shown on the onboarding page that completes the onboarding"
+    },
+    "onboardingPageStartButtonLabel": "Start button",
+    "@onboardingPageStartButtonLabel": {
+        "description": "Semantic label for start button"
+    },
+    "onboardingPageStartButtonHint": "Tap to begin logging in",
+    "@onboardingPageStartButtonHint": {
+        "description": "Semantic hint for start button"
+    },
+    "loginPageHeader": "Welcome to Hawktoons!",
+    "@loginPageHeader": {
+        "description": "Header shown on the login page"
+    },
+    "loginPageSubheader": "To begin learning about history through political cartoons and images, sign in below!",
+    "@loginPageSubheader": {
+        "description": "Subheader shown on the login page"
+    },
+    "loginPageSignInAnonymouslyButtonText": "Sign in anonymously",
+    "@loginPageSignInAnonymouslyButtonText": {
+        "description": "Button text shown on the login page for anonymous sign in"
+    },
+    "loginPageSignInAnonymouslyButtonLabel": "Sign in anonymously button",
+    "@loginPageSignInAnonymouslyButtonLabel": {
+        "description": "Semantic label for sign in anonymously button"
+    },
+    "loginPageSignInAnonymouslyButtonHint": "Tap to sign in anonymously",
+    "@loginPageSignInAnonymouslyButtonHint": {
+        "description": "Semantic hint sign in anonymously button"
+    },
+    "loginPageGoogleSignInButtonText": "Sign in with Google",
+    "@loginPageGoogleSignInButtonText": {
+        "description": "Button text shown on the login page for google sign in"
+    },
+    "loginPageGoogleSignInButtonLabel": "Sign in with Google button",
+    "@loginPageGoogleSignInButtonLabel": {
+        "description": "Semantic label for google sign in button"
+    },
+    "loginPageGoogleSignInButtonHint": "Tap to login with your Google email account",
+    "@loginPageGoogleSignInButtonHint": {
+        "description": "Semantic hint google sign in button"
+    },
+    "loginPageErrorText": "A login error has occurred",
+    "@loginPageErrorText": {
+        "description": "Text on the login page when an error occurs"
+    },
+    "latestCartoonPageHeaderText": "Latest",
+    "@latestCartoonPageHeaderText": {
+        "description": "Header shown on the latest cartoon page"
+    },
+    "allCartoonsPageScaffoldText": "All Images",
+    "@allCartoonsPageScaffoldText": {
+        "description": "Text shown on the all cartoons page scaffold"
+    },
+    "allCartoonsPageSnackBarFilterText": "Filter applied!",
+    "@allCartoonsPageSnackBarFilterText": {
+        "description": "Text shown on the all cartoons page snack bar after a refreshing error occur"
+    },
+    "allCartoonsPageScrollLabel": "Political images scroll view",
+    "@allCartoonsPageScrollLabel": {
+        "description": "Semantic label for staggered grid scroll view"
+    },
+    "allCartoonsPageScrollHint": "Swipe down quickly to refresh or swipe up to begin browsing political images",
+    "@allCartoonsPageScrollHint": {
+        "description": "Semantic hint for staggered grid scroll view"
+    },
+    "allCartoonsRefreshErrorText": "Failed to refresh images",
+    "@allCartoonsRefreshErrorText": {
+        "description": "Text shown on SnackBar when a refresh error occurs"
+    },
+    "allCartoonsPageHeaderText": "All",
+    "@allCartoonsPageHeaderText": {
+        "description": "Header shown on the all cartoons page"
+    },
+    "cartoonCardByText": "By",
+    "@cartoonCardByText": {
+        "description": "Text that appears before the author of the political image"
+    },
+    "cartoonCardPostedText": "Posted",
+    "@cartoonCardPostedText": {
+        "description": "Text that appears before when the cartoon image was posted"
+    },
+    "cartoonCardTagsText": "Tags",
+    "@cartoonCardTagsText": {
+        "description": "Text that appears before all the tag ids of the cartoons"
+    },
+    "cartoonBodyPublishedText": "PUBLISHED",
+    "@cartoonBodyPublishedText": {
+        "description": "Text that appears in the cartoon body above the published date"
+    },
+    "cartoonBodyAuthorText": "AUTHOR",
+    "@cartoonBodyAuthorText": {
+        "description": "Text that appears in the cartoon body above the author"
+    },
+    "cartoonBodyImageTypeText": "IMAGE TYPE",
+    "@cartoonBodyImageTypeText": {
+        "description": "Text that appears in the cartoon body above the image types"
+    },
+    "cartoonBodyTagsText": "TAGS",
+    "@cartoonBodyTagsText": {
+        "description": "Text that appears in the cartoon body above the tags"
+    },
+    "cartoonBodyDescriptionText": "DESCRIPTION",
+    "@cartoonBodyDescriptionText": {
+        "description": "Text that appears in the cartoon body above the description"
+    },
+    "openDrawerHint": "Open drawer button",
+    "@openDrawerHint": {
+        "description": "Semantic label for opening drawer button"
+    },
+    "openDrawerLabel": "Tap to open the side drawer",
+    "@openDrawerLabel": {
+        "description": "Semantic hint for opening drawer button"
+    },
+    "openFiltersPageHint": "Tap to open the image filter page",
+    "@openFiltersPageHint": {
+        "description": "Semantic hint for opening the filters page button"
+    },
+    "openFiltersPageLabel": "Filter images button",
+    "@openFiltersPageLabel": {
+        "description": "Semantic label for for opening the filters page button"
+    },
+    "filterPopUpSortByHeader": "Sort By",
+    "@filterPopUpSortByHeader": {
+        "description": "Header text in filter pop up for sorting images"
+    },
+    "filterPopUpImageTypeHeader": "Image Type",
+    "@filterPopUpImageTypeHeader": {
+        "description": "Header text in filter pop up for sorting by image type"
+    },
+    "filterPopUpTagsHeader": "Tags",
+    "@filterPopUpTagsHeader": {
+        "description": "Header text in filter pop up for sorting by tags"
+    },
+    "filterPopUpHeader": "Filters",
+    "@filterPopUpHeader": {
+        "description": "Header text shown at the top of the filter pop up"
+    },
+    "filterPopUpResetButtonText": "Reset",
+    "@filterPopUpResetButtonText": {
+        "description": "Button text shown on the filter pop up that resets all filters"
+    },
+    "filterPopUpResetButtonLabel": "Reset button",
+    "@filterPopUpResetButtonLabel": {
+        "description": "Semantic label for reset filters button"
+    },
+    "filterPopUpResetButtonHint": "Tap to reset the image filters",
+    "@filterPopUpResetButtonHint": {
+        "description": "Semantic hint for reset filters button"
+    },
+    "filterPopUpApplyButtonText": "Apply",
+    "@filterPopUpApplyButtonText": {
+        "description": "Button text shown on the filter pop up that applies all filters"
+    },
+    "filterPopUpApplyButtonLabel": "Apply filters button",
+    "@filterPopUpApplyButtonLabel": {
+        "description": "Semantic label for apply filters button"
+    },
+    "filterPopUpApplyButtonHint": "Tap to apply the image filters",
+    "@filterPopUpApplyButtonHint": {
+        "description": "Semantic hint for apply filters button"
+    },
+    "appDrawerLogoutButtonText": "Logout",
+    "@appDrawerLogoutButtonText": {
+        "description": "Button text on app drawer that logs out the user"
+    },
+    "appDrawerLogoutButtonLabel": "Logout button",
+    "@appDrawerLogoutButtonLabel": {
+        "description": "Semantic label for logout button"
+    },
+    "appDrawerLogoutButtonHint": "Tap to logout",
+    "@appDrawerLogoutButtonHint": {
+        "description": "Semantic hint for logout button"
+    },
+    "appDrawerPrivacyInfoButtonText": "Privacy Info",
+    "@appDrawerPrivacyInfoButtonText": {
+        "description": "Button text on app drawer that displays the how the app uses the user's data"
+    },
+    "appDrawerPrivacyInfoButtonLabel": "Privacy info button",
+    "@appDrawerPrivacyInfoButtonLabel": {
+        "description": "Semantic label for privacy info button"
+    },
+    "appDrawerPrivacyInfoButtonHint": "Tap to see how your data is used",
+    "@appDrawerPrivacyInfoButtonHint": {
+        "description": "Semantic hint for privacy info button"
+    },
+    "appDrawerLightThemeButtonText": "Light Theme",
+    "@appDrawerLightThemeButtonText": {
+        "description": "Button text on app drawer that displays the light theme text"
+    },
+    "appDrawerDarkThemeButtonText": "Dark Theme",
+    "@appDrawerDarkThemeButtonText": {
+        "description": "Button text on app drawer that displays the dark theme text"
+    },
+    "appDrawerChangeThemeButtonLabel": "Change theme button",
+    "@appDrawerChangeThemeButtonLabel": {
+        "description": "Semantic label for change theme button"
+    },
+    "appDrawerChangeThemeButtonHint": "Tap to change the theme of the app",
+    "@appDrawerChangeThemeButtonHint": {
+        "description": "Semantic hint for change theme button"
+    },
     "oneWeek": "Last week",
     "@oneWeek": {
         "description": "Shown when the political cartoon card is a week old"
     },
-
     "oneWeekNumeric": "1 week ago",
     "@oneWeekNumeric": {
         "description": "Numeric date shown when the political cartoon card is a week old"
     },
-
     "daysAgo": "days ago",
     "@daysAgo": {
         "description": "Shown when the political cartoon card is days old"
     },
-
     "oneDay": "Yesterday",
     "@oneDay": {
         "description": "Shown when the political cartoon card is a day old"
     },
-
     "oneDayNumeric": "1 day ago",
     "@oneDayNumeric": {
         "description": "Numeric date shown when the political cartoon card is a day old"
     },
-
-
     "hoursAgo": "hours ago",
     "@hoursAgo": {
         "description": "Shown when the political cartoon card is hours old"
     },
-
     "oneHour": "An hour ago",
     "@oneHour": {
         "description": "Shown when the political cartoon card is an hour old"
     },
-
     "oneHourNumeric": "1 hour ago",
     "@oneHourNumeric": {
         "description": "Numeric date shown when the political cartoon card is an hour old"
     },
-
     "minutesAgo": "minutes ago",
     "@minutesAgo": {
         "description": "Shown when the political cartoon card is minutes old"
     },
-
     "oneMinute": "A minute ago",
     "@oneMinute": {
         "description": "Shown when the political cartoon card is a minute old"
     },
-
     "oneMinuteNumeric": "1 minute ago",
     "@oneMinuteNumeric": {
         "description": "Numeric date shown when the political cartoon card is a minute old"
     },
-
     "secondsAgo": "seconds ago",
     "@secondsAgo": {
         "description": "Shown when the political cartoon card is seconds old"
     },
-
     "justNow": "Just now",
     "@justNow": {
         "description": "Shown when the political cartoon card is released now"

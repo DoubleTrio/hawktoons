@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -26,7 +27,7 @@ class DailyCartoonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final l10n = context.l10n;
     final title = context.select<DailyCartoonBloc, String>(
       (DailyCartoonBloc bloc) {
         final state = bloc.state;
@@ -50,8 +51,8 @@ class DailyCartoonView extends StatelessWidget {
       appBar: AppBar(
         leading: Semantics(
           child: CustomIconButton(
-            label: 'Open drawer button',
-            hint: 'Tap to open the side drawer',
+            label: l10n.openDrawerLabel,
+            hint: l10n.openDrawerHint,
             key: const Key('DailyCartoonView_OpenDrawer'),
             icon: const Icon(Icons.menu),
             onPressed: _openDrawer,
@@ -80,12 +81,14 @@ class PoliticalCartoonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Semantics(
           excludeSemantics: true,
-          child: const PageHeader(header: 'Latest')
+          child: PageHeader(header: l10n.latestCartoonPageHeaderText),
         ),
         const SizedBox(height: 12),
         BlocBuilder<DailyCartoonBloc, DailyCartoonState>(

@@ -17,6 +17,7 @@ class CartoonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final onBackground = colorScheme.onBackground;
@@ -26,6 +27,11 @@ class CartoonCard extends StatelessWidget {
       l10n: context.l10n,
       locale: Platform.localeName,
     ).timeAgoSinceDate(cartoon.timestamp);
+
+    final allTagsText = cartoon.tags.map(
+      (tag) => tag.index
+    ).join(', ');
+
     return Material(
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
@@ -93,7 +99,7 @@ class CartoonCard extends StatelessWidget {
                           child: RichText(
                             key: Key('CartoonCard_Author_${cartoon.id}'),
                             text: TextSpan(
-                              text: 'By ',
+                              text: '${l10n.cartoonCardByText} ',
                               style: TextStyle(color: onSurface),
                               children: [
                                 TextSpan(
@@ -110,7 +116,7 @@ class CartoonCard extends StatelessWidget {
                         const SizedBox(height: 12)
                       ],
                       Semantics(
-                        label: 'Posted $dateText',
+                        label: '${l10n.cartoonCardPostedText} $dateText',
                         child: Row(
                           children: [
                             Icon(
@@ -136,8 +142,7 @@ class CartoonCard extends StatelessWidget {
                           Semantics(
                             sortKey: const OrdinalSortKey(2),
                             child: Text(
-                              'Tags: ${cartoon.tags.map((tag) => tag.index)
-                                .join(', ')}',
+                              '${l10n.cartoonCardTagsText}: $allTagsText',
                               style: TextStyle(
                                 color: theme.colorScheme
                                   .onBackground.withOpacity(0.2)

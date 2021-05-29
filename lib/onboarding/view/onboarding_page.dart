@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 
 class OnBoardingPage extends Page<void> {
@@ -43,6 +44,7 @@ class _OnboardingViewState extends State<OnboardingView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colorScheme = Theme.of(context).colorScheme;
     final currentPage = context.watch<OnboardingPageCubit>().state;
     final isLastPage = totalPages - 1 == currentPage.index;
@@ -86,24 +88,17 @@ class _OnboardingViewState extends State<OnboardingView> {
                   controller: _pageController,
                   onPageChanged: _onPageChanged,
                   children: [
-                    const OnboardingWidget(
-                      header: 'Welcome to Hawktoons',
-                      body: 'An educational, ad-free app to learn history '
-                        'at different time periods through '
-                        'political cartoons and images.'
+                    OnboardingWidget(
+                      header: l10n.onboardingPageHeader1,
+                      body: l10n.onboardingPageBody1,
                     ),
-                    const OnboardingWidget(
-                      header: 'New cartoon every week',
-                      body: 'Learn something new with a political cartoon '
-                        'or image every week. Each will include a '
-                        'brief description given the context of the time '
-                        'period.'
+                    OnboardingWidget(
+                      header: l10n.onboardingPageHeader2,
+                      body: l10n.onboardingPageBody2,
                     ),
-                    const OnboardingWidget(
-                      header: 'See past cartoons',
-                      body: 'Missed a political cartoon? Don\'t worry! '
-                        'You can view past political images '
-                        'and filter them by their tags and image type.'
+                    OnboardingWidget(
+                      header: l10n.onboardingPageHeader3,
+                      body: l10n.onboardingPageBody3,
                     ),
                   ],
                 ),
@@ -119,10 +114,10 @@ class _OnboardingViewState extends State<OnboardingView> {
                       ignoring: isLastPage,
                       child: OnboardingTextButton(
                         excludeSemantics: isLastPage,
-                        label: 'Skip introduction button',
-                        hint: 'Tap to skip the introduction',
                         key: const Key('OnboardingPage_SetSeenOnboarding'),
-                        text: 'Skip',
+                        text: l10n.onboardingPageSkipButtonLabel,
+                        label: l10n.onboardingPageSkipButtonLabel,
+                        hint: l10n.onboardingPageSkipButtonHint,
                         onPressed: _completeOnboarding,
                         textStyle: _baseTextStyle,
                       ),
@@ -134,10 +129,10 @@ class _OnboardingViewState extends State<OnboardingView> {
                   AnimatedCrossFade(
                     firstCurve: Curves.ease,
                     firstChild: OnboardingTextButton(
-                      label: 'Next page button',
-                      hint: 'Tap to move to the last page',
                       key: const Key('OnboardingPage_NextPage'),
-                      text: 'Next',
+                      text: l10n.onboardingPageNextButtonText,
+                      label: l10n.onboardingPageNextButtonLabel,
+                      hint: l10n.onboardingPageNextButtonHint,
                       onPressed: _nextPage,
                       textStyle: _baseTextStyle.copyWith(
                         color: colorScheme.primary
@@ -145,10 +140,10 @@ class _OnboardingViewState extends State<OnboardingView> {
                     ),
                     secondCurve: Curves.ease,
                     secondChild: OnboardingTextButton(
-                      label: 'Start button',
-                      hint: 'Tap to move to the next page',
                       key: const Key('OnboardingPage_StartButton'),
-                      text: 'Start',
+                      text: l10n.onboardingPageStartButtonText,
+                      label: l10n.onboardingPageStartButtonLabel,
+                      hint: l10n.onboardingPageStartButtonHint,
                       onPressed: _completeOnboarding,
                       textStyle: _baseTextStyle.copyWith(
                         color: colorScheme.primary

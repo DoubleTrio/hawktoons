@@ -40,6 +40,8 @@ class Authenticated extends AuthenticationState {
 
   final User? user;
 
+  bool? get isAnonymous => user?.isAnonymous;
+
   @override
   List<Object?> get props => [user];
 

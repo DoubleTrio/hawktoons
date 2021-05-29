@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/auth/bloc/auth.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
 class LoginPage extends Page<void> {
@@ -22,6 +23,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
     void _signInAnonymously(){
       context.read<AuthenticationBloc>().add(const SignInAnonymously());
     }
@@ -29,8 +32,6 @@ class LoginView extends StatelessWidget {
     void _signInWithGoogle() {
       context.read<AuthenticationBloc>().add(const SignInWithGoogle());
     }
-
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: SafeArea(
@@ -47,9 +48,9 @@ class LoginView extends StatelessWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 80),
-                      const Text(
-                        'Welcome to Hawktoons!',
-                        style: TextStyle(
+                      Text(
+                        l10n.loginPageHeader,
+                        style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold
                         ),
@@ -57,13 +58,11 @@ class LoginView extends StatelessWidget {
                       ),
                       const SizedBox(height: 15.0),
                       Text(
-                        'To begin learning about history through '
-                        'political cartoons and images, '
-                        'sign in anonymously below!',
+                        l10n.loginPageSubheader,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorScheme.onBackground,
-                          letterSpacing: 1.1
+                          letterSpacing: 1.05
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -76,11 +75,11 @@ class LoginView extends StatelessWidget {
                       key: const Key('LoginPage_SignInAnonymouslyButton'),
                       onTap: _signInAnonymously,
                       backgroundColor: Theme.of(context).colorScheme.primary,
-                      label: 'Sign in anonymously button',
-                      hint: 'Click to sign in anonymously',
+                      label: l10n.loginPageSignInAnonymouslyButtonLabel,
+                      hint: l10n.loginPageSignInAnonymouslyButtonHint,
                       icon: const Icon(Icons.people, size: 24),
                       text:  Text(
-                        'Sign in anonymously',
+                        l10n.loginPageSignInAnonymouslyButtonText,
                         style: TextStyle(
                           fontSize: 16,
                           color: colorScheme.onPrimary,
@@ -93,11 +92,11 @@ class LoginView extends StatelessWidget {
                       key: const Key('LoginPage_SignInWithGoogleButton'),
                       onTap: _signInWithGoogle,
                       backgroundColor: Theme.of(context).colorScheme.surface,
-                      label: 'Sign in with Google',
-                      hint: 'Click to login with your Google email account',
+                      label: l10n.loginPageGoogleSignInButtonLabel,
+                      hint: l10n.loginPageSignInAnonymouslyButtonHint,
                       icon: Image.asset('assets/images/app/g-logo.png', height: 28),
                       text:  Text(
-                        'Sign in with Google',
+                        l10n.loginPageGoogleSignInButtonText,
                         style: TextStyle(
                           fontSize: 16,
                           color: colorScheme.onSurface,
@@ -117,7 +116,7 @@ class LoginView extends StatelessWidget {
                           );
                         }
                         return Text(
-                          'A login error has occurred',
+                          l10n.loginPageErrorText,
                           key: const Key('LoginPage_LoginError'),
                           style: TextStyle(
                             color: colorScheme.error,

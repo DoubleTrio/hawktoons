@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 
 class ButtonRowHeader extends StatelessWidget {
   const ButtonRowHeader({
@@ -13,6 +14,7 @@ class ButtonRowHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final colorScheme = Theme.of(context).colorScheme;
     final primary = colorScheme.primary;
     final onSurface = colorScheme.onSurface;
@@ -24,20 +26,20 @@ class ButtonRowHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton(
+              key: const Key('ButtonRowHeader_ResetButton'),
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
                   const EdgeInsets.all(8),
                 ),
               ),
-              key: const Key('ButtonRowHeader_ResetButton'),
               onPressed: onReset,
               child: Semantics(
                 sortKey: const OrdinalSortKey(1),
                 button: true,
-                hint: 'Tap to reset the image filters',
-                label: 'Reset button',
+                label: l10n.filterPopUpResetButtonLabel,
+                hint: l10n.filterPopUpResetButtonHint,
                 child: Text(
-                  'Reset',
+                  l10n.filterPopUpResetButtonText,
                   style: TextStyle(color: onSurface, fontSize: 16),
                 ),
               ),
@@ -45,7 +47,7 @@ class ButtonRowHeader extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Filters',
+                  l10n.filterPopUpHeader,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -68,10 +70,10 @@ class ButtonRowHeader extends StatelessWidget {
                 child: Semantics(
                   sortKey: const OrdinalSortKey(0),
                   button: true,
-                  hint: 'Tap to apply your current image filters',
-                  label: 'Apply filter button',
+                  label: l10n.filterPopUpApplyButtonLabel,
+                  hint: l10n.filterPopUpApplyButtonHint,
                   child: Text(
-                    'Apply',
+                    l10n.filterPopUpApplyButtonText,
                     style: TextStyle(color: primary, fontSize: 16),
                   ),
                 ),
