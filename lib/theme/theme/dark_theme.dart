@@ -18,6 +18,10 @@ final darkTheme = ThemeData(
   colorScheme: darkColorScheme,
   highlightColor: darkPrimary.withOpacity(0.2),
   splashColor: darkPrimary.withOpacity(0.1),
+  switchTheme: SwitchThemeData(
+    trackColor: MaterialStateProperty.all<Color>(darkPrimary.withOpacity(0.2)),
+    thumbColor: MaterialStateProperty.all<Color>(darkPrimary.withOpacity(1)),
+  ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
       padding: MaterialStateProperty.all<EdgeInsets>(

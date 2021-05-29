@@ -8,6 +8,7 @@ import 'package:hawktoons/app_drawer/view/drawer_stack_page.dart';
 import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
 import 'package:hawktoons/tab/tab.dart';
+import 'package:hawktoons/theme/cubit/theme_cubit.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';
@@ -20,25 +21,29 @@ void main() {
     late DailyCartoonBloc dailyCartoonBloc;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late TabBloc tabBloc;
+    late ThemeCubit themeCubit;
 
     setUpAll(() {
       registerFallbackValue<AppTab>(AppTab.daily);
       registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
       registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
       registerFallbackValue<TabEvent>(FakeTabEvent());
+      registerFallbackValue<ThemeMode>(ThemeMode.light);
     });
 
     setUp(() {
       appDrawerCubit = MockAppDrawerCubit();
       dailyCartoonBloc = MockDailyCartoonBloc();
-      tabBloc = MockTabBloc();
       showBottomSheetCubit = MockShowBottomSheetCubit();
+      tabBloc = MockTabBloc();
+      themeCubit = MockThemeCubit();
 
       when(() => dailyCartoonBloc.state).thenReturn(
         const DailyCartoonInProgress()
       );
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => tabBloc.state).thenReturn(AppTab.daily);
+      when(() => themeCubit.state).thenReturn(ThemeMode.light);
     });
 
     group('DrawerStackView', () {
@@ -50,6 +55,7 @@ void main() {
           dailyCartoonBloc: dailyCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
+          themeCubit: themeCubit,
         );
         await tester.fling(
           find.byType(DailyCartoonView),
@@ -69,6 +75,7 @@ void main() {
           dailyCartoonBloc: dailyCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
+          themeCubit: themeCubit,
         );
         await tester.fling(
           find.byType(DailyCartoonView),
@@ -89,6 +96,7 @@ void main() {
           dailyCartoonBloc: dailyCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
+          themeCubit: themeCubit,
         );
         await tester.fling(
           find.byType(DailyCartoonView),
@@ -106,6 +114,7 @@ void main() {
           dailyCartoonBloc: dailyCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
+          themeCubit: themeCubit,
         );
 
         await tester.fling(
@@ -129,6 +138,7 @@ void main() {
           dailyCartoonBloc: dailyCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
+          themeCubit: themeCubit,
         );
         await tester.pump();
         await tester.fling(
@@ -150,6 +160,7 @@ void main() {
           dailyCartoonBloc: dailyCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
+          themeCubit: themeCubit,
         );
 
         await tester.pump();

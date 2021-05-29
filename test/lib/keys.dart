@@ -16,6 +16,9 @@ const dailyCartoonLoadedKey = Key('DailyCartoonView_DailyCartoonLoaded');
 const dailyCartoonFailedKey = Key('DailyCartoonView_DailyCartoonFailed');
 const dailyCartoonMenuButtonKey = Key('DailyCartoonView_OpenDrawer');
 
+const appDrawerLogoutTileKey = Key('AppDrawerPage_Logout');
+const appDrawerPrivacyTileKey = Key('AppDrawerPage_Privacy');
+const appDrawerChangeThemeTileKey = Key('AppDrawerPage_ChangeTheme');
 
 const nextPageOnboardingButtonKey = Key('OnboardingPage_NextPage');
 const setSeenOnboardingButtonKey = Key('OnboardingPage_SetSeenOnboarding');

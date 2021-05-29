@@ -11,7 +11,7 @@ class HomeFlow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final activeTab = context.watch<TabBloc>().state;
+    final _activeTab = context.watch<TabBloc>().state;
 
     void _closeSheet() {
       context.read<ShowBottomSheetCubit>().closeSheet();
@@ -29,7 +29,7 @@ class HomeFlow extends StatelessWidget {
       bottomNavigationBar: Semantics(
         label: 'Bottom tab bar',
         child: TabSelector(
-          activeTab: activeTab,
+          activeTab: _activeTab,
           onTabChanged: _onTabChanged,
           onThemeChanged: _changeTheme,
         ),
@@ -58,18 +58,16 @@ class HomeFlow extends StatelessWidget {
             ).whenComplete(_closeSheet);
           }
         },
-        child: Container(
-          child: FlowBuilder<AppTab>(
-            state: context.watch<TabBloc>().state,
-            onGeneratePages: (AppTab state, pages) {
-              switch (state) {
-                case AppTab.daily:
-                  return [const DailyCartoonPage()];
-                default:
-                  return [const CartoonFlowPage()];
-              }
+        child: FlowBuilder<AppTab>(
+          state: context.watch<TabBloc>().state,
+          onGeneratePages: (AppTab state, pages) {
+            switch (state) {
+              case AppTab.daily:
+                return [const DailyCartoonPage()];
+              default:
+                return [const CartoonFlowPage()];
             }
-          ),
+          }
         ),
       ),
     );

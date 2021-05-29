@@ -47,6 +47,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = context.watch<ThemeCubit>().state;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
@@ -58,9 +59,9 @@ class AppView extends StatelessWidget {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       home: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: themeMode == ThemeMode.dark
-          ? SystemUiOverlayStyle.light
-          : SystemUiOverlayStyle.dark,
+        value: SystemUiOverlayStyle(
+          statusBarColor: Colors.black.withOpacity(0.20),
+        ),
         child: const OnboardingFlow(),
       )
     );

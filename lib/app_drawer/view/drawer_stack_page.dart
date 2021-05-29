@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
@@ -5,6 +7,7 @@ import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:hawktoons/home/flow/home_flow.dart';
 import 'package:hawktoons/tab/tab.dart';
+import 'package:hawktoons/utils/constants.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class DrawerStackPage extends Page<void> {
@@ -86,7 +89,6 @@ class _DrawerStackViewState extends State<DrawerStackView>
     with SingleTickerProviderStateMixin {
 
   bool _canBeDragged = false;
-  final double maxSlide = 300.0;
 
   late AnimationController animationController;
 
@@ -115,7 +117,6 @@ class _DrawerStackViewState extends State<DrawerStackView>
     super.dispose();
   }
 
-
   bool isDrawerClosed() {
     return animationController.isDismissed;
   }
@@ -140,7 +141,7 @@ class _DrawerStackViewState extends State<DrawerStackView>
 
   void _onDragUpdate(DragUpdateDetails details) {
     if (_canBeDragged) {
-      final delta = details.primaryDelta! / maxSlide;
+      final delta = details.primaryDelta! / drawerSwipeDistance;
       animationController.value += delta;
     }
   }
@@ -164,6 +165,7 @@ class _DrawerStackViewState extends State<DrawerStackView>
 
   @override
   Widget build(BuildContext context) {
+    final isDrawerOpen = context.watch<AppDrawerCubit>().state;
     return BlocListener<AppDrawerCubit, bool>(
       listener: (context, shouldOpenDrawer) {
         if (shouldOpenDrawer) openDrawer();
@@ -178,18 +180,31 @@ class _DrawerStackViewState extends State<DrawerStackView>
           animation: animationController,
           builder: (context, child) {
             final value = animationController.value;
-            final slide = maxSlide * value;
+            final slide = drawerSwipeDistance * value;
             return Stack(
               children: [
                 const AppDrawerPage(),
                 Transform(
                   transform: Matrix4.identity()..translate(slide),
-                  child: child
+                  child: Stack(
+                    children: [
+                      child!,
+                      IgnorePointer(
+                        ignoring: true,
+                        child: Container(
+                          color: Colors.black.withOpacity(value * 0.20),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             );
           },
-          child: const HomeFlow()
+          child: IgnorePointer(
+            ignoring: isDrawerOpen,
+            child: const HomeFlow()
+          )
         ),
       ),
     );
