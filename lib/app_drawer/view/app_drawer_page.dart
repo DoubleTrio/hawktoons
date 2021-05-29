@@ -78,8 +78,8 @@ class AppDrawerPage extends StatelessWidget {
                             },
                             controlAffinity: ListTileControlAffinity.leading,
                             title: Text(themeMode == ThemeMode.light
-                              ? l10n.appDrawerLightThemeButtonText
-                              : l10n.appDrawerDarkThemeButtonText,
+                              ? l10n.appDrawerDarkThemeButtonText
+                              : l10n.appDrawerLightThemeButtonText,
                             ),
                           ),
                         ],

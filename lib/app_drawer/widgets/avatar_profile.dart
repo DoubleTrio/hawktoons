@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AvatarProfile extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const AvatarProfile({
-    Key? key,
     required this.email,
     required this.name,
     required this.avatarUrl,
-  }) : super(key: key);
+  });
 
   final String email;
   final String name;

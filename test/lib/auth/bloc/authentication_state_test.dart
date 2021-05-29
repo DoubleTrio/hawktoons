@@ -27,6 +27,10 @@ void main() {
           Authenticated(mockUser).toString(),
           Authenticated(mockUser).toString(),
         );
+        expect(
+          Authenticated(mockUser).isAnonymous,
+          Authenticated(mockUser).isAnonymous,
+        );
       });
     });
 

@@ -91,5 +91,23 @@ void main() {
       await tester.tap(find.byKey(appDrawerChangeThemeTileKey));
       verify(themeCubit.changeTheme).called(1);
     });
+
+    testWidgets('displays light theme text when dark theme', (tester) async {
+      when(() => themeCubit.state).thenReturn(ThemeMode.dark);
+      await tester.pumpApp(
+        const AppDrawerPage(backgroundOpacity: 0),
+        themeCubit: themeCubit,
+      );
+      expect(find.text('Light Theme'), findsOneWidget);
+    });
+
+    testWidgets('displays dark theme text when light theme', (tester) async {
+      when(() => themeCubit.state).thenReturn(ThemeMode.light);
+      await tester.pumpApp(
+        const AppDrawerPage(backgroundOpacity: 0),
+        themeCubit: themeCubit,
+      );
+      expect(find.text('Dark Theme'), findsOneWidget);
+    });
   });
 }

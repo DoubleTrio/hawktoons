@@ -14,4 +14,7 @@ class FakeDailyCartoonEvent extends Fake implements DailyCartoonEvent {}
 class FakeSelectPoliticalCartoonState extends Fake
     implements SelectPoliticalCartoonState {}
 class FakeTabEvent extends Fake implements TabEvent {}
-class FakeUser extends Fake implements User {}
+class FakeUser extends Fake implements User {
+  @override
+  bool get isAnonymous => false;
+}
