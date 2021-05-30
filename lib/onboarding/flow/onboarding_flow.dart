@@ -12,7 +12,7 @@ class OnboardingFlow extends StatelessWidget {
       state: context.watch<OnboardingSeenCubit>().state,
       onGeneratePages: (onboardingSeen, context) {
         return [
-          onboardingSeen ? const AuthFlowPage() : const OnBoardingPage()
+          onboardingSeen ? const AuthFlowPage() : const OnboardingPage()
         ];
       }
     );

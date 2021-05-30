@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:hawktoons/l10n/l10n.dart';
+import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -28,18 +27,18 @@ class DailyCartoonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final title = context.select<DailyCartoonBloc, String>(
-      (DailyCartoonBloc bloc) {
+    final title = context.select<LatestCartoonBloc, String>(
+      (LatestCartoonBloc bloc) {
         final state = bloc.state;
         if (state is DailyCartoonLoaded) {
           return DateFormat.yMMMMEEEEd(Platform.localeName)
-            .format(state.dailyCartoon.timestamp.toDate());
+            .format(state.latestCartoon.timestamp.toDate());
         }
         return ' ';
       }
     );
 
-    final _isLoading = context.select<DailyCartoonBloc, bool>(
+    final _isLoading = context.select<LatestCartoonBloc, bool>(
       (bloc) => bloc.state is DailyCartoonInProgress
     );
 
@@ -91,7 +90,7 @@ class PoliticalCartoonView extends StatelessWidget {
           child: PageHeader(header: l10n.latestCartoonPageHeaderText),
         ),
         const SizedBox(height: 12),
-        BlocBuilder<DailyCartoonBloc, DailyCartoonState>(
+        BlocBuilder<LatestCartoonBloc, LatestCartoonState>(
           builder: (context, state) {
             if (state is DailyCartoonInProgress) {
               return const CartoonBodyPlaceholder(
@@ -100,7 +99,7 @@ class PoliticalCartoonView extends StatelessWidget {
             } else if (state is DailyCartoonLoaded) {
               return CartoonBody(
                 key: const Key('DailyCartoonView_DailyCartoonLoaded'),
-                cartoon: state.dailyCartoon
+                cartoon: state.latestCartoon
               );
             } else {
               return const SizedBox(

@@ -15,17 +15,17 @@ final loginError = find.byValueKey('LoginPage_LoginError');
 final signInAnonymouslyButton =
   find.byValueKey('LoginPage_SignInAnonymouslyButton');
 
-final dailyCartoonTab = find.byValueKey('TabSelector_DailyTab');
+final latestCartoonTab = find.byValueKey('TabSelector_DailyTab');
 final allCartoonsTab = find.byValueKey('TabSelector_AllTab');
 final changeThemeTab = find.byValueKey('TabSelector_ChangeTheme');
 
-final dailyCartoonLogoutButton =
+final latestCartoonLogoutButton =
   find.byValueKey('DailyCartoonView_Button_Logout');
-final dailyCartoonInProgress =
+final latestCartoonInProgress =
   find.byValueKey('DailyCartoonView_DailyCartoonInProgress');
-final dailyCartoonLoaded =
+final latestCartoonLoaded =
   find.byValueKey('DailyCartoonView_DailyCartoonLoaded');
-final dailyCartoonFailed =
+final latestCartoonFailed =
   find.byValueKey('DailyCartoonView_DailyCartoonFailed');
 
 final allCartoonsLoading =
@@ -147,8 +147,8 @@ void main() {
       await driver.tap(applyFilterButton);
       await driver.waitFor(allCartoonsLoaded);
       sleep(const Duration(milliseconds: 500));
-      await driver.tap(dailyCartoonTab);
-      await driver.tap(dailyCartoonLogoutButton);
+      await driver.tap(latestCartoonTab);
+      await driver.tap(latestCartoonLogoutButton);
       sleep(const Duration(milliseconds: 500));
     });
   });

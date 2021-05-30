@@ -12,22 +12,23 @@ void main() {
     });
 
     blocTest<OnboardingPageCubit, VisibleOnboardingPage>(
-      'emits [VisibleOnboardingPage.dailyCartoon] when selectSortBy is invoked',
+      'emits [VisibleOnboardingPage.latestCartoon] '
+      'when selectSortBy is invoked',
       build: () => OnboardingPageCubit(),
       act: (cubit) =>
-        cubit.setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
-      expect: () => [VisibleOnboardingPage.dailyCartoon],
+        cubit.setOnBoardingPage(VisibleOnboardingPage.latestCartoon),
+      expect: () => [VisibleOnboardingPage.latestCartoon],
     );
 
     blocTest<OnboardingPageCubit, VisibleOnboardingPage>(
       'emits correct pages when selectSortBy is invoked 3 times',
       build: () => OnboardingPageCubit(),
       act: (cubit) => cubit
-        ..setOnBoardingPage(VisibleOnboardingPage.dailyCartoon)
+        ..setOnBoardingPage(VisibleOnboardingPage.latestCartoon)
         ..setOnBoardingPage(VisibleOnboardingPage.allCartoons)
         ..setOnBoardingPage(VisibleOnboardingPage.welcome),
       expect: () => [
-        VisibleOnboardingPage.dailyCartoon,
+        VisibleOnboardingPage.latestCartoon,
         VisibleOnboardingPage.allCartoons,
         VisibleOnboardingPage.welcome
       ],

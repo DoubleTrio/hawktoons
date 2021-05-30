@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:hawktoons/home/flow/home_flow.dart';
+import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
+import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/utils/constants.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -16,19 +16,21 @@ class DrawerStackPage extends Page<void> {
   @override
   Route createRoute(BuildContext context) {
     final _firebaseCartoonRepo =
-      context.read<FirestorePoliticalCartoonRepository>();
+    context.read<FirestorePoliticalCartoonRepository>();
     final _allCartoonsBloc = AllCartoonsBloc(
-      cartoonRepository: _firebaseCartoonRepo
+        cartoonRepository: _firebaseCartoonRepo
     );
     final _appDrawerCubit = AppDrawerCubit();
-    final _dailyCartoonBloc = DailyCartoonBloc(
-      dailyCartoonRepository: _firebaseCartoonRepo
-    );
     final _imageTypeCubit = ImageTypeCubit();
+    final _latestCartoonBloc = LatestCartoonBloc(
+        cartoonRepository: _firebaseCartoonRepo
+    );
+
     final _tabBloc = TabBloc();
     final _tagCubit = TagCubit();
     final _scrollHeaderCubit = ScrollHeaderCubit();
     final _selectCartoonCubit = SelectCartoonCubit();
+    final _settingsPageCubit = SettingsScreenCubit();
     final _showBottomSheetCubit = ShowBottomSheetCubit();
     final _sortByCubit = SortByCubit();
 
@@ -37,9 +39,9 @@ class DrawerStackPage extends Page<void> {
     final _tag = _tagCubit.state;
 
     final filters = CartoonFilters(
-      sortByMode: _sortByMode,
-      imageType: _imageType,
-      tag: _tag
+        sortByMode: _sortByMode,
+        imageType: _imageType,
+        tag: _tag
     );
 
     return PageRouteBuilder<void>(
@@ -50,12 +52,13 @@ class DrawerStackPage extends Page<void> {
             ..add(LoadCartoons(filters))
           ),
           BlocProvider.value(value: _appDrawerCubit),
-          BlocProvider.value(value: _dailyCartoonBloc
-            ..add(const LoadDailyCartoon())
+          BlocProvider.value(value: _latestCartoonBloc
+            ..add(const LoadLatestCartoon())
           ),
           BlocProvider.value(value: _imageTypeCubit),
           BlocProvider.value(value: _scrollHeaderCubit),
           BlocProvider.value(value: _selectCartoonCubit),
+          BlocProvider.value(value: _settingsPageCubit),
           BlocProvider.value(value: _showBottomSheetCubit),
           BlocProvider.value(value: _sortByCubit),
           BlocProvider.value(value: _tabBloc),
@@ -170,7 +173,7 @@ class _DrawerStackViewState extends State<DrawerStackView>
     final isDrawerOpen = context.watch<AppDrawerCubit>().state;
     return BlocListener<AppDrawerCubit, bool>(
       listener: (context, shouldOpenDrawer) {
-        if (shouldOpenDrawer) openDrawer();
+        shouldOpenDrawer ? openDrawer() : closeDrawer();
       },
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -187,7 +190,7 @@ class _DrawerStackViewState extends State<DrawerStackView>
             final homeScreenOpacity = opacityPercentage * 0.20;
             return Stack(
               children: [
-                AppDrawerPage(backgroundOpacity: appDrawerOpacity),
+                AppDrawerView(backgroundOpacity: appDrawerOpacity),
                 Transform(
                   transform: Matrix4.identity()..translate(slide),
                   child: Stack(
@@ -207,7 +210,7 @@ class _DrawerStackViewState extends State<DrawerStackView>
           },
           child: IgnorePointer(
             ignoring: isDrawerOpen,
-            child: const HomeFlow()
+            child: const TabFlow()
           )
         ),
       ),

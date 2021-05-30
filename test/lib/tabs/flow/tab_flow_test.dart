@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
-import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
-import 'package:hawktoons/home/home.dart';
+import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/tab/tab.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -16,9 +14,9 @@ import '../../keys.dart';
 import '../../mocks.dart';
 
 void main() {
-  group('HomeFlow', () {
+  group('TabFlow', () {
     late AllCartoonsBloc allCartoonsBloc;
-    late DailyCartoonBloc dailyCartoonBloc;
+    late LatestCartoonBloc latestCartoonBloc;
     late ImageTypeCubit imageTypeCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
     late SelectCartoonCubit selectCartoonCubit;
@@ -26,55 +24,52 @@ void main() {
     late SortByCubit sortByCubit;
     late TabBloc tabBloc;
     late TagCubit tagCubit;
-    late ThemeCubit themeCubit;
 
-    setUpAll(() async {
+    setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<AppTab>(AppTab.daily);
-      registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
-      registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<AppTab>(AppTab.latest);
+      registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
+      registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
       registerFallbackValue<ImageType>(ImageType.all);
       registerFallbackValue<SelectPoliticalCartoonState>(
           FakeSelectPoliticalCartoonState()
       );
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
-      registerFallbackValue<ThemeMode>(ThemeMode.light);
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<Tag>(Tag.all);
     });
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
-      dailyCartoonBloc = MockDailyCartoonBloc();
+      latestCartoonBloc = MockLatestCartoonBloc();
       selectCartoonCubit = MockSelectCartoonCubit();
       tabBloc = MockTabBloc();
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       imageTypeCubit = MockImageTypeCubit();
-      themeCubit = MockThemeCubit();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
 
       when(() => allCartoonsBloc.state)
         .thenReturn(const AllCartoonsState.initial());
       when(() => showBottomSheetCubit.state).thenReturn(false);
-      when(() => dailyCartoonBloc.state).thenReturn(
+      when(() => latestCartoonBloc.state).thenReturn(
         const DailyCartoonInProgress()
       );
       when(() => selectCartoonCubit.state)
         .thenReturn(const SelectPoliticalCartoonState());
       when(() => imageTypeCubit.state).thenReturn(ImageType.all);
       when(() => scrollHeaderCubit.state).thenReturn(false);
+      when(() => tabBloc.state).thenReturn(AppTab.latest);
     });
 
 
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(
-          const HomeFlow(),
-          dailyCartoonBloc: dailyCartoonBloc,
+          const TabFlow(),
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
         );
@@ -84,11 +79,10 @@ void main() {
       });
 
       testWidgets('passes guidelines for dark theme', (tester) async {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(
-          const HomeFlow(),
+          const TabFlow(),
           mode: ThemeMode.dark,
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
         );
@@ -100,10 +94,9 @@ void main() {
 
     group('TabSelector', () {
       testWidgets('finds TabSelector', (tester) async {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
         await tester.pumpApp(
-          const HomeFlow(),
-          dailyCartoonBloc: dailyCartoonBloc,
+          const TabFlow(),
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
         );
@@ -111,54 +104,43 @@ void main() {
       });
 
       testWidgets(
-        'tabBloc.add(UpdateTab(AppTab.all)) '
-        'is invoked when the "All" tab is tapped', (tester) async {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
+        'tabBloc.add(UpdateTab(AppTab.latest)) '
+        'is invoked when the "Latest" tab is tapped', (tester) async {
         await tester.pumpApp(
-          const HomeFlow(),
-          dailyCartoonBloc: dailyCartoonBloc,
+          const TabFlow(),
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
         );
-        await tester.tap(find.byKey(allCartoonTabKey));
-        verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
+        await tester.tap(find.byKey(latestCartoonTabKey));
+        verify(() => tabBloc.add(UpdateTab(AppTab.latest))).called(1);
       });
+    });
 
-      testWidgets(
-        'tabBloc.add(UpdateTab(AppTab.daily)) '
-        'is invoked when the "Daily" tab is tapped', (tester) async {
-        when(() => tabBloc.state).thenReturn(AppTab.all);
+    testWidgets(
+      'tabBloc.add(UpdateTab(AppTab.all)) '
+      'is invoked when the "All" tab is tapped', (tester) async {
+      await tester.pumpApp(
+        const TabFlow(),
+        latestCartoonBloc: latestCartoonBloc,
+        showBottomSheetCubit: showBottomSheetCubit,
+        tabBloc: tabBloc,
+      );
+      await tester.tap(find.byKey(allCartoonTabKey));
+      verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
+    });
 
-        await tester.pumpApp(
-          const HomeFlow(),
-          allCartoonsBloc: allCartoonsBloc,
-          selectCartoonCubit: selectCartoonCubit,
-          scrollHeaderCubit: scrollHeaderCubit,
-          showBottomSheetCubit: showBottomSheetCubit,
-          tabBloc: tabBloc,
-        );
-        await tester.tap(find.byKey(dailyCartoonTabKey));
-        verify(() => tabBloc.add(UpdateTab(AppTab.daily))).called(1);
-      });
-
-      testWidgets('changes theme when theme tab is tapped', (tester) async {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
-        when(() => themeCubit.state).thenReturn(ThemeMode.dark);
-
-        await tester.pumpApp(
-          const HomeFlow(),
-          dailyCartoonBloc: dailyCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
-          tabBloc: tabBloc,
-          themeCubit: themeCubit,
-        );
-
-        await tester.tap(find.byKey(changeThemeTabKey));
-        verify(themeCubit.changeTheme).called(1);
-
-        await tester.tap(find.byKey(changeThemeTabKey));
-        verify(themeCubit.changeTheme).called(1);
-      });
+    testWidgets(
+      'tabBloc.add(UpdateTab(AppTab.settings)) '
+      'is invoked when the "Settings" tab is tapped', (tester) async {
+      await tester.pumpApp(
+        const TabFlow(),
+        latestCartoonBloc: latestCartoonBloc,
+        showBottomSheetCubit: showBottomSheetCubit,
+        tabBloc: tabBloc,
+      );
+      await tester.tap(find.byKey(settingsTabKey));
+      verify(() => tabBloc.add(UpdateTab(AppTab.settings))).called(1);
     });
 
     group('FilterPopUp', () {
@@ -170,11 +152,11 @@ void main() {
       });
 
       testWidgets('shows filter pop up and closes', (tester) async {
-        when(() => tabBloc.state).thenReturn(AppTab.daily);
+        when(() => tabBloc.state).thenReturn(AppTab.latest);
         await tester.pumpApp(
-          const HomeFlow(),
+          const TabFlow(),
           mode: ThemeMode.dark,
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
           imageTypeCubit: imageTypeCubit,
           showBottomSheetCubit: showBottomSheetCubit,
           sortByCubit: sortByCubit,

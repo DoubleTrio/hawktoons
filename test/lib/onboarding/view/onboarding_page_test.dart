@@ -58,11 +58,11 @@ void main() {
 
       verifyInOrder([
         () => onboardingPageCubit
-          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.latestCartoon),
         () => onboardingPageCubit
           .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
         () => onboardingPageCubit
-          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.latestCartoon),
       ]);
     });
 
@@ -82,7 +82,7 @@ void main() {
 
       verifyInOrder([
         () => onboardingPageCubit
-          .setOnBoardingPage(VisibleOnboardingPage.dailyCartoon),
+          .setOnBoardingPage(VisibleOnboardingPage.latestCartoon),
         () => onboardingPageCubit
           .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
       ]);
@@ -110,7 +110,7 @@ void main() {
       'completes onboarding '
       'when skip button is tapped', (tester) async {
       when(() => onboardingPageCubit.state)
-        .thenReturn(VisibleOnboardingPage.dailyCartoon);
+        .thenReturn(VisibleOnboardingPage.latestCartoon);
 
       await tester.pumpApp(
         const OnboardingView(),

@@ -1,14 +1,14 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
+import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../mocks.dart';
 
 void main() {
-  group('DailyCartoonBloc', () {
+  group('LatestCartoonBloc', () {
     late FirestorePoliticalCartoonRepository cartoonRepository;
     final politicalCartoon = MockPoliticalCartoon();
 
@@ -20,46 +20,46 @@ void main() {
 
     test('initial state is DailyCartoonInProgress()', () {
       expect(
-        DailyCartoonBloc(dailyCartoonRepository: cartoonRepository)
+        LatestCartoonBloc(cartoonRepository: cartoonRepository)
           .state,
         equals(const DailyCartoonInProgress()),
       );
     });
 
-    blocTest<DailyCartoonBloc, DailyCartoonState>(
-      'Emits [DailyCartoonLoaded(dailyCartoon: $politicalCartoon)] '
-      'when LoadDailyCartoon is added',
+    blocTest<LatestCartoonBloc, LatestCartoonState>(
+      'Emits [DailyCartoonLoaded(latestCartoon: $politicalCartoon)] '
+      'when LoadLatestCartoon is added',
       build: () {
         when(cartoonRepository.getLatestPoliticalCartoon)
           .thenAnswer((_) => Stream.fromIterable([politicalCartoon]));
-        return DailyCartoonBloc(
-          dailyCartoonRepository: cartoonRepository
+        return LatestCartoonBloc(
+          cartoonRepository: cartoonRepository
         );
       },
-      act: (bloc) => bloc.add(const LoadDailyCartoon()),
+      act: (bloc) => bloc.add(const LoadLatestCartoon()),
       expect: () => [DailyCartoonLoaded(politicalCartoon)],
       verify: (_) =>
         verify(cartoonRepository.getLatestPoliticalCartoon).called(1),
       );
 
-    blocTest<DailyCartoonBloc, DailyCartoonState>(
+    blocTest<LatestCartoonBloc, LatestCartoonState>(
       'Emits [DailyCartoonFailed(\'Error\')] '
-      'when LoadDailyCartoon throws a stream error',
+      'when LoadLatestCartoon throws a stream error',
       build: () {
         when(cartoonRepository.getLatestPoliticalCartoon).thenAnswer(
           (_) => Stream.error('Error')
         );
-        return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
+        return LatestCartoonBloc(cartoonRepository: cartoonRepository);
       },
-      act: (bloc) => bloc.add(const LoadDailyCartoon()),
+      act: (bloc) => bloc.add(const LoadLatestCartoon()),
       expect: () => [const DailyCartoonFailed('Error')],
       verify: (_) =>
         verify(cartoonRepository.getLatestPoliticalCartoon)
           .called(1)
     );
 
-    blocTest<DailyCartoonBloc, DailyCartoonState>(
-        'Emits [] when LoadDailyCartoon throws permission denied '
+    blocTest<LatestCartoonBloc, LatestCartoonState>(
+        'Emits [] when LoadLatestCartoon throws permission denied '
         'FirebaseException',
         build: () {
           when(cartoonRepository.getLatestPoliticalCartoon).thenAnswer(
@@ -67,16 +67,16 @@ void main() {
               plugin: 'test', code: 'permission-denied'
             ))
           );
-          return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
+          return LatestCartoonBloc(cartoonRepository: cartoonRepository);
         },
-        act: (bloc) => bloc.add(const LoadDailyCartoon()),
-        expect: () => <DailyCartoonState>[],
+        act: (bloc) => bloc.add(const LoadLatestCartoon()),
+        expect: () => <LatestCartoonState>[],
         verify: (_) =>
           verify(cartoonRepository.getLatestPoliticalCartoon).called(1),
         );
 
-    blocTest<DailyCartoonBloc, DailyCartoonState>(
-        'Emits [DailyCartoonFailed()] when LoadDailyCartoon'
+    blocTest<LatestCartoonBloc, LatestCartoonState>(
+        'Emits [DailyCartoonFailed()] when LoadLatestCartoon'
         'throws FirebaseException besides permission-denied',
         build: () {
           when(cartoonRepository.getLatestPoliticalCartoon).thenAnswer(
@@ -85,9 +85,9 @@ void main() {
               code: 'error-code'
             ))
           );
-          return DailyCartoonBloc(dailyCartoonRepository: cartoonRepository);
+          return LatestCartoonBloc(cartoonRepository: cartoonRepository);
         },
-        act: (bloc) => bloc.add(const LoadDailyCartoon()),
+        act: (bloc) => bloc.add(const LoadLatestCartoon()),
         expect: () => [const DailyCartoonFailed('error-code')],
         verify: (_) =>
           verify(cartoonRepository.getLatestPoliticalCartoon).called(1),

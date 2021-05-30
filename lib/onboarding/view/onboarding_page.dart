@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 
-class OnBoardingPage extends Page<void> {
-  const OnBoardingPage() : super(key: const ValueKey('OnBoardingPage'));
+class OnboardingPage extends Page<void> {
+  const OnboardingPage() : super(key: const ValueKey('OnBoardingPage'));
 
   @override
   Route createRoute(BuildContext context) {
@@ -115,7 +115,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                       child: OnboardingTextButton(
                         excludeSemantics: isLastPage,
                         key: const Key('OnboardingPage_SetSeenOnboarding'),
-                        text: l10n.onboardingPageSkipButtonLabel,
+                        text: l10n.onboardingPageSkipButtonText,
                         label: l10n.onboardingPageSkipButtonLabel,
                         hint: l10n.onboardingPageSkipButtonHint,
                         onPressed: _completeOnboarding,

@@ -19,8 +19,7 @@ class TabSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final middleTabWidth = screenWidth * 0.20;
-    final width = screenWidth / totalTabs - (middleTabWidth / totalTabs);
+    final width = screenWidth / totalTabs;
 
     return Row(children: [
       Semantics(
@@ -33,21 +32,8 @@ class TabSelector extends StatelessWidget {
           icon: const Icon(Icons.article_outlined),
           label: 'Latest',
           width: width,
-          onTap: () => onTabChanged(AppTab.daily),
-          selected: AppTab.daily == activeTab
-        ),
-      ),
-      Semantics(
-        sortKey: const OrdinalSortKey(2),
-        button: true,
-        label: 'Change theme tab button',
-        hint: 'Press to switch between light and dark theme',
-        child: CustomBottomTabItem(
-          key: const Key('TabSelector_ChangeTheme'),
-          icon: const Icon(Icons.lightbulb_outline),
-          width: middleTabWidth,
-          onTap: onThemeChanged,
-          selected: false
+          onTap: () => onTabChanged(AppTab.latest),
+          selected: AppTab.latest == activeTab
         ),
       ),
       Semantics(
@@ -62,6 +48,20 @@ class TabSelector extends StatelessWidget {
           width: width,
           onTap: () => onTabChanged(AppTab.all),
           selected: AppTab.all == activeTab
+        ),
+      ),
+      Semantics(
+        sortKey: const OrdinalSortKey(2),
+        button: true,
+        label: 'Settings tab',
+        hint: 'Navigate to settings page',
+        child: CustomBottomTabItem(
+          key: const Key('TabSelector_SettingsTab'),
+          icon: const Icon(Icons.settings),
+          label: 'Settings',
+          width: width,
+          onTap: () => onTabChanged(AppTab.settings),
+          selected: AppTab.settings == activeTab
         ),
       ),
     ]);

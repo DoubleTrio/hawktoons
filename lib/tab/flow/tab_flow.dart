@@ -2,12 +2,13 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
-import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
+import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
+import 'package:hawktoons/settings/flow/settings_flow.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
 
-class HomeFlow extends StatelessWidget {
-  const HomeFlow({Key? key}): super(key: key);
+class TabFlow extends StatelessWidget {
+  const TabFlow({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +63,12 @@ class HomeFlow extends StatelessWidget {
           state: context.watch<TabBloc>().state,
           onGeneratePages: (AppTab state, pages) {
             switch (state) {
-              case AppTab.daily:
+              case AppTab.latest:
                 return [const DailyCartoonPage()];
-              default:
+              case AppTab.all:
                 return [const CartoonFlowPage()];
+              default:
+                return [const SettingsFlowPage()];
             }
           }
         ),

@@ -5,8 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/app_drawer/view/drawer_stack_page.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
-import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
+import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
+import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/cubit/theme_cubit.dart';
 import 'package:mocktail/mocktail.dart';
@@ -18,31 +18,31 @@ import '../../mocks.dart';
 void main() {
   group('DrawerStackPage', () {
     late AppDrawerCubit appDrawerCubit;
-    late DailyCartoonBloc dailyCartoonBloc;
+    late LatestCartoonBloc latestCartoonBloc;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late TabBloc tabBloc;
     late ThemeCubit themeCubit;
 
     setUpAll(() {
-      registerFallbackValue<AppTab>(AppTab.daily);
-      registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
-      registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<AppTab>(AppTab.latest);
+      registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
+      registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<ThemeMode>(ThemeMode.light);
     });
 
     setUp(() {
       appDrawerCubit = MockAppDrawerCubit();
-      dailyCartoonBloc = MockDailyCartoonBloc();
+      latestCartoonBloc = MockLatestCartoonBloc();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       tabBloc = MockTabBloc();
       themeCubit = MockThemeCubit();
 
-      when(() => dailyCartoonBloc.state).thenReturn(
+      when(() => latestCartoonBloc.state).thenReturn(
         const DailyCartoonInProgress()
       );
       when(() => showBottomSheetCubit.state).thenReturn(false);
-      when(() => tabBloc.state).thenReturn(AppTab.daily);
+      when(() => tabBloc.state).thenReturn(AppTab.latest);
       when(() => themeCubit.state).thenReturn(ThemeMode.light);
     });
 
@@ -52,7 +52,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
@@ -63,7 +63,7 @@ void main() {
           80,
         );
         verify(appDrawerCubit.openDrawer).called(1);
-        expect(find.byType(AppDrawerPage), findsOneWidget);
+        expect(find.byType(AppDrawerView), findsOneWidget);
       });
 
       testWidgets('does not open drawer when '
@@ -72,7 +72,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
@@ -85,7 +85,7 @@ void main() {
         await tester.pump(const Duration(seconds: 1));
         await tester.pump(const Duration(seconds: 1));
         verifyNever(appDrawerCubit.openDrawer);
-        expect(find.byType(AppDrawerPage), findsOneWidget);
+        expect(find.byType(AppDrawerView), findsOneWidget);
       });
 
       testWidgets('creates velocity fling animation', (tester) async {
@@ -93,7 +93,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
@@ -111,7 +111,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
@@ -135,14 +135,14 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
         await tester.pump();
         await tester.fling(
-          find.byType(AppDrawerPage),
+          find.byType(AppDrawerView),
           const Offset(-600, 0),
           80,
         );
@@ -157,7 +157,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,

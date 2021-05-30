@@ -1,1 +1,1 @@
-enum AppTab { daily, all }
+enum AppTab { latest, all, settings }

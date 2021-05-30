@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
-import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
+import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/cubits/cubits.dart';
 import 'package:hawktoons/onboarding/models/models.dart';
+import 'package:hawktoons/settings/cubit/settings_screen_cubit.dart';
+import 'package:hawktoons/settings/models/settings_screen.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
@@ -43,9 +45,9 @@ class MockAuthenticationBloc
   extends MockBloc<AuthenticationEvent, AuthenticationState>
   implements AuthenticationBloc {}
 
-class MockDailyCartoonBloc
-  extends MockBloc<DailyCartoonEvent, DailyCartoonState>
-  implements DailyCartoonBloc {}
+class MockLatestCartoonBloc
+  extends MockBloc<LatestCartoonEvent, LatestCartoonState>
+  implements LatestCartoonBloc {}
 
 class MockImageTypeCubit extends MockCubit<ImageType>
   implements ImageTypeCubit {}
@@ -61,6 +63,9 @@ class MockSelectCartoonCubit extends MockCubit<SelectPoliticalCartoonState>
 
 class MockScrollHeaderCubit extends MockCubit<bool>
   implements ScrollHeaderCubit {}
+
+class MockSettingsScreenCubit extends MockCubit<SettingsScreen>
+  implements SettingsScreenCubit {}
 
 class MockShowBottomSheetCubit extends MockCubit<bool>
   implements ShowBottomSheetCubit {}

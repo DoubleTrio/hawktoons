@@ -1,0 +1,4 @@
+enum SettingsScreen {
+  main,
+  theme,
+}

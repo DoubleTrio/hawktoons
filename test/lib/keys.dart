@@ -5,20 +5,20 @@ import 'mocks.dart';
 final cartoonSectionAuthorKey =
     Key('CartoonSection_Author_${mockPoliticalCartoon.id}');
 
-const dailyCartoonTabKey = Key('TabSelector_DailyTab');
+const latestCartoonTabKey = Key('TabSelector_DailyTab');
 const allCartoonTabKey = Key('TabSelector_AllTab');
-const changeThemeTabKey = Key('TabSelector_ChangeTheme');
+const settingsTabKey = Key('TabSelector_SettingsTab');
+
 const detailsPageBackButtonKey = Key('DetailsPage_BackButton');
 
-const dailyCartoonInProgressKey =
+const latestCartoonInProgressKey =
     Key('DailyCartoonView_DailyCartoonInProgress');
-const dailyCartoonLoadedKey = Key('DailyCartoonView_DailyCartoonLoaded');
-const dailyCartoonFailedKey = Key('DailyCartoonView_DailyCartoonFailed');
-const dailyCartoonMenuButtonKey = Key('DailyCartoonView_OpenDrawer');
+const latestCartoonLoadedKey = Key('DailyCartoonView_DailyCartoonLoaded');
+const latestCartoonFailedKey = Key('DailyCartoonView_DailyCartoonFailed');
+const latestCartoonMenuButtonKey = Key('DailyCartoonView_OpenDrawer');
 
-const appDrawerLogoutTileKey = Key('AppDrawerPage_Logout');
-const appDrawerPrivacyTileKey = Key('AppDrawerPage_Privacy');
-const appDrawerChangeThemeTileKey = Key('AppDrawerPage_ChangeTheme');
+const appDrawerLogoutTileKey = Key('AppDrawerView_Logout');
+const appDrawerChangeThemeTileKey = Key('AppDrawerView_ChangeTheme');
 
 const nextPageOnboardingButtonKey = Key('OnboardingPage_NextPage');
 const setSeenOnboardingButtonKey = Key('OnboardingPage_SetSeenOnboarding');
@@ -35,6 +35,9 @@ const loggingInKey = Key('LoginPage_LoggingIn');
 const unauthenticatedKey = Key('LoginPage_LoginError');
 const signInAnonymouslyButtonKey = Key('LoginPage_SignInAnonymouslyButton');
 const signInWithGoogleButtonKey = Key('LoginPage_SignInWithGoogleButton');
+
+const navigateToThemePageButtonKey = Key('SettingsView_NavigateToThemePage');
+const themePageChangeThemeButtonKey = Key('ThemePage_ChangeThemeButton');
 
 const resetFilterButtonKey = Key('ButtonRowHeader_ResetButton');
 const applyFilterButtonKey = Key('ButtonRowHeader_ApplyFilterButton');

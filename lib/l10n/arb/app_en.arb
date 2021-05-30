@@ -20,7 +20,7 @@
     "@onboardingPageBody2": {
         "description": "Body text shown on the second onboarding page"
     },
-    "onboardingPageBody3": "See past cartoons",
+    "onboardingPageBody3": "Missed a political cartoon? Don't worry! You can view past political images and filter them by their tags and image type.",
     "@onboardingPageBody3": {
         "description": "Body text shown on the third onboarding page"
     },
@@ -224,17 +224,17 @@
     "@appDrawerLogoutButtonHint": {
         "description": "Semantic hint for logout button"
     },
-    "appDrawerPrivacyInfoButtonText": "Privacy Info",
-    "@appDrawerPrivacyInfoButtonText": {
-        "description": "Button text on app drawer that displays the how the app uses the user's data"
+    "appDrawerSettingsButtonText": "Settings",
+    "@appDrawerSettingsButtonText": {
+        "description": "Button text on app drawer that navigates to the settings page"
     },
-    "appDrawerPrivacyInfoButtonLabel": "Privacy info button",
-    "@appDrawerPrivacyInfoButtonLabel": {
-        "description": "Semantic label for privacy info button"
+    "appDrawerSettingsButtonLabel": "Settings info button",
+    "@appDrawerSettingsButtonLabel": {
+        "description": "Semantic label for settings button"
     },
-    "appDrawerPrivacyInfoButtonHint": "Tap to see how your data is used",
-    "@appDrawerPrivacyInfoButtonHint": {
-        "description": "Semantic hint for privacy info button"
+    "appDrawerSettingsButtonHint": "Tap to see your current settings",
+    "@appDrawerSettingsButtonHint": {
+        "description": "Semantic hint for settings button"
     },
     "appDrawerLightThemeButtonText": "Light Theme",
     "@appDrawerLightThemeButtonText": {

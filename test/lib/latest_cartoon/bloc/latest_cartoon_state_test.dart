@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
+import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 
 import '../../mocks.dart';
 
 void main() {
-  group('DailyCartoonState', () {
+  group('LatestCartoonState', () {
     group('DailyCartoonInProgress', () {
       test('supports value comparisons', () {
         expect(DailyCartoonInProgress(), DailyCartoonInProgress());

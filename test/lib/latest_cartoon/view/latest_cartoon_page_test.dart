@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
-import 'package:hawktoons/daily_cartoon/daily_cartoon.dart';
+import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';
@@ -12,30 +12,30 @@ import '../../mocks.dart';
 void main() {
   group('DailyCartoonView', () {
     late AllCartoonsBloc allCartoonsBloc;
-    late DailyCartoonBloc dailyCartoonBloc;
+    late LatestCartoonBloc latestCartoonBloc;
     late AppDrawerCubit appDrawerCubit;
 
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
-      registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
+      registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
     });
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
       appDrawerCubit = MockAppDrawerCubit();
-      dailyCartoonBloc = MockDailyCartoonBloc();
+      latestCartoonBloc = MockLatestCartoonBloc();
 
       final state = DailyCartoonLoaded(mockPoliticalCartoon);
-      when(() => dailyCartoonBloc.state).thenReturn(state);
+      when(() => latestCartoonBloc.state).thenReturn(state);
     });
 
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
           const DailyCartoonView(),
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -44,7 +44,7 @@ void main() {
       testWidgets('passes guidelines for dark theme', (tester) async {
         await tester.pumpApp(
           const DailyCartoonView(),
-          dailyCartoonBloc: dailyCartoonBloc,
+          latestCartoonBloc: latestCartoonBloc,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -56,12 +56,12 @@ void main() {
       'Key(\'DailyCartoonView_DailyCartoonInProgress\') '
       'when state is DailyCartoonInProgress()', (tester) async {
       final state = const DailyCartoonInProgress();
-      when(() => dailyCartoonBloc.state).thenReturn(state);
+      when(() => latestCartoonBloc.state).thenReturn(state);
       await tester.pumpApp(
         const DailyCartoonView(),
-        dailyCartoonBloc: dailyCartoonBloc,
+        latestCartoonBloc: latestCartoonBloc,
       );
-      expect(find.byKey(dailyCartoonInProgressKey), findsOneWidget);
+      expect(find.byKey(latestCartoonInProgressKey), findsOneWidget);
     });
 
     testWidgets(
@@ -69,33 +69,33 @@ void main() {
       'when state is DailyCartoonLoaded', (tester) async {
       await tester.pumpApp(
         const DailyCartoonView(),
-        dailyCartoonBloc: dailyCartoonBloc,
+        latestCartoonBloc: latestCartoonBloc,
       );
-      expect(find.byKey(dailyCartoonLoadedKey), findsOneWidget);
+      expect(find.byKey(latestCartoonLoadedKey), findsOneWidget);
     });
 
     testWidgets(
       'renders widget with Key(\'DailyCartoonView_DailyCartoonFailed\') '
       'when state is DailyCartoonFailed', (tester) async {
       final state = const DailyCartoonFailed('Error');
-      when(() => dailyCartoonBloc.state).thenReturn(state);
+      when(() => latestCartoonBloc.state).thenReturn(state);
       await tester.pumpApp(
         const DailyCartoonView(),
-        dailyCartoonBloc: dailyCartoonBloc,
+        latestCartoonBloc: latestCartoonBloc,
       );
-      expect(find.byKey(dailyCartoonFailedKey), findsOneWidget);
+      expect(find.byKey(latestCartoonFailedKey), findsOneWidget);
     });
 
     testWidgets('open drawer when menu icon is tapped', (tester) async {
       final state = const DailyCartoonFailed('Error');
-      when(() => dailyCartoonBloc.state).thenReturn(state);
+      when(() => latestCartoonBloc.state).thenReturn(state);
       await tester.pumpApp(
         const DailyCartoonView(),
         allCartoonsBloc: allCartoonsBloc,
         appDrawerCubit: appDrawerCubit,
-        dailyCartoonBloc: dailyCartoonBloc,
+        latestCartoonBloc: latestCartoonBloc,
       );
-      await tester.tap(find.byKey(dailyCartoonMenuButtonKey));
+      await tester.tap(find.byKey(latestCartoonMenuButtonKey));
       verify(appDrawerCubit.openDrawer).called(1);
     });
   });

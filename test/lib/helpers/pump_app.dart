@@ -6,11 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
 import 'package:hawktoons/l10n/l10n.dart';
-import 'package:hawktoons/onboarding/cubits/cubits.dart';
-import 'package:hawktoons/onboarding/cubits/onboarding_seen_cubit.dart';
-import 'package:hawktoons/onboarding/models/models.dart';
+import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
+import 'package:hawktoons/onboarding/onboarding.dart';
+import 'package:hawktoons/settings/models/settings_screen.dart';
+import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
@@ -29,12 +29,13 @@ extension PumpApp on WidgetTester {
     AllCartoonsBloc? allCartoonsBloc,
     AppDrawerCubit? appDrawerCubit,
     AuthenticationBloc? authenticationBloc,
-    DailyCartoonBloc? dailyCartoonBloc,
+    LatestCartoonBloc? latestCartoonBloc,
     ImageTypeCubit? imageTypeCubit,
     OnboardingPageCubit? onboardingPageCubit,
     OnboardingSeenCubit? onboardingSeenCubit,
     ScrollHeaderCubit? scrollHeaderCubit,
     SelectCartoonCubit? selectCartoonCubit,
+    SettingsScreenCubit? settingsScreenCubit,
     ShowBottomSheetCubit? showBottomSheetCubit,
     SortByCubit? sortByCubit,
     TagCubit? tagCubit,
@@ -45,19 +46,20 @@ extension PumpApp on WidgetTester {
     registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
     registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
-    registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
-    registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+    registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
+    registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
     registerFallbackValue<SelectPoliticalCartoonState>(
       FakeSelectPoliticalCartoonState()
     );
     registerFallbackValue<TabEvent>(FakeTabEvent());
-    registerFallbackValue<AppTab>(AppTab.daily);
+    registerFallbackValue<AppTab>(AppTab.latest);
     registerFallbackValue<Tag>(Tag.all);
+    registerFallbackValue<SettingsScreen>(SettingsScreen.main);
     registerFallbackValue<SortByMode>(SortByMode.latestPosted);
     registerFallbackValue<ImageType>(ImageType.all);
     registerFallbackValue<ThemeMode>(ThemeMode.light);
     registerFallbackValue<VisibleOnboardingPage>(
-      VisibleOnboardingPage.dailyCartoon
+      VisibleOnboardingPage.latestCartoon
     );
 
     return mockNetworkImagesFor(() async {
@@ -83,13 +85,10 @@ extension PumpApp on WidgetTester {
                 value: authenticationBloc ?? MockAuthenticationBloc()
               ),
               BlocProvider.value(
-                value: dailyCartoonBloc ?? MockDailyCartoonBloc()
-              ),
-              BlocProvider.value(
                 value: imageTypeCubit ?? MockImageTypeCubit()
               ),
               BlocProvider.value(
-                value: selectCartoonCubit ?? MockSelectCartoonCubit()
+                  value: latestCartoonBloc ?? MockLatestCartoonBloc()
               ),
               BlocProvider.value(
                 value: onboardingPageCubit ?? MockOnboardingPageCubit()
@@ -101,6 +100,12 @@ extension PumpApp on WidgetTester {
               BlocProvider.value(value: tagCubit ?? MockTagCubit()),
               BlocProvider.value(
                 value: scrollHeaderCubit ?? MockScrollHeaderCubit()
+              ),
+              BlocProvider.value(
+                value: selectCartoonCubit ?? MockSelectCartoonCubit()
+              ),
+              BlocProvider.value(
+                value: settingsScreenCubit ?? MockSettingsScreenCubit()
               ),
               BlocProvider.value(
                 value: showBottomSheetCubit ?? MockShowBottomSheetCubit()

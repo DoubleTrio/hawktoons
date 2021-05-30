@@ -4,25 +4,26 @@ import 'package:hawktoons/tab/tab.dart';
 
 void main() {
   group('TabsBloc', () {
-    test('initial state is AppTab.daily', () {
-      expect(TabBloc().state, equals(AppTab.daily));
+    test('initial state is AppTab.latest', () {
+      expect(TabBloc().state, equals(AppTab.latest));
     });
 
     blocTest<TabBloc, AppTab>(
       'emits [AppTab.all] '
-      'when UpdateTab(AppTab.daily) is added',
+      'when UpdateTab(AppTab.latest) is added',
       build: () => TabBloc(),
       act: (bloc) => bloc.add(UpdateTab(AppTab.all)),
       expect: () => [AppTab.all],
     );
 
     blocTest<TabBloc, AppTab>(
-      'emits [AppTab.daily] '
-      'when UpdateTab(AppTab.daily) is added and the current tab is AppTab.all',
+      'emits [AppTab.latest] '
+      'when UpdateTab(AppTab.latest) is added '
+      'and the current tab is AppTab.all',
       build: () => TabBloc(),
       seed: () => AppTab.all,
-      act: (bloc) => bloc.add(UpdateTab(AppTab.daily)),
-      expect: () => [AppTab.daily],
+      act: (bloc) => bloc.add(UpdateTab(AppTab.latest)),
+      expect: () => [AppTab.latest],
     );
   });
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
-import 'package:hawktoons/daily_cartoon/bloc/daily_cartoon.dart';
+import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -16,21 +16,21 @@ void main() {
   group('AllCartoonsPage', () {
     late AllCartoonsBloc allCartoonsBloc;
     late AppDrawerCubit appDrawerCubit;
-    late DailyCartoonBloc dailyCartoonBloc;
+    late LatestCartoonBloc latestCartoonBloc;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
 
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<DailyCartoonState>(FakeDailyCartoonState());
-      registerFallbackValue<DailyCartoonEvent>(FakeDailyCartoonEvent());
+      registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
+      registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
     });
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
       appDrawerCubit = MockAppDrawerCubit();
-      dailyCartoonBloc = MockDailyCartoonBloc();
+      latestCartoonBloc = MockLatestCartoonBloc();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
 
@@ -127,7 +127,7 @@ void main() {
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
         appDrawerCubit: appDrawerCubit,
-        dailyCartoonBloc: dailyCartoonBloc,
+        latestCartoonBloc: latestCartoonBloc,
         scrollHeaderCubit: scrollHeaderCubit,
       );
       await tester.tap(find.byKey(allCartoonsMenuButtonKey));

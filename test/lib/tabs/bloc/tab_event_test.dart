@@ -7,8 +7,8 @@ void main() {
       test('supports value comparisons', () {
         expect(UpdateTab(AppTab.all), UpdateTab(AppTab.all));
         expect(
-          UpdateTab(AppTab.daily).toString(),
-          UpdateTab(AppTab.daily).toString(),
+          UpdateTab(AppTab.latest).toString(),
+          UpdateTab(AppTab.latest).toString(),
         );
       });
     });
