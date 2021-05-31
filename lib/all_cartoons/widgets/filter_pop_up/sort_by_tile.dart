@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/theme/theme.dart';
 
 class SortByTile extends StatelessWidget {
   const SortByTile({
@@ -16,7 +17,6 @@ class SortByTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-
     return Material(
       child: ExcludeSemantics(
         child: InkWell(
@@ -28,7 +28,9 @@ class SortByTile extends StatelessWidget {
             enabled: true,
             selected: selected,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12 * 2),
+              padding: EdgeInsets.symmetric(
+                horizontal: ThemeConstants.mPadding * 2
+              ),
               child: Column(
                 children: [
                   Container(

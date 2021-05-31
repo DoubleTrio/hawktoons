@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hawktoons/all_cartoons/widgets/filter_pop_up/tag_button.dart';
+import 'package:hawktoons/theme/constants.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButtonBar extends StatelessWidget {
@@ -17,7 +18,7 @@ class TagButtonBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: EdgeInsets.symmetric(horizontal: ThemeConstants.mPadding),
       child: Wrap(
         spacing: 5,
         children: [

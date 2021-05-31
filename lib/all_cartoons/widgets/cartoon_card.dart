@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hawktoons/l10n/l10n.dart';
+import 'package:hawktoons/theme/constants.dart';
 import 'package:hawktoons/utils/time_ago.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:shimmer/shimmer.dart';
@@ -34,13 +35,13 @@ class CartoonCard extends StatelessWidget {
 
     return Material(
       child: InkWell(
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+        borderRadius: ThemeConstants.sBorderRadius,
         onTap: onTap,
         child: Card(
           color: theme.dividerColor,
           key: Key(cartoon.id),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: ThemeConstants.sBorderRadius,
           ),
           elevation: 10,
           child: Column(
@@ -75,10 +76,11 @@ class CartoonCard extends StatelessWidget {
                 ),
               )),
               ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(bottom: Radius.circular(10.0)),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(ThemeConstants.sRadius)
+                ),
                 child: Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(ThemeConstants.mPadding),
                   color: cardColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

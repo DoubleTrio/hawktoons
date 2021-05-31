@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/theme/constants.dart';
+import 'themes.dart';
 
 const lightPrimary = Color(4284612846);
 
@@ -13,7 +15,7 @@ final lightColorScheme = const ColorScheme.light().copyWith(
 final lightTheme = ThemeData(
   colorScheme: lightColorScheme,
   brightness: Brightness.light,
-  fontFamily: 'SanFrancisco',
+  fontFamily: ThemeConstants.font,
   primaryColor: lightPrimary,
   dividerColor: Colors.grey.shade300,
   backgroundColor: Colors.grey.shade100,
@@ -24,16 +26,7 @@ final lightTheme = ThemeData(
     thumbColor: MaterialStateProperty.all<Color>(lightPrimary.withOpacity(0.5)),
   ),
   textButtonTheme: TextButtonThemeData(
-    style: ButtonStyle(
-      padding: MaterialStateProperty.all<EdgeInsets>(
-        const EdgeInsets.all(16)
-      ),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(80),
-        ),
-      ),
-    ),
+    style: ThemeConstants.buttonStyle,
   ),
   snackBarTheme: const SnackBarThemeData(
     contentTextStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -49,11 +42,7 @@ final lightTheme = ThemeData(
     unselectedLabelStyle: TextStyle(color: lightColorScheme.onSurface),
     unselectedItemColor: lightColorScheme.onSecondary
   ),
-  textTheme: const TextTheme(
-    subtitle1: TextStyle(
-      fontSize: 16,
-    ),
-  ),
+  textTheme: ThemeConstants.textTheme,
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: lightPrimary
   )

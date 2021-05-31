@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/theme/constants.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButton extends StatelessWidget {
@@ -7,13 +8,11 @@ class TagButton extends StatelessWidget {
     required this.tag,
     required this.onTap,
     required this.selected,
-    this.padding = 12,
     }) : super(key: key);
 
   final Tag tag;
   final VoidCallback? onTap;
   final bool selected;
-  final double padding;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class TagButton extends StatelessWidget {
       onPressed: onTap,
       style: ButtonStyle(
         padding: MaterialStateProperty.all<EdgeInsets>(
-          EdgeInsets.all(padding),
+          ThemeConstants.defaultContainerPadding,
         ),
         foregroundColor: MaterialStateProperty.all<Color>(btnColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

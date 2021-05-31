@@ -7,7 +7,7 @@ class CustomIconButton extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.hint,
-    this.size = 25
+    this.size = 24
   }) : super(key: key);
 
   final VoidCallback onPressed;

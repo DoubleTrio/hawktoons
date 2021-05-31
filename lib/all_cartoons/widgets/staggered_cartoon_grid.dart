@@ -104,9 +104,8 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
         child: Text(
           'An error has occurred while loading for images',
           key: const Key('AllCartoonsPage_AllCartoonsFailed'),
-          style: TextStyle(
-            color: theme.colorScheme.error,
-            fontSize: 14,
+          style: theme.textTheme.bodyText1!.copyWith(
+            color: theme.colorScheme.error
           ),
         ),
       );

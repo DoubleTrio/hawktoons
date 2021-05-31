@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/theme/constants.dart';
 
 class FilterHeader extends StatelessWidget {
   const FilterHeader({Key? key, required this.header}) : super(key: key);
@@ -9,7 +10,7 @@ class FilterHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.only(left: 12 * 2),
+      padding: EdgeInsets.only(left: ThemeConstants.mPadding * 2),
       width: double.infinity,
       child: Semantics(
         header: true,

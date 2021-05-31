@@ -47,7 +47,7 @@ class TabSelector extends StatelessWidget {
         ),
         CustomBottomTabItem(
           key: const Key('TabSelector_SettingsTab'),
-          icon: const Icon(Icons.settings),
+          icon: const Icon(Icons.settings_outlined),
           width: width,
           onTap: () => onTabChanged(AppTab.settings),
           selected: AppTab.settings == activeTab,

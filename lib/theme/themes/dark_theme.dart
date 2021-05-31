@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/theme/theme.dart';
 
 const darkPrimary = Color(0xFFDEA7FF);
+
 final darkColorScheme = const ColorScheme.dark().copyWith(
   primary: darkPrimary,
   primaryVariant: darkPrimary.withOpacity(0.8),
@@ -12,7 +14,7 @@ final darkColorScheme = const ColorScheme.dark().copyWith(
 final darkTheme = ThemeData(
   primaryColor: darkPrimary,
   brightness: Brightness.dark,
-  fontFamily: 'SanFrancisco',
+  fontFamily: ThemeConstants.font,
   dividerColor: Colors.grey.shade900,
   backgroundColor: const Color(0xFF2B2B2B),
   colorScheme: darkColorScheme,
@@ -23,16 +25,7 @@ final darkTheme = ThemeData(
     thumbColor: MaterialStateProperty.all<Color>(darkPrimary.withOpacity(1)),
   ),
   textButtonTheme: TextButtonThemeData(
-    style: ButtonStyle(
-      padding: MaterialStateProperty.all<EdgeInsets>(
-        const EdgeInsets.all(16),
-      ),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(80),
-        ),
-      ),
-    )
+    style: ThemeConstants.buttonStyle,
   ),
   snackBarTheme: const SnackBarThemeData(
     contentTextStyle: TextStyle(
@@ -46,16 +39,11 @@ final darkTheme = ThemeData(
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: const Color(0xFF3C3C3C),
-    selectedItemColor: darkColorScheme.secondary,
     selectedLabelStyle: TextStyle(color: darkColorScheme.onSurface),
     unselectedLabelStyle: TextStyle(color: darkColorScheme.onSurface),
     unselectedItemColor: darkColorScheme.onSecondary
   ),
-  textTheme: const TextTheme(
-    subtitle1: TextStyle(
-      fontSize: 16,
-    ),
-  ),
+  textTheme: ThemeConstants.textTheme,
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: darkPrimary
   )

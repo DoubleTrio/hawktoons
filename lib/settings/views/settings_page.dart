@@ -22,19 +22,25 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    void navigateToThemePage() {
+    void _navigateToThemePage() {
       context.read<SettingsScreenCubit>().setScreen(SettingsScreen.theme);
     }
 
     return Scaffold(
-      appBar: AppBar(title: const ScaffoldTitle(title: 'Settings')),
-      body: Center(
-        child: TextButton(
-          key: const Key('SettingsView_NavigateToThemePage'),
-          onPressed: navigateToThemePage,
-          child: const Text('Navigate to theme page')
-        )
+      appBar: AppBar(
+        title: const ScaffoldTitle(title: 'Settings'),
+        centerTitle: true,
       ),
+      body: ListView(
+        children: [
+          ListTile(
+            key: const Key('SettingsView_NavigateToThemePage'),
+            onTap: _navigateToThemePage,
+            trailing: const Icon(Icons.arrow_forward_ios),
+            title: const Text('Appearance'),
+          )
+        ],
+      )
     );
   }
 }

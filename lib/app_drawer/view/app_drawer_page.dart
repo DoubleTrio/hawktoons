@@ -6,6 +6,7 @@ import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/theme/cubit/theme_cubit.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/utils/constants.dart';
 
 class AppDrawerView extends StatelessWidget {
@@ -39,7 +40,7 @@ class AppDrawerView extends StatelessWidget {
           children: [
             SafeArea(
               child: Container(
-                padding: const EdgeInsets.all(12),
+                padding: ThemeConstants.defaultContainerPadding,
                 child: Column(
                   children: [
                     const SizedBox(height: 16),

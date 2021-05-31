@@ -23,7 +23,7 @@ class CartoonSection extends StatelessWidget {
               style: theme.textTheme.bodyText1!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.onBackground,
-                letterSpacing: 1.1
+                letterSpacing: 1.05
               ),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hawktoons/l10n/l10n.dart';
+import 'package:hawktoons/theme/constants.dart';
 
 class ButtonRowHeader extends StatelessWidget {
   const ButtonRowHeader({
@@ -15,12 +16,20 @@ class ButtonRowHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
     final primary = colorScheme.primary;
     final onSurface = colorScheme.onSurface;
 
+    final buttonStyle = ButtonStyle(
+      padding: MaterialStateProperty.all<EdgeInsets>(
+        EdgeInsets.all(ThemeConstants.sPadding),
+      ),
+    );
+
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.symmetric(horizontal: ThemeConstants.mPadding),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,7 +38,7 @@ class ButtonRowHeader extends StatelessWidget {
               key: const Key('ButtonRowHeader_ResetButton'),
               style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.all(8),
+                  EdgeInsets.all(ThemeConstants.sPadding),
                 ),
               ),
               onPressed: onReset,
@@ -48,10 +57,8 @@ class ButtonRowHeader extends StatelessWidget {
               children: [
                 Text(
                   l10n.filterPopUpHeader,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: onSurface
+                  style: textTheme.subtitle2!.copyWith(
+                    fontWeight: FontWeight.bold
                   ),
                 ),
                 const SizedBox(width: 6),
@@ -60,11 +67,7 @@ class ButtonRowHeader extends StatelessWidget {
             ),
             Semantics(
               child: TextButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(8),
-                  ),
-                ),
+                style: buttonStyle,
                 key: const Key('ButtonRowHeader_ApplyFilterButton'),
                 onPressed: onFilter,
                 child: Semantics(

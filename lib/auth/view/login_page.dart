@@ -24,7 +24,10 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     void _signInAnonymously(){
       context.read<AuthenticationBloc>().add(const SignInAnonymously());
     }
@@ -50,9 +53,8 @@ class LoginView extends StatelessWidget {
                       const SizedBox(height: 80),
                       Text(
                         l10n.loginPageHeader,
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold
+                        style: textTheme.headline4!.copyWith(
+                          color: colorScheme.onSurface
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -118,10 +120,9 @@ class LoginView extends StatelessWidget {
                         return Text(
                           l10n.loginPageErrorText,
                           key: const Key('LoginPage_LoginError'),
-                          style: TextStyle(
-                            color: colorScheme.error,
-                            fontSize: 14
-                          ),
+                          style: textTheme.bodyText2!.copyWith(
+                            color: colorScheme.error
+                          )
                         );
                       },
                     ),

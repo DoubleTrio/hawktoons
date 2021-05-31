@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/theme/theme.dart';
 
 class PageHeader extends StatelessWidget {
   const PageHeader({Key? key, required this.header}) : super(key: key);
@@ -8,14 +9,14 @@ class PageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: EdgeInsets.symmetric(horizontal: ThemeConstants.mPadding),
       width: double.infinity,
-      child: Text(header,
+      child: Text(
+        header,
         style: Theme.of(context)
           .textTheme
           .headline3!
-          .copyWith(fontWeight: FontWeight.bold
-        )
+          .copyWith(fontWeight: FontWeight.bold),
       ),
     );
   }

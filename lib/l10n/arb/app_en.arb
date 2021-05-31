@@ -4,11 +4,11 @@
     "@onboardingPageHeader1": {
         "description": "Header shown on the first onboarding page"
     },
-    "onboardingPageHeader2": "New cartoons every week",
+    "onboardingPageHeader2": "New images every week",
     "@onboardingPageHeader2": {
         "description": "Header shown on the second onboarding page"
     },
-    "onboardingPageHeader3": "See past cartoons",
+    "onboardingPageHeader3": "See past images",
     "@onboardingPageHeader3": {
         "description": "Header shown on the third onboarding page"
     },
@@ -20,7 +20,7 @@
     "@onboardingPageBody2": {
         "description": "Body text shown on the second onboarding page"
     },
-    "onboardingPageBody3": "Missed a political cartoon? Don't worry! You can view past political images and filter them by their tags and image type.",
+    "onboardingPageBody3": "Missed a political image? Don't worry! You can view past political images and filter them by their tags and image type.",
     "@onboardingPageBody3": {
         "description": "Body text shown on the third onboarding page"
     },

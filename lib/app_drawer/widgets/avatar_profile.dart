@@ -15,6 +15,8 @@ class AvatarProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
     return Column(
       children: [
         CircleAvatar(
@@ -24,12 +26,12 @@ class AvatarProfile extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           name,
-          style: const TextStyle(fontSize: 20),
+          style: textTheme.headline6,
         ),
         const SizedBox(height: 8),
         Text(
           email,
-          style: TextStyle(fontSize: 16, color: theme.colorScheme.onBackground)
+          style: textTheme.subtitle1!.copyWith(color: colorScheme.onBackground),
         ),
         const SizedBox(height: 16),
         Divider(color: theme.colorScheme.onBackground, height: 2),

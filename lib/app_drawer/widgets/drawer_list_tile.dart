@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/theme/constants.dart';
 
 class DrawerListTile extends StatelessWidget {
   const DrawerListTile({
@@ -20,7 +21,7 @@ class DrawerListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Padding(
-        padding: const EdgeInsets.only(left: 12),
+        padding: EdgeInsets.only(left: ThemeConstants.mPadding),
         child: icon,
       ),
       onTap: onTap,
@@ -29,7 +30,7 @@ class DrawerListTile extends StatelessWidget {
         label: label,
         hint: hint,
         child: Padding(
-          padding: const EdgeInsets.only(left: 18),
+          padding: EdgeInsets.only(left: ThemeConstants.lPadding + 2),
           child: Text(title),
         ),
       ),

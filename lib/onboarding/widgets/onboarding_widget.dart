@@ -16,6 +16,9 @@ class OnboardingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 40.0),
       child: Column(
@@ -26,7 +29,9 @@ class OnboardingWidget extends StatelessWidget {
             header: true,
             child: Text(
               header,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              style: textTheme.headline4!.copyWith(
+                color: colorScheme.onSurface
+              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -36,7 +41,7 @@ class OnboardingWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               color: Theme.of(context).colorScheme.onBackground,
-              letterSpacing: 1.1
+              letterSpacing: 1.05
             ),
             textAlign: TextAlign.center,
           ),
