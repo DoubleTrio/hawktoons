@@ -5,7 +5,6 @@ import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/settings/flow/settings_flow.dart';
 import 'package:hawktoons/tab/tab.dart';
-import 'package:hawktoons/theme/theme.dart';
 
 class TabFlow extends StatelessWidget {
   const TabFlow({Key? key}): super(key: key);
@@ -18,10 +17,6 @@ class TabFlow extends StatelessWidget {
       context.read<ShowBottomSheetCubit>().closeSheet();
     }
 
-    void _changeTheme() {
-      context.read<ThemeCubit>().changeTheme();
-    }
-
     void _onTabChanged(AppTab tab) {
       context.read<TabBloc>().add(UpdateTab(tab));
     }
@@ -32,7 +27,6 @@ class TabFlow extends StatelessWidget {
         child: TabSelector(
           activeTab: _activeTab,
           onTabChanged: _onTabChanged,
-          onThemeChanged: _changeTheme,
         ),
       ),
       body: BlocListener<ShowBottomSheetCubit, bool>(

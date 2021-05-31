@@ -15,7 +15,7 @@ final loginError = find.byValueKey('LoginPage_LoginError');
 final signInAnonymouslyButton =
   find.byValueKey('LoginPage_SignInAnonymouslyButton');
 
-final latestCartoonTab = find.byValueKey('TabSelector_DailyTab');
+final latestCartoonTab = find.byValueKey('TabSelector_LatestTab');
 final allCartoonsTab = find.byValueKey('TabSelector_AllTab');
 final changeThemeTab = find.byValueKey('TabSelector_ChangeTheme');
 

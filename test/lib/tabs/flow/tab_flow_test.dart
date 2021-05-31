@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
+import 'package:hawktoons/settings/cubit/settings_screen_cubit.dart';
+import 'package:hawktoons/settings/flow/settings_flow.dart';
+import 'package:hawktoons/settings/models/models.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -20,6 +23,7 @@ void main() {
     late ImageTypeCubit imageTypeCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
     late SelectCartoonCubit selectCartoonCubit;
+    late SettingsScreenCubit settingsScreenCubit;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late SortByCubit sortByCubit;
     late TabBloc tabBloc;
@@ -33,8 +37,9 @@ void main() {
       registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
       registerFallbackValue<ImageType>(ImageType.all);
       registerFallbackValue<SelectPoliticalCartoonState>(
-          FakeSelectPoliticalCartoonState()
+        FakeSelectPoliticalCartoonState()
       );
+      registerFallbackValue<SettingsScreen>(SettingsScreen.main);
       registerFallbackValue<SortByMode>(SortByMode.latestPosted);
       registerFallbackValue<TabEvent>(FakeTabEvent());
       registerFallbackValue<Tag>(Tag.all);
@@ -48,8 +53,9 @@ void main() {
       tagCubit = MockTagCubit();
       sortByCubit = MockSortByCubit();
       imageTypeCubit = MockImageTypeCubit();
-      showBottomSheetCubit = MockShowBottomSheetCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
+      settingsScreenCubit = MockSettingsScreenCubit();
+      showBottomSheetCubit = MockShowBottomSheetCubit();
 
       when(() => allCartoonsBloc.state)
         .thenReturn(const AllCartoonsState.initial());
@@ -118,6 +124,19 @@ void main() {
     });
 
     testWidgets(
+      'tabBloc.add(UpdateTab(AppTab.settings)) '
+      'is invoked when the "Settings" tab is tapped', (tester) async {
+      await tester.pumpApp(
+        const TabFlow(),
+        latestCartoonBloc: latestCartoonBloc,
+        showBottomSheetCubit: showBottomSheetCubit,
+        tabBloc: tabBloc,
+      );
+      await tester.tap(find.byKey(settingsTabKey));
+      verify(() => tabBloc.add(UpdateTab(AppTab.settings))).called(1);
+    });
+
+    testWidgets(
       'tabBloc.add(UpdateTab(AppTab.all)) '
       'is invoked when the "All" tab is tapped', (tester) async {
       await tester.pumpApp(
@@ -130,17 +149,30 @@ void main() {
       verify(() => tabBloc.add(UpdateTab(AppTab.all))).called(1);
     });
 
-    testWidgets(
-      'tabBloc.add(UpdateTab(AppTab.settings)) '
-      'is invoked when the "Settings" tab is tapped', (tester) async {
+    testWidgets('renders all cartoons view', (tester) async {
+      when(() => tabBloc.state).thenReturn(AppTab.all);
       await tester.pumpApp(
         const TabFlow(),
-        latestCartoonBloc: latestCartoonBloc,
+        allCartoonsBloc: allCartoonsBloc,
+        scrollHeaderCubit: scrollHeaderCubit,
+        selectCartoonCubit: selectCartoonCubit,
         showBottomSheetCubit: showBottomSheetCubit,
         tabBloc: tabBloc,
       );
-      await tester.tap(find.byKey(settingsTabKey));
-      verify(() => tabBloc.add(UpdateTab(AppTab.settings))).called(1);
+      expect(find.byType(AllCartoonsView), findsOneWidget);
+    });
+
+    testWidgets('renders SettingsFlowView', (tester) async {
+      when(() => tabBloc.state).thenReturn(AppTab.settings);
+      when(() => settingsScreenCubit.state).thenReturn(SettingsScreen.main);
+      await tester.pumpApp(
+        const TabFlow(),
+        selectCartoonCubit: selectCartoonCubit,
+        settingsScreenCubit: settingsScreenCubit,
+        showBottomSheetCubit: showBottomSheetCubit,
+        tabBloc: tabBloc,
+      );
+      expect(find.byType(SettingsFlowView), findsOneWidget);
     });
 
     group('FilterPopUp', () {

@@ -224,18 +224,6 @@
     "@appDrawerLogoutButtonHint": {
         "description": "Semantic hint for logout button"
     },
-    "appDrawerSettingsButtonText": "Settings",
-    "@appDrawerSettingsButtonText": {
-        "description": "Button text on app drawer that navigates to the settings page"
-    },
-    "appDrawerSettingsButtonLabel": "Settings info button",
-    "@appDrawerSettingsButtonLabel": {
-        "description": "Semantic label for settings button"
-    },
-    "appDrawerSettingsButtonHint": "Tap to see your current settings",
-    "@appDrawerSettingsButtonHint": {
-        "description": "Semantic hint for settings button"
-    },
     "appDrawerLightThemeButtonText": "Light Theme",
     "@appDrawerLightThemeButtonText": {
         "description": "Button text on app drawer that displays the light theme text"
@@ -251,6 +239,46 @@
     "appDrawerChangeThemeButtonHint": "Tap to change the theme of the app",
     "@appDrawerChangeThemeButtonHint": {
         "description": "Semantic hint for change theme button"
+    },
+    "appTabLatestText": "Latest",
+    "@appTabLatestText": {
+        "description": "Tab text that navigates to the latest political image page"
+    },
+    "appTabLatestLabel": "Latest image tab",
+    "@appTabLatestLabel": {
+        "description": "Semantic label for settings tab"
+    },
+    "appTabLatestHint": "Tap to see the latest political image",
+    "@appTabLatestHint": {
+        "description": "Semantic hint for latest tab"
+    },
+    "appTabAllText": "All",
+    "@appTabAllText": {
+        "description": "Tab text that navigates to the past political images page"
+    },
+    "appTabAllLabel": "All images tab",
+    "@appTabAllLabel": {
+        "description": "Semantic label for all tab"
+    },
+    "appTabAllHint": "Tap to see past political images",
+    "@appTabAllHint": {
+        "description": "Semantic hint for all tab"
+    },
+    "appTabSettingsText": "Settings",
+    "@appTabSettingsText": {
+        "description": "Tab text that navigates to the settings page"
+    },
+    "appTabSettingsLabel": "Settings tab",
+    "@appTabSettingsLabel": {
+        "description": "Semantic label for settings tab"
+    },
+    "appTabSettingsHint": "Tap to navigate to the settings page",
+    "@appTabSettingsHint": {
+        "description": "Semantic hint for settings tab"
+    },
+    "appDrawerSettingsButtonHint": "Tap to see your current settings",
+    "@appDrawerSettingsButtonHint": {
+        "description": "Semantic hint for settings button"
     },
     "oneWeek": "Last week",
     "@oneWeek": {

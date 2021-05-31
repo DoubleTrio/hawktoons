@@ -5,7 +5,7 @@ import 'mocks.dart';
 final cartoonSectionAuthorKey =
     Key('CartoonSection_Author_${mockPoliticalCartoon.id}');
 
-const latestCartoonTabKey = Key('TabSelector_DailyTab');
+const latestCartoonTabKey = Key('TabSelector_LatestTab');
 const allCartoonTabKey = Key('TabSelector_AllTab');
 const settingsTabKey = Key('TabSelector_SettingsTab');
 
