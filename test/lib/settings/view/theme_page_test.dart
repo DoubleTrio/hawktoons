@@ -74,16 +74,45 @@ void main() {
       verify(themeCubit.changeTheme).called(1);
     });
 
-    testWidgets('can change color primary '
-      'when PrimaryItemColor is tapped', (tester) async {
+    group('PrimaryColorPicker', () {
       const primaryColorItemKey = Key('PrimaryColorItem_Orange');
-      await tester.pumpApp(
-        const ThemeView(),
-        primaryColorCubit: primaryColorCubit,
-        themeCubit: themeCubit,
-      );
-      await tester.tap(find.byKey(primaryColorItemKey));
-      verify(() => primaryColorCubit.setColor(PrimaryColor.orange)).called(1);
+      testWidgets('can change color primary '
+        'when PrimaryItemColor is tapped', (tester) async {
+        await tester.pumpApp(
+          const ThemeView(),
+          primaryColorCubit: primaryColorCubit,
+          themeCubit: themeCubit,
+        );
+        await tester.tap(find.byKey(primaryColorItemKey));
+        verify(() => primaryColorCubit.setColor(PrimaryColor.orange)).called(1);
+      });
+
+      testWidgets('renders light mode in color picker', (tester) async {
+        await tester.pumpApp(
+          const ThemeView(),
+          primaryColorCubit: primaryColorCubit,
+          themeCubit: themeCubit,
+        );
+
+        final widget = tester.firstWidget(
+          find.byKey(primaryColorItemKey)
+        ) as PrimaryColorItem;
+        expect(widget.color, const Color(0xFFFFB963));
+      });
+
+      testWidgets('renders dark mode color in color picker', (tester) async {
+        when(() => themeCubit.state).thenReturn(ThemeMode.dark);
+        await tester.pumpApp(
+          const ThemeView(),
+          primaryColorCubit: primaryColorCubit,
+          themeCubit: themeCubit,
+        );
+
+        final widget = tester.firstWidget(
+          find.byKey(primaryColorItemKey)
+        ) as PrimaryColorItem;
+        expect(widget.color, const Color(0xFFFFC3A7));
+      });
     });
   });
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomTile extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const CustomTile({
-    Key? key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 
