@@ -5,7 +5,6 @@ import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
-import '../../keys.dart';
 import '../../mocks.dart';
 
 void main() {
@@ -63,19 +62,24 @@ void main() {
       verify(settingsScreenCubit.deselectScreen).called(1);
     });
 
-    testWidgets('can change theme '
-      'when change theme button is tapped', (tester) async {
-      await tester.pumpApp(
-        const ThemeView(),
-        primaryColorCubit: primaryColorCubit,
-        themeCubit: themeCubit,
-      );
-      await tester.tap(find.byKey(themePageChangeThemeButtonKey));
-      verify(themeCubit.changeTheme).called(1);
+    group('ThemeModePicker', () {
+      const themeMode = ThemeMode.dark;
+      final themeModeTileKey = Key('ThemeModeTile_${themeMode.index}');
+      testWidgets('can change theme mode '
+        'when dark mode tile is tapped', (tester) async {
+        await tester.pumpApp(
+          const ThemeView(),
+          primaryColorCubit: primaryColorCubit,
+          themeCubit: themeCubit,
+        );
+        await tester.tap(find.byKey(themeModeTileKey));
+        verify(() => themeCubit.setTheme(themeMode)).called(1);
+      });
     });
 
     group('PrimaryColorPicker', () {
-      const primaryColorItemKey = Key('PrimaryColorItem_Orange');
+      const color = PrimaryColor.orange;
+      final primaryColorItemKey = Key('PrimaryColorItem_${color.index}');
       testWidgets('can change color primary '
         'when PrimaryItemColor is tapped', (tester) async {
         await tester.pumpApp(

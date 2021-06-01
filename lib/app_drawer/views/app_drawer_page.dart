@@ -5,7 +5,6 @@ import 'package:hawktoons/app_drawer/widgets/widgets.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/utils/constants.dart';
 
 class AppDrawerView extends StatelessWidget {
@@ -18,17 +17,13 @@ class AppDrawerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final l10n = context.l10n;
-    final themeMode = context.watch<ThemeCubit>().state;
 
     void _logout() {
       context.read<AllCartoonsBloc>().close();
       context.read<LatestCartoonBloc>().close();
       context.read<AuthenticationBloc>().add(const Logout());
-    }
-
-    void _changeTheme() {
-      context.read<ThemeCubit>().changeTheme();
     }
 
     return Scaffold(
@@ -39,7 +34,14 @@ class AppDrawerView extends StatelessWidget {
             SafeArea(
               child: Material(
                 child: Ink(
-                  padding: ThemeConstants.defaultContainerPadding,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(
+                        width: 1.5,
+                        color: theme.dividerColor
+                      )
+                    )
+                  ),
                   child: Column(
                     children: [
                       const SizedBox(height: 16),
@@ -60,18 +62,6 @@ class AppDrawerView extends StatelessWidget {
                               title: l10n.appDrawerLogoutButtonText,
                               label: l10n.appDrawerLogoutButtonLabel,
                               hint: l10n.appDrawerLogoutButtonHint,
-                            ),
-                            SwitchListTile(
-                              key: const Key('AppDrawerView_ChangeTheme'),
-                              value: themeMode == ThemeMode.light,
-                              onChanged: (val) {
-                                _changeTheme();
-                              },
-                              controlAffinity: ListTileControlAffinity.leading,
-                              title: Text(themeMode == ThemeMode.light
-                                ? l10n.appDrawerDarkThemeButtonText
-                                : l10n.appDrawerLightThemeButtonText,
-                              ),
                             ),
                           ],
                         ),

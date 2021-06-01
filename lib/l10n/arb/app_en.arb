@@ -280,6 +280,58 @@
     "@appDrawerSettingsButtonHint": {
         "description": "Semantic hint for settings button"
     },
+    "settingsPageSettingsText": "Settings",
+    "@settingsPageSettingsText": {
+        "description": "Text that appears on the scaffold of the settings page"
+    },
+    "appearancePageAppearanceText": "Appearances",
+    "@appearancePageAppearanceText": {
+        "description": "Text that appears on the scaffold of the appearances page"
+    },
+    "themePageSystemThemeText": "Use System Theme",
+    "@themePageSystemThemeText": {
+        "description": "Text that appears on the theme page for selecting the system theme"
+    },
+    "themePageLightThemeText": "Light Theme",
+    "@themePageLightThemeText": {
+        "description": "Text that appears on the theme page for selecting the light theme"
+    },
+    "themePageDarkThemeText": "Dark Theme",
+    "@themePageDarkThemeText": {
+        "description": "Text that appears on the theme page for selecting the dark theme"
+    },
+    "purple": "Purple",
+    "@purple": {
+        "description": "Text that displays purple"
+    },
+    "red": "Red",
+    "@red": {
+        "description": "Text that displays red"
+    },
+    "yellow": "Yellow",
+    "@yellow": {
+        "description": "Text that displays yellow"
+    },
+    "orange": "Orange",
+    "@orange": {
+        "description": "Text that displays orange"
+    },
+    "green": "Green",
+    "@green": {
+        "description": "Text that displays green"
+    },
+    "blue": "Blue",
+    "@blue": {
+        "description": "Text that displays blue"
+    },
+    "pink": "Pink",
+    "@pink": {
+        "description": "Text that displays pink"
+    },
+    "navy": "Navy",
+    "@navy": {
+        "description": "Text that displays navy"
+    },
     "oneWeek": "Last week",
     "@oneWeek": {
         "description": "Shown when the political cartoon card is a week old"

@@ -11,9 +11,5 @@ void main() {
     test('gets the dark color', () {
       expect(PrimaryColor.red.darkColor, const Color(0xFFFFA7A7));
     });
-
-    test('gets the color name', () {
-      expect(PrimaryColor.red.colorName, 'Red');
-    });
   });
 }

@@ -19,18 +19,19 @@ class DrawerListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Padding(
-        padding: EdgeInsets.only(left: ThemeConstants.mPadding),
-        child: icon,
-      ),
+    return InkWell(
+      splashColor: Theme.of(context).dividerColor,
+      highlightColor: Theme.of(context).dividerColor,
       onTap: onTap,
-      title: Semantics(
-        button: true,
-        label: label,
-        hint: hint,
-        child: Padding(
-          padding: EdgeInsets.only(left: ThemeConstants.lPadding + 2),
+      child: ListTile(
+        leading: Padding(
+          padding: EdgeInsets.only(left: ThemeConstants.mPadding),
+          child: icon,
+        ),
+        title: Semantics(
+          button: true,
+          label: label,
+          hint: hint,
           child: Text(title),
         ),
       ),

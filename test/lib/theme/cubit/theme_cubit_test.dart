@@ -17,29 +17,22 @@ void main() {
     });
 
     blocTest<ThemeCubit, ThemeMode>(
-      'emits [ThemeMode.dark] when changeTheme is called',
-      seed: () => ThemeMode.light,
+      'emits [ThemeMode.dark] when setTheme is invoked',
       build: () => ThemeCubit(),
-      act: (cubit) => cubit.changeTheme(),
+      act: (cubit) => cubit.setTheme(ThemeMode.dark),
       expect: () => [ThemeMode.dark],
     );
 
-    blocTest<ThemeCubit, ThemeMode>(
-      'emits [ThemeMode.light] when initialized with '
-      'ThemeMode.dark and changeTheme is called',
-      build: () => ThemeCubit(),
-      seed: () => ThemeMode.dark,
-      act: (cubit) => cubit.changeTheme(),
-      expect: () => [ThemeMode.light],
-    );
 
     blocTest<ThemeCubit, ThemeMode>(
-      'emits [ThemeMode.light, ThemeMode.dark] when initialized with '
-      'ThemeMode.dark and changeTheme is called twice',
+      'emits corrects themes when setTheme is invoked twice',
       build: () => ThemeCubit(),
       seed: () => ThemeMode.dark,
-      act: (cubit) => cubit..changeTheme()..changeTheme(),
-      expect: () => [ThemeMode.light, ThemeMode.dark],
+      act: (cubit) => cubit
+        ..setTheme(ThemeMode.system)
+        ..setTheme(ThemeMode.light)
+        ..setTheme(ThemeMode.dark),
+      expect: () => [ThemeMode.system, ThemeMode.light, ThemeMode.dark],
     );
   });
 }

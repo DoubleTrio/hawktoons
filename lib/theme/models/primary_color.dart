@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 
 enum PrimaryColor {
   purple,
@@ -12,16 +13,21 @@ enum PrimaryColor {
 }
 
 extension PrimaryColors on PrimaryColor {
-  static const colorNames = {
-    PrimaryColor.purple: 'Purple',
-    PrimaryColor.red: 'Red',
-    PrimaryColor.yellow: 'Yellow',
-    PrimaryColor.orange: 'Orange',
-    PrimaryColor.green: 'Green',
-    PrimaryColor.blue: 'Blue',
-    PrimaryColor.pink: 'Pink',
-    PrimaryColor.navy: 'Navy',
-  };
+
+  String? getColorName(AppLocalizations l10n) {
+    final colorNames = {
+      PrimaryColor.purple: l10n.purple,
+      PrimaryColor.red: l10n.red,
+      PrimaryColor.yellow: l10n.yellow,
+      PrimaryColor.orange: l10n.orange,
+      PrimaryColor.green: l10n.green,
+      PrimaryColor.blue: l10n.blue,
+      PrimaryColor.pink: l10n.pink,
+      PrimaryColor.navy: l10n.navy,
+    };
+
+    return colorNames[this];
+  }
 
   static const lightColors = {
     PrimaryColor.purple: Color(4284612846),
@@ -47,5 +53,4 @@ extension PrimaryColors on PrimaryColor {
 
   Color? get lightColor => lightColors[this];
   Color? get darkColor => darkColors[this];
-  String? get colorName => colorNames[this];
 }

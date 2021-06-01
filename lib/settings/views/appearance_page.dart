@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/settings/cubit/settings_screen_cubit.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/theme/theme.dart';
@@ -36,17 +37,14 @@ class ThemeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     void _navigateBack() {
       context.read<SettingsScreenCubit>().deselectScreen();
     }
 
-    void _changeTheme() {
-      context.read<ThemeCubit>().changeTheme();
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: const ScaffoldTitle(title: 'Theme'),
+        title: ScaffoldTitle(title: l10n.appearancePageAppearanceText),
         centerTitle: true,
         leading: CustomIconButton(
           onPressed: _navigateBack,
@@ -62,11 +60,8 @@ class ThemeView extends StatelessWidget {
             const CustomTile(
               child: PrimaryColorPicker()
             ),
-            TextButton(
-              key: const Key('ThemePage_ChangeThemeButton'),
-              onPressed: _changeTheme,
-              child: const Text('Tap to change the theme')
-            ),
+            const SizedBox(height: 16),
+            const ThemeModePicker(),
           ],
         )
       ),
@@ -81,30 +76,70 @@ class PrimaryColorPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final themeMode = context.watch<ThemeCubit>().state;
     final currentPrimaryColor = context.watch<PrimaryColorCubit>().state;
     void _changePrimaryColor(PrimaryColor primary) {
       context.read<PrimaryColorCubit>().setColor(primary);
     }
 
-    return SizedBox(
+    return Container(
+      color: Theme.of(context).colorScheme.background,
       height: 90,
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: primaryColors.length,
         itemBuilder: (_, index) {
           final primary = primaryColors[index];
           return PrimaryColorItem(
-            key: Key('PrimaryColorItem_${primary.colorName}'),
+            key: Key('PrimaryColorItem_${primary.index}'),
             color: themeMode == ThemeMode.light
               ? primary.lightColor!
               : primary.darkColor!,
-            colorName: primary.colorName!,
+            colorName: primary.getColorName(l10n)!,
             selected: primary == currentPrimaryColor,
             onPrimaryChange: () => _changePrimaryColor(primary)
           );
         },
       ),
+    );
+  }
+}
+
+class ThemeModePicker extends StatelessWidget {
+  const ThemeModePicker({Key? key}) : super(key: key);
+
+  final themeModes = ThemeMode.values;
+
+  @override
+  Widget build(BuildContext context) {
+    final n = themeModes.length;
+    final l10n = context.l10n;
+    final selectedThemeMode = context.watch<ThemeCubit>().state;
+    final theme = Theme.of(context);
+
+    void _setTheme(ThemeMode themeMode) {
+      context.read<ThemeCubit>().setTheme(themeMode);
+    }
+
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: n,
+      itemBuilder: (_, index) {
+        final themeMode = themeModes[index];
+        return TappableTile(
+          key: Key('ThemeModeTile_${themeMode.index}'),
+          onTap: () => _setTheme(themeMode),
+          isLast: index == n - 1,
+          selected: themeMode == selectedThemeMode,
+          child: Text(
+            themeMode.getDescription(l10n)!,
+            style: theme.textTheme.bodyText1
+          ),
+        );
+      }
     );
   }
 }

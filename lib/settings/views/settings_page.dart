@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
@@ -21,6 +22,8 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
 
     void _navigateToThemePage() {
       context.read<SettingsScreenCubit>().setScreen(SettingsScreen.theme);
@@ -28,16 +31,21 @@ class SettingsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const ScaffoldTitle(title: 'Settings'),
+        title: ScaffoldTitle(title: l10n.settingsPageSettingsText),
         centerTitle: true,
       ),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
-          ListTile(
+          TappableTile(
             key: const Key('SettingsView_NavigateToThemePage'),
             onTap: _navigateToThemePage,
-            trailing: const Icon(Icons.arrow_forward_ios),
-            title: const Text('Appearance'),
+            isLast: true,
+            navigable: true,
+            child: Text(
+              l10n.appearancePageAppearanceText,
+              style: theme.textTheme.subtitle1
+            ),
           )
         ],
       )
