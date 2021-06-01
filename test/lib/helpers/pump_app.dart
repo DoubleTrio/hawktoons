@@ -9,7 +9,6 @@ import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
-import 'package:hawktoons/settings/models/settings_screen.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
@@ -33,6 +32,7 @@ extension PumpApp on WidgetTester {
     ImageTypeCubit? imageTypeCubit,
     OnboardingPageCubit? onboardingPageCubit,
     OnboardingSeenCubit? onboardingSeenCubit,
+    PrimaryColorCubit? primaryColorCubit,
     ScrollHeaderCubit? scrollHeaderCubit,
     SelectCartoonCubit? selectCartoonCubit,
     SettingsScreenCubit? settingsScreenCubit,
@@ -61,8 +61,10 @@ extension PumpApp on WidgetTester {
     registerFallbackValue<VisibleOnboardingPage>(
       VisibleOnboardingPage.latestCartoon
     );
+    registerFallbackValue<PrimaryColor>(PrimaryColor.purple);
 
     return mockNetworkImagesFor(() async {
+      final primary = PrimaryColor.purple;
       return pumpWidget(
         MultiRepositoryProvider(
           providers: [
@@ -88,13 +90,16 @@ extension PumpApp on WidgetTester {
                 value: imageTypeCubit ?? MockImageTypeCubit()
               ),
               BlocProvider.value(
-                  value: latestCartoonBloc ?? MockLatestCartoonBloc()
+                value: latestCartoonBloc ?? MockLatestCartoonBloc()
               ),
               BlocProvider.value(
                 value: onboardingPageCubit ?? MockOnboardingPageCubit()
               ),
               BlocProvider.value(
                 value: onboardingSeenCubit ?? MockOnboardingSeenCubit()
+              ),
+              BlocProvider.value(
+                value: primaryColorCubit ?? MockPrimaryColorCubit()
               ),
               BlocProvider.value(value: tabBloc ?? MockTabBloc()),
               BlocProvider.value(value: tagCubit ?? MockTagCubit()),
@@ -116,8 +121,8 @@ extension PumpApp on WidgetTester {
               BlocProvider.value(value: themeCubit ?? MockThemeCubit()),
             ],
             child: MaterialApp(
-              theme: lightTheme,
-              darkTheme: darkTheme,
+              theme: createLightTheme(primary),
+              darkTheme: createDarkTheme(primary),
               themeMode: mode ?? ThemeMode.light,
               localizationsDelegates: [
                 AppLocalizations.delegate,

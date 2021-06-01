@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hawktoons/app_drawer/view/drawer_stack_page.dart';
+import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
-import 'package:hawktoons/auth/flow/auth_flow.dart';
-import 'package:hawktoons/auth/view/login_page.dart';
-import 'package:hawktoons/theme/cubit/theme_cubit.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

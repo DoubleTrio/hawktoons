@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/settings/cubit/settings_screen_cubit.dart';
-import 'package:hawktoons/theme/cubit/theme_cubit.dart';
+import 'package:hawktoons/settings/settings.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
 class ThemePage extends Page<void> {
@@ -54,12 +55,55 @@ class ThemeView extends StatelessWidget {
           hint: 'Tap to navigate back to the main settings page',
         ),
       ),
-      body: Center(
-        child: TextButton(
-          key: const Key('ThemePage_ChangeThemeButton'),
-          onPressed: _changeTheme,
-          child: const Text('Tap to change the theme')
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            const CustomTile(
+              child: PrimaryColorPicker()
+            ),
+            TextButton(
+              key: const Key('ThemePage_ChangeThemeButton'),
+              onPressed: _changeTheme,
+              child: const Text('Tap to change the theme')
+            ),
+          ],
         )
+      ),
+    );
+  }
+}
+
+class PrimaryColorPicker extends StatelessWidget {
+  const PrimaryColorPicker({Key? key}) : super(key: key);
+
+  final primaryColors = PrimaryColor.values;
+
+  @override
+  Widget build(BuildContext context) {
+    final themeMode = context.watch<ThemeCubit>().state;
+    final currentPrimaryColor = context.watch<PrimaryColorCubit>().state;
+    void _changePrimaryColor(PrimaryColor primary) {
+      context.read<PrimaryColorCubit>().setColor(primary);
+    }
+
+    return SizedBox(
+      height: 90,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: primaryColors.length,
+        itemBuilder: (_, index) {
+          final primary = primaryColors[index];
+          return PrimaryColorItem(
+            key: Key('PrimaryColorItem_${primary.colorName}'),
+            color: themeMode == ThemeMode.light
+              ? primary.lightColor!
+              : primary.darkColor!,
+            colorName: primary.colorName!,
+            selected: primary == currentPrimaryColor,
+            onPrimaryChange: () => _changePrimaryColor(primary)
+          );
+        },
       ),
     );
   }

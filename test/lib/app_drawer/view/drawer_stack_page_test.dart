@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
-import 'package:hawktoons/app_drawer/view/drawer_stack_page.dart';
-import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/tab/tab.dart';
-import 'package:hawktoons/theme/cubit/theme_cubit.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';

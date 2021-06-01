@@ -4,7 +4,7 @@ import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
-import 'package:hawktoons/theme/cubit/theme_cubit.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';

@@ -15,25 +15,28 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final _firebaseUserRepository = FirebaseUserRepository();
     final _firebaseCartoonRepository = FirestorePoliticalCartoonRepository();
-    final _onboardingSeenCubit = OnboardingSeenCubit();
-    final _themeCubit = ThemeCubit();
     final _authBloc = AuthenticationBloc(
       userRepository: _firebaseUserRepository
     );
+    final _primaryColorCubit = PrimaryColorCubit();
+    final _onboardingSeenCubit = OnboardingSeenCubit();
+    final _themeCubit = ThemeCubit();
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(
-          value: _firebaseUserRepository,
+          value: _firebaseCartoonRepository,
         ),
         RepositoryProvider.value(
-          value: _firebaseCartoonRepository,
-        )
+          value: _firebaseUserRepository,
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider.value(value: _authBloc),
+          BlocProvider.value(value: _primaryColorCubit),
           BlocProvider.value(value: _onboardingSeenCubit),
           BlocProvider.value(value: _themeCubit),
-          BlocProvider.value(value: _authBloc)
         ],
         child: const AppView(),
       ),
@@ -47,12 +50,13 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = context.watch<ThemeCubit>().state;
+    final primary = context.watch<PrimaryColorCubit>().state;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
-      theme: lightTheme,
-      darkTheme: darkTheme,
+      theme: createLightTheme(primary),
+      darkTheme: createDarkTheme(primary),
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

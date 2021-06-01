@@ -18,6 +18,13 @@ class ThemeConstants {
       ),
     ),
   );
+  static PageTransitionsTheme pageTransitionsTheme = const PageTransitionsTheme(
+    builders: {
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+    }
+  );
+
   static TextTheme textTheme = const TextTheme(
     headline1: TextStyle(
       fontSize: 60,

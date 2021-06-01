@@ -1,3 +1,4 @@
 export 'constants.dart';
-export 'cubit/theme_cubit.dart';
+export 'cubits/cubits.dart';
+export 'models/models.dart';
 export 'themes/themes.dart';

@@ -52,6 +52,9 @@ class MockLatestCartoonBloc
 class MockImageTypeCubit extends MockCubit<ImageType>
   implements ImageTypeCubit {}
 
+class MockPrimaryColorCubit extends MockCubit<PrimaryColor>
+  implements PrimaryColorCubit {}
+
 class MockOnboardingPageCubit extends MockCubit<VisibleOnboardingPage>
   implements OnboardingPageCubit {}
 
