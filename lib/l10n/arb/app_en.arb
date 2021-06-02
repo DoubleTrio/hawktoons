@@ -300,6 +300,18 @@
     "@themePageDarkThemeText": {
         "description": "Text that appears on the theme page for selecting the dark theme"
     },
+    "themePagePrimaryColorHeaderText": "PRIMARY COLOR",
+    "@themePagePrimaryColorHeaderText": {
+        "description": "Header text that displays primary color"
+    },
+    "themePageThemeModeHeaderText": "THEME MODE",
+    "@themePageThemeModeHeaderText": {
+        "description": "Header text that displays theme mode"
+    },
+    "themePageImageViewTypeHeaderText": "IMAGE VIEW TYPE",
+    "@themePageImageViewTypeHeaderText": {
+        "description": "Header text that displays image view type"
+    },
     "purple": "Purple",
     "@purple": {
         "description": "Text that displays purple"
@@ -331,6 +343,18 @@
     "navy": "Navy",
     "@navy": {
         "description": "Text that displays navy"
+    },
+    "staggered": "Staggered",
+    "@staggered": {
+        "description": "Text that displays staggered"
+    },
+    "card": "Card",
+    "@card": {
+        "description": "Text that displays card"
+    },
+    "compact": "Compact",
+    "@compact": {
+        "description": "Text that displays compact"
     },
     "oneWeek": "Last week",
     "@oneWeek": {

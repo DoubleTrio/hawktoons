@@ -45,6 +45,9 @@ class MockAuthenticationBloc
   extends MockBloc<AuthenticationEvent, AuthenticationState>
   implements AuthenticationBloc {}
 
+class MockCartoonViewCubit extends MockCubit<CartoonView>
+  implements CartoonViewCubit {}
+
 class MockLatestCartoonBloc
   extends MockBloc<LatestCartoonEvent, LatestCartoonState>
   implements LatestCartoonBloc {}

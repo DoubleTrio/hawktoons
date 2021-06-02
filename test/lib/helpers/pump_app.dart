@@ -28,6 +28,7 @@ extension PumpApp on WidgetTester {
     AllCartoonsBloc? allCartoonsBloc,
     AppDrawerCubit? appDrawerCubit,
     AuthenticationBloc? authenticationBloc,
+    CartoonViewCubit? cartoonViewCubit,
     LatestCartoonBloc? latestCartoonBloc,
     ImageTypeCubit? imageTypeCubit,
     OnboardingPageCubit? onboardingPageCubit,
@@ -56,6 +57,7 @@ extension PumpApp on WidgetTester {
     registerFallbackValue<Tag>(Tag.all);
     registerFallbackValue<SettingsScreen>(SettingsScreen.main);
     registerFallbackValue<SortByMode>(SortByMode.latestPosted);
+    registerFallbackValue<CartoonView>(CartoonView.card);
     registerFallbackValue<ImageType>(ImageType.all);
     registerFallbackValue<ThemeMode>(ThemeMode.light);
     registerFallbackValue<VisibleOnboardingPage>(
@@ -85,6 +87,9 @@ extension PumpApp on WidgetTester {
               ),
               BlocProvider.value(
                 value: authenticationBloc ?? MockAuthenticationBloc()
+              ),
+              BlocProvider.value(
+                value: cartoonViewCubit ?? MockCartoonViewCubit()
               ),
               BlocProvider.value(
                 value: imageTypeCubit ?? MockImageTypeCubit()

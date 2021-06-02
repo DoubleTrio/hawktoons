@@ -57,6 +57,19 @@ void main() {
       expect(find.byIcon(Icons.arrow_forward_ios), findsNothing);
     });
 
+    testWidgets('renders leading widget', (tester) async {
+      await tester.pumpApp(
+        TappableTile(
+          onTap: () {},
+          isLast: false,
+          navigable: false,
+          leading: const Text('Leading Widget'),
+          child: const Text('Testing'),
+        ),
+      );
+      expect(find.text('Leading Widget'), findsOneWidget);
+    });
+
     testWidgets('renders bottom border when last tile', (tester) async {
       await tester.pumpApp(
         TappableTile(

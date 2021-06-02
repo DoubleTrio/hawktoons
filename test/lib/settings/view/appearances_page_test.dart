@@ -9,21 +9,25 @@ import '../../mocks.dart';
 
 void main() {
   group('ThemePage', () {
+    late CartoonViewCubit cartoonViewCubit;
     late PrimaryColorCubit primaryColorCubit;
     late SettingsScreenCubit settingsScreenCubit;
     late ThemeCubit themeCubit;
 
     setUpAll(() {
+      registerFallbackValue<CartoonView>(CartoonView.staggered);
       registerFallbackValue<PrimaryColor>(PrimaryColor.red);
       registerFallbackValue<SettingsScreen>(SettingsScreen.main);
       registerFallbackValue<ThemeMode>(ThemeMode.light);
     });
 
     setUp(() {
+      cartoonViewCubit = MockCartoonViewCubit();
       primaryColorCubit = MockPrimaryColorCubit();
       settingsScreenCubit = MockSettingsScreenCubit();
       themeCubit = MockThemeCubit();
 
+      when(() => cartoonViewCubit.state).thenReturn(CartoonView.staggered);
       when(() => themeCubit.state).thenReturn(ThemeMode.light);
       when(() => primaryColorCubit.state).thenReturn(PrimaryColor.purple);
     });
@@ -32,6 +36,7 @@ void main() {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
           const ThemeView(),
+          cartoonViewCubit: cartoonViewCubit,
           primaryColorCubit: primaryColorCubit,
           themeCubit: themeCubit,
         );
@@ -43,6 +48,7 @@ void main() {
         await tester.pumpApp(
           const ThemeView(),
           mode: ThemeMode.dark,
+          cartoonViewCubit: cartoonViewCubit,
           primaryColorCubit: primaryColorCubit,
           themeCubit: themeCubit,
         );
@@ -54,27 +60,13 @@ void main() {
     testWidgets('can navigate back to main settings page', (tester) async {
       await tester.pumpApp(
         const ThemeView(),
-        settingsScreenCubit: settingsScreenCubit,
+        cartoonViewCubit: cartoonViewCubit,
         primaryColorCubit: primaryColorCubit,
+        settingsScreenCubit: settingsScreenCubit,
         themeCubit: themeCubit,
       );
       await tester.tap(find.byIcon(Icons.arrow_back));
       verify(settingsScreenCubit.deselectScreen).called(1);
-    });
-
-    group('ThemeModePicker', () {
-      const themeMode = ThemeMode.dark;
-      final themeModeTileKey = Key('ThemeModeTile_${themeMode.index}');
-      testWidgets('can change theme mode '
-        'when dark mode tile is tapped', (tester) async {
-        await tester.pumpApp(
-          const ThemeView(),
-          primaryColorCubit: primaryColorCubit,
-          themeCubit: themeCubit,
-        );
-        await tester.tap(find.byKey(themeModeTileKey));
-        verify(() => themeCubit.setTheme(themeMode)).called(1);
-      });
     });
 
     group('PrimaryColorPicker', () {
@@ -84,6 +76,7 @@ void main() {
         'when PrimaryItemColor is tapped', (tester) async {
         await tester.pumpApp(
           const ThemeView(),
+          cartoonViewCubit: cartoonViewCubit,
           primaryColorCubit: primaryColorCubit,
           themeCubit: themeCubit,
         );
@@ -94,6 +87,7 @@ void main() {
       testWidgets('renders light mode in color picker', (tester) async {
         await tester.pumpApp(
           const ThemeView(),
+          cartoonViewCubit: cartoonViewCubit,
           primaryColorCubit: primaryColorCubit,
           themeCubit: themeCubit,
         );
@@ -108,6 +102,7 @@ void main() {
         when(() => themeCubit.state).thenReturn(ThemeMode.dark);
         await tester.pumpApp(
           const ThemeView(),
+          cartoonViewCubit: cartoonViewCubit,
           primaryColorCubit: primaryColorCubit,
           themeCubit: themeCubit,
         );
@@ -116,6 +111,22 @@ void main() {
           find.byKey(primaryColorItemKey)
         ) as PrimaryColorItem;
         expect(widget.color, const Color(0xFFFFC3A7));
+      });
+    });
+
+    group('CartoonViewPicker', () {
+      const cartoonView = CartoonView.compact;
+      final cartoonViewTileKey = Key('CartoonViewTile_${cartoonView.index}');
+      testWidgets('can change theme mode '
+          'when dark mode tile is tapped', (tester) async {
+        await tester.pumpApp(
+          const ThemeView(),
+          cartoonViewCubit: cartoonViewCubit,
+          primaryColorCubit: primaryColorCubit,
+          themeCubit: themeCubit,
+        );
+        await tester.tap(find.byKey(cartoonViewTileKey));
+        verify(() => cartoonViewCubit.setCartoonView(cartoonView)).called(1);
       });
     });
   });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/widgets/widgets.dart';
 
 class CartoonSection extends StatelessWidget {
   const CartoonSection({Key? key, required this.title, required this.body})
@@ -9,24 +10,13 @@ class CartoonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Container(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 24),
-          Semantics(
-            header: true,
-            child: Text(
-              title,
-              style: theme.textTheme.bodyText1!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onBackground,
-                letterSpacing: 1.05
-              ),
-            ),
-          ),
+          SectionHeader(header: title),
           const SizedBox(height: 18),
           body,
           const SizedBox(height: 12),

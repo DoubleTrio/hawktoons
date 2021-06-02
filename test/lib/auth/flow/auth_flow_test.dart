@@ -11,6 +11,7 @@ import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
 void main() {
+  initHydratedBloc();
   group('AuthFlow', () {
     late FirestorePoliticalCartoonRepository cartoonRepository;
     late AuthenticationBloc authenticationBloc;

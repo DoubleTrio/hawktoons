@@ -7,6 +7,7 @@ import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
+import 'package:hawktoons/theme/cubits/cartoon_view_cubit.dart';
 import 'package:hawktoons/utils/constants.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -21,9 +22,10 @@ class DrawerStackPage extends Page<void> {
         cartoonRepository: _firebaseCartoonRepo
     );
     final _appDrawerCubit = AppDrawerCubit();
+    final _cartoonViewCubit = CartoonViewCubit();
     final _imageTypeCubit = ImageTypeCubit();
     final _latestCartoonBloc = LatestCartoonBloc(
-        cartoonRepository: _firebaseCartoonRepo
+      cartoonRepository: _firebaseCartoonRepo
     );
 
     final _tabBloc = TabBloc();
@@ -52,6 +54,7 @@ class DrawerStackPage extends Page<void> {
             ..add(LoadCartoons(filters))
           ),
           BlocProvider.value(value: _appDrawerCubit),
+          BlocProvider.value(value: _cartoonViewCubit),
           BlocProvider.value(value: _latestCartoonBloc
             ..add(const LoadLatestCartoon())
           ),

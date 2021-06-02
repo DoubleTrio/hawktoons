@@ -7,6 +7,7 @@ class TappableTile extends StatelessWidget {
     required this.child,
     required this.onTap,
     required this.isLast,
+    this.leading,
     this.selected = false,
     this.navigable = false,
   }): super(key: key);
@@ -14,6 +15,7 @@ class TappableTile extends StatelessWidget {
   final Widget child;
   final VoidCallback onTap;
   final bool isLast;
+  final Widget? leading;
   final bool selected;
   final bool navigable;
 
@@ -47,7 +49,16 @@ class TappableTile extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3),
-                  child: child
+                  child: Row(
+                    children: [
+                      if (leading != null)
+                        ...[
+                          leading!,
+                          SizedBox(width: ThemeConstants.mPadding)
+                        ],
+                      child,
+                    ],
+                  )
                 ),
                 if (selected) const Icon(Icons.check),
                 if (navigable) Icon(

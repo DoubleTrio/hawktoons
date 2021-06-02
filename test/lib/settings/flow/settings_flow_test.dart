@@ -9,21 +9,25 @@ import '../../mocks.dart';
 
 void main() {
   group('SettingsFlow', () {
+    late CartoonViewCubit cartoonViewCubit;
     late PrimaryColorCubit primaryColorCubit;
     late SettingsScreenCubit settingsScreenCubit;
     late ThemeCubit themeCubit;
 
     setUpAll(() {
+      registerFallbackValue<CartoonView>(CartoonView.staggered);
       registerFallbackValue<PrimaryColor>(PrimaryColor.red);
       registerFallbackValue<SettingsScreen>(SettingsScreen.main);
       registerFallbackValue<ThemeMode>(ThemeMode.light);
     });
 
     setUp(() {
+      cartoonViewCubit = MockCartoonViewCubit();
       primaryColorCubit = MockPrimaryColorCubit();
       settingsScreenCubit = MockSettingsScreenCubit();
       themeCubit = MockThemeCubit();
 
+      when(() => cartoonViewCubit.state).thenReturn(CartoonView.staggered);
       when(() => themeCubit.state).thenReturn(ThemeMode.light);
       when(() => primaryColorCubit.state).thenReturn(PrimaryColor.purple);
     });
@@ -46,6 +50,7 @@ void main() {
 
         await tester.pumpApp(
           const SettingsFlowView(),
+          cartoonViewCubit: cartoonViewCubit,
           primaryColorCubit: primaryColorCubit,
           settingsScreenCubit: settingsScreenCubit,
           themeCubit: themeCubit,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/l10n/l10n.dart';
-import 'package:hawktoons/settings/cubit/settings_screen_cubit.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/widgets/widgets.dart';
@@ -55,13 +54,20 @@ class ThemeView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 16),
+            PaddedSectionHeader(header: l10n.themePagePrimaryColorHeaderText),
             const CustomTile(
               child: PrimaryColorPicker()
             ),
             const SizedBox(height: 16),
+            PaddedSectionHeader(header: l10n.themePageThemeModeHeaderText),
             const ThemeModePicker(),
+            const SizedBox(height: 16),
+            PaddedSectionHeader(header: l10n.themePageImageViewTypeHeaderText),
+            const CartoonViewPicker(),
           ],
         )
       ),
@@ -136,6 +142,46 @@ class ThemeModePicker extends StatelessWidget {
           selected: themeMode == selectedThemeMode,
           child: Text(
             themeMode.getDescription(l10n)!,
+            style: theme.textTheme.bodyText1
+          ),
+        );
+      }
+    );
+  }
+}
+
+class CartoonViewPicker extends StatelessWidget {
+  const CartoonViewPicker({Key? key}) : super(key: key);
+
+  final cartoonViews = CartoonView.values;
+
+  @override
+  Widget build(BuildContext context) {
+    final n = cartoonViews.length;
+    final l10n = context.l10n;
+    final selectedCartoonView = context.watch<CartoonViewCubit>().state;
+    final theme = Theme.of(context);
+
+    void _setCartoonView(CartoonView view) {
+      context.read<CartoonViewCubit>().setCartoonView(view);
+    }
+
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: n,
+      itemBuilder: (_, index) {
+        final cartoonView = cartoonViews[index];
+        return TappableTile(
+          key: Key('CartoonViewTile_${cartoonView.index}'),
+          onTap: () => _setCartoonView(cartoonView),
+          leading: cartoonView.getIcon(
+            theme.colorScheme.onBackground.withOpacity(0.5)
+          ),
+          isLast: index == n - 1,
+          selected: cartoonView == selectedCartoonView,
+          child: Text(
+            cartoonView.getViewType(l10n)!,
             style: theme.textTheme.bodyText1
           ),
         );
