@@ -75,8 +75,7 @@ void main() {
       testWidgets('can change color primary '
         'when PrimaryItemColor is tapped', (tester) async {
         await tester.pumpApp(
-          const ThemeView(),
-          cartoonViewCubit: cartoonViewCubit,
+          const PrimaryColorPicker(),
           primaryColorCubit: primaryColorCubit,
           themeCubit: themeCubit,
         );
@@ -86,8 +85,7 @@ void main() {
 
       testWidgets('renders light mode in color picker', (tester) async {
         await tester.pumpApp(
-          const ThemeView(),
-          cartoonViewCubit: cartoonViewCubit,
+          const PrimaryColorPicker(),
           primaryColorCubit: primaryColorCubit,
           themeCubit: themeCubit,
         );
@@ -101,8 +99,7 @@ void main() {
       testWidgets('renders dark mode color in color picker', (tester) async {
         when(() => themeCubit.state).thenReturn(ThemeMode.dark);
         await tester.pumpApp(
-          const ThemeView(),
-          cartoonViewCubit: cartoonViewCubit,
+          const PrimaryColorPicker(),
           primaryColorCubit: primaryColorCubit,
           themeCubit: themeCubit,
         );
@@ -114,16 +111,28 @@ void main() {
       });
     });
 
+    group('ThemeModePicker', () {
+      const themeMode = ThemeMode.dark;
+      final themeModeTileKey = Key('ThemeModeTile_${themeMode.index}');
+      testWidgets('can change theme mode '
+          'when dark mode tile is tapped', (tester) async {
+        await tester.pumpApp(
+          const ThemeModePicker(),
+          themeCubit: themeCubit,
+        );
+        await tester.tap(find.byKey(themeModeTileKey));
+        verify(() => themeCubit.setTheme(themeMode)).called(1);
+      });
+    });
+
     group('CartoonViewPicker', () {
       const cartoonView = CartoonView.compact;
       final cartoonViewTileKey = Key('CartoonViewTile_${cartoonView.index}');
       testWidgets('can change theme mode '
-          'when dark mode tile is tapped', (tester) async {
+        'when dark mode tile is tapped', (tester) async {
         await tester.pumpApp(
-          const ThemeView(),
+          const CartoonViewPicker(),
           cartoonViewCubit: cartoonViewCubit,
-          primaryColorCubit: primaryColorCubit,
-          themeCubit: themeCubit,
         );
         await tester.tap(find.byKey(cartoonViewTileKey));
         verify(() => cartoonViewCubit.setCartoonView(cartoonView)).called(1);
