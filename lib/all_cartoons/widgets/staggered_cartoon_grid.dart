@@ -182,18 +182,24 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                     }
 
                     final cartoon = state.cartoons[index - 1];
-                    if (view == CartoonView.staggered) {
-                      return StaggeredCartoonCard(
-                        key: Key('StaggeredCartoonCard_${cartoon.id}'),
-                        cartoon: cartoon,
-                        onTap: () => _selectCartoon(cartoon),
-                      );
-                    } else {
-                      return CartoonCard(
-                        key: Key('CartoonCard_${cartoon.id}'),
-                        cartoon: cartoon,
-                        onTap: () => _selectCartoon(cartoon),
-                      );
+
+                    void onTap() {
+                      _selectCartoon(cartoon);
+                    }
+
+                    switch(state.view) {
+                      case CartoonView.staggered:
+                        return StaggeredCartoonCard(
+                          key: Key('StaggeredCartoonCard_${cartoon.id}'),
+                          cartoon: cartoon,
+                          onTap: onTap,
+                        );
+                      case CartoonView.card:
+                        return CartoonCard(
+                          key: Key('CartoonCard_${cartoon.id}'),
+                          cartoon: cartoon,
+                          onTap: onTap,
+                        );
                     }
                   },
                   staggeredTileBuilder: (index) {
