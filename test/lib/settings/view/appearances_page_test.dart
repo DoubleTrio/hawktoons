@@ -126,7 +126,7 @@ void main() {
     });
 
     group('CartoonViewPicker', () {
-      const cartoonView = CartoonView.compact;
+      const cartoonView = CartoonView.card;
       final cartoonViewTileKey = Key('CartoonViewTile_${cartoonView.index}');
       testWidgets('can change theme mode '
         'when dark mode tile is tapped', (tester) async {

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';
@@ -68,7 +69,7 @@ void main() {
         selectCartoonCubit: selectCartoonCubit,
         scrollHeaderCubit: scrollHeaderCubit,
       );
-      await tester.tap(find.byType(CartoonCard).first);
+      await tester.tap(find.byType(StaggeredCartoonCard).first);
       verify(() => selectCartoonCubit.selectCartoon(mockPoliticalCartoon))
         .called(1);
     });

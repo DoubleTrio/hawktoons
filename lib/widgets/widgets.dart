@@ -1,5 +1,7 @@
 export 'app_scroll_bar.dart';
+export 'cached_image.dart';
 export 'cartoon_body/widgets.dart';
+export 'cartoon_view/cartoon_view.dart';
 export 'custom_icon_button.dart';
 export 'elevated_icon_button.dart';
 export 'loading_indicator.dart';

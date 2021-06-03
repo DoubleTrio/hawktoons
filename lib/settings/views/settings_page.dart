@@ -40,6 +40,10 @@ class SettingsView extends StatelessWidget {
           TappableTile(
             key: const Key('SettingsView_NavigateToThemePage'),
             onTap: _navigateToThemePage,
+            leading: Icon(
+              Icons.wb_sunny_outlined,
+              color: theme.colorScheme.onBackground,
+            ),
             isLast: true,
             navigable: true,
             child: Text(

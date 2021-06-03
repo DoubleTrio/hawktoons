@@ -2,22 +2,33 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
-  AllCartoonsBloc({required this.cartoonRepository})
-    : super(const AllCartoonsState.initial());
+  AllCartoonsBloc({
+    required this.cartoonRepository,
+    required this.cartoonViewCubit,
+  }) :
+    super(const AllCartoonsState.initial()) {
+    _viewSubscription = cartoonViewCubit.stream.listen((view) {
+      add(UpdateCartoonView(view));
+    });
+  }
 
   final int limit = 15;
   final FirestorePoliticalCartoonRepository cartoonRepository;
+  final CartoonViewCubit cartoonViewCubit;
+  late final StreamSubscription _viewSubscription;
 
   @override
   Stream<Transition<AllCartoonsEvent, AllCartoonsState>> transformEvents(
       Stream<AllCartoonsEvent> events,
       TransitionFunction<AllCartoonsEvent, AllCartoonsState> transitionFn) {
     final nonDebounceStream =
-      events.where((event) => event is LoadCartoons);
+      events.where((event) =>
+        event is LoadCartoons || event is UpdateCartoonView);
     final debounceStream = events
       .where((event) => event is LoadMoreCartoons || event is RefreshCartoons)
       .debounceTime(const Duration(milliseconds: 200));
@@ -36,6 +47,8 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
       yield* _mapLoadMoreCartoonsEventToState();
     } else if (event is RefreshCartoons) {
       yield* _mapRefreshCartoonsToState();
+    } else if (event is UpdateCartoonView) {
+      yield* _mapUpdateCartoonViewToState(event.view);
     }
   }
 
@@ -61,6 +74,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
         cartoons: cartoons,
         filters: event.filters,
         hasReachedMax: limit > cartoons.length,
+        view: state.view,
       );
     } on Exception {
       yield state.copyWith(
@@ -110,8 +124,17 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     }
   }
 
+  Stream<AllCartoonsState> _mapUpdateCartoonViewToState(
+      CartoonView view,
+    ) async* {
+    yield state.copyWith(
+      view: view,
+    );
+  }
+
   @override
   Future<void> close() {
+    _viewSubscription.cancel();
     return super.close();
   }
 }

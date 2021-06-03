@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
+import 'package:hawktoons/theme/models/cartoon_view.dart';
 
 abstract class AllCartoonsEvent extends Equatable {
   const AllCartoonsEvent();
@@ -35,4 +36,16 @@ class RefreshCartoons extends AllCartoonsEvent {
 
   @override
   String toString() => 'RefreshCartoons';
+}
+
+class UpdateCartoonView extends AllCartoonsEvent {
+  const UpdateCartoonView(this.view);
+
+  final CartoonView view;
+
+  @override
+  List<Object> get props => [view];
+
+  @override
+  String toString() => 'UpdateCartoonView';
 }

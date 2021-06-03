@@ -22,8 +22,8 @@ void main() {
       build: () => CartoonViewCubit(),
       act: (cubit) => cubit
         ..setCartoonView(CartoonView.card)
-        ..setCartoonView(CartoonView.compact),
-      expect: () => [CartoonView.card, CartoonView.compact],
+        ..setCartoonView(CartoonView.staggered),
+      expect: () => [CartoonView.card, CartoonView.staggered],
     );
   });
 }

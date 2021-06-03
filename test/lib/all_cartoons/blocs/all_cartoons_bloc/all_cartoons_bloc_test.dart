@@ -1,6 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
+import 'package:hawktoons/theme/cubits/cartoon_view_cubit.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -11,15 +13,26 @@ void main() {
 
   group('AllCartoonsBloc', () {
     late FirestorePoliticalCartoonRepository cartoonRepository;
+    late CartoonViewCubit cartoonViewCubit;
+
+    setUpAll(() {
+      registerFallbackValue<CartoonView>(CartoonView.staggered);
+    });
 
     setUp(() {
       cartoonRepository = MockCartoonRepository();
+      cartoonViewCubit = MockCartoonViewCubit();
     });
 
     test('initial state AllCartoonsState.initial', () {
       final state = const AllCartoonsState.initial();
-      expect(AllCartoonsBloc(cartoonRepository: cartoonRepository).state,
-          equals(state));
+      expect(
+        AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        ).state,
+        equals(state)
+      );
     });
 
     blocTest<AllCartoonsBloc, AllCartoonsState>(
@@ -31,7 +44,10 @@ void main() {
             tag: mockFilter.tag,
             limit: 15,
           )).thenAnswer((_) async => mockCartoons);
-          return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+          return AllCartoonsBloc(
+            cartoonRepository: cartoonRepository,
+            cartoonViewCubit: cartoonViewCubit,
+          );
         },
         // wait: ,
         act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
@@ -40,7 +56,8 @@ void main() {
           AllCartoonsState.loadSuccess(
             cartoons: mockCartoons,
             filters: mockFilter,
-            hasReachedMax: true
+            hasReachedMax: true,
+            view: CartoonView.staggered,
           )
         ],
         verify: (_) =>
@@ -61,7 +78,10 @@ void main() {
           tag: mockFilter.tag,
           limit: 15,
         )).thenAnswer((_) async => mockCartoons);
-        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
       },
       // wait: ,
       act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
@@ -86,7 +106,10 @@ void main() {
           tag: mockFilter.tag,
           limit: 15,
         )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
-        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
       },
       // wait: ,
       act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
@@ -116,7 +139,10 @@ void main() {
           tag: mockFilter.tag,
           limit: 15,
         )).thenThrow(Exception('Error'));
-        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
       },
       act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
       expect: () => [
@@ -143,7 +169,10 @@ void main() {
           tag: mockFilter.tag,
           limit: 15,
         )).thenThrow(Exception('Error'));
-        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
       },
       wait: const Duration(milliseconds: 300),
       act: (bloc) => bloc.add(const LoadMoreCartoons()),
@@ -169,7 +198,10 @@ void main() {
           tag: mockFilter.tag,
           limit: 15,
         )).thenAnswer((_) async => mockCartoons);
-        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
       },
       wait: const Duration(milliseconds: 300),
       act: (bloc) => bloc.add(const LoadMoreCartoons()),
@@ -199,7 +231,10 @@ void main() {
           tag: mockFilter.tag,
           limit: 15,
         )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
-        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
       },
       wait: const Duration(milliseconds: 300),
       act: (bloc) => bloc.add(const LoadMoreCartoons()),
@@ -230,7 +265,10 @@ void main() {
           tag: mockFilter.tag,
           limit: 15,
         )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
-        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
       },
       wait: const Duration(milliseconds: 300),
       seed: () =>
@@ -263,7 +301,10 @@ void main() {
           tag: mockFilter.tag,
           limit: 15,
         )).thenThrow(Exception('Error'));
-        return AllCartoonsBloc(cartoonRepository: cartoonRepository);
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
       },
       wait: const Duration(milliseconds: 300),
       seed: () =>
@@ -282,6 +323,24 @@ void main() {
         tag: mockFilter.tag,
         limit: 15,
       )).called(1),
+    );
+
+    blocTest<AllCartoonsBloc, AllCartoonsState>(
+      'listens to cartoon view cubit and changes view key',
+      build: () {
+        whenListen(
+          cartoonViewCubit,
+          Stream<CartoonView>.value(CartoonView.card)
+        );
+        return AllCartoonsBloc(
+          cartoonRepository: cartoonRepository,
+          cartoonViewCubit: cartoonViewCubit,
+        );
+      },
+      expect: () => [
+        const AllCartoonsState.initial()
+          .copyWith(view: CartoonView.card),
+      ],
     );
   });
 }

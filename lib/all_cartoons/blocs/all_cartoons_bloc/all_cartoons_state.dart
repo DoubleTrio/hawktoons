@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/models.dart';
+import 'package:hawktoons/theme/models/cartoon_view.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class AllCartoonsState extends Equatable {
@@ -9,6 +10,7 @@ class AllCartoonsState extends Equatable {
     required this.status,
     required this.hasReachedMax,
     required this.hasLoadedInitial,
+    required this.view,
   });
 
   const AllCartoonsState.initial({
@@ -17,18 +19,21 @@ class AllCartoonsState extends Equatable {
     this.status = CartoonStatus.initial,
     this.hasReachedMax = false,
     this.hasLoadedInitial = false,
+    this.view = CartoonView.staggered,
   });
 
   const AllCartoonsState.loadSuccess({
     required PoliticalCartoonList cartoons,
     required CartoonFilters filters,
-    required bool hasReachedMax
+    required bool hasReachedMax,
+    required CartoonView view,
   }) : this(
     cartoons: cartoons,
     filters: filters,
     status: CartoonStatus.success,
     hasReachedMax: hasReachedMax,
     hasLoadedInitial: true,
+    view: view,
   );
 
   final PoliticalCartoonList cartoons;
@@ -36,10 +41,17 @@ class AllCartoonsState extends Equatable {
   final CartoonStatus status;
   final bool hasReachedMax;
   final bool hasLoadedInitial;
+  final CartoonView view;
 
   @override
-  List<Object>
-    get props => [cartoons, filters, status, hasReachedMax, hasLoadedInitial];
+  List<Object> get props => [
+    cartoons,
+    filters,
+    status,
+    hasReachedMax,
+    hasLoadedInitial,
+    view
+  ];
 
   AllCartoonsState copyWith({
     PoliticalCartoonList? cartoons,
@@ -47,6 +59,7 @@ class AllCartoonsState extends Equatable {
     CartoonStatus? status,
     bool? hasReachedMax,
     bool? hasLoadedInitial,
+    CartoonView? view,
   }) {
     return AllCartoonsState(
       cartoons: cartoons ?? this.cartoons,
@@ -54,6 +67,7 @@ class AllCartoonsState extends Equatable {
       status: status ?? this.status,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       hasLoadedInitial: hasLoadedInitial ?? this.hasLoadedInitial,
+      view: view ?? this.view,
     );
   }
 
@@ -64,6 +78,7 @@ class AllCartoonsState extends Equatable {
       'filters: $filters, '
       'status: $status, '
       'hasReachedMax: $hasReachedMax, '
-      'hasLoadedInitial: $hasLoadedInitial '
+      'hasLoadedInitial: $hasLoadedInitial, '
+      'view: $view'
     '}';
 }

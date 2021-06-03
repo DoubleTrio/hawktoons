@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 import '../../../mocks.dart';
@@ -46,6 +47,19 @@ void main() {
         expect(
           RefreshCartoons().toString(),
           RefreshCartoons().toString(),
+        );
+      });
+    });
+
+    group('UpdateCartoonView', () {
+      test('supports value comparisons', () {
+        expect(
+          UpdateCartoonView(CartoonView.staggered),
+          UpdateCartoonView(CartoonView.staggered),
+        );
+        expect(
+          UpdateCartoonView(CartoonView.staggered).toString(),
+          UpdateCartoonView(CartoonView.staggered).toString(),
         );
       });
     });

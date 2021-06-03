@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/theme/constants.dart';
 import 'package:hawktoons/widgets/cartoon_body/widgets.dart';
+import 'package:hawktoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -35,21 +35,20 @@ class CartoonBody extends StatelessWidget {
               ),
               child: Semantics(
                 image: true,
-                child: CachedNetworkImage(
-                  imageUrl: cartoon.downloadUrl,
-                  progressIndicatorBuilder: (_, __, ___) =>
-                    Shimmer.fromColors(
-                      baseColor: theme.dividerColor,
-                      highlightColor: theme.backgroundColor,
-                      child: Container(
-                        width: double.infinity,
-                        height: maxImageHeight,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                        ),
+                child: CachedImage(
+                  url: cartoon.downloadUrl,
+                  loadingWidget:  Shimmer.fromColors(
+                    baseColor: theme.dividerColor,
+                    highlightColor: theme.backgroundColor,
+                    child: Container(
+                      width: double.infinity,
+                      height: maxImageHeight,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
                       ),
                     ),
-                ),
+                  ),
+                )
               ),
             ),
           ),

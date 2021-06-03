@@ -3,7 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
+
 import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
@@ -52,14 +55,32 @@ void main() {
         selectCartoonCubit: selectCartoonCubit,
       );
 
-      expect(find.byType(CartoonCard), findsNWidgets(3));
+      expect(find.byType(StaggeredCartoonCard), findsNWidgets(3));
 
       await tester.tap(
-        find.byType(CartoonCard).first,
+        find.byType(StaggeredCartoonCard).first,
       );
 
       verify(() => selectCartoonCubit.selectCartoon(mockPoliticalCartoon))
         .called(1);
+    });
+
+    testWidgets('renders political images as CartoonView.card', (tester) async {
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial().copyWith(
+          status: CartoonStatus.success,
+          cartoons: List.filled(1, mockPoliticalCartoon),
+          view: CartoonView.card,
+        ),
+      );
+
+      await tester.pumpApp(
+        const StaggeredCartoonGrid(),
+        allCartoonsBloc: allCartoonsBloc,
+        selectCartoonCubit: selectCartoonCubit,
+      );
+
+      expect(find.byType(CartoonCard), findsOneWidget);
     });
 
     testWidgets('display scroll header after scrolling', (tester) async {

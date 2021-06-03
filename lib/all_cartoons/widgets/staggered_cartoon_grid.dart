@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/l10n/l10n.dart';
+import 'package:hawktoons/theme/constants.dart';
+import 'package:hawktoons/theme/models/cartoon_view.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -116,7 +118,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
       onRefresh: _refresh,
       child: AppScrollBar(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
+          padding: EdgeInsets.symmetric(horizontal: ThemeConstants.sPadding),
           child: BlocConsumer<AllCartoonsBloc, AllCartoonsState>(
             listener: (context, state) {
               if (state.status == CartoonStatus.refreshSuccess) {
@@ -135,9 +137,12 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                 _restartCompleter();
               }
             },
-            buildWhen: (prev, curr) => prev.cartoons != curr.cartoons,
+            buildWhen: (prev, curr) =>
+              prev.cartoons != curr.cartoons ||
+              prev.view != curr.view,
             builder: (context, state) {
               final _itemCount = state.cartoons.length + 2;
+              final view = state.view;
               return Semantics(
                 label: l10n.allCartoonsPageScrollLabel,
                 hint: l10n.allCartoonsPageScrollHint,
@@ -151,16 +156,15 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                   crossAxisSpacing: 3.0,
                   itemCount: _itemCount,
                   itemBuilder: (context, index) {
-                    if (index == 0) {
+                    final isFirstItem = index == 0;
+                    final isLastItem = index == _itemCount - 1;
+                    if (isFirstItem) {
                       return Column(
                         children: [
                           if (_isLoadingInitial)
                             _buildInitialIndicator(),
-                          Semantics(
-                            excludeSemantics: true,
-                            child: PageHeader(
-                              header: l10n.allCartoonsPageHeaderText,
-                            ),
+                          PageHeader(
+                            header: l10n.allCartoonsPageHeaderText,
                           ),
 
                           if (_isLoadingInitialError)
@@ -168,7 +172,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                         ]
                       );
                     }
-                    if (index == _itemCount - 1) {
+                    if (isLastItem) {
                       if (_isLoadingMore) {
                         return const LoadingIndicator(
                           key: Key('StaggeredCartoonGrid_LoadingMoreIndicator')
@@ -178,16 +182,29 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
                     }
 
                     final cartoon = state.cartoons[index - 1];
-                    return CartoonCard(
-                      key: Key('CartoonCard_${cartoon.id}'),
-                      cartoon: cartoon,
-                      onTap: () => _selectCartoon(cartoon),
-                    );
+                    if (view == CartoonView.staggered) {
+                      return StaggeredCartoonCard(
+                        key: Key('StaggeredCartoonCard_${cartoon.id}'),
+                        cartoon: cartoon,
+                        onTap: () => _selectCartoon(cartoon),
+                      );
+                    } else {
+                      return CartoonCard(
+                        key: Key('CartoonCard_${cartoon.id}'),
+                        cartoon: cartoon,
+                        onTap: () => _selectCartoon(cartoon),
+                      );
+                    }
                   },
-                  staggeredTileBuilder: (index) =>
-                    StaggeredTile.fit(
-                      index == 0 || index == _itemCount - 1 ? 2 : 1
-                    ),
+                  staggeredTileBuilder: (index) {
+                    final isFirstItem = index == 0;
+                    final isLastItem = index == _itemCount - 1;
+                    return StaggeredTile.fit(
+                      isFirstItem ||
+                      isLastItem ||
+                      view != CartoonView.staggered ? 2 : 1
+                    );
+                  }
                 ),
               );
             }

@@ -17,12 +17,14 @@ class DrawerStackPage extends Page<void> {
   @override
   Route createRoute(BuildContext context) {
     final _firebaseCartoonRepo =
-    context.read<FirestorePoliticalCartoonRepository>();
+      context.read<FirestorePoliticalCartoonRepository>();
+    final _cartoonViewCubit = CartoonViewCubit();
     final _allCartoonsBloc = AllCartoonsBloc(
-        cartoonRepository: _firebaseCartoonRepo
+      cartoonRepository: _firebaseCartoonRepo,
+      cartoonViewCubit: _cartoonViewCubit,
     );
     final _appDrawerCubit = AppDrawerCubit();
-    final _cartoonViewCubit = CartoonViewCubit();
+
     final _imageTypeCubit = ImageTypeCubit();
     final _latestCartoonBloc = LatestCartoonBloc(
       cartoonRepository: _firebaseCartoonRepo
