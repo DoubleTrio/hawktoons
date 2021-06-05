@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
+import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
@@ -16,6 +17,7 @@ import '../../mocks.dart';
 void main() {
   group('DrawerStackPage', () {
     late AppDrawerCubit appDrawerCubit;
+    late AuthenticationBloc authenticationBloc;
     late LatestCartoonBloc latestCartoonBloc;
     late ShowBottomSheetCubit showBottomSheetCubit;
     late TabBloc tabBloc;
@@ -23,6 +25,8 @@ void main() {
 
     setUpAll(() {
       registerFallbackValue<AppTab>(AppTab.latest);
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
       registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
       registerFallbackValue<TabEvent>(FakeTabEvent());
@@ -31,6 +35,7 @@ void main() {
 
     setUp(() {
       appDrawerCubit = MockAppDrawerCubit();
+      authenticationBloc = MockAuthenticationBloc();
       latestCartoonBloc = MockLatestCartoonBloc();
       showBottomSheetCubit = MockShowBottomSheetCubit();
       tabBloc = MockTabBloc();
@@ -42,6 +47,9 @@ void main() {
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => tabBloc.state).thenReturn(AppTab.latest);
       when(() => themeCubit.state).thenReturn(ThemeMode.light);
+      when(() => authenticationBloc.state).thenReturn(
+        AuthenticationState.authenticated(FakeUser())
+      );
     });
 
     group('DrawerStackView', () {
@@ -50,6 +58,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
+          authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
@@ -70,6 +79,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
+          authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
@@ -91,6 +101,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
+          authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
@@ -109,6 +120,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
+          authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
@@ -133,6 +145,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
+          authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,
@@ -155,6 +168,7 @@ void main() {
         await tester.pumpApp(
           const DrawerStackView(),
           appDrawerCubit: appDrawerCubit,
+          authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           showBottomSheetCubit: showBottomSheetCubit,
           tabBloc: tabBloc,

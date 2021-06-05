@@ -6,82 +6,66 @@ import '../../fakes.dart';
 
 void main() {
   group('AuthenticationState', () {
-    group('Uninitialized', () {
+    final mockUser = FakeUser();
+    group('uninitialized', () {
       test('supports value comparisons', () {
         expect(
-          Uninitialized(),
-          Uninitialized(),
-        );
-        expect(Uninitialized().toString(), Uninitialized().toString());
-      });
-    });
-
-    group('Authenticated', () {
-      final mockUser = FakeUser();
-      test('supports value comparisons', () {
-        expect(
-          Authenticated(mockUser),
-          Authenticated(mockUser),
-        );
-        expect(
-          Authenticated(mockUser).toString(),
-          Authenticated(mockUser).toString(),
-        );
-        expect(
-          Authenticated(mockUser).isAnonymous,
-          Authenticated(mockUser).isAnonymous,
+          AuthenticationState.uninitialized(),
+          AuthenticationState.uninitialized(),
         );
       });
     });
 
-    group('LoginError', () {
+    group('authenticated', () {
       test('supports value comparisons', () {
         expect(
-          LoginError(),
-          LoginError(),
-        );
-        expect(
-          LoginError().toString(),
-          LoginError().toString(),
+          AuthenticationState.authenticated(mockUser),
+          AuthenticationState.authenticated(mockUser),
         );
       });
     });
 
-    group('LoggingIn', () {
+    group('loginError', () {
       test('supports value comparisons', () {
         expect(
-          LoggingIn(),
-          LoggingIn(),
-        );
-        expect(
-          LoggingIn().toString(),
-          LoggingIn().toString(),
+          AuthenticationState.loginError(),
+          AuthenticationState.loginError(),
         );
       });
     });
 
-    group('LoggingOut', () {
+    group('loggingIn', () {
       test('supports value comparisons', () {
         expect(
-          LoggingOut(),
-          LoggingOut(),
-        );
-        expect(
-          LoggingOut().toString(),
-          LoggingOut().toString(),
+          AuthenticationState.loggingIn(),
+          AuthenticationState.loggingIn(),
         );
       });
     });
 
-    group('LogoutError', () {
+    group('loggingOut', () {
       test('supports value comparisons', () {
         expect(
-          LogoutError(),
-          LogoutError(),
+          AuthenticationState.loggingOut(mockUser),
+          AuthenticationState.loggingOut(mockUser),
         );
+      });
+    });
+
+    group('logoutError', () {
+      test('supports value comparisons', () {
         expect(
-          LogoutError().toString(),
-          LogoutError().toString(),
+          AuthenticationState.logoutError(),
+          AuthenticationState.logoutError(),
+        );
+      });
+    });
+
+    group('logoutUninitialized', () {
+      test('supports value comparisons', () {
+        expect(
+          AuthenticationState.logoutUninitialized(mockUser),
+          AuthenticationState.logoutUninitialized(mockUser),
         );
       });
     });

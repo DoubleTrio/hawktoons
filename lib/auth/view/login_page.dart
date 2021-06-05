@@ -109,10 +109,14 @@ class LoginView extends StatelessWidget {
                     const SizedBox(height: 16),
                     BlocBuilder<AuthenticationBloc, AuthenticationState>(
                       builder: (context, state) {
-                        if (state is Authenticated || state is Uninitialized) {
+                        final status = state.status;
+                        if (
+                          status == AuthenticationStatus.authenticated ||
+                          status == AuthenticationStatus.uninitialized
+                        ) {
                           return const SizedBox.shrink();
                         }
-                        if (state is LoggingIn) {
+                        if (status == AuthenticationStatus.loggingIn) {
                           return const LoadingIndicator(
                             key: Key('LoginPage_LoggingIn')
                           );

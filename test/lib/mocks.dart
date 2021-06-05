@@ -5,15 +5,12 @@ import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
-import 'package:hawktoons/onboarding/cubits/cubits.dart';
-import 'package:hawktoons/onboarding/models/models.dart';
-import 'package:hawktoons/settings/cubit/settings_screen_cubit.dart';
-import 'package:hawktoons/settings/models/settings_screen.dart';
+import 'package:hawktoons/onboarding/onboarding.dart';
+import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
-
 final mockFilter = const CartoonFilters.initial();
 
 final mockPoliticalCartoon = PoliticalCartoon(

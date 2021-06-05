@@ -18,15 +18,15 @@ void main() {
       userRepository = MockFirebaseUserRepository();
     });
 
-    test('initial state is Uninitialized', () {
+    test('initial state is uninitialized', () {
       expect(
         AuthenticationBloc(userRepository: userRepository).state,
-        equals(const Uninitialized()),
+        equals(const AuthenticationState.uninitialized()),
       );
     });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits Authenticated when SignInAnonymously is added '
+      'emits authenticated state when SignInAnonymously is added '
       'and authentication is successful',
       build: () {
         when(userRepository.isAuthenticated)
@@ -38,7 +38,10 @@ void main() {
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInAnonymously()),
-      expect: () => [const LoggingIn(), Authenticated(mockUser)],
+      expect: () => [
+        const AuthenticationState.loggingIn(),
+        AuthenticationState.authenticated(mockUser),
+      ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.getUser).called(1);
@@ -46,7 +49,7 @@ void main() {
       });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [LoggingIn(), LoginError] '
+      'emits [loggingIn(), loginError()] '
       'when SignInAnonymously is added and authentication is not successful',
       build: () {
         when(userRepository.isAuthenticated)
@@ -57,7 +60,10 @@ void main() {
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInAnonymously()),
-      expect: () => [const LoggingIn(), const LoginError()],
+      expect: () => [
+        const AuthenticationState.loggingIn(),
+        const AuthenticationState.loginError(),
+      ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.authenticate).called(1);
@@ -65,7 +71,7 @@ void main() {
       });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [LoggingIn(), Authenticated()] '
+      'emits [loggingIn(), authenticated()] '
       'when SignInAnonymously is added and user is already authenticated',
       build: () {
         when(userRepository.isAuthenticated)
@@ -75,7 +81,10 @@ void main() {
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInAnonymously()),
-      expect: () => [const LoggingIn(), Authenticated(mockUser)],
+      expect: () => [
+        const AuthenticationState.loggingIn(),
+        AuthenticationState.authenticated(mockUser),
+      ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verifyNever(userRepository.authenticate);
@@ -84,7 +93,7 @@ void main() {
     );
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [LoggingIn(), Authenticated()] '
+      'emits [loggingIn(), authenticated()] '
       'when SignInWithGoogle is added and user is already authenticated',
       build: () {
         when(userRepository.isAuthenticated)
@@ -96,7 +105,10 @@ void main() {
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInWithGoogle()),
-      expect: () => [const LoggingIn(), Authenticated(mockUser)],
+      expect: () => [
+        const AuthenticationState.loggingIn(),
+        AuthenticationState.authenticated(mockUser),
+      ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verifyNever(userRepository.signInWithGoogle);
@@ -105,7 +117,7 @@ void main() {
     );
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [LoggingIn(), Authenticated()] '
+      'emits [loggingIn(), authenticated()] '
       'when SignInWithGoogle is added and user is uninitialized',
       build: () {
         when(userRepository.isAuthenticated)
@@ -117,7 +129,10 @@ void main() {
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInWithGoogle()),
-      expect: () => [const LoggingIn(), Authenticated(mockUser)],
+      expect: () => [
+        const AuthenticationState.loggingIn(),
+        AuthenticationState.authenticated(mockUser),
+      ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.signInWithGoogle).called(1);
@@ -126,7 +141,7 @@ void main() {
     );
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [LoggingIn(), Uninitialized()] '
+      'emits [loggingIn(), uninitialized()] '
       'when SignInWithGoogle is added and get user returns null',
       build: () {
         when(userRepository.isAuthenticated)
@@ -138,7 +153,10 @@ void main() {
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInWithGoogle()),
-      expect: () => [const LoggingIn(), const Uninitialized()],
+      expect: () => [
+        const AuthenticationState.loggingIn(),
+        const AuthenticationState.uninitialized(),
+      ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.signInWithGoogle).called(1);
@@ -147,7 +165,7 @@ void main() {
     );
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [LoggingIn(), Authenticated()] '
+      'emits [loggingIn(), authenticated()] '
       'when SignInWithGoogle is added and user sign throws an error',
       build: () {
         when(userRepository.isAuthenticated)
@@ -157,7 +175,10 @@ void main() {
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInWithGoogle()),
-      expect: () => [const LoggingIn(), const LoginError()],
+      expect: () => [
+        const AuthenticationState.loggingIn(),
+        const AuthenticationState.loginError(),
+      ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.signInWithGoogle).called(1);
@@ -165,27 +186,33 @@ void main() {
     );
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [LoggingOut(), Uninitialized()] when Logout is added',
+      'emits [loggingOut(), uninitialized()] when Logout is added',
       build: () {
         when(userRepository.logout)
           .thenAnswer((_) async => null);
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const Logout()),
-      expect: () => [const LoggingOut(), const Uninitialized()],
+      expect: () => [
+        const AuthenticationState.loggingOut(null),
+        const AuthenticationState.logoutUninitialized(null),
+      ],
       verify: (_) {
         verify(userRepository.logout).called(1);
       }
     );
 
     blocTest<AuthenticationBloc, AuthenticationState>(
-      'emits [LoggingOut(), LogoutError()] when Logout throws an error',
+      'emits [loggingOut(), logoutError()] when Logout throws an error',
       build: () {
         when(userRepository.logout).thenThrow(Exception());
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const Logout()),
-      expect: () => [const LoggingOut(), const LogoutError()],
+      expect: () => [
+        const AuthenticationState.loggingOut(null),
+        const AuthenticationState.logoutError(),
+      ],
       verify: (_) {
         verify(userRepository.logout).called(1);
       }

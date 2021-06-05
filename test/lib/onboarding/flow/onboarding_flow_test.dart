@@ -34,7 +34,9 @@ void main() {
 
     testWidgets('screen is AuthFlow', (tester) async {
       when(() => onboardingSeenCubit.state).thenReturn(true);
-      when(() => authenticationBloc.state).thenReturn(const Uninitialized());
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState.uninitialized()
+      );
       await tester.pumpApp(
         const OnboardingFlow(),
         authenticationBloc: authenticationBloc,

@@ -34,6 +34,9 @@ void main() {
     latestCartoonBloc = MockLatestCartoonBloc();
     themeCubit = MockThemeCubit();
     when(() => themeCubit.state).thenReturn(ThemeMode.light);
+    when(() => authenticationBloc.state).thenReturn(
+      AuthenticationState.authenticated(FakeUser())
+    );
   });
 
   group('AppDrawerView', () {
@@ -41,6 +44,7 @@ void main() {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
           const AppDrawerView(backgroundOpacity: 0),
+          authenticationBloc: authenticationBloc,
           themeCubit: themeCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
@@ -51,6 +55,7 @@ void main() {
         await tester.pumpApp(
           const AppDrawerView(backgroundOpacity: 0),
           mode: ThemeMode.dark,
+          authenticationBloc: authenticationBloc,
           themeCubit: themeCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));

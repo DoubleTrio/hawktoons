@@ -25,7 +25,7 @@ class AvatarProfile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundImage: AssetImage(avatarUrl),
+            backgroundImage: NetworkImage(avatarUrl),
           ),
           const SizedBox(height: 12),
           Text(

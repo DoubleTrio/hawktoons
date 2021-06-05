@@ -10,7 +10,7 @@ class AuthenticationBloc
   extends Bloc<AuthenticationEvent, AuthenticationState> {
 
   AuthenticationBloc({required this.userRepository})
-    : super(const Uninitialized());
+    : super(const AuthenticationState.uninitialized());
 
   final UserRepository userRepository;
 
@@ -29,43 +29,43 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapSignInAnonymouslyToState() async* {
     try {
-      yield const LoggingIn();
+      yield const AuthenticationState.loggingIn();
       final isSignedIn = await userRepository.isAuthenticated();
       if (!isSignedIn) {
         await userRepository.authenticate();
       }
       final user = await userRepository.getUser();
-      yield Authenticated(user);
+      yield AuthenticationState.authenticated(user);
     } on Exception {
-      yield const LoginError();
+      yield const AuthenticationState.loginError();
     }
   }
 
   Stream<AuthenticationState> _mapSignWithGoogleToState() async* {
     try {
-      yield const LoggingIn();
+      yield const AuthenticationState.loggingIn();
       final isSignedIn = await userRepository.isAuthenticated();
       if (!isSignedIn) {
         await userRepository.signInWithGoogle();
       }
       final user = await userRepository.getUser();
       if (user != null) {
-        yield Authenticated(user);
+        yield AuthenticationState.authenticated(user);
       } else {
-        yield const Uninitialized();
+        yield const AuthenticationState.uninitialized();
       }
     } on Exception {
-      yield const LoginError();
+      yield const AuthenticationState.loginError();
     }
   }
 
   Stream<AuthenticationState> _mapLogoutToState() async* {
     try {
-      yield const LoggingOut();
+      yield AuthenticationState.loggingOut(state.user);
       await userRepository.logout();
-      yield const Uninitialized();
+      yield AuthenticationState.logoutUninitialized(state.user);
     } on Exception {
-      yield const LogoutError();
+      yield const AuthenticationState.logoutError();
     }
   }
 }

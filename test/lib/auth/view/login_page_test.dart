@@ -20,7 +20,8 @@ void main() {
 
     setUp(() {
       authenticationBloc = MockAuthenticationBloc();
-      when(() => authenticationBloc.state).thenReturn(const Uninitialized());
+      when(() => authenticationBloc.state)
+        .thenReturn(const AuthenticationState.uninitialized());
     });
 
     group('semantics', () {
@@ -69,7 +70,9 @@ void main() {
     testWidgets(
       'finds Key(\'LoginPage_LoggingIn\') '
       'when state is LoggingIn', (tester) async {
-      when(() => authenticationBloc.state).thenReturn(const LoggingIn());
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState.loggingIn()
+      );
       await tester.pumpApp(
         const LoginView(),
         authenticationBloc: authenticationBloc,
@@ -80,7 +83,9 @@ void main() {
     testWidgets(
       'finds Key(\'LoginPage_LoginError\') '
       'when state is LoginError', (tester) async {
-      when(() => authenticationBloc.state).thenReturn(const LoginError());
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState.loginError()
+      );
       await tester.pumpApp(
         const LoginView(),
         authenticationBloc: authenticationBloc,

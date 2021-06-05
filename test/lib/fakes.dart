@@ -14,7 +14,20 @@ class FakeLatestCartoonEvent extends Fake implements LatestCartoonEvent {}
 class FakeSelectPoliticalCartoonState extends Fake
     implements SelectPoliticalCartoonState {}
 class FakeTabEvent extends Fake implements TabEvent {}
+
 class FakeUser extends Fake implements User {
   @override
   bool get isAnonymous => false;
+
+  @override
+  String? get email => '123example@gmail.com';
+
+  @override
+  String? get displayName => 'Display Name';
+
+  @override
+  String? get photoURL => 'fake_url';
+
+  @override
+  String get uid => 'user_id';
 }

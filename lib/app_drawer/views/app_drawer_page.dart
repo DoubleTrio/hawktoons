@@ -27,58 +27,63 @@ class AppDrawerView extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Container(
-        width: drawerSwipeDistance,
-        child: Stack(
-          children: [
-            SafeArea(
-              child: Material(
-                child: Ink(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(
-                        width: 1.5,
-                        color: theme.dividerColor
-                      )
-                    )
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      const AvatarProfile(
-                        email: 'example123@gmail.com',
-                        avatarUrl: 'assets/images/app/app_icon.png',
-                        name: 'Blyth Rayington',
+      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          return Container(
+            width: drawerSwipeDistance,
+            child: Stack(
+              children: [
+                SafeArea(
+                  child: Material(
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            width: 1.5,
+                            color: theme.dividerColor,
+                          )
+                        )
                       ),
-                      const SizedBox(height: 16),
-                      Expanded(
-                        child: ListView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            DrawerListTile(
-                              key: const Key('AppDrawerView_Logout'),
-                              onTap: _logout,
-                              icon: const Icon(Icons.logout),
-                              title: l10n.appDrawerLogoutButtonText,
-                              label: l10n.appDrawerLogoutButtonLabel,
-                              hint: l10n.appDrawerLogoutButtonHint,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          if (state.user != null && !state.user!.isAnonymous)
+                          AvatarProfile(
+                            email: state.user!.email!,
+                            avatarUrl: state.user!.photoURL!,
+                            name: state.user!.displayName!,
+                          ),
+                          const SizedBox(height: 16),
+                          Expanded(
+                            child: ListView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                DrawerListTile(
+                                  key: const Key('AppDrawerView_Logout'),
+                                  onTap: _logout,
+                                  icon: const Icon(Icons.logout),
+                                  title: l10n.appDrawerLogoutButtonText,
+                                  label: l10n.appDrawerLogoutButtonLabel,
+                                  hint: l10n.appDrawerLogoutButtonHint,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
+                          ),
+                        ],
+                      )
+                    ),
+                  ),
                 ),
-              ),
+                IgnorePointer(
+                  ignoring: true,
+                  child: Container(
+                    color: Colors.black.withOpacity(backgroundOpacity),
+                  ),
+                ),
+              ],
             ),
-            IgnorePointer(
-              ignoring: true,
-              child: Container(
-                color: Colors.black.withOpacity(backgroundOpacity),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

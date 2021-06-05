@@ -41,7 +41,7 @@ class CartoonFilters extends Equatable {
   }
 
   @override
-  List<Object?> get props => [sortByMode, imageType, tag];
+  List<Object> get props => [sortByMode, imageType, tag];
 
   @override
   String toString() =>

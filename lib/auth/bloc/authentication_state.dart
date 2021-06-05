@@ -1,70 +1,43 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class AuthenticationState extends Equatable {
-  const AuthenticationState();
+enum AuthenticationStatus {
+  uninitialized,
+  authenticated,
+  loggingIn,
+  loggingOut,
+  loginError,
+  logoutError,
 }
 
-class Uninitialized extends AuthenticationState {
-  const Uninitialized();
+class AuthenticationState extends Equatable {
+  const AuthenticationState({ this.user, required this.status });
 
-  @override
-  List<Object> get props => [];
+  const AuthenticationState.uninitialized()
+    : this(status: AuthenticationStatus.uninitialized);
 
-  @override
-  String toString() => 'Uninitialized';
-}
+  const AuthenticationState.loggingIn()
+    : this(status: AuthenticationStatus.loggingIn);
 
-class LoggingIn extends AuthenticationState {
-  const LoggingIn();
+  const AuthenticationState.loggingOut(User? user)
+    : this(user: user, status: AuthenticationStatus.loggingOut);
 
-  @override
-  List<Object> get props => [];
+  const AuthenticationState.loginError()
+    : this(status: AuthenticationStatus.loginError);
 
-  @override
-  String toString() => 'LoggingIn';
-}
+  const AuthenticationState.logoutError()
+    : this(status: AuthenticationStatus.logoutError);
 
-class LoggingOut extends AuthenticationState {
-  const LoggingOut();
+  const AuthenticationState.authenticated(User? user)
+    : this(user: user, status: AuthenticationStatus.authenticated);
 
-  @override
-  List<Object> get props => [];
+  const AuthenticationState.logoutUninitialized(User? user)
+    : this(user: user, status: AuthenticationStatus.uninitialized);
 
-  @override
-  String toString() => 'LoggingOut';
-}
-
-class Authenticated extends AuthenticationState {
-  const Authenticated(this.user);
 
   final User? user;
-
-  bool? get isAnonymous => user?.isAnonymous;
-
-  @override
-  List<Object?> get props => [user];
+  final AuthenticationStatus status;
 
   @override
-  String toString() => 'Authenticated($user)';
-}
-
-class LoginError extends AuthenticationState {
-  const LoginError();
-
-  @override
-  List<Object> get props => [];
-
-  @override
-  String toString() => 'LoginError';
-}
-
-class LogoutError extends AuthenticationState {
-  const LogoutError();
-
-  @override
-  List<Object> get props => [];
-
-  @override
-  String toString() => 'LogoutError';
+  List<Object?> get props => [user, status];
 }

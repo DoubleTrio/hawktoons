@@ -46,7 +46,9 @@ void main() {
 
     group('LoginPage', () {
       testWidgets('shows LoginPage', (tester) async {
-        when(() => authenticationBloc.state).thenReturn(const Uninitialized());
+        when(() => authenticationBloc.state).thenReturn(
+          const AuthenticationState.uninitialized()
+        );
         await tester.pumpApp(
           const AuthFlow(),
           authenticationBloc: authenticationBloc,
@@ -58,7 +60,7 @@ void main() {
     group('DrawerStackView', () {
       testWidgets('shows DrawerStackView', (tester) async {
         when(() => authenticationBloc.state)
-          .thenReturn(Authenticated(FakeUser()));
+          .thenReturn(AuthenticationState.authenticated(FakeUser()));
         await tester.pumpApp(
           const AuthFlow(),
           cartoonRepository: cartoonRepository,

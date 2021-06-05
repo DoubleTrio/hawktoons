@@ -23,6 +23,7 @@ void main() {
           cartoon: mockPoliticalCartoon,
         )
       );
+
       expect(find.widgetWithText(TextSpan, 'Bob'), findsNothing);
     });
   });
