@@ -12,6 +12,9 @@ void main() {
   final mockCartoons = [MockPoliticalCartoon()];
 
   group('AllCartoonsBloc', () {
+    final defaultAllCartoonsState = const AllCartoonsState.initial(
+      view: CartoonView.staggered,
+    );
     late FirestorePoliticalCartoonRepository cartoonRepository;
     late CartoonViewCubit cartoonViewCubit;
 
@@ -22,16 +25,16 @@ void main() {
     setUp(() {
       cartoonRepository = MockCartoonRepository();
       cartoonViewCubit = MockCartoonViewCubit();
+      when(() => cartoonViewCubit.state).thenReturn(CartoonView.staggered);
     });
 
     test('initial state AllCartoonsState.initial', () {
-      final state = const AllCartoonsState.initial();
       expect(
         AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
           cartoonViewCubit: cartoonViewCubit,
         ).state,
-        equals(state)
+        equals(defaultAllCartoonsState)
       );
     });
 
@@ -52,7 +55,7 @@ void main() {
         // wait: ,
         act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
         expect: () => [
-          const AllCartoonsState.initial(),
+          defaultAllCartoonsState,
           AllCartoonsState.loadSuccess(
             cartoons: mockCartoons,
             filters: mockFilter,
@@ -85,7 +88,7 @@ void main() {
       },
       // wait: ,
       act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
-      seed: () => const AllCartoonsState.initial().copyWith(
+      seed: () => defaultAllCartoonsState.copyWith(
         hasLoadedInitial: true
       ),
       expect: () => <AllCartoonsState>[],
@@ -114,8 +117,8 @@ void main() {
       // wait: ,
       act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
       expect: () => <AllCartoonsState>[
-        const AllCartoonsState.initial(),
-        const AllCartoonsState.initial().copyWith(
+        defaultAllCartoonsState,
+        defaultAllCartoonsState.copyWith(
           cartoons: List.filled(15, mockCartoons[0]),
           status: CartoonStatus.success,
           hasReachedMax: false,
@@ -146,8 +149,8 @@ void main() {
       },
       act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
       expect: () => [
-        AllCartoonsState.initial(filters: mockFilter),
-        const AllCartoonsState.initial().copyWith(
+        defaultAllCartoonsState.copyWith(filters: mockFilter),
+        defaultAllCartoonsState.copyWith(
           status: CartoonStatus.failure,
           filters: mockFilter,
         )
@@ -177,9 +180,8 @@ void main() {
       wait: const Duration(milliseconds: 300),
       act: (bloc) => bloc.add(const LoadMoreCartoons()),
       expect: () => [
-        const AllCartoonsState.initial()
-          .copyWith(status: CartoonStatus.loadingMore),
-        const AllCartoonsState.initial().copyWith(status: CartoonStatus.failure)
+        defaultAllCartoonsState.copyWith(status: CartoonStatus.loadingMore),
+        defaultAllCartoonsState.copyWith(status: CartoonStatus.failure)
       ],
       verify: (_) => verify(() => cartoonRepository.loadMorePoliticalCartoons(
         sortByMode: mockFilter.sortByMode,
@@ -206,9 +208,9 @@ void main() {
       wait: const Duration(milliseconds: 300),
       act: (bloc) => bloc.add(const LoadMoreCartoons()),
       expect: () => [
-        const AllCartoonsState.initial()
+        defaultAllCartoonsState
           .copyWith(status: CartoonStatus.loadingMore),
-        const AllCartoonsState.initial().copyWith(
+        defaultAllCartoonsState.copyWith(
           status: CartoonStatus.success,
           cartoons: mockCartoons,
           hasReachedMax: true,
@@ -239,9 +241,9 @@ void main() {
       wait: const Duration(milliseconds: 300),
       act: (bloc) => bloc.add(const LoadMoreCartoons()),
       expect: () => [
-        const AllCartoonsState.initial()
+        defaultAllCartoonsState
           .copyWith(status: CartoonStatus.loadingMore),
-        const AllCartoonsState.initial().copyWith(
+        defaultAllCartoonsState.copyWith(
           status: CartoonStatus.success,
           cartoons: List.filled(15, mockCartoons[0]),
           hasReachedMax: false,
@@ -271,13 +273,12 @@ void main() {
         );
       },
       wait: const Duration(milliseconds: 300),
-      seed: () =>
-        const AllCartoonsState.initial().copyWith(filters: mockFilter),
+      seed: () => defaultAllCartoonsState.copyWith(filters: mockFilter),
       act: (bloc) => bloc.add(const RefreshCartoons()),
       expect: () => [
-        const AllCartoonsState.initial()
-            .copyWith(status: CartoonStatus.refreshInitial),
-        const AllCartoonsState.initial().copyWith(
+        defaultAllCartoonsState
+          .copyWith(status: CartoonStatus.refreshInitial),
+        defaultAllCartoonsState.copyWith(
           status: CartoonStatus.refreshSuccess,
           cartoons: List.filled(15, mockCartoons[0]),
           hasLoadedInitial: true,
@@ -308,12 +309,12 @@ void main() {
       },
       wait: const Duration(milliseconds: 300),
       seed: () =>
-        const AllCartoonsState.initial().copyWith(filters: mockFilter),
+          defaultAllCartoonsState.copyWith(filters: mockFilter),
       act: (bloc) => bloc.add(const RefreshCartoons()),
       expect: () => [
-        const AllCartoonsState.initial()
+        defaultAllCartoonsState
           .copyWith(status: CartoonStatus.refreshInitial),
-        const AllCartoonsState.initial().copyWith(
+        defaultAllCartoonsState.copyWith(
           status: CartoonStatus.refreshFailure,
         ),
       ],
@@ -338,7 +339,7 @@ void main() {
         );
       },
       expect: () => [
-        const AllCartoonsState.initial()
+        defaultAllCartoonsState
           .copyWith(view: CartoonView.card),
       ],
     );

@@ -15,6 +15,9 @@ const _staggeredGridLoadingMoreKey =
   Key('StaggeredCartoonGrid_LoadingMoreIndicator');
 
 void main() {
+  final defaultAllCartoonsState = const AllCartoonsState.initial(
+    view: CartoonView.staggered,
+  );
   group('StaggeredCartoonGrid', () {
     late AllCartoonsBloc allCartoonsBloc;
     late ScrollHeaderCubit scrollHeaderCubit;
@@ -34,7 +37,7 @@ void main() {
       selectCartoonCubit = MockSelectCartoonCubit();
 
       when(() => allCartoonsBloc.state)
-        .thenReturn(const AllCartoonsState.initial());
+        .thenReturn(defaultAllCartoonsState);
       when(() => selectCartoonCubit.state)
         .thenReturn(const SelectPoliticalCartoonState());
     });
@@ -43,7 +46,7 @@ void main() {
 
     testWidgets('sets cartoon', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.success,
           cartoons: List.filled(3, mockPoliticalCartoon
         ))
@@ -67,7 +70,7 @@ void main() {
 
     testWidgets('renders political images as CartoonView.card', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.success,
           cartoons: List.filled(1, mockPoliticalCartoon),
           view: CartoonView.card,
@@ -85,7 +88,7 @@ void main() {
 
     testWidgets('display scroll header after scrolling', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.success,
           cartoons: List.filled(10, mockPoliticalCartoon),
         )
@@ -113,7 +116,7 @@ void main() {
 
     testWidgets('loads more cartoons when near bottom', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.success,
           cartoons: List.filled(16, mockPoliticalCartoon
         ))
@@ -135,7 +138,7 @@ void main() {
 
     testWidgets('staggered grid shows loading more indicator', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.loadingMore,
           cartoons: List.filled(2, mockPoliticalCartoon
         ))
@@ -151,7 +154,7 @@ void main() {
 
     testWidgets('staggered grid refreshes successfully', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.success,
           cartoons: List.filled(2, mockPoliticalCartoon)
         )
@@ -178,10 +181,10 @@ void main() {
       whenListen(
         allCartoonsBloc,
         Stream.periodic(const Duration(seconds: 2),
-          (i) => const AllCartoonsState.initial().copyWith(
+          (i) => defaultAllCartoonsState.copyWith(
           status: CartoonStatus.refreshFailure,
         )).take(1),
-        initialState: const AllCartoonsState.initial().copyWith(
+        initialState: defaultAllCartoonsState.copyWith(
           status: CartoonStatus.success,
           cartoons: List.filled(2, mockPoliticalCartoon),
         ),
@@ -202,11 +205,11 @@ void main() {
       whenListen(
         allCartoonsBloc,
         Stream.periodic(const Duration(seconds: 2),
-          (i) => const AllCartoonsState.initial().copyWith(
+          (i) => defaultAllCartoonsState.copyWith(
             status: CartoonStatus.refreshSuccess
           )
         ).take(1),
-        initialState: const AllCartoonsState.initial().copyWith(
+        initialState: defaultAllCartoonsState.copyWith(
           status: CartoonStatus.refreshInitial,
           cartoons: List.filled(2, mockPoliticalCartoon)
         ),

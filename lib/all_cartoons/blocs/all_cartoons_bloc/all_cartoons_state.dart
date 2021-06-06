@@ -13,14 +13,14 @@ class AllCartoonsState extends Equatable {
     required this.view,
   });
 
-  const AllCartoonsState.initial({
-    this.cartoons = const [],
-    this.filters = const CartoonFilters.initial(),
-    this.status = CartoonStatus.initial,
-    this.hasReachedMax = false,
-    this.hasLoadedInitial = false,
-    this.view = CartoonView.staggered,
-  });
+  const AllCartoonsState.initial({ required CartoonView view }) : this(
+    cartoons: const [],
+    filters: const CartoonFilters.initial(),
+    status: CartoonStatus.initial,
+    hasReachedMax: false,
+    hasLoadedInitial:false,
+    view: view,
+  );
 
   const AllCartoonsState.loadSuccess({
     required PoliticalCartoonList cartoons,

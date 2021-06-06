@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
-import 'package:hawktoons/settings/cubit/settings_screen_cubit.dart';
-import 'package:hawktoons/settings/flow/settings_flow.dart';
-import 'package:hawktoons/settings/models/models.dart';
+import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -58,7 +57,9 @@ void main() {
       showBottomSheetCubit = MockShowBottomSheetCubit();
 
       when(() => allCartoonsBloc.state)
-        .thenReturn(const AllCartoonsState.initial());
+        .thenReturn(
+          const AllCartoonsState.initial(view: CartoonView.staggered)
+        );
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => latestCartoonBloc.state).thenReturn(
         const DailyCartoonInProgress()

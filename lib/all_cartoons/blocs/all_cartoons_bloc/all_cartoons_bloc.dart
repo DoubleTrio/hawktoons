@@ -11,7 +11,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     required this.cartoonRepository,
     required this.cartoonViewCubit,
   }) :
-    super(const AllCartoonsState.initial()) {
+    super(AllCartoonsState.initial(view: cartoonViewCubit.state)) {
     _viewSubscription = cartoonViewCubit.stream.listen((view) {
       add(UpdateCartoonView(view));
     });

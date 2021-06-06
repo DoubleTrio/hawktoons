@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -14,6 +15,9 @@ import '../../keys.dart';
 import '../../mocks.dart';
 
 void main() {
+  final defaultAllCartoonsState = const AllCartoonsState.initial(
+    view: CartoonView.staggered
+  );
   group('AllCartoonsPage', () {
     late AllCartoonsBloc allCartoonsBloc;
     late AppDrawerCubit appDrawerCubit;
@@ -37,7 +41,7 @@ void main() {
 
       when(() => scrollHeaderCubit.state).thenReturn(false);
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.success,
           cartoons: [mockPoliticalCartoon],
         )
@@ -72,7 +76,7 @@ void main() {
       'with Key(\'AllCartoonsPage_AllCartoonsLoading\') '
       'when state is AllCartoonsLoading', (tester) async {
       when(() => allCartoonsBloc.state)
-        .thenReturn(const AllCartoonsState.initial());
+        .thenReturn(defaultAllCartoonsState);
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
@@ -97,7 +101,7 @@ void main() {
       'with Key(\'AllCartoonsPage_AllCartoonsFailed\'); '
       'when state is AllCartoonFailed', (tester) async {
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.failure,
         )
       );
@@ -139,13 +143,13 @@ void main() {
       'shows SnackBar when new filter is applied', (tester) async {
       whenListen<AllCartoonsState>(allCartoonsBloc,
         Stream.value(
-          const AllCartoonsState.initial().copyWith(
+          const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
             filters: const CartoonFilters.initial().copyWith(
               tag: Tag.worldHistory
             )
           )
         ),
-        initialState: const AllCartoonsState.initial(),
+        initialState: defaultAllCartoonsState,
       );
 
       await tester.pumpApp(
@@ -162,7 +166,7 @@ void main() {
     testWidgets(
       'does not show SnackBar when old filter is applied', (tester) async {
       whenListen<AllCartoonsState>(allCartoonsBloc,
-        Stream.value(const AllCartoonsState.initial()),
+        Stream.value(defaultAllCartoonsState),
       );
 
       await tester.pumpApp(

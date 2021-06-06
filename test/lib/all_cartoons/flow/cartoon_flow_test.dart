@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -27,7 +28,7 @@ void main() {
       scrollHeaderCubit = MockScrollHeaderCubit();
 
       when(() => allCartoonsBloc.state).thenReturn(
-        const AllCartoonsState.initial().copyWith(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           cartoons: [mockPoliticalCartoon],
           status: CartoonStatus.success,
         )
