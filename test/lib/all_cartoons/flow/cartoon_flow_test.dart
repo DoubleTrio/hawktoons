@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
@@ -11,12 +12,15 @@ import '../../mocks.dart';
 void main() {
   group('CartoonFlow', () {
     late AllCartoonsBloc allCartoonsBloc;
+    late AuthenticationBloc authenticationBloc;
     late SelectCartoonCubit selectCartoonCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
 
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
         FakeSelectPoliticalCartoonState()
       );
@@ -24,6 +28,7 @@ void main() {
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
+      authenticationBloc = MockAuthenticationBloc();
       selectCartoonCubit = MockSelectCartoonCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
 
@@ -36,12 +41,16 @@ void main() {
       when(() => selectCartoonCubit.state)
         .thenReturn(const SelectPoliticalCartoonState());
       when(() => scrollHeaderCubit.state).thenReturn(false);
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState(status: AuthenticationStatus.authenticated)
+      );
     });
 
     testWidgets('shows AllCartoonsPage', (tester) async {
       await tester.pumpApp(
         const CartoonFlow(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         selectCartoonCubit: selectCartoonCubit,
         scrollHeaderCubit: scrollHeaderCubit,
       );
@@ -56,6 +65,7 @@ void main() {
       await tester.pumpApp(
         const CartoonFlow(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         selectCartoonCubit: selectCartoonCubit,
         scrollHeaderCubit: scrollHeaderCubit,
       );
@@ -67,6 +77,7 @@ void main() {
       await tester.pumpApp(
         const CartoonFlow(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         selectCartoonCubit: selectCartoonCubit,
         scrollHeaderCubit: scrollHeaderCubit,
       );

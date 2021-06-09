@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/cubit/app_drawer_cubit.dart';
+import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/l10n/l10n.dart';
+import 'package:hawktoons/widgets/add_floating_action_button.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
 class AllCartoonsPage extends Page<void> {
@@ -14,7 +16,7 @@ class AllCartoonsPage extends Page<void> {
     return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (_, __, ___) =>
-        const AllCartoonsView(),
+      const AllCartoonsView(),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
@@ -26,7 +28,13 @@ class AllCartoonsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final shouldDisplayTitle = context.watch<ScrollHeaderCubit>().state;
+    final shouldDisplayTitle = context
+      .watch<ScrollHeaderCubit>()
+      .state;
+
+    final isAdmin = context.select<AuthenticationBloc, bool>(
+      (bloc) => bloc.state.isAdmin
+    );
 
     void _openFilterSheet() {
       context.read<ShowBottomSheetCubit>().openSheet();
@@ -36,7 +44,15 @@ class AllCartoonsView extends StatelessWidget {
       context.read<AppDrawerCubit>().openDrawer();
     }
 
+
     return Scaffold(
+      floatingActionButton: isAdmin ?
+        AddFloatingActionButton(
+          label: l10n.allCartoonsPageFloatingActionButtonLabel,
+          hint: l10n.allCartoonsPageFloatingActionButtonHint,
+          onPressed: () {}
+        )
+        : null,
       appBar: AppBar(
         leading: CustomIconButton(
           key: const Key('AllCartoonsView_OpenDrawer'),

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
@@ -18,6 +19,7 @@ import '../../mocks.dart';
 void main() {
   group('TabFlow', () {
     late AllCartoonsBloc allCartoonsBloc;
+    late AuthenticationBloc authenticationBloc;
     late LatestCartoonBloc latestCartoonBloc;
     late ImageTypeCubit imageTypeCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
@@ -31,6 +33,8 @@ void main() {
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<AppTab>(AppTab.latest);
       registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
       registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
@@ -46,6 +50,7 @@ void main() {
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
+      authenticationBloc = MockAuthenticationBloc();
       latestCartoonBloc = MockLatestCartoonBloc();
       selectCartoonCubit = MockSelectCartoonCubit();
       tabBloc = MockTabBloc();
@@ -60,6 +65,9 @@ void main() {
         .thenReturn(
           const AllCartoonsState.initial(view: CartoonView.staggered)
         );
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState(status: AuthenticationStatus.authenticated)
+      );
       when(() => showBottomSheetCubit.state).thenReturn(false);
       when(() => latestCartoonBloc.state).thenReturn(
         const DailyCartoonInProgress()
@@ -155,6 +163,7 @@ void main() {
       await tester.pumpApp(
         const TabFlow(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
         selectCartoonCubit: selectCartoonCubit,
         showBottomSheetCubit: showBottomSheetCubit,

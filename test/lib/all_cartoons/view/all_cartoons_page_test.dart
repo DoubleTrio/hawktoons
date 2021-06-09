@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
+import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/widgets/widgets.dart';
@@ -20,6 +21,7 @@ void main() {
   );
   group('AllCartoonsPage', () {
     late AllCartoonsBloc allCartoonsBloc;
+    late AuthenticationBloc authenticationBloc;
     late AppDrawerCubit appDrawerCubit;
     late LatestCartoonBloc latestCartoonBloc;
     late ShowBottomSheetCubit showBottomSheetCubit;
@@ -28,12 +30,15 @@ void main() {
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
+      registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
+      registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
       registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
     });
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
+      authenticationBloc = MockAuthenticationBloc();
       appDrawerCubit = MockAppDrawerCubit();
       latestCartoonBloc = MockLatestCartoonBloc();
       showBottomSheetCubit = MockShowBottomSheetCubit();
@@ -46,6 +51,9 @@ void main() {
           cartoons: [mockPoliticalCartoon],
         )
       );
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState(status: AuthenticationStatus.authenticated)
+      );
     });
 
     group('semantics', () {
@@ -53,6 +61,7 @@ void main() {
         await tester.pumpApp(
           const AllCartoonsView(),
           allCartoonsBloc: allCartoonsBloc,
+          authenticationBloc: authenticationBloc,
           scrollHeaderCubit: scrollHeaderCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
@@ -64,6 +73,7 @@ void main() {
           const AllCartoonsView(),
           mode: ThemeMode.dark,
           allCartoonsBloc: allCartoonsBloc,
+          authenticationBloc: authenticationBloc,
           scrollHeaderCubit: scrollHeaderCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
@@ -80,6 +90,7 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
       );
       expect(find.byKey(allCartoonsLoadingKey), findsOneWidget);
@@ -91,6 +102,7 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
       );
       expect(find.byType(StaggeredCartoonCard), findsOneWidget);
@@ -109,6 +121,7 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
       );
 
@@ -120,6 +133,7 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
         showBottomSheetCubit: showBottomSheetCubit,
       );
@@ -131,6 +145,7 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         appDrawerCubit: appDrawerCubit,
         latestCartoonBloc: latestCartoonBloc,
         scrollHeaderCubit: scrollHeaderCubit,
@@ -155,6 +170,7 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
       );
 
@@ -172,11 +188,33 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
       );
 
       await tester.pump(const Duration(seconds: 1));
       expect(find.byType(SnackBar), findsNothing);
+    });
+
+    testWidgets(
+      'can open add political image bottom sheet '
+      'when user has an admin claim level', (tester) async {
+      when(() => authenticationBloc.state).thenReturn(
+        const AuthenticationState(
+          status: AuthenticationStatus.authenticated,
+          claimLevel: 3
+        )
+      );
+      await tester.pumpApp(
+        const AllCartoonsView(),
+        allCartoonsBloc: allCartoonsBloc,
+        authenticationBloc: authenticationBloc,
+        scrollHeaderCubit: scrollHeaderCubit,
+      );
+
+      expect(find.byType(AddFloatingActionButton), findsOneWidget);
+      await tester.tap(find.byType(AddFloatingActionButton));
+      // TODO: Add verify statement
     });
   });
 }

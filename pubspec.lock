@@ -583,7 +583,7 @@ packages:
     source: hosted
     version: "2.0.1"
   pedantic:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
@@ -613,11 +613,9 @@ packages:
   political_cartoon_repository:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "3fb0cae4bba68470d9ffc91df7ed691a55e05c5f"
-      url: "https://github.com/DoubleTrio/political_cartoon_repository.git"
-    source: git
+      path: "../../repository/political_cartoon_repository"
+      relative: true
+    source: path
     version: "1.0.0"
   pool:
     dependency: transitive

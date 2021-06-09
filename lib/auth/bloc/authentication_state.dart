@@ -11,7 +11,11 @@ enum AuthenticationStatus {
 }
 
 class AuthenticationState extends Equatable {
-  const AuthenticationState({ this.user, required this.status });
+  const AuthenticationState({
+    this.user,
+    this.claimLevel = 0,
+    required this.status
+  });
 
   const AuthenticationState.uninitialized()
     : this(status: AuthenticationStatus.uninitialized);
@@ -28,16 +32,22 @@ class AuthenticationState extends Equatable {
   const AuthenticationState.logoutError()
     : this(status: AuthenticationStatus.logoutError);
 
-  const AuthenticationState.authenticated(User? user)
-    : this(user: user, status: AuthenticationStatus.authenticated);
+  const AuthenticationState.authenticated(User? user, { int claimLevel = 0 })
+    : this(
+      user: user,
+      claimLevel: claimLevel,
+      status: AuthenticationStatus.authenticated
+    );
 
   const AuthenticationState.logoutUninitialized(User? user)
     : this(user: user, status: AuthenticationStatus.uninitialized);
 
+  bool get isAdmin => claimLevel >= 3;
 
   final User? user;
+  final int claimLevel;
   final AuthenticationStatus status;
 
   @override
-  List<Object?> get props => [user, status];
+  List<Object?> get props => [user, claimLevel, status];
 }

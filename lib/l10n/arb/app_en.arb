@@ -124,6 +124,14 @@
     "@allCartoonsPageHeaderText": {
         "description": "Header shown on the all cartoons page"
     },
+    "allCartoonsPageFloatingActionButtonLabel": "Add a new political image",
+    "@allCartoonsPageFloatingActionButtonLabel": {
+        "description": "Semantic label for add political image floating action button"
+    },
+    "allCartoonsPageFloatingActionButtonHint": "Tap to add a new political image",
+    "@allCartoonsPageFloatingActionButtonHint": {
+        "description": "Semantic hint for add political image floating action button"
+    },
     "cartoonCardByText": "By",
     "@cartoonCardByText": {
         "description": "Text that appears before the author of the political image"

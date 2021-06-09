@@ -50,7 +50,8 @@ class AuthenticationBloc
       }
       final user = await userRepository.getUser();
       if (user != null) {
-        yield AuthenticationState.authenticated(user);
+        final claimLevel = await userRepository.getCustomClaimLevel(user);
+        yield AuthenticationState.authenticated(user, claimLevel: claimLevel);
       } else {
         yield const AuthenticationState.uninitialized();
       }

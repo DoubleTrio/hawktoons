@@ -102,17 +102,20 @@ void main() {
           .thenAnswer((_) async => mockUser);
         when(userRepository.signInWithGoogle)
           .thenAnswer((_) async => null);
+        when(() => userRepository.getCustomClaimLevel(mockUser))
+          .thenAnswer((_) async => 3);
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInWithGoogle()),
       expect: () => [
         const AuthenticationState.loggingIn(),
-        AuthenticationState.authenticated(mockUser),
+        AuthenticationState.authenticated(mockUser, claimLevel: 3),
       ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verifyNever(userRepository.signInWithGoogle);
         verify(userRepository.getUser).called(1);
+        verify(() => userRepository.getCustomClaimLevel(mockUser)).called(1);
       }
     );
 
@@ -126,16 +129,19 @@ void main() {
           .thenAnswer((_) async => mockUser);
         when(userRepository.signInWithGoogle)
           .thenAnswer((_) async => null);
+        when(() => userRepository.getCustomClaimLevel(mockUser))
+          .thenAnswer((_) async => 3);
         return AuthenticationBloc(userRepository: userRepository);
       },
       act: (bloc) => bloc.add(const SignInWithGoogle()),
       expect: () => [
         const AuthenticationState.loggingIn(),
-        AuthenticationState.authenticated(mockUser),
+        AuthenticationState.authenticated(mockUser, claimLevel: 3),
       ],
       verify: (_) {
         verify(userRepository.isAuthenticated).called(1);
         verify(userRepository.signInWithGoogle).called(1);
+        verify(() => userRepository.getCustomClaimLevel(mockUser)).called(1);
         verify(userRepository.getUser).called(1);
       }
     );
