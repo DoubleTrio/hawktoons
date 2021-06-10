@@ -55,7 +55,7 @@ class CartoonPostedDate extends StatelessWidget {
 
     final l10n = context.l10n;
     final textTheme = Theme.of(context).textTheme;
-    final dateText = TimeAgo(
+    final dateText = TimeAgoConverter(
       l10n: context.l10n,
       locale: Platform.localeName,
     ).timeAgoSinceDate(timestamp);

@@ -58,11 +58,11 @@ void main() {
 
       verifyInOrder([
         () => onboardingPageCubit
-          .setOnBoardingPage(VisibleOnboardingPage.latestCartoon),
+          .setOnboardingPage(VisibleOnboardingPage.latestCartoon),
         () => onboardingPageCubit
-          .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
+          .setOnboardingPage(VisibleOnboardingPage.allCartoons),
         () => onboardingPageCubit
-          .setOnBoardingPage(VisibleOnboardingPage.latestCartoon),
+          .setOnboardingPage(VisibleOnboardingPage.latestCartoon),
       ]);
     });
 
@@ -82,9 +82,9 @@ void main() {
 
       verifyInOrder([
         () => onboardingPageCubit
-          .setOnBoardingPage(VisibleOnboardingPage.latestCartoon),
+          .setOnboardingPage(VisibleOnboardingPage.latestCartoon),
         () => onboardingPageCubit
-          .setOnBoardingPage(VisibleOnboardingPage.allCartoons),
+          .setOnboardingPage(VisibleOnboardingPage.allCartoons),
       ]);
     });
 

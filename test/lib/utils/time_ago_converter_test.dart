@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/l10n/l10n.dart';
-import 'package:hawktoons/utils/time_ago.dart';
+import 'package:hawktoons/utils/time_ago_converter.dart';
 import 'package:intl/intl.dart';
 
 import '../helpers/helpers.dart';
 
 void main() {
-  group('TimeAgo', () {
+  group('TimeAgoConverter', () {
     late List<DateTime> durations;
     late Timestamp timestamp;
     late DateTime dateTime;
@@ -31,10 +31,10 @@ void main() {
       ].map(dateTime.add).toList();
     });
 
-    testWidgets('TimeAgo (numeric) works', (tester) async {
+    testWidgets('TimeAgoConverter (numeric) works', (tester) async {
       await tester.pumpApp(Builder(builder: (BuildContext context) {
         final l10n = context.l10n;
-        final timeAgo = TimeAgo(l10n: l10n, locale: 'en');
+        final timeAgo = TimeAgoConverter(l10n: l10n, locale: 'en');
         return Column(
           children: [
             ...durations.map((date) =>
@@ -58,10 +58,10 @@ void main() {
       expect(find.text('Just now'), findsOneWidget);
     });
 
-    testWidgets('TimeAgo (non-numeric) works', (tester) async {
+    testWidgets('TimeAgoConverter (non-numeric) works', (tester) async {
       await tester.pumpApp(Builder(builder: (BuildContext context) {
         final l10n = context.l10n;
-        final timeAgo = TimeAgo(l10n: l10n, locale: 'en');
+        final timeAgo = TimeAgoConverter(l10n: l10n, locale: 'en');
         return Column(
           children: [
             ...durations.map((date) => Text(
@@ -90,10 +90,11 @@ void main() {
       expect(find.text('Just now'), findsOneWidget);
     });
 
-    testWidgets('TimeAgo (non-numeric) works for regular date', (tester) async {
+    testWidgets('TimeAgoConverter (non-numeric) '
+      'works for regular date', (tester) async {
       await tester.pumpApp(Builder(builder: (BuildContext context) {
         final l10n = context.l10n;
-        final timeAgo = TimeAgo(l10n: l10n, locale: 'en');
+        final timeAgo = TimeAgoConverter(l10n: l10n, locale: 'en');
         return Column(
           children: [
             Text(timeAgo.timeAgoSinceDate(timestamp)),

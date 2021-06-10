@@ -24,7 +24,8 @@ void main() {
     late AuthenticationBloc authenticationBloc;
     late AppDrawerCubit appDrawerCubit;
     late LatestCartoonBloc latestCartoonBloc;
-    late ShowBottomSheetCubit showBottomSheetCubit;
+    late ShowCreateCartoonSheetCubit showCreateCartoonSheetCubit;
+    late ShowFilterBottomSheetCubit showFilterBottomSheetCubit;
     late ScrollHeaderCubit scrollHeaderCubit;
 
     setUpAll(() {
@@ -41,7 +42,8 @@ void main() {
       authenticationBloc = MockAuthenticationBloc();
       appDrawerCubit = MockAppDrawerCubit();
       latestCartoonBloc = MockLatestCartoonBloc();
-      showBottomSheetCubit = MockShowBottomSheetCubit();
+      showCreateCartoonSheetCubit = MockShowCreateCartoonSheetCubit();
+      showFilterBottomSheetCubit = MockShowBottomFilterSheetCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
 
       when(() => scrollHeaderCubit.state).thenReturn(false);
@@ -135,10 +137,10 @@ void main() {
         allCartoonsBloc: allCartoonsBloc,
         authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
-        showBottomSheetCubit: showBottomSheetCubit,
+        showFilterBottomSheetCubit: showFilterBottomSheetCubit,
       );
       await tester.tap(find.byKey(allCartoonsFilterButtonKey));
-      verify(showBottomSheetCubit.openSheet).called(1);
+      verify(showFilterBottomSheetCubit.openSheet).called(1);
     });
 
     testWidgets('opens drawer when menu icon is tapped', (tester) async {
@@ -209,12 +211,13 @@ void main() {
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
         authenticationBloc: authenticationBloc,
+        showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
         scrollHeaderCubit: scrollHeaderCubit,
       );
 
       expect(find.byType(AddFloatingActionButton), findsOneWidget);
       await tester.tap(find.byType(AddFloatingActionButton));
-      // TODO: Add verify statement
+      verify(showCreateCartoonSheetCubit.openSheet).called(1);
     });
   });
 }

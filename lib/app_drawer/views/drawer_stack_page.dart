@@ -35,7 +35,8 @@ class DrawerStackPage extends Page<void> {
     final _scrollHeaderCubit = ScrollHeaderCubit();
     final _selectCartoonCubit = SelectCartoonCubit();
     final _settingsPageCubit = SettingsScreenCubit();
-    final _showBottomSheetCubit = ShowBottomSheetCubit();
+    final _showCreateCartoonSheetCubit = ShowCreateCartoonSheetCubit();
+    final _showBottomSheetCubit = ShowFilterBottomSheetCubit();
     final _sortByCubit = SortByCubit();
 
     final _sortByMode = _sortByCubit.state;
@@ -64,6 +65,7 @@ class DrawerStackPage extends Page<void> {
           BlocProvider.value(value: _scrollHeaderCubit),
           BlocProvider.value(value: _selectCartoonCubit),
           BlocProvider.value(value: _settingsPageCubit),
+          BlocProvider.value(value: _showCreateCartoonSheetCubit),
           BlocProvider.value(value: _showBottomSheetCubit),
           BlocProvider.value(value: _sortByCubit),
           BlocProvider.value(value: _tabBloc),

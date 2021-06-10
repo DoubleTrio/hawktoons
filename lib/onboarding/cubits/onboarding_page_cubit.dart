@@ -4,7 +4,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 class OnboardingPageCubit extends Cubit<VisibleOnboardingPage> {
   OnboardingPageCubit() : super(VisibleOnboardingPage.welcome);
 
-  void setOnBoardingPage(VisibleOnboardingPage page) {
+  void setOnboardingPage(VisibleOnboardingPage page) {
     return emit(page);
   }
 }

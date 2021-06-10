@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
@@ -29,6 +30,7 @@ extension PumpApp on WidgetTester {
     AppDrawerCubit? appDrawerCubit,
     AuthenticationBloc? authenticationBloc,
     CartoonViewCubit? cartoonViewCubit,
+    CreateCartoonPageCubit? createCartoonPageCubit,
     LatestCartoonBloc? latestCartoonBloc,
     ImageTypeCubit? imageTypeCubit,
     OnboardingPageCubit? onboardingPageCubit,
@@ -37,7 +39,8 @@ extension PumpApp on WidgetTester {
     ScrollHeaderCubit? scrollHeaderCubit,
     SelectCartoonCubit? selectCartoonCubit,
     SettingsScreenCubit? settingsScreenCubit,
-    ShowBottomSheetCubit? showBottomSheetCubit,
+    ShowCreateCartoonSheetCubit? showCreateCartoonSheetCubit,
+    ShowFilterBottomSheetCubit? showFilterBottomSheetCubit,
     SortByCubit? sortByCubit,
     TagCubit? tagCubit,
     TabBloc? tabBloc,
@@ -64,6 +67,7 @@ extension PumpApp on WidgetTester {
       VisibleOnboardingPage.latestCartoon
     );
     registerFallbackValue<PrimaryColor>(PrimaryColor.purple);
+    registerFallbackValue<CreateCartoonPage>(CreateCartoonPage.image);
 
     return mockNetworkImagesFor(() async {
       final primary = PrimaryColor.purple;
@@ -92,6 +96,9 @@ extension PumpApp on WidgetTester {
                 value: cartoonViewCubit ?? MockCartoonViewCubit()
               ),
               BlocProvider.value(
+                value: createCartoonPageCubit ?? MockCreateCartoonPageCubit()
+              ),
+              BlocProvider.value(
                 value: imageTypeCubit ?? MockImageTypeCubit()
               ),
               BlocProvider.value(
@@ -118,7 +125,12 @@ extension PumpApp on WidgetTester {
                 value: settingsScreenCubit ?? MockSettingsScreenCubit()
               ),
               BlocProvider.value(
-                value: showBottomSheetCubit ?? MockShowBottomSheetCubit()
+                value: showCreateCartoonSheetCubit
+                  ?? MockShowCreateCartoonSheetCubit()
+              ),
+              BlocProvider.value(
+                value: showFilterBottomSheetCubit
+                  ?? MockShowBottomFilterSheetCubit()
               ),
               BlocProvider.value(value: sortByCubit ?? MockSortByCubit()),
               BlocProvider.value(value: imageTypeCubit ?? MockImageTypeCubit()),

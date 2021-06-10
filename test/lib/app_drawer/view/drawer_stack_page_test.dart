@@ -19,7 +19,8 @@ void main() {
     late AppDrawerCubit appDrawerCubit;
     late AuthenticationBloc authenticationBloc;
     late LatestCartoonBloc latestCartoonBloc;
-    late ShowBottomSheetCubit showBottomSheetCubit;
+    late ShowCreateCartoonSheetCubit showCreateCartoonSheetCubit;
+    late ShowFilterBottomSheetCubit showFilterBottomSheetCubit;
     late TabBloc tabBloc;
     late ThemeCubit themeCubit;
 
@@ -37,14 +38,16 @@ void main() {
       appDrawerCubit = MockAppDrawerCubit();
       authenticationBloc = MockAuthenticationBloc();
       latestCartoonBloc = MockLatestCartoonBloc();
-      showBottomSheetCubit = MockShowBottomSheetCubit();
+      showCreateCartoonSheetCubit = MockShowCreateCartoonSheetCubit();
+      showFilterBottomSheetCubit = MockShowBottomFilterSheetCubit();
       tabBloc = MockTabBloc();
       themeCubit = MockThemeCubit();
 
       when(() => latestCartoonBloc.state).thenReturn(
         const DailyCartoonInProgress()
       );
-      when(() => showBottomSheetCubit.state).thenReturn(false);
+      when(() => showCreateCartoonSheetCubit.state).thenReturn(false);
+      when(() => showFilterBottomSheetCubit.state).thenReturn(false);
       when(() => tabBloc.state).thenReturn(AppTab.latest);
       when(() => themeCubit.state).thenReturn(ThemeMode.light);
       when(() => authenticationBloc.state).thenReturn(
@@ -60,7 +63,8 @@ void main() {
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -81,7 +85,8 @@ void main() {
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -103,7 +108,8 @@ void main() {
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -122,7 +128,8 @@ void main() {
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -147,7 +154,8 @@ void main() {
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -170,7 +178,8 @@ void main() {
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );

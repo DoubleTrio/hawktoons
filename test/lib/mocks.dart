@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/create_cartoon_sheet/blocs/blocs.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:hawktoons/settings/settings.dart';
@@ -11,6 +12,7 @@ import 'package:hawktoons/tab/tab.dart';
 import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
+
 final mockFilter = const CartoonFilters.initial();
 
 final mockPoliticalCartoon = PoliticalCartoon(
@@ -45,6 +47,9 @@ class MockAuthenticationBloc
 class MockCartoonViewCubit extends MockCubit<CartoonView>
   implements CartoonViewCubit {}
 
+class MockCreateCartoonPageCubit extends MockCubit<CreateCartoonPage>
+  implements CreateCartoonPageCubit {}
+
 class MockLatestCartoonBloc
   extends MockBloc<LatestCartoonEvent, LatestCartoonState>
   implements LatestCartoonBloc {}
@@ -70,8 +75,11 @@ class MockScrollHeaderCubit extends MockCubit<bool>
 class MockSettingsScreenCubit extends MockCubit<SettingsScreen>
   implements SettingsScreenCubit {}
 
-class MockShowBottomSheetCubit extends MockCubit<bool>
-  implements ShowBottomSheetCubit {}
+class MockShowBottomFilterSheetCubit extends MockCubit<bool>
+  implements ShowFilterBottomSheetCubit {}
+
+class MockShowCreateCartoonSheetCubit extends MockCubit<bool>
+  implements ShowCreateCartoonSheetCubit {}
 
 class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 

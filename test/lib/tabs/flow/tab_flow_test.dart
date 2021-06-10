@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
@@ -25,7 +26,8 @@ void main() {
     late ScrollHeaderCubit scrollHeaderCubit;
     late SelectCartoonCubit selectCartoonCubit;
     late SettingsScreenCubit settingsScreenCubit;
-    late ShowBottomSheetCubit showBottomSheetCubit;
+    late ShowCreateCartoonSheetCubit showCreateCartoonSheetCubit;
+    late ShowFilterBottomSheetCubit showFilterBottomSheetCubit;
     late SortByCubit sortByCubit;
     late TabBloc tabBloc;
     late TagCubit tagCubit;
@@ -59,7 +61,8 @@ void main() {
       imageTypeCubit = MockImageTypeCubit();
       scrollHeaderCubit = MockScrollHeaderCubit();
       settingsScreenCubit = MockSettingsScreenCubit();
-      showBottomSheetCubit = MockShowBottomSheetCubit();
+      showCreateCartoonSheetCubit = MockShowCreateCartoonSheetCubit();
+      showFilterBottomSheetCubit = MockShowBottomFilterSheetCubit();
 
       when(() => allCartoonsBloc.state)
         .thenReturn(
@@ -68,14 +71,15 @@ void main() {
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState(status: AuthenticationStatus.authenticated)
       );
-      when(() => showBottomSheetCubit.state).thenReturn(false);
+      when(() => imageTypeCubit.state).thenReturn(ImageType.all);
       when(() => latestCartoonBloc.state).thenReturn(
         const DailyCartoonInProgress()
       );
+      when(() => scrollHeaderCubit.state).thenReturn(false);
       when(() => selectCartoonCubit.state)
         .thenReturn(const SelectPoliticalCartoonState());
-      when(() => imageTypeCubit.state).thenReturn(ImageType.all);
-      when(() => scrollHeaderCubit.state).thenReturn(false);
+      when(() => showCreateCartoonSheetCubit.state).thenReturn(false);
+      when(() => showFilterBottomSheetCubit.state).thenReturn(false);
       when(() => tabBloc.state).thenReturn(AppTab.latest);
     });
 
@@ -85,7 +89,8 @@ void main() {
         await tester.pumpApp(
           const TabFlow(),
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
           tabBloc: tabBloc,
         );
 
@@ -98,7 +103,8 @@ void main() {
           const TabFlow(),
           mode: ThemeMode.dark,
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
           tabBloc: tabBloc,
         );
 
@@ -112,7 +118,8 @@ void main() {
         await tester.pumpApp(
           const TabFlow(),
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
           tabBloc: tabBloc,
         );
         expect(find.byType(TabSelector), findsOneWidget);
@@ -124,7 +131,8 @@ void main() {
         await tester.pumpApp(
           const TabFlow(),
           latestCartoonBloc: latestCartoonBloc,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
           tabBloc: tabBloc,
         );
         await tester.tap(find.byKey(latestCartoonTabKey));
@@ -138,7 +146,8 @@ void main() {
       await tester.pumpApp(
         const TabFlow(),
         latestCartoonBloc: latestCartoonBloc,
-        showBottomSheetCubit: showBottomSheetCubit,
+        showFilterBottomSheetCubit: showFilterBottomSheetCubit,
+        showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
         tabBloc: tabBloc,
       );
       await tester.tap(find.byKey(settingsTabKey));
@@ -151,7 +160,8 @@ void main() {
       await tester.pumpApp(
         const TabFlow(),
         latestCartoonBloc: latestCartoonBloc,
-        showBottomSheetCubit: showBottomSheetCubit,
+        showFilterBottomSheetCubit: showFilterBottomSheetCubit,
+        showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
         tabBloc: tabBloc,
       );
       await tester.tap(find.byKey(allCartoonTabKey));
@@ -166,7 +176,8 @@ void main() {
         authenticationBloc: authenticationBloc,
         scrollHeaderCubit: scrollHeaderCubit,
         selectCartoonCubit: selectCartoonCubit,
-        showBottomSheetCubit: showBottomSheetCubit,
+        showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+        showFilterBottomSheetCubit: showFilterBottomSheetCubit,
         tabBloc: tabBloc,
       );
       expect(find.byType(AllCartoonsView), findsOneWidget);
@@ -179,7 +190,8 @@ void main() {
         const TabFlow(),
         selectCartoonCubit: selectCartoonCubit,
         settingsScreenCubit: settingsScreenCubit,
-        showBottomSheetCubit: showBottomSheetCubit,
+        showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+        showFilterBottomSheetCubit: showFilterBottomSheetCubit,
         tabBloc: tabBloc,
       );
       expect(find.byType(SettingsFlowView), findsOneWidget);
@@ -190,7 +202,7 @@ void main() {
         when(() => tabBloc.state).thenReturn(AppTab.all);
         when(() => tagCubit.state).thenReturn(Tag.all);
         when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
-        whenListen(showBottomSheetCubit, Stream.value(true));
+        whenListen(showFilterBottomSheetCubit, Stream.value(true));
       });
 
       testWidgets('shows filter pop up and closes', (tester) async {
@@ -200,7 +212,8 @@ void main() {
           mode: ThemeMode.dark,
           latestCartoonBloc: latestCartoonBloc,
           imageTypeCubit: imageTypeCubit,
-          showBottomSheetCubit: showBottomSheetCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           sortByCubit: sortByCubit,
           tabBloc: tabBloc,
           tagCubit: tagCubit,
@@ -208,7 +221,33 @@ void main() {
         await tester.pump(const Duration(seconds: 1));
         expect(find.byType(FilterPopUp), findsOneWidget);
         await tester.tapAt(const Offset(0, 500));
-        verify(showBottomSheetCubit.closeSheet).called(1);
+        verify(showFilterBottomSheetCubit.closeSheet).called(1);
+      });
+    });
+
+    group('CreateCartoonPopUp', () {
+      setUp(() {
+        whenListen(showCreateCartoonSheetCubit, Stream.value(true));
+        whenListen(showFilterBottomSheetCubit, Stream.value(false));
+      });
+
+      testWidgets('shows create cartoon pop up and closes', (tester) async {
+        when(() => tabBloc.state).thenReturn(AppTab.latest);
+        await tester.pumpApp(
+          const TabFlow(),
+          latestCartoonBloc: latestCartoonBloc,
+          imageTypeCubit: imageTypeCubit,
+          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
+          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
+          sortByCubit: sortByCubit,
+          tabBloc: tabBloc,
+          tagCubit: tagCubit,
+        );
+        await tester.pump(const Duration(seconds: 2));
+        expect(find.byType(CreateCartoonPopUp), findsOneWidget);
+        await tester.tapAt(const Offset(0, 500));
+        await tester.pump(const Duration(seconds: 2));
+        verify(showCreateCartoonSheetCubit.closeSheet).called(1);
       });
     });
   });

@@ -3,8 +3,8 @@ import 'package:hawktoons/l10n/l10n.dart';
 import 'package:intl/intl.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class TimeAgo implements TimeConverter {
-  const TimeAgo({this.locale = 'en', required this.l10n});
+class TimeAgoConverter implements TimeConverter {
+  const TimeAgoConverter({this.locale = 'en', required this.l10n});
 
   final AppLocalizations l10n;
 
@@ -21,7 +21,7 @@ class TimeAgo implements TimeConverter {
 
     if (difference.inDays > 8) {
       final dateString =
-          DateFormat('dd MMM yyyy', locale).format(notificationDate);
+        DateFormat('dd MMM yyyy', locale).format(notificationDate);
       return dateString;
     } else if ((difference.inDays / 7).floor() >= 1) {
       return (numericDates) ? l10n.oneWeekNumeric : l10n.oneWeek;

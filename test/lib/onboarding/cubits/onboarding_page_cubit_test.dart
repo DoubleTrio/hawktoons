@@ -16,7 +16,7 @@ void main() {
       'when selectSortBy is invoked',
       build: () => OnboardingPageCubit(),
       act: (cubit) =>
-        cubit.setOnBoardingPage(VisibleOnboardingPage.latestCartoon),
+        cubit.setOnboardingPage(VisibleOnboardingPage.latestCartoon),
       expect: () => [VisibleOnboardingPage.latestCartoon],
     );
 
@@ -24,9 +24,9 @@ void main() {
       'emits correct pages when selectSortBy is invoked 3 times',
       build: () => OnboardingPageCubit(),
       act: (cubit) => cubit
-        ..setOnBoardingPage(VisibleOnboardingPage.latestCartoon)
-        ..setOnBoardingPage(VisibleOnboardingPage.allCartoons)
-        ..setOnBoardingPage(VisibleOnboardingPage.welcome),
+        ..setOnboardingPage(VisibleOnboardingPage.latestCartoon)
+        ..setOnboardingPage(VisibleOnboardingPage.allCartoons)
+        ..setOnboardingPage(VisibleOnboardingPage.welcome),
       expect: () => [
         VisibleOnboardingPage.latestCartoon,
         VisibleOnboardingPage.allCartoons,

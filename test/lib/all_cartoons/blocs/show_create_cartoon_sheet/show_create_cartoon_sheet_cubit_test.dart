@@ -3,29 +3,29 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
 
 void main() {
-  group('ShowBottomSheetCubit', () {
+  group('ShowCreateCartoonSheetCubit', () {
     test('initial state is false', () {
-      expect(ShowBottomSheetCubit().state, equals(false));
+      expect(ShowFilterBottomSheetCubit().state, equals(false));
     });
 
-    blocTest<ShowBottomSheetCubit, bool>(
+    blocTest<ShowCreateCartoonSheetCubit, bool>(
       'emits [true] when openSheet is invoked',
-      build: () => ShowBottomSheetCubit(),
+      build: () => ShowCreateCartoonSheetCubit(),
       act: (cubit) => cubit.openSheet(),
       expect: () => [true],
     );
 
-    blocTest<ShowBottomSheetCubit, bool>(
+    blocTest<ShowCreateCartoonSheetCubit, bool>(
       'emits [false] when closeSheet is invoked',
-      build: () => ShowBottomSheetCubit(),
+      build: () => ShowCreateCartoonSheetCubit(),
       seed: () => true,
       act: (cubit) => cubit.closeSheet(),
       expect: () => [false],
     );
 
-    blocTest<ShowBottomSheetCubit, bool>(
+    blocTest<ShowCreateCartoonSheetCubit, bool>(
       'emits [false, true, false] when closing and opening bottom sheet',
-      build: () => ShowBottomSheetCubit(),
+      build: () => ShowCreateCartoonSheetCubit(),
       seed: () => true,
       act: (cubit) => cubit
         ..closeSheet()

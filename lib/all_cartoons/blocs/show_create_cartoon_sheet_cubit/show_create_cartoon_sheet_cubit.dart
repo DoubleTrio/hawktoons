@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 
-class ShowBottomSheetCubit extends Cubit<bool> {
-  ShowBottomSheetCubit() : super(false);
+class ShowCreateCartoonSheetCubit extends Cubit<bool> {
+  ShowCreateCartoonSheetCubit() : super(false);
 
   void openSheet() => emit(true);
 

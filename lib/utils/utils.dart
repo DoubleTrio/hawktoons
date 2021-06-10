@@ -1,2 +1,2 @@
 export 'constants.dart';
-export 'time_ago.dart';
+export 'time_ago_converter.dart';

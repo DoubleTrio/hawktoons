@@ -36,8 +36,12 @@ class AllCartoonsView extends StatelessWidget {
       (bloc) => bloc.state.isAdmin
     );
 
+    void _openCreateCartoonSheet() {
+      context.read<ShowCreateCartoonSheetCubit>().openSheet();
+    }
+
     void _openFilterSheet() {
-      context.read<ShowBottomSheetCubit>().openSheet();
+      context.read<ShowFilterBottomSheetCubit>().openSheet();
     }
 
     void _openDrawer() {
@@ -50,7 +54,7 @@ class AllCartoonsView extends StatelessWidget {
         AddFloatingActionButton(
           label: l10n.allCartoonsPageFloatingActionButtonLabel,
           hint: l10n.allCartoonsPageFloatingActionButtonHint,
-          onPressed: () {}
+          onPressed: _openCreateCartoonSheet
         )
         : null,
       appBar: AppBar(
