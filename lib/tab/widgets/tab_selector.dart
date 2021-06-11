@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/tab/tab.dart';
 
-class TabSelector extends StatelessWidget {
+class TabSelector extends StatefulWidget {
   TabSelector({
     Key? key,
     required this.activeTab,
@@ -13,50 +13,115 @@ class TabSelector extends StatelessWidget {
   final AppTab activeTab;
   final ValueChanged<AppTab> onTabChanged;
 
+  @override
+  State<TabSelector> createState() => _TabSelectorState();
+}
+
+class _TabSelectorState extends State<TabSelector>
+    with SingleTickerProviderStateMixin {
   final int totalTabs = AppTab.values.length;
+
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final screenWidth = MediaQuery.of(context).size.width;
-    final width = screenWidth / totalTabs;
+    final tabWidth = screenWidth / totalTabs;
+    final curve = Curves.easeIn;
 
-    return Row(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomBottomTabItem(
-          key: const Key('TabSelector_LatestTab'),
-          icon: const Icon(Icons.article_outlined),
-          width: width,
-          onTap: () => onTabChanged(AppTab.latest),
-          selected: AppTab.latest == activeTab,
-          text: l10n.appTabLatestText,
-          label: l10n.appTabLatestLabel,
-          hint: l10n.appTabLatestHint,
-          sortKey: const OrdinalSortKey(0),
+        AnimatedBuilder(
+          animation: controller,
+          builder: (context, child) {
+            final slide = (screenWidth * controller.value) / 1.5;
+            return Transform(
+              transform: Matrix4.identity()..translate(slide),
+              child: child,
+            );
+          },
+          child: Container(
+            width: tabWidth,
+            color: Theme.of(context).colorScheme.primary,
+            height: 3
+          )
         ),
-        CustomBottomTabItem(
-          key: const Key('TabSelector_AllTab'),
-          icon: const Icon(Icons.list),
-          width: width,
-          onTap: () => onTabChanged(AppTab.all),
-          selected: AppTab.all == activeTab,
-          text: l10n.appTabAllText,
-          label: l10n.appTabAllLabel,
-          hint: l10n.appTabAllHint,
-          sortKey: const OrdinalSortKey(1),
+        Row(
+          children: [
+            CustomBottomTabItem(
+              key: const Key('TabSelector_LatestTab'),
+              icon: const Icon(Icons.article_outlined),
+              width: tabWidth,
+              onTap: () {
+                widget.onTabChanged(AppTab.latest);
+                controller.animateTo(
+                  0,
+                  duration: const Duration(milliseconds: 400),
+                  curve: curve,
+                );
+              },
+              selected: AppTab.latest == widget.activeTab,
+              text: l10n.appTabLatestText,
+              label: l10n.appTabLatestLabel,
+              hint: l10n.appTabLatestHint,
+              sortKey: const OrdinalSortKey(0),
+            ),
+            CustomBottomTabItem(
+              key: const Key('TabSelector_AllTab'),
+              icon: const Icon(Icons.list),
+              width: tabWidth,
+              onTap: () { 
+                widget.onTabChanged(AppTab.all);
+                controller.animateTo(
+                  0.5,
+                  duration: const Duration(milliseconds: 400),
+                  curve: curve,
+                );
+              },
+              selected: AppTab.all == widget.activeTab,
+              text: l10n.appTabAllText,
+              label: l10n.appTabAllLabel,
+              hint: l10n.appTabAllHint,
+              sortKey: const OrdinalSortKey(1),
+            ),
+            CustomBottomTabItem(
+              key: const Key('TabSelector_SettingsTab'),
+              icon: const Icon(Icons.settings_outlined),
+              width: tabWidth,
+              onTap: () {
+                widget.onTabChanged(AppTab.settings);
+                controller.animateTo(
+                  1,
+                  duration: const Duration(milliseconds: 400),
+                  curve: curve,
+                );
+              },
+              selected: AppTab.settings == widget.activeTab,
+              text: l10n.appTabSettingsText,
+              label: l10n.appTabSettingsLabel,
+              hint: l10n.appTabSettingsHint,
+              sortKey: const OrdinalSortKey(2),
+            ),
+          ]
         ),
-        CustomBottomTabItem(
-          key: const Key('TabSelector_SettingsTab'),
-          icon: const Icon(Icons.settings_outlined),
-          width: width,
-          onTap: () => onTabChanged(AppTab.settings),
-          selected: AppTab.settings == activeTab,
-          text: l10n.appTabSettingsText,
-          label: l10n.appTabSettingsLabel,
-          hint: l10n.appTabSettingsHint,
-          sortKey: const OrdinalSortKey(2),
-        ),
-      ]
+      ],
     );
   }
 }
@@ -101,13 +166,6 @@ class CustomBottomTabItem extends StatelessWidget {
           child: Container(
             height: height,
             width: width,
-            decoration: selected
-              ? BoxDecoration(
-                  border: Border(
-                    top: BorderSide(width: 3, color: colorScheme.primary)
-                  )
-                )
-              : const BoxDecoration(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
