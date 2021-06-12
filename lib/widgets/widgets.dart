@@ -8,5 +8,6 @@ export 'custom_icon_button.dart';
 export 'elevated_icon_button.dart';
 export 'loading_indicator.dart';
 export 'page_header.dart';
+export 'page_indicator.dart';
 export 'scaffold_title.dart';
 export 'section_header.dart';

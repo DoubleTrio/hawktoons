@@ -19,7 +19,7 @@ class App extends StatelessWidget {
       userRepository: _firebaseUserRepository
     );
     final _primaryColorCubit = PrimaryColorCubit();
-    final _onboardingSeenCubit = OnboardingSeenCubit();
+    final _onboardingCubit = OnboardingCubit();
     final _themeCubit = ThemeCubit();
 
     return MultiRepositoryProvider(
@@ -35,7 +35,7 @@ class App extends StatelessWidget {
         providers: [
           BlocProvider.value(value: _authBloc),
           BlocProvider.value(value: _primaryColorCubit),
-          BlocProvider.value(value: _onboardingSeenCubit),
+          BlocProvider.value(value: _onboardingCubit),
           BlocProvider.value(value: _themeCubit),
         ],
         child: const AppView(),

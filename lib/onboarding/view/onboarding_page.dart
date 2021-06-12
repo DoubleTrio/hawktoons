@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
+import 'package:hawktoons/widgets/widgets.dart';
 
 class OnboardingPage extends Page<void> {
   const OnboardingPage() : super(key: const ValueKey('OnBoardingPage'));
@@ -10,10 +11,7 @@ class OnboardingPage extends Page<void> {
   Route createRoute(BuildContext context) {
     return PageRouteBuilder<void>(
       settings: this,
-      pageBuilder: (_, __, ___) => BlocProvider(
-        create: (context) => OnboardingPageCubit(),
-        child: const OnboardingView(),
-      ),
+      pageBuilder: (_, __, ___) => const OnboardingView(),
       transitionDuration: const Duration(milliseconds: 0),
     );
   }
@@ -46,7 +44,10 @@ class _OnboardingViewState extends State<OnboardingView> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final colorScheme = Theme.of(context).colorScheme;
-    final currentPage = context.watch<OnboardingPageCubit>().state;
+    final currentPage = context.select<OnboardingCubit, VisibleOnboardingPage>(
+      (cubit) => cubit.state.onboardingPage
+    );
+
     final isLastPage = totalPages - 1 == currentPage.index;
 
     List<Widget> _buildPageIndicator() {
@@ -60,11 +61,11 @@ class _OnboardingViewState extends State<OnboardingView> {
     }
 
     void _completeOnboarding() {
-      context.read<OnboardingSeenCubit>().setSeenOnboarding();
+      context.read<OnboardingCubit>().setSeenOnboarding();
     }
 
     void _onPageChanged(int page) {
-      context.read<OnboardingPageCubit>().setOnboardingPage(
+      context.read<OnboardingCubit>().setOnboardingPage(
         VisibleOnboardingPage.values[page]
       );
     }
@@ -80,7 +81,7 @@ class _OnboardingViewState extends State<OnboardingView> {
         child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+            children: [
               Container(
                 height: MediaQuery.of(context).size.height * 0.60,
                 child: PageView(

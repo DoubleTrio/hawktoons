@@ -33,8 +33,7 @@ extension PumpApp on WidgetTester {
     CreateCartoonPageCubit? createCartoonPageCubit,
     LatestCartoonBloc? latestCartoonBloc,
     ImageTypeCubit? imageTypeCubit,
-    OnboardingPageCubit? onboardingPageCubit,
-    OnboardingSeenCubit? onboardingSeenCubit,
+    OnboardingCubit? onboardingCubit,
     PrimaryColorCubit? primaryColorCubit,
     ScrollHeaderCubit? scrollHeaderCubit,
     SelectCartoonCubit? selectCartoonCubit,
@@ -63,11 +62,9 @@ extension PumpApp on WidgetTester {
     registerFallbackValue<CartoonView>(CartoonView.card);
     registerFallbackValue<ImageType>(ImageType.all);
     registerFallbackValue<ThemeMode>(ThemeMode.light);
-    registerFallbackValue<VisibleOnboardingPage>(
-      VisibleOnboardingPage.latestCartoon
-    );
+    registerFallbackValue<OnboardingState>(FakeOnboardingState());
     registerFallbackValue<PrimaryColor>(PrimaryColor.purple);
-    registerFallbackValue<CreateCartoonPage>(CreateCartoonPage.image);
+    registerFallbackValue<CreateCartoonPage>(CreateCartoonPage.uploadImage);
 
     return mockNetworkImagesFor(() async {
       final primary = PrimaryColor.purple;
@@ -105,10 +102,7 @@ extension PumpApp on WidgetTester {
                 value: latestCartoonBloc ?? MockLatestCartoonBloc()
               ),
               BlocProvider.value(
-                value: onboardingPageCubit ?? MockOnboardingPageCubit()
-              ),
-              BlocProvider.value(
-                value: onboardingSeenCubit ?? MockOnboardingSeenCubit()
+                value: onboardingCubit ?? MockOnboardingCubit()
               ),
               BlocProvider.value(
                 value: primaryColorCubit ?? MockPrimaryColorCubit()

@@ -17,22 +17,19 @@ class FilterPopUp extends StatelessWidget {
     final imageTypes = ImageType.values.sublist(1);
 
     final _selectedImageType = context
-        .watch<ImageTypeCubit>()
-        .state;
+      .watch<ImageTypeCubit>()
+      .state;
     final _selectedTag = context
-        .watch<TagCubit>()
-        .state;
+      .watch<TagCubit>()
+      .state;
     final _sortByMode = context
-        .watch<SortByCubit>()
-        .state;
-    final _imageType = context
-        .watch<ImageTypeCubit>()
-        .state;
+      .watch<SortByCubit>()
+      .state;
 
     final filters = CartoonFilters(
-        sortByMode: _sortByMode,
-        imageType: _imageType,
-        tag: _selectedTag
+      sortByMode: _sortByMode,
+      imageType: _selectedImageType,
+      tag: _selectedTag
     );
 
     void _filter() {

@@ -7,13 +7,13 @@ void main() {
     test('initial state is VisibleOnboardingPage.welcome', () {
       expect(
         CreateCartoonPageCubit().state,
-        equals(CreateCartoonPage.image),
+        equals(CreateCartoonPage.uploadImage),
       );
     });
 
     blocTest<CreateCartoonPageCubit, CreateCartoonPage>(
       'emits [VisibleOnboardingPage.latestCartoon] '
-        'when selectSortBy is invoked',
+      'when selectSortBy is invoked',
       build: () => CreateCartoonPageCubit(),
       act: (cubit) =>
         cubit.setPage(CreateCartoonPage.description),

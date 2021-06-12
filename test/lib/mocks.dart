@@ -60,11 +60,8 @@ class MockImageTypeCubit extends MockCubit<ImageType>
 class MockPrimaryColorCubit extends MockCubit<PrimaryColor>
   implements PrimaryColorCubit {}
 
-class MockOnboardingPageCubit extends MockCubit<VisibleOnboardingPage>
-  implements OnboardingPageCubit {}
-
-class MockOnboardingSeenCubit extends MockCubit<bool>
-  implements OnboardingSeenCubit {}
+class MockOnboardingCubit extends MockCubit<OnboardingState>
+  implements OnboardingCubit {}
 
 class MockSelectCartoonCubit extends MockCubit<SelectPoliticalCartoonState>
   implements SelectCartoonCubit {}

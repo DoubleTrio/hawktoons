@@ -3,35 +3,31 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../keys.dart';
 import '../../mocks.dart';
 
 void main() {
   group('OnboardingPage', () {
-    late OnboardingPageCubit onboardingPageCubit;
-    late OnboardingSeenCubit onboardingSeenCubit;
+    late OnboardingCubit onboardingCubit;
 
     setUpAll(() {
-      registerFallbackValue<VisibleOnboardingPage>(
-        VisibleOnboardingPage.welcome
-      );
+      registerFallbackValue<OnboardingState>(FakeOnboardingState());
     });
 
     setUp(() {
-      onboardingPageCubit = MockOnboardingPageCubit();
-      onboardingSeenCubit = MockOnboardingSeenCubit();
-
-      when(() => onboardingSeenCubit.state).thenReturn(false);
-      when(() => onboardingPageCubit.state)
-        .thenReturn(VisibleOnboardingPage.welcome);
+      onboardingCubit = MockOnboardingCubit();
+      when(() => onboardingCubit.state).thenReturn(
+        const OnboardingState.initial()
+      );
     });
 
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
           const OnboardingView(),
-          onboardingPageCubit: onboardingPageCubit,
+          onboardingCubit: onboardingCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -40,7 +36,7 @@ void main() {
       testWidgets('passes guidelines for dark theme', (tester) async {
         await tester.pumpApp(
           const OnboardingView(),
-          onboardingPageCubit: onboardingPageCubit,
+          onboardingCubit: onboardingCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -50,18 +46,18 @@ void main() {
     testWidgets('setOnboarding page called twice when swiped', (tester) async {
       await tester.pumpApp(
         const OnboardingView(),
-        onboardingPageCubit: onboardingPageCubit,
+        onboardingCubit: onboardingCubit,
       );
       await tester.drag(find.byType(OnboardingWidget), const Offset(-1000, 0));
       await tester.drag(find.byType(OnboardingWidget), const Offset(-1000, 0));
       await tester.drag(find.byType(OnboardingWidget), const Offset(1000, 0));
 
       verifyInOrder([
-        () => onboardingPageCubit
+        () => onboardingCubit
           .setOnboardingPage(VisibleOnboardingPage.latestCartoon),
-        () => onboardingPageCubit
+        () => onboardingCubit
           .setOnboardingPage(VisibleOnboardingPage.allCartoons),
-        () => onboardingPageCubit
+        () => onboardingCubit
           .setOnboardingPage(VisibleOnboardingPage.latestCartoon),
       ]);
     });
@@ -71,7 +67,7 @@ void main() {
       'when next button is tapped', (tester) async {
       await tester.pumpApp(
         const OnboardingView(),
-        onboardingPageCubit: onboardingPageCubit,
+        onboardingCubit: onboardingCubit,
       );
 
       await tester.tap(find.byKey(nextPageOnboardingButtonKey));
@@ -81,9 +77,9 @@ void main() {
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => onboardingPageCubit
+        () => onboardingCubit
           .setOnboardingPage(VisibleOnboardingPage.latestCartoon),
-        () => onboardingPageCubit
+        () => onboardingCubit
           .setOnboardingPage(VisibleOnboardingPage.allCartoons),
       ]);
     });
@@ -91,36 +87,37 @@ void main() {
     testWidgets(
       'completes onboarding '
       'when start button is tapped', (tester) async {
-      when(() => onboardingPageCubit.state)
-        .thenReturn(VisibleOnboardingPage.allCartoons);
+      when(() => onboardingCubit.state)
+        .thenReturn(
+          const OnboardingState(
+            seenOnboarding: false,
+            onboardingPage: VisibleOnboardingPage.allCartoons
+          )
+      );
 
       await tester.pumpApp(
         const OnboardingView(),
-        onboardingPageCubit: onboardingPageCubit,
-        onboardingSeenCubit: onboardingSeenCubit,
+        onboardingCubit: onboardingCubit,
       );
       expect(find.text('Start'), findsOneWidget);
       await tester.tap(find.byKey(startCompleteOnboardingButtonKey));
       await tester.pumpAndSettle();
       
-      verify(onboardingSeenCubit.setSeenOnboarding).called(1);
+      verify(onboardingCubit.setSeenOnboarding).called(1);
     });
 
     testWidgets(
       'completes onboarding '
       'when skip button is tapped', (tester) async {
-      when(() => onboardingPageCubit.state)
-        .thenReturn(VisibleOnboardingPage.latestCartoon);
 
       await tester.pumpApp(
         const OnboardingView(),
-        onboardingPageCubit: onboardingPageCubit,
-        onboardingSeenCubit: onboardingSeenCubit,
+        onboardingCubit: onboardingCubit,
       );
       await tester.tap(find.byKey(setSeenOnboardingButtonKey));
       await tester.pumpAndSettle();
 
-      verify(onboardingSeenCubit.setSeenOnboarding).called(1);
+      verify(onboardingCubit.setSeenOnboarding).called(1);
     });
   });
 }

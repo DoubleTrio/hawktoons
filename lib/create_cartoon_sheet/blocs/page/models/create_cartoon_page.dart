@@ -1,5 +1,5 @@
 enum CreateCartoonPage {
-  image,
+  uploadImage,
   published,
   author,
   imageType,

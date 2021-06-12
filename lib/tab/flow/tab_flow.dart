@@ -75,9 +75,15 @@ class TabFlow extends StatelessWidget {
           BlocListener<ShowCreateCartoonSheetCubit, bool>(
             listener: (context, shouldShowCreateCartoonSheet) {
               if (shouldShowCreateCartoonSheet) {
+                final _createCartoonPageCubit = CreateCartoonPageCubit();
                 showBottomSheet(
                   onComplete: _closeCartoonSheet,
-                  child: const CreateCartoonPopUp(),
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(value: _createCartoonPageCubit),
+                    ],
+                    child: const CreateCartoonPopUp()
+                  ),
                 );
               }
             },

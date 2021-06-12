@@ -11,36 +11,42 @@ import '../../mocks.dart';
 void main() {
   group('OnboardingFlow', () {
     late AuthenticationBloc authenticationBloc;
-    late OnboardingSeenCubit onboardingSeenCubit;
+    late OnboardingCubit onboardingCubit;
 
     setUpAll(() {
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
+      registerFallbackValue<OnboardingState>(FakeOnboardingState());
     });
 
     setUp(() {
       authenticationBloc = MockAuthenticationBloc();
-      onboardingSeenCubit = MockOnboardingSeenCubit();
+      onboardingCubit = MockOnboardingCubit();
     });
 
     testWidgets('screen is OnboardingView', (tester) async {
-      when(() => onboardingSeenCubit.state).thenReturn(false);
+      when(() => onboardingCubit.state).thenReturn(
+        const OnboardingState.initial()
+      );
       await tester.pumpApp(
         const OnboardingFlow(),
-        onboardingSeenCubit: onboardingSeenCubit,
+        onboardingCubit: onboardingCubit,
       );
       expect(find.byType(OnboardingView), findsOneWidget);
     });
 
     testWidgets('screen is AuthFlow', (tester) async {
-      when(() => onboardingSeenCubit.state).thenReturn(true);
+      when(() => onboardingCubit.state).thenReturn(const OnboardingState(
+        seenOnboarding: true,
+        onboardingPage: VisibleOnboardingPage.welcome,
+      ));
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState.uninitialized()
       );
       await tester.pumpApp(
         const OnboardingFlow(),
         authenticationBloc: authenticationBloc,
-        onboardingSeenCubit: onboardingSeenCubit,
+        onboardingCubit: onboardingCubit,
       );
       expect(find.byType(AuthFlow), findsOneWidget);
     });

@@ -151,7 +151,6 @@ class CustomBottomTabItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final bottomNavTheme = theme.bottomNavigationBarTheme;
-    final colorScheme = theme.colorScheme;
     final height = MediaQuery.of(context).size.height * 0.07;
 
     return Semantics(

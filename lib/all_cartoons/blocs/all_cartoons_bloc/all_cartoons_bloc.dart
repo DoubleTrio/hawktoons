@@ -79,7 +79,7 @@ class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
     } on Exception {
       yield state.copyWith(
         status: CartoonStatus.failure,
-        filters: event.filters
+        filters: event.filters,
       );
     }
   }
