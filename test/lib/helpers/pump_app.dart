@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
 import 'package:hawktoons/l10n/l10n.dart';
@@ -12,7 +13,6 @@ import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -29,22 +29,21 @@ extension PumpApp on WidgetTester {
     AllCartoonsBloc? allCartoonsBloc,
     AllCartoonsPageCubit? allCartoonsPageCubit,
     AppDrawerCubit? appDrawerCubit,
+    AppearancesCubit? appearancesCubit,
     AuthenticationBloc? authenticationBloc,
-    CartoonViewCubit? cartoonViewCubit,
     CreateCartoonPageCubit? createCartoonPageCubit,
     LatestCartoonBloc? latestCartoonBloc,
     ImageTypeCubit? imageTypeCubit,
     OnboardingCubit? onboardingCubit,
-    PrimaryColorCubit? primaryColorCubit,
     SettingsScreenCubit? settingsScreenCubit,
     SortByCubit? sortByCubit,
     TagCubit? tagCubit,
     TabBloc? tabBloc,
-    ThemeCubit? themeCubit,
   }) {
     registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
     registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
     registerFallbackValue<AllCartoonsPageState>(FakeAllCartoonsPageState());
+    registerFallbackValue<AppearancesState>(FakeAppearancesState());
     registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
     registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
@@ -88,10 +87,10 @@ extension PumpApp on WidgetTester {
                 value: appDrawerCubit ?? MockAppDrawerCubit()
               ),
               BlocProvider.value(
-                value: authenticationBloc ?? MockAuthenticationBloc()
+                value: appearancesCubit ?? MockAppearancesCubit()
               ),
               BlocProvider.value(
-                value: cartoonViewCubit ?? MockCartoonViewCubit()
+                value: authenticationBloc ?? MockAuthenticationBloc()
               ),
               BlocProvider.value(
                 value: createCartoonPageCubit ?? MockCreateCartoonPageCubit()
@@ -105,9 +104,6 @@ extension PumpApp on WidgetTester {
               BlocProvider.value(
                 value: onboardingCubit ?? MockOnboardingCubit()
               ),
-              BlocProvider.value(
-                value: primaryColorCubit ?? MockPrimaryColorCubit()
-              ),
               BlocProvider.value(value: tabBloc ?? MockTabBloc()),
               BlocProvider.value(value: tagCubit ?? MockTagCubit()),
               BlocProvider.value(
@@ -116,7 +112,6 @@ extension PumpApp on WidgetTester {
               BlocProvider.value(value: sortByCubit ?? MockSortByCubit()),
               BlocProvider.value(value: imageTypeCubit ?? MockImageTypeCubit()),
               BlocProvider.value(value: tabBloc ?? MockTabBloc()),
-              BlocProvider.value(value: themeCubit ?? MockThemeCubit()),
             ],
             child: MaterialApp(
               theme: createLightTheme(primary),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawktoons/theme/constants.dart';
+import 'package:hawktoons/appearances/constants.dart';
 
 class AvatarProfile extends StatelessWidget {
   // ignore: use_key_in_widget_constructors

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';
 

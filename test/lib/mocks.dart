@@ -1,15 +1,14 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/create_cartoon_sheet/blocs/blocs.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -37,6 +36,9 @@ class MockFirebaseUserRepository extends Mock
 class MockAppDrawerCubit extends MockCubit<bool>
   implements AppDrawerCubit {}
 
+class MockAppearancesCubit extends MockCubit<AppearancesState>
+  implements AppearancesCubit {}
+
 class MockAllCartoonsPageCubit extends MockCubit<AllCartoonsPageState>
   implements AllCartoonsPageCubit {}
 
@@ -46,9 +48,6 @@ class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
 class MockAuthenticationBloc
   extends MockBloc<AuthenticationEvent, AuthenticationState>
   implements AuthenticationBloc {}
-
-class MockCartoonViewCubit extends MockCubit<CartoonView>
-  implements CartoonViewCubit {}
 
 class MockCreateCartoonPageCubit extends MockCubit<CreateCartoonPage>
   implements CreateCartoonPageCubit {}
@@ -60,8 +59,6 @@ class MockLatestCartoonBloc
 class MockImageTypeCubit extends MockCubit<ImageType>
   implements ImageTypeCubit {}
 
-class MockPrimaryColorCubit extends MockCubit<PrimaryColor>
-  implements PrimaryColorCubit {}
 
 class MockOnboardingCubit extends MockCubit<OnboardingState>
   implements OnboardingCubit {}
@@ -74,5 +71,3 @@ class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 class MockTabBloc extends MockBloc<TabEvent, AppTab> implements TabBloc {}
 
 class MockTagCubit extends MockCubit<Tag> implements TagCubit {}
-
-class MockThemeCubit extends MockCubit<ThemeMode> implements ThemeCubit {}

@@ -2,24 +2,26 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
-import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AllCartoonsBloc extends Bloc<AllCartoonsEvent, AllCartoonsState> {
   AllCartoonsBloc({
     required this.cartoonRepository,
-    required this.cartoonViewCubit,
+    required this.appearancesCubit,
   }) :
-    super(AllCartoonsState.initial(view: cartoonViewCubit.state)) {
-    _viewSubscription = cartoonViewCubit.stream.listen((view) {
-      add(UpdateCartoonView(view));
+    super(AllCartoonsState.initial(view: appearancesCubit.state.cartoonView)) {
+    _viewSubscription = appearancesCubit.stream.listen((appearancesState) {
+      if (appearancesState.cartoonView != state.view) {
+        add(UpdateCartoonView(appearancesState.cartoonView));
+      }
     });
   }
 
   final int limit = 15;
   final FirestorePoliticalCartoonRepository cartoonRepository;
-  final CartoonViewCubit cartoonViewCubit;
+  final AppearancesCubit appearancesCubit;
   late final StreamSubscription _viewSubscription;
 
   @override

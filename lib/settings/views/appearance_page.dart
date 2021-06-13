@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/settings/settings.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
 class ThemePage extends Page<void> {
@@ -83,10 +83,16 @@ class PrimaryColorPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final themeMode = context.watch<ThemeCubit>().state;
-    final currentPrimaryColor = context.watch<PrimaryColorCubit>().state;
+    final themeMode = context.select<AppearancesCubit, ThemeMode>(
+      (bloc) => bloc.state.themeMode
+    );
+
+    final currentPrimaryColor = context.select<AppearancesCubit, PrimaryColor>(
+      (bloc) => bloc.state.primaryColor
+    );
+
     void _changePrimaryColor(PrimaryColor primary) {
-      context.read<PrimaryColorCubit>().setColor(primary);
+      context.read<AppearancesCubit>().setColor(primary);
     }
 
     return Container(
@@ -122,11 +128,14 @@ class ThemeModePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final n = themeModes.length;
     final l10n = context.l10n;
-    final selectedThemeMode = context.watch<ThemeCubit>().state;
+    final selectedThemeMode = context.select<AppearancesCubit, ThemeMode>(
+      (bloc) => bloc.state.themeMode
+    );
+
     final theme = Theme.of(context);
 
     void _setTheme(ThemeMode themeMode) {
-      context.read<ThemeCubit>().setTheme(themeMode);
+      context.read<AppearancesCubit>().setTheme(themeMode);
     }
 
     return ListView.builder(
@@ -159,11 +168,13 @@ class CartoonViewPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final n = cartoonViews.length;
     final l10n = context.l10n;
-    final selectedCartoonView = context.watch<CartoonViewCubit>().state;
+    final selectedCartoonView = context.select<AppearancesCubit, CartoonView>(
+      (bloc) => bloc.state.cartoonView
+    );
     final theme = Theme.of(context);
 
     void _setCartoonView(CartoonView view) {
-      context.read<CartoonViewCubit>().setCartoonView(view);
+      context.read<AppearancesCubit>().setCartoonView(view);
     }
 
     return ListView.builder(

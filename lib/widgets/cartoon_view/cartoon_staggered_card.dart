@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:shimmer/shimmer.dart';

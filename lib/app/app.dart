@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class App extends StatelessWidget {
@@ -15,12 +15,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final _firebaseUserRepository = FirebaseUserRepository();
     final _firebaseCartoonRepository = FirestorePoliticalCartoonRepository();
+    final _appearancesCubit = AppearancesCubit();
     final _authBloc = AuthenticationBloc(
       userRepository: _firebaseUserRepository
     );
-    final _primaryColorCubit = PrimaryColorCubit();
     final _onboardingCubit = OnboardingCubit();
-    final _themeCubit = ThemeCubit();
 
     return MultiRepositoryProvider(
       providers: [
@@ -33,10 +32,9 @@ class App extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider.value(value: _appearancesCubit),
           BlocProvider.value(value: _authBloc),
-          BlocProvider.value(value: _primaryColorCubit),
           BlocProvider.value(value: _onboardingCubit),
-          BlocProvider.value(value: _themeCubit),
         ],
         child: const AppView(),
       ),
@@ -49,14 +47,19 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = context.watch<ThemeCubit>().state;
-    final primary = context.watch<PrimaryColorCubit>().state;
+    final themeMode = context.select<AppearancesCubit, ThemeMode>(
+      (bloc) => bloc.state.themeMode
+    );
+
+    final primaryColor = context.select<AppearancesCubit, PrimaryColor>(
+      (bloc) => bloc.state.primaryColor
+    );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
-      theme: createLightTheme(primary),
-      darkTheme: createDarkTheme(primary),
+      theme: createLightTheme(primaryColor),
+      darkTheme: createDarkTheme(primaryColor),
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

@@ -5,9 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/l10n/l10n.dart';
-import 'package:hawktoons/theme/constants.dart';
-import 'package:hawktoons/theme/models/cartoon_view.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

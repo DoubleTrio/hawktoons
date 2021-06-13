@@ -1,35 +1,28 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/settings/settings.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
 void main() {
   group('SettingsFlow', () {
-    late CartoonViewCubit cartoonViewCubit;
-    late PrimaryColorCubit primaryColorCubit;
+    late AppearancesCubit appearancesCubit;
     late SettingsScreenCubit settingsScreenCubit;
-    late ThemeCubit themeCubit;
 
     setUpAll(() {
-      registerFallbackValue<CartoonView>(CartoonView.staggered);
-      registerFallbackValue<PrimaryColor>(PrimaryColor.red);
+      registerFallbackValue<AppearancesState>(FakeAppearancesState());
       registerFallbackValue<SettingsScreen>(SettingsScreen.main);
-      registerFallbackValue<ThemeMode>(ThemeMode.light);
     });
 
     setUp(() {
-      cartoonViewCubit = MockCartoonViewCubit();
-      primaryColorCubit = MockPrimaryColorCubit();
+      appearancesCubit = MockAppearancesCubit();
       settingsScreenCubit = MockSettingsScreenCubit();
-      themeCubit = MockThemeCubit();
-
-      when(() => cartoonViewCubit.state).thenReturn(CartoonView.staggered);
-      when(() => themeCubit.state).thenReturn(ThemeMode.light);
-      when(() => primaryColorCubit.state).thenReturn(PrimaryColor.purple);
+      when(() => appearancesCubit.state).thenReturn(
+        const AppearancesState.initial()
+      );
     });
 
     group('SettingsFlow', () {
@@ -50,10 +43,8 @@ void main() {
 
         await tester.pumpApp(
           const SettingsFlowView(),
-          cartoonViewCubit: cartoonViewCubit,
-          primaryColorCubit: primaryColorCubit,
+          appearancesCubit: appearancesCubit,
           settingsScreenCubit: settingsScreenCubit,
-          themeCubit: themeCubit,
         );
         expect(find.byType(ThemeView), findsOneWidget);
       });

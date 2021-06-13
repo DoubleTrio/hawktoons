@@ -4,7 +4,6 @@ import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';
@@ -16,7 +15,6 @@ void main() {
   late AllCartoonsBloc allCartoonsBloc;
   late AuthenticationBloc authenticationBloc;
   late LatestCartoonBloc latestCartoonBloc;
-  late ThemeCubit themeCubit;
 
   setUpAll(() {
     registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
@@ -25,15 +23,12 @@ void main() {
     registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
     registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
     registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
-    registerFallbackValue<ThemeMode>(ThemeMode.light);
   });
 
   setUp(() {
     allCartoonsBloc = MockAllCartoonsBloc();
     authenticationBloc = MockAuthenticationBloc();
     latestCartoonBloc = MockLatestCartoonBloc();
-    themeCubit = MockThemeCubit();
-    when(() => themeCubit.state).thenReturn(ThemeMode.light);
     when(() => authenticationBloc.state).thenReturn(
       AuthenticationState.authenticated(FakeUser())
     );
@@ -45,7 +40,6 @@ void main() {
         await tester.pumpApp(
           const AppDrawerView(backgroundOpacity: 0),
           authenticationBloc: authenticationBloc,
-          themeCubit: themeCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -56,7 +50,6 @@ void main() {
           const AppDrawerView(backgroundOpacity: 0),
           mode: ThemeMode.dark,
           authenticationBloc: authenticationBloc,
-          themeCubit: themeCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -69,7 +62,6 @@ void main() {
         allCartoonsBloc: allCartoonsBloc,
         authenticationBloc: authenticationBloc,
         latestCartoonBloc: latestCartoonBloc,
-        themeCubit: themeCubit,
       );
       await tester.tap(find.byKey(appDrawerLogoutTileKey));
       verify(allCartoonsBloc.close).called(1);

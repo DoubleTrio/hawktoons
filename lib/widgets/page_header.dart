@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 
 class PageHeader extends StatelessWidget {
   const PageHeader({Key? key, required this.header}) : super(key: key);

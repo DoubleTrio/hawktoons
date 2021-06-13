@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawktoons/theme/constants.dart';
+import 'package:hawktoons/appearances/constants.dart';
 
 class FilterHeader extends StatelessWidget {
   const FilterHeader({Key? key, required this.header}) : super(key: key);

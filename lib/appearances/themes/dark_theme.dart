@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 
 ThemeData createDarkTheme(PrimaryColor primary) {
   final darkPrimary = primary.darkColor!;

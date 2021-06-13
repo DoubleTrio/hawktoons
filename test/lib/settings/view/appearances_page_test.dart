@@ -1,44 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/settings/settings.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../fakes.dart';
 import '../../helpers/helpers.dart';
 import '../../mocks.dart';
 
 void main() {
-  group('ThemePage', () {
-    late CartoonViewCubit cartoonViewCubit;
-    late PrimaryColorCubit primaryColorCubit;
+  group('AppearancesPage', () {
+    final appearancesInitialState = const AppearancesState.initial();
+    late AppearancesCubit appearancesCubit;
     late SettingsScreenCubit settingsScreenCubit;
-    late ThemeCubit themeCubit;
 
     setUpAll(() {
-      registerFallbackValue<CartoonView>(CartoonView.staggered);
-      registerFallbackValue<PrimaryColor>(PrimaryColor.red);
+      registerFallbackValue<AppearancesState>(FakeAppearancesState());
       registerFallbackValue<SettingsScreen>(SettingsScreen.main);
-      registerFallbackValue<ThemeMode>(ThemeMode.light);
     });
 
     setUp(() {
-      cartoonViewCubit = MockCartoonViewCubit();
-      primaryColorCubit = MockPrimaryColorCubit();
+      appearancesCubit = MockAppearancesCubit();
       settingsScreenCubit = MockSettingsScreenCubit();
-      themeCubit = MockThemeCubit();
 
-      when(() => cartoonViewCubit.state).thenReturn(CartoonView.staggered);
-      when(() => themeCubit.state).thenReturn(ThemeMode.light);
-      when(() => primaryColorCubit.state).thenReturn(PrimaryColor.purple);
+      when(() => appearancesCubit.state).thenReturn(
+        appearancesInitialState
+      );
     });
 
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
           const ThemeView(),
-          cartoonViewCubit: cartoonViewCubit,
-          primaryColorCubit: primaryColorCubit,
-          themeCubit: themeCubit,
+          appearancesCubit: appearancesCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -48,9 +42,7 @@ void main() {
         await tester.pumpApp(
           const ThemeView(),
           mode: ThemeMode.dark,
-          cartoonViewCubit: cartoonViewCubit,
-          primaryColorCubit: primaryColorCubit,
-          themeCubit: themeCubit,
+          appearancesCubit: appearancesCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -60,10 +52,8 @@ void main() {
     testWidgets('can navigate back to main settings page', (tester) async {
       await tester.pumpApp(
         const ThemeView(),
-        cartoonViewCubit: cartoonViewCubit,
-        primaryColorCubit: primaryColorCubit,
+        appearancesCubit: appearancesCubit,
         settingsScreenCubit: settingsScreenCubit,
-        themeCubit: themeCubit,
       );
       await tester.tap(find.byIcon(Icons.arrow_back));
       verify(settingsScreenCubit.deselectScreen).called(1);
@@ -76,32 +66,32 @@ void main() {
         'when PrimaryItemColor is tapped', (tester) async {
         await tester.pumpApp(
           const PrimaryColorPicker(),
-          primaryColorCubit: primaryColorCubit,
-          themeCubit: themeCubit,
+          appearancesCubit: appearancesCubit,
         );
         await tester.tap(find.byKey(primaryColorItemKey));
-        verify(() => primaryColorCubit.setColor(PrimaryColor.orange)).called(1);
+        verify(() => appearancesCubit.setColor(PrimaryColor.orange)).called(1);
       });
 
       testWidgets('renders light mode in color picker', (tester) async {
         await tester.pumpApp(
           const PrimaryColorPicker(),
-          primaryColorCubit: primaryColorCubit,
-          themeCubit: themeCubit,
+          appearancesCubit: appearancesCubit,
         );
 
+        await tester.pump();
         final widget = tester.firstWidget(
           find.byKey(primaryColorItemKey)
         ) as PrimaryColorItem;
-        expect(widget.color, const Color(0xFFFFB963));
+        expect(widget.color, const Color(0xFFFFC3A7));
       });
 
       testWidgets('renders dark mode color in color picker', (tester) async {
-        when(() => themeCubit.state).thenReturn(ThemeMode.dark);
+        when(() => appearancesCubit.state).thenReturn(
+          appearancesInitialState.copyWith(themeMode: ThemeMode.dark)
+        );
         await tester.pumpApp(
           const PrimaryColorPicker(),
-          primaryColorCubit: primaryColorCubit,
-          themeCubit: themeCubit,
+          appearancesCubit: appearancesCubit,
         );
 
         final widget = tester.firstWidget(
@@ -118,10 +108,10 @@ void main() {
           'when dark mode tile is tapped', (tester) async {
         await tester.pumpApp(
           const ThemeModePicker(),
-          themeCubit: themeCubit,
+          appearancesCubit: appearancesCubit,
         );
         await tester.tap(find.byKey(themeModeTileKey));
-        verify(() => themeCubit.setTheme(themeMode)).called(1);
+        verify(() => appearancesCubit.setTheme(themeMode)).called(1);
       });
     });
 
@@ -132,10 +122,10 @@ void main() {
         'when dark mode tile is tapped', (tester) async {
         await tester.pumpApp(
           const CartoonViewPicker(),
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
         await tester.tap(find.byKey(cartoonViewTileKey));
-        verify(() => cartoonViewCubit.setCartoonView(cartoonView)).called(1);
+        verify(() => appearancesCubit.setCartoonView(cartoonView)).called(1);
       });
     });
   });

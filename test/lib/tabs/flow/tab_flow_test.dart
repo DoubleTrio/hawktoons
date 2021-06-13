@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

@@ -1,38 +1,39 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
-import 'package:hawktoons/theme/cubits/cartoon_view_cubit.dart';
-import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
+import '../../../fakes.dart';
 import '../../../mocks.dart';
 
 void main() {
+  final initialAppearancesState = const AppearancesState.initial();
   final mockCartoons = [MockPoliticalCartoon()];
-
+  
   group('AllCartoonsBloc', () {
     final defaultAllCartoonsState = const AllCartoonsState.initial(
       view: CartoonView.staggered,
     );
     late FirestorePoliticalCartoonRepository cartoonRepository;
-    late CartoonViewCubit cartoonViewCubit;
+    late AppearancesCubit appearancesCubit;
 
     setUpAll(() {
-      registerFallbackValue<CartoonView>(CartoonView.staggered);
+      registerFallbackValue<AppearancesState>(FakeAppearancesState());
     });
 
     setUp(() {
       cartoonRepository = MockCartoonRepository();
-      cartoonViewCubit = MockCartoonViewCubit();
-      when(() => cartoonViewCubit.state).thenReturn(CartoonView.staggered);
+      appearancesCubit = MockAppearancesCubit();
+      when(() => appearancesCubit.state).thenReturn(initialAppearancesState);
     });
 
     test('initial state AllCartoonsState.initial', () {
       expect(
         AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         ).state,
         equals(defaultAllCartoonsState)
       );
@@ -49,7 +50,7 @@ void main() {
           )).thenAnswer((_) async => mockCartoons);
           return AllCartoonsBloc(
             cartoonRepository: cartoonRepository,
-            cartoonViewCubit: cartoonViewCubit,
+            appearancesCubit: appearancesCubit,
           );
         },
         // wait: ,
@@ -83,7 +84,7 @@ void main() {
         )).thenAnswer((_) async => mockCartoons);
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       // wait: ,
@@ -111,7 +112,7 @@ void main() {
         )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       // wait: ,
@@ -144,7 +145,7 @@ void main() {
         )).thenThrow(Exception('Error'));
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       act: (bloc) => bloc.add(LoadCartoons(mockFilter)),
@@ -174,7 +175,7 @@ void main() {
         )).thenThrow(Exception('Error'));
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       wait: const Duration(milliseconds: 300),
@@ -202,7 +203,7 @@ void main() {
         )).thenAnswer((_) async => mockCartoons);
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       wait: const Duration(milliseconds: 300),
@@ -235,7 +236,7 @@ void main() {
         )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       wait: const Duration(milliseconds: 300),
@@ -269,7 +270,7 @@ void main() {
         )).thenAnswer((_) async => List.filled(15, mockCartoons[0]));
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       wait: const Duration(milliseconds: 300),
@@ -304,7 +305,7 @@ void main() {
         )).thenThrow(Exception('Error'));
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       wait: const Duration(milliseconds: 300),
@@ -330,12 +331,14 @@ void main() {
       'listens to cartoon view cubit and changes view key',
       build: () {
         whenListen(
-          cartoonViewCubit,
-          Stream<CartoonView>.value(CartoonView.card)
+          appearancesCubit,
+          Stream<AppearancesState>.value(initialAppearancesState.copyWith(
+            cartoonView: CartoonView.card
+          ))
         );
         return AllCartoonsBloc(
           cartoonRepository: cartoonRepository,
-          cartoonViewCubit: cartoonViewCubit,
+          appearancesCubit: appearancesCubit,
         );
       },
       expect: () => [

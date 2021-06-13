@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
 class PaddedSectionHeader extends StatelessWidget {

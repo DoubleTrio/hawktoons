@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:hawktoons/appearances/constants.dart';
 import 'package:hawktoons/l10n/l10n.dart';
-import 'package:hawktoons/theme/constants.dart';
 
 class ButtonRowHeader extends StatelessWidget {
   const ButtonRowHeader({

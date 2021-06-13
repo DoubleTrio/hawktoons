@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawktoons/theme/constants.dart';
+import 'package:hawktoons/appearances/constants.dart';
 
 class TappableTile extends StatelessWidget {
   const TappableTile({

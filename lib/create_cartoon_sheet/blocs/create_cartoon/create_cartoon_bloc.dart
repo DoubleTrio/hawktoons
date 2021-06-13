@@ -3,7 +3,7 @@
 // import 'package:bloc/bloc.dart';
 // import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
 // import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
-// import 'package:hawktoons/theme/theme.dart';
+// import 'package:hawktoons/appearances/appearances.dart';
 // import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 // import 'package:rxdart/rxdart.dart';
 //

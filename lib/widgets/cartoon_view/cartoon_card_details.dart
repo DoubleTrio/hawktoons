@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/l10n/l10n.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:hawktoons/utils/utils.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

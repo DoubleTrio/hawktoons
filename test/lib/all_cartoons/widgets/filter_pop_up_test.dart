@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
-import 'package:hawktoons/theme/theme.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 

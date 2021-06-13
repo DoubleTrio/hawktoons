@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hawktoons/all_cartoons/widgets/widgets.dart';
-import 'package:hawktoons/theme/constants.dart';
+import 'package:hawktoons/appearances/constants.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class ImageTypeCheckboxList extends StatelessWidget {

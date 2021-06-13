@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hawktoons/appearances/constants.dart';
 import 'package:hawktoons/l10n/l10n.dart';
-import 'package:hawktoons/theme/constants.dart';
-import 'package:hawktoons/widgets/cartoon_body/widgets.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 import 'package:shimmer/shimmer.dart';

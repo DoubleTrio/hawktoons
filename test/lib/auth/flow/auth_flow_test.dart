@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -14,22 +14,26 @@ void main() {
   initHydratedBloc();
   group('AuthFlow', () {
     late FirestorePoliticalCartoonRepository cartoonRepository;
+    late AppearancesCubit appearancesCubit;
     late AuthenticationBloc authenticationBloc;
-    late ThemeCubit themeCubit;
 
     PoliticalCartoon mockCartoon = MockPoliticalCartoon();
 
     setUpAll(() {
+      registerFallbackValue<AppearancesState>(FakeAppearancesState());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<ThemeMode>(ThemeMode.light);
     });
 
     setUp(() {
+      appearancesCubit = MockAppearancesCubit();
       cartoonRepository = MockCartoonRepository();
       authenticationBloc = MockAuthenticationBloc();
-      themeCubit = MockThemeCubit();
 
+      when(() => appearancesCubit.state).thenReturn(
+        const AppearancesState.initial()
+      );
       when(() => cartoonRepository.politicalCartoons(
         sortByMode: SortByMode.latestPosted,
         imageType: ImageType.all,
@@ -41,7 +45,7 @@ void main() {
         (_) => Stream.value(mockCartoon)
       );
 
-      when(() => themeCubit.state).thenReturn(ThemeMode.light);
+      // when(() => themeCubit.state).thenReturn(ThemeMode.light);
     });
 
     group('LoginPage', () {
@@ -64,8 +68,8 @@ void main() {
         await tester.pumpApp(
           const AuthFlow(),
           cartoonRepository: cartoonRepository,
+          appearancesCubit: appearancesCubit,
           authenticationBloc: authenticationBloc,
-          themeCubit: themeCubit,
         );
         expect(find.byType(DrawerStackView), findsOneWidget);
       });

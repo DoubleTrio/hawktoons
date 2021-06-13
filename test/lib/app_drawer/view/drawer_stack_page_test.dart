@@ -7,7 +7,6 @@ import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/tab/tab.dart';
-import 'package:hawktoons/theme/theme.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';
@@ -21,7 +20,6 @@ void main() {
     late AuthenticationBloc authenticationBloc;
     late LatestCartoonBloc latestCartoonBloc;
     late TabBloc tabBloc;
-    late ThemeCubit themeCubit;
 
     setUpAll(() {
       registerFallbackValue<AllCartoonsPageState>(FakeAllCartoonsPageState());
@@ -40,7 +38,6 @@ void main() {
       authenticationBloc = MockAuthenticationBloc();
       latestCartoonBloc = MockLatestCartoonBloc();
       tabBloc = MockTabBloc();
-      themeCubit = MockThemeCubit();
 
       when(() => allCartoonsPageCubit.state).thenReturn(
         const AllCartoonsPageState.initial()
@@ -49,7 +46,6 @@ void main() {
         const DailyCartoonInProgress()
       );
       when(() => tabBloc.state).thenReturn(AppTab.latest);
-      when(() => themeCubit.state).thenReturn(ThemeMode.light);
       when(() => authenticationBloc.state).thenReturn(
         AuthenticationState.authenticated(FakeUser())
       );
@@ -65,7 +61,6 @@ void main() {
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           tabBloc: tabBloc,
-          themeCubit: themeCubit,
         );
         await tester.fling(
           find.byType(DailyCartoonView),
@@ -86,7 +81,6 @@ void main() {
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           tabBloc: tabBloc,
-          themeCubit: themeCubit,
         );
         await tester.fling(
           find.byType(DailyCartoonView),
@@ -108,7 +102,6 @@ void main() {
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           tabBloc: tabBloc,
-          themeCubit: themeCubit,
         );
         await tester.fling(
           find.byType(DailyCartoonView),
@@ -127,7 +120,6 @@ void main() {
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           tabBloc: tabBloc,
-          themeCubit: themeCubit,
         );
 
         await tester.fling(
@@ -152,7 +144,6 @@ void main() {
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           tabBloc: tabBloc,
-          themeCubit: themeCubit,
         );
         await tester.pump();
         await tester.fling(
@@ -175,7 +166,6 @@ void main() {
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
           tabBloc: tabBloc,
-          themeCubit: themeCubit,
         );
 
         await tester.pump();

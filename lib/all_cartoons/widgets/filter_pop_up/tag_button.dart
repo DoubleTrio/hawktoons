@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawktoons/theme/constants.dart';
+import 'package:hawktoons/appearances/constants.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TagButton extends StatelessWidget {

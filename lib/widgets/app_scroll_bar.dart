@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawktoons/theme/constants.dart';
+import 'package:hawktoons/appearances/constants.dart';
 
 class AppScrollBar extends StatelessWidget {
   const AppScrollBar({Key? key, required this.child}) : super(key: key);

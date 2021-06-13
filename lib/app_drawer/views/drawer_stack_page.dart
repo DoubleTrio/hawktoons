@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
+import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
-import 'package:hawktoons/theme/cubits/cartoon_view_cubit.dart';
 import 'package:hawktoons/utils/constants.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -18,10 +18,11 @@ class DrawerStackPage extends Page<void> {
   Route createRoute(BuildContext context) {
     final _firebaseCartoonRepo =
       context.read<FirestorePoliticalCartoonRepository>();
-    final _cartoonViewCubit = CartoonViewCubit();
+    final _appearancesCubit = context.read<AppearancesCubit>();
+
     final _allCartoonsBloc = AllCartoonsBloc(
       cartoonRepository: _firebaseCartoonRepo,
-      cartoonViewCubit: _cartoonViewCubit,
+      appearancesCubit: _appearancesCubit,
     );
 
     final _allCartoonsPageBloc = AllCartoonsPageCubit();
@@ -57,7 +58,7 @@ class DrawerStackPage extends Page<void> {
           ),
           BlocProvider.value(value: _allCartoonsPageBloc),
           BlocProvider.value(value: _appDrawerCubit), // DrawerStack
-          BlocProvider.value(value: _cartoonViewCubit), // Settings
+          // BlocProvider.value(value: _cartoonViewCubit), // Settings
           BlocProvider.value(value: _latestCartoonBloc
             ..add(const LoadLatestCartoon())
           ),
