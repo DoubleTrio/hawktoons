@@ -5,6 +5,7 @@ import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:mocktail/mocktail.dart';

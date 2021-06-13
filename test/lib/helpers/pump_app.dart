@@ -8,6 +8,8 @@ import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
+import 'package:hawktoons/filters_sheet/cubit/filter_sheet_cubit.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
@@ -33,11 +35,9 @@ extension PumpApp on WidgetTester {
     AuthenticationBloc? authenticationBloc,
     CreateCartoonPageCubit? createCartoonPageCubit,
     LatestCartoonBloc? latestCartoonBloc,
-    ImageTypeCubit? imageTypeCubit,
+    FilterSheetCubit? filterSheetCubit,
     OnboardingCubit? onboardingCubit,
     SettingsScreenCubit? settingsScreenCubit,
-    SortByCubit? sortByCubit,
-    TagCubit? tagCubit,
     TabBloc? tabBloc,
   }) {
     registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
@@ -53,14 +53,9 @@ extension PumpApp on WidgetTester {
     );
     registerFallbackValue<TabEvent>(FakeTabEvent());
     registerFallbackValue<AppTab>(AppTab.latest);
-    registerFallbackValue<Tag>(Tag.all);
     registerFallbackValue<SettingsScreen>(SettingsScreen.main);
-    registerFallbackValue<SortByMode>(SortByMode.latestPosted);
-    registerFallbackValue<CartoonView>(CartoonView.card);
-    registerFallbackValue<ImageType>(ImageType.all);
-    registerFallbackValue<ThemeMode>(ThemeMode.light);
+    registerFallbackValue<CartoonFilters>(FakeCartoonFilters());
     registerFallbackValue<OnboardingState>(FakeOnboardingState());
-    registerFallbackValue<PrimaryColor>(PrimaryColor.purple);
     registerFallbackValue<CreateCartoonPage>(CreateCartoonPage.uploadImage);
 
     return mockNetworkImagesFor(() async {
@@ -96,7 +91,7 @@ extension PumpApp on WidgetTester {
                 value: createCartoonPageCubit ?? MockCreateCartoonPageCubit()
               ),
               BlocProvider.value(
-                value: imageTypeCubit ?? MockImageTypeCubit()
+                value: filterSheetCubit ?? MockFiltersCubit()
               ),
               BlocProvider.value(
                 value: latestCartoonBloc ?? MockLatestCartoonBloc()
@@ -104,13 +99,9 @@ extension PumpApp on WidgetTester {
               BlocProvider.value(
                 value: onboardingCubit ?? MockOnboardingCubit()
               ),
-              BlocProvider.value(value: tabBloc ?? MockTabBloc()),
-              BlocProvider.value(value: tagCubit ?? MockTagCubit()),
               BlocProvider.value(
                 value: settingsScreenCubit ?? MockSettingsScreenCubit()
               ),
-              BlocProvider.value(value: sortByCubit ?? MockSortByCubit()),
-              BlocProvider.value(value: imageTypeCubit ?? MockImageTypeCubit()),
               BlocProvider.value(value: tabBloc ?? MockTabBloc()),
             ],
             child: MaterialApp(

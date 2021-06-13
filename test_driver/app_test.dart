@@ -4,7 +4,7 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
 final pageView = find.byType('PageView');
-final filterPopUp = find.byType('FilterPopUp');
+final filterPopUp = find.byType('FilterSheet');
 
 final nextPageOnboardingButton = find.byValueKey('OnboardingPage_NextPage');
 final setSeenOnboardingButton =

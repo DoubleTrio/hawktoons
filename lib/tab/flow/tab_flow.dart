@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/settings/flow/settings_flow.dart';
 import 'package:hawktoons/tab/tab.dart';
@@ -53,20 +54,16 @@ class TabFlow extends StatelessWidget {
           BlocListener<AllCartoonsPageCubit, AllCartoonsPageState>(
             listener: (context, state) {
               if (state.shouldShowFilterSheet) {
-                final _imageTypeCubit = context.read<ImageTypeCubit>();
-                final _tagCubit = context.read<TagCubit>();
-                final _sortByCubit = context.read<SortByCubit>();
                 final _allCartoonsBloc = context.read<AllCartoonsBloc>();
+                final _filterSheetCubit = context.read<FilterSheetCubit>();
                 showBottomSheet(
                   onComplete: _closeFilterSheet,
                   child: MultiBlocProvider(
                     providers: [
-                      BlocProvider.value(value: _imageTypeCubit),
-                      BlocProvider.value(value: _tagCubit),
-                      BlocProvider.value(value: _sortByCubit),
-                      BlocProvider.value(value: _allCartoonsBloc)
+                      BlocProvider.value(value: _allCartoonsBloc),
+                      BlocProvider.value(value: _filterSheetCubit),
                     ],
-                    child: FilterPopUp()
+                    child: FilterSheet()
                   ),
                 );
               }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/blocs/blocs.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/appearances/appearances.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
@@ -28,27 +29,16 @@ class DrawerStackPage extends Page<void> {
     final _allCartoonsPageBloc = AllCartoonsPageCubit();
 
     final _appDrawerCubit = AppDrawerCubit();
+    final _filterSheetCubit = FilterSheetCubit();
 
-    final _imageTypeCubit = ImageTypeCubit();
     final _latestCartoonBloc = LatestCartoonBloc(
       cartoonRepository: _firebaseCartoonRepo
     );
 
     final _tabBloc = TabBloc();
-    final _tagCubit = TagCubit();
     final _settingsPageCubit = SettingsScreenCubit();
-    final _sortByCubit = SortByCubit();
 
-    final _sortByMode = _sortByCubit.state;
-    final _imageType = _imageTypeCubit.state;
-    final _tag = _tagCubit.state;
-
-    final filters = CartoonFilters(
-      sortByMode: _sortByMode,
-      imageType: _imageType,
-      tag: _tag
-    );
-
+    final filters = _filterSheetCubit.state;
     return PageRouteBuilder<void>(
       settings: this,
       pageBuilder: (_, __, ___) => MultiBlocProvider(
@@ -57,16 +47,13 @@ class DrawerStackPage extends Page<void> {
             ..add(LoadCartoons(filters))
           ),
           BlocProvider.value(value: _allCartoonsPageBloc),
-          BlocProvider.value(value: _appDrawerCubit), // DrawerStack
-          // BlocProvider.value(value: _cartoonViewCubit), // Settings
+          BlocProvider.value(value: _appDrawerCubit),
+          BlocProvider.value(value: _filterSheetCubit),
           BlocProvider.value(value: _latestCartoonBloc
             ..add(const LoadLatestCartoon())
           ),
-          BlocProvider.value(value: _imageTypeCubit), // Filter
-          BlocProvider.value(value: _settingsPageCubit), // Settings/ AllCartoons
-          BlocProvider.value(value: _sortByCubit), // Filter
-          BlocProvider.value(value: _tabBloc), // Tab
-          BlocProvider.value(value: _tagCubit), // Filter
+          BlocProvider.value(value: _settingsPageCubit),
+          BlocProvider.value(value: _tabBloc),
         ],
         child: const DrawerStackView(),
       ),

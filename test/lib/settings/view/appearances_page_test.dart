@@ -73,6 +73,9 @@ void main() {
       });
 
       testWidgets('renders light mode in color picker', (tester) async {
+        when(() => appearancesCubit.state).thenReturn(
+          appearancesInitialState.copyWith(themeMode: ThemeMode.light)
+        );
         await tester.pumpApp(
           const PrimaryColorPicker(),
           appearancesCubit: appearancesCubit,
@@ -82,7 +85,7 @@ void main() {
         final widget = tester.firstWidget(
           find.byKey(primaryColorItemKey)
         ) as PrimaryColorItem;
-        expect(widget.color, const Color(0xFFFFC3A7));
+        expect(widget.color, const Color(0xFFFFB963));
       });
 
       testWidgets('renders dark mode color in color picker', (tester) async {

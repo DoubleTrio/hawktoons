@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class SortByTileListView extends StatelessWidget {
@@ -15,7 +15,9 @@ class SortByTileListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _selectedSortByMode = context.watch<SortByCubit>().state;
+    final _selectedSortByMode = context.select<FilterSheetCubit, SortByMode>(
+      (cubit) => cubit.state.sortByMode
+    );
 
     return ListView.builder(
       physics: const ClampingScrollPhysics(),

@@ -5,14 +5,13 @@ import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/create_cartoon_sheet/blocs/blocs.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
-
-final mockFilter = const CartoonFilters.initial();
 
 final mockPoliticalCartoon = PoliticalCartoon(
   id: '2',
@@ -56,9 +55,8 @@ class MockLatestCartoonBloc
   extends MockBloc<LatestCartoonEvent, LatestCartoonState>
   implements LatestCartoonBloc {}
 
-class MockImageTypeCubit extends MockCubit<ImageType>
-  implements ImageTypeCubit {}
-
+class MockFiltersCubit extends MockCubit<CartoonFilters>
+  implements FilterSheetCubit {}
 
 class MockOnboardingCubit extends MockCubit<OnboardingState>
   implements OnboardingCubit {}
@@ -66,8 +64,5 @@ class MockOnboardingCubit extends MockCubit<OnboardingState>
 class MockSettingsScreenCubit extends MockCubit<SettingsScreen>
   implements SettingsScreenCubit {}
 
-class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 
 class MockTabBloc extends MockBloc<TabEvent, AppTab> implements TabBloc {}
-
-class MockTagCubit extends MockCubit<Tag> implements TagCubit {}

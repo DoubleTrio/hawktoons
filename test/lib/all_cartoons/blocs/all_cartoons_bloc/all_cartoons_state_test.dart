@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/all_cartoons.dart';
+import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/appearances/appearances.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 void main() {

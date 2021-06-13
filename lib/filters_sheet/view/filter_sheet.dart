@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
-class FilterPopUp extends StatelessWidget {
-  FilterPopUp({Key? key}) : super(key: key);
+class FilterSheet extends StatelessWidget {
+  FilterSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,22 +16,7 @@ class FilterPopUp extends StatelessWidget {
     final modes = SortByMode.values;
     final tags = Tag.values.sublist(1);
     final imageTypes = ImageType.values.sublist(1);
-
-    final _selectedImageType = context
-      .watch<ImageTypeCubit>()
-      .state;
-    final _selectedTag = context
-      .watch<TagCubit>()
-      .state;
-    final _sortByMode = context
-      .watch<SortByCubit>()
-      .state;
-
-    final filters = CartoonFilters(
-      sortByMode: _sortByMode,
-      imageType: _selectedImageType,
-      tag: _selectedTag
-    );
+    final filters = context.watch<FilterSheetCubit>().state;
 
     void _filter() {
       Navigator.of(context).pop();
@@ -38,25 +24,26 @@ class FilterPopUp extends StatelessWidget {
     }
 
     void _reset() {
-      context.read<ImageTypeCubit>().deselectImageType();
-      context.read<TagCubit>().selectTag(Tag.all);
-      context.read<SortByCubit>().selectSortBy(SortByMode.latestPosted);
+      context.read<FilterSheetCubit>().reset();
     }
 
     void _onSortByTileSelect(SortByMode mode) {
-      return context.read<SortByCubit>().selectSortBy(mode);
+      return context.read<FilterSheetCubit>().selectSortBy(mode);
     }
 
     void _deselectImageType() {
-      context.read<ImageTypeCubit>().deselectImageType();
+      context.read<FilterSheetCubit>().deselectImageType();
     }
 
     void _selectImageType(ImageType? type) {
-      context.read<ImageTypeCubit>().selectImageType(type!);
+      context.read<FilterSheetCubit>().selectImageType(type!);
     }
 
-    final _onTagChanged = (Tag tag) =>
-        context.read<TagCubit>().selectTag(_selectedTag == tag ? Tag.all : tag);
+    final _onTagChanged = (Tag tag) {
+      context.read<FilterSheetCubit>().selectTag(
+          filters.tag == tag ? Tag.all : tag
+      );
+    };
 
     return CustomDraggableSheet(
       child: Column(
@@ -81,7 +68,7 @@ class FilterPopUp extends StatelessWidget {
                   FilterHeader(header: l10n.filterPopUpImageTypeHeader),
                   ImageTypeCheckboxList(
                     imageTypes: imageTypes,
-                    selectedImageType: _selectedImageType,
+                    selectedImageType: filters.imageType,
                     onSelect: _selectImageType,
                     onDeselect: _deselectImageType,
                   ),
@@ -90,7 +77,7 @@ class FilterPopUp extends StatelessWidget {
                   const SizedBox(height: 6),
                   TagButtonBar(
                     tags: tags,
-                    selectedTag: _selectedTag,
+                    selectedTag: filters.tag,
                     onTagChanged: _onTagChanged,
                   ),
                   const SizedBox(height: 12),

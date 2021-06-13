@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/appearances/appearances.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -12,56 +13,46 @@ import '../../keys.dart';
 import '../../mocks.dart';
 
 void main() {
-  group('FilterPopUp', () {
+  group('FilterSheet', () {
+    final initialFilterSheetState = const CartoonFilters.initial();
     late AllCartoonsBloc allCartoonsBloc;
-    late ImageTypeCubit imageTypeCubit;
-    late TagCubit tagCubit;
-    late SortByCubit sortByCubit;
-
+    late FilterSheetCubit filterSheetCubit;
 
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
-      registerFallbackValue<ImageType>(ImageType.all);
-      registerFallbackValue<SortByMode>(SortByMode.latestPosted);
-      registerFallbackValue<Tag>(Tag.all);
+      registerFallbackValue<CartoonFilters>(FakeCartoonFilters());
     });
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
-      imageTypeCubit = MockImageTypeCubit();
-      sortByCubit = MockSortByCubit();
-      tagCubit = MockTagCubit();
+      filterSheetCubit = MockFiltersCubit();
 
       when(() => allCartoonsBloc.state)
         .thenReturn(
           const AllCartoonsState.initial(view: CartoonView.staggered
         )
       );
-      when(() => imageTypeCubit.state).thenReturn(ImageType.all);
-      when(() => sortByCubit.state).thenReturn(SortByMode.earliestPosted);
-      when(() => tagCubit.state).thenReturn(Tag.all);
+      when(() => filterSheetCubit.state).thenReturn(
+        initialFilterSheetState
+      );
     });
 
     // TODO - adjust ui to fix android text guidelines
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
-          FilterPopUp(),
-          imageTypeCubit: imageTypeCubit,
-          sortByCubit: sortByCubit,
-          tagCubit: tagCubit,
+          FilterSheet(),
+          filterSheetCubit: filterSheetCubit
         );
         expect(tester, meetsGuideline(textContrastGuideline));
       });
 
       testWidgets('passes guidelines for dark theme', (tester) async {
         await tester.pumpApp(
-          FilterPopUp(),
+          FilterSheet(),
           mode: ThemeMode.dark,
-          imageTypeCubit: imageTypeCubit,
-          sortByCubit: sortByCubit,
-          tagCubit: tagCubit,
+          filterSheetCubit: filterSheetCubit
         );
         expect(tester, meetsGuideline(textContrastGuideline));
       });
@@ -69,34 +60,28 @@ void main() {
 
     testWidgets('selects sorting mode', (tester) async {
       await tester.pumpApp(
-        FilterPopUp(),
-        imageTypeCubit: imageTypeCubit,
-        sortByCubit: sortByCubit,
-        tagCubit: tagCubit,
+        FilterSheet(),
+        filterSheetCubit: filterSheetCubit
       );
       await tester.dragUntilVisible(
         find.byKey(sortByTileKey),
-        find.byType(FilterPopUp),
+        find.byType(FilterSheet),
         const Offset(0, -50)
       );
       await tester.tap(find.byKey(sortByTileKey));
       await tester.pumpAndSettle();
-      verify(() => sortByCubit.selectSortBy(sortByMode)).called(1);
+      verify(() => filterSheetCubit.selectSortBy(sortByMode)).called(1);
     });
 
     testWidgets('selects image type', (tester) async {
-      when(() => imageTypeCubit.state).thenReturn(ImageType.all);
-
       await tester.pumpApp(
-        FilterPopUp(),
-        imageTypeCubit: imageTypeCubit,
-        sortByCubit: sortByCubit,
-        tagCubit: tagCubit,
+        FilterSheet(),
+        filterSheetCubit: filterSheetCubit,
       );
 
       await tester.dragUntilVisible(
         find.byKey(imageTypeButtonKey),
-        find.byType(FilterPopUp),
+        find.byType(FilterSheet),
         const Offset(0, -50),
       );
 
@@ -106,21 +91,21 @@ void main() {
       );
 
       await tester.pumpAndSettle();
-      verify(() => imageTypeCubit.selectImageType(imageType)).called(1);
+      verify(() => filterSheetCubit.selectImageType(imageType)).called(1);
     });
 
     testWidgets('deselects image type', (tester) async {
-      when(() => imageTypeCubit.state).thenReturn(imageType);
+      when(() => filterSheetCubit.state).thenReturn(
+        initialFilterSheetState.copyWith(imageType: imageType)
+      );
       await tester.pumpApp(
-        FilterPopUp(),
-        imageTypeCubit: imageTypeCubit,
-        sortByCubit: sortByCubit,
-        tagCubit: tagCubit,
+        FilterSheet(),
+        filterSheetCubit: filterSheetCubit
       );
 
       await tester.dragUntilVisible(
         find.byKey(imageTypeButtonKey),
-        find.byType(FilterPopUp),
+        find.byType(FilterSheet),
         const Offset(0, -50),
       );
 
@@ -131,72 +116,65 @@ void main() {
         )
       );
       await tester.pumpAndSettle();
-      verify(() => imageTypeCubit.deselectImageType()).called(1);
+      verify(() => filterSheetCubit.deselectImageType()).called(1);
     });
 
     testWidgets('selects filter tag', (tester) async {
-      when(() => tagCubit.state).thenReturn(Tag.all);
       await tester.pumpApp(
-        FilterPopUp(),
-        imageTypeCubit: imageTypeCubit,
-        sortByCubit: sortByCubit,
-        tagCubit: tagCubit,
+        FilterSheet(),
+        filterSheetCubit: filterSheetCubit
       );
       await tester.dragUntilVisible(
         find.byKey(tagButtonKey),
-        find.byType(FilterPopUp),
+        find.byType(FilterSheet),
         const Offset(0, -50),
       );
       await tester.tap(find.byKey(tagButtonKey));
       await tester.pumpAndSettle();
-      verify(() => tagCubit.selectTag(tag)).called(1);
+      verify(() => filterSheetCubit.selectTag(tag)).called(1);
     });
 
     testWidgets('deselects filter tag', (tester) async {
-      when(() => tagCubit.state).thenReturn(Tag.tag5);
+      when(() => filterSheetCubit.state).thenReturn(
+        initialFilterSheetState.copyWith(tag: tag)
+      );
       await tester.pumpApp(
-        FilterPopUp(),
-        imageTypeCubit: imageTypeCubit,
-        sortByCubit: sortByCubit,
-        tagCubit: tagCubit,
+        FilterSheet(),
+        filterSheetCubit: filterSheetCubit
       );
       await tester.dragUntilVisible(
         find.byKey(tagButtonKey),
-        find.byType(FilterPopUp),
+        find.byType(FilterSheet),
         const Offset(0, -50),
       );
       await tester.tap(find.byKey(tagButtonKey));
       await tester.pumpAndSettle();
-      verify(() => tagCubit.selectTag(Tag.all)).called(1);
+      verify(() => filterSheetCubit.selectTag(Tag.all)).called(1);
     });
 
     testWidgets('reset button works', (tester) async {
-      when(() => tagCubit.state).thenReturn(Tag.tag5);
-      when(() => sortByCubit.state).thenReturn(SortByMode.earliestPublished);
       await tester.pumpApp(
-        FilterPopUp(),
-        imageTypeCubit: imageTypeCubit,
-        sortByCubit: sortByCubit,
-        tagCubit: tagCubit,
+        FilterSheet(),
+        filterSheetCubit: filterSheetCubit
       );
       await tester.tap(find.byKey(resetFilterButtonKey));
       await tester.pumpAndSettle();
-      verify(() => tagCubit.selectTag(Tag.all)).called(1);
-      verify(() => sortByCubit.selectSortBy(SortByMode.latestPosted)).called(1);
-      verify(() => imageTypeCubit.deselectImageType()).called(1);
+      verify(filterSheetCubit.reset).called(1);
     });
 
     testWidgets('applies correct filter', (tester) async {
-      when(() => tagCubit.state).thenReturn(tag);
-      when(() => sortByCubit.state).thenReturn(sortByMode);
-      when(() => imageTypeCubit.state).thenReturn(imageType);
+      when(() => filterSheetCubit.state).thenReturn(
+        CartoonFilters(
+          sortByMode: sortByMode,
+          imageType: imageType,
+          tag: tag,
+        )
+      );
 
       await tester.pumpApp(
-        FilterPopUp(),
+        FilterSheet(),
         allCartoonsBloc: allCartoonsBloc,
-        imageTypeCubit: imageTypeCubit,
-        sortByCubit: sortByCubit,
-        tagCubit: tagCubit,
+        filterSheetCubit: filterSheetCubit,
       );
 
       await tester.tap(find.byKey(applyFilterButtonKey));

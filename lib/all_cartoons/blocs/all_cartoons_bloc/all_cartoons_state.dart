@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:hawktoons/all_cartoons/blocs/all_cartoons_bloc/models.dart';
+import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/appearances/models/cartoon_view.dart';
+import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class AllCartoonsState extends Equatable {
