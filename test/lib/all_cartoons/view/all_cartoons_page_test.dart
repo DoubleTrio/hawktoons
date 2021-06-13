@@ -21,14 +21,13 @@ void main() {
   );
   group('AllCartoonsPage', () {
     late AllCartoonsBloc allCartoonsBloc;
+    late AllCartoonsPageCubit allCartoonsPageCubit;
     late AuthenticationBloc authenticationBloc;
     late AppDrawerCubit appDrawerCubit;
     late LatestCartoonBloc latestCartoonBloc;
-    late ShowCreateCartoonSheetCubit showCreateCartoonSheetCubit;
-    late ShowFilterBottomSheetCubit showFilterBottomSheetCubit;
-    late ScrollHeaderCubit scrollHeaderCubit;
 
     setUpAll(() {
+      registerFallbackValue<AllCartoonsPageState>(FakeAllCartoonsPageState());
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
@@ -39,20 +38,22 @@ void main() {
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
+      allCartoonsPageCubit = MockAllCartoonsPageCubit();
       authenticationBloc = MockAuthenticationBloc();
       appDrawerCubit = MockAppDrawerCubit();
       latestCartoonBloc = MockLatestCartoonBloc();
-      showCreateCartoonSheetCubit = MockShowCreateCartoonSheetCubit();
-      showFilterBottomSheetCubit = MockShowBottomFilterSheetCubit();
-      scrollHeaderCubit = MockScrollHeaderCubit();
 
-      when(() => scrollHeaderCubit.state).thenReturn(false);
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
           status: CartoonStatus.success,
           cartoons: [mockPoliticalCartoon],
         )
       );
+
+      when(() => allCartoonsPageCubit.state).thenReturn(
+        const AllCartoonsPageState.initial()
+      );
+
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState(status: AuthenticationStatus.authenticated)
       );
@@ -63,8 +64,8 @@ void main() {
         await tester.pumpApp(
           const AllCartoonsView(),
           allCartoonsBloc: allCartoonsBloc,
+          allCartoonsPageCubit: allCartoonsPageCubit,
           authenticationBloc: authenticationBloc,
-          scrollHeaderCubit: scrollHeaderCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -75,8 +76,8 @@ void main() {
           const AllCartoonsView(),
           mode: ThemeMode.dark,
           allCartoonsBloc: allCartoonsBloc,
+          allCartoonsPageCubit: allCartoonsPageCubit,
           authenticationBloc: authenticationBloc,
-          scrollHeaderCubit: scrollHeaderCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -92,20 +93,26 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
       expect(find.byKey(allCartoonsLoadingKey), findsOneWidget);
     });
 
     testWidgets(
-      'renders a cartoon'
+      'renders a cartoon '
       'when status is CartoonStatus.success', (tester) async {
+      when(() => allCartoonsBloc.state).thenReturn(
+        const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
+          status: CartoonStatus.success,
+          cartoons: [mockPoliticalCartoon]
+        )
+      );
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
       expect(find.byType(StaggeredCartoonCard), findsOneWidget);
     });
@@ -123,8 +130,8 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
 
       expect(find.byKey(allCartoonsFailedKey), findsOneWidget);
@@ -135,22 +142,21 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        scrollHeaderCubit: scrollHeaderCubit,
-        showFilterBottomSheetCubit: showFilterBottomSheetCubit,
       );
       await tester.tap(find.byKey(allCartoonsFilterButtonKey));
-      verify(showFilterBottomSheetCubit.openSheet).called(1);
+      verify(allCartoonsPageCubit.openFilterSheet).called(1);
     });
 
     testWidgets('opens drawer when menu icon is tapped', (tester) async {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
         appDrawerCubit: appDrawerCubit,
         latestCartoonBloc: latestCartoonBloc,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
       await tester.tap(find.byKey(allCartoonsMenuButtonKey));
       verify(appDrawerCubit.openDrawer).called(1);
@@ -172,8 +178,8 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
 
       await tester.pump(const Duration(seconds: 1));
@@ -190,8 +196,8 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
 
       await tester.pump(const Duration(seconds: 1));
@@ -210,14 +216,13 @@ void main() {
       await tester.pumpApp(
         const AllCartoonsView(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
 
       expect(find.byType(AddFloatingActionButton), findsOneWidget);
       await tester.tap(find.byType(AddFloatingActionButton));
-      verify(showCreateCartoonSheetCubit.openSheet).called(1);
+      verify(allCartoonsPageCubit.openCreateCartoonSheet).called(1);
     });
   });
 }

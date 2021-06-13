@@ -21,8 +21,12 @@ class CartoonFlow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectCartoonState = context.select<AllCartoonsPageCubit,
+      SelectPoliticalCartoonState>(
+      (cubit) => cubit.state.politicalCartoon
+    );
     return FlowBuilder<SelectPoliticalCartoonState>(
-      state: context.watch<SelectCartoonCubit>().state,
+      state: selectCartoonState,
       onGeneratePages: (SelectPoliticalCartoonState state, pages) {
         return [
           AllCartoonsPage(),

@@ -42,7 +42,7 @@ class DetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _deselectCartoon() {
-      context.read<SelectCartoonCubit>().deselectCartoon();
+      context.read<AllCartoonsPageCubit>().deselectCartoon();
     }
 
     return Scaffold(

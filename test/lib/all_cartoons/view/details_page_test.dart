@@ -11,24 +11,20 @@ import '../../mocks.dart';
 
 void main() {
   group('DetailsPage', () {
-    late SelectCartoonCubit selectCartoonCubit;
+    late AllCartoonsPageCubit allCartoonsPageCubit;
 
-    setUp(() async {
-      registerFallbackValue<SelectPoliticalCartoonState>(
-        FakeSelectPoliticalCartoonState()
-      );
-      selectCartoonCubit = MockSelectCartoonCubit();
+    setUp(()  {
+      allCartoonsPageCubit = MockAllCartoonsPageCubit();
+    });
 
-      when(() => selectCartoonCubit.state).thenReturn(
-        SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon)
-      );
+    setUpAll(() {
+      registerFallbackValue<AllCartoonsPageState>(FakeAllCartoonsPageState());
     });
 
     group('semantics', () {
       testWidgets('passes guidelines for light theme', (tester) async {
         await tester.pumpApp(
           DetailsView(cartoon: mockPoliticalCartoon),
-          selectCartoonCubit: selectCartoonCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -38,7 +34,6 @@ void main() {
         await tester.pumpApp(
           DetailsView(cartoon: mockPoliticalCartoon),
           mode: ThemeMode.dark,
-          selectCartoonCubit: selectCartoonCubit,
         );
         expect(tester, meetsGuideline(textContrastGuideline));
         expect(tester, meetsGuideline(androidTapTargetGuideline));
@@ -48,19 +43,21 @@ void main() {
     testWidgets('cartoon body is present', (tester) async {
       await tester.pumpApp(
         DetailsView(cartoon: mockPoliticalCartoon),
-        selectCartoonCubit: selectCartoonCubit,
       );
       expect(find.byType(CartoonBody), findsOneWidget);
     });
 
     testWidgets('deselects cartoon when back button '
       'is pressed', (tester) async {
+      // when(() => allCartoonsPageCubit.state).thenReturn(
+      //     const AllCartoonsPageState.initial()
+      // );
       await tester.pumpApp(
         DetailsView(cartoon: mockPoliticalCartoon),
-        selectCartoonCubit: selectCartoonCubit,
+        allCartoonsPageCubit: allCartoonsPageCubit,
       );
       await tester.tap(find.byKey(detailsPageBackButtonKey));
-      verify(selectCartoonCubit.deselectCartoon).called(1);
+      verify(allCartoonsPageCubit.deselectCartoon).called(1);
     });
   });
 }

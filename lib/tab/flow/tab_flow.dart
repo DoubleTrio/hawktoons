@@ -15,11 +15,11 @@ class TabFlow extends StatelessWidget {
     final _activeTab = context.watch<TabBloc>().state;
 
     void _closeFilterSheet() {
-      context.read<ShowFilterBottomSheetCubit>().closeSheet();
+      context.read<AllCartoonsPageCubit>().closeFilterSheet();
     }
 
     void _closeCartoonSheet() {
-      context.read<ShowCreateCartoonSheetCubit>().closeSheet();
+      context.read<AllCartoonsPageCubit>().closeCreateCartoonSheet();
     }
 
     void _onTabChanged(AppTab tab) {
@@ -50,9 +50,9 @@ class TabFlow extends StatelessWidget {
       ),
       body: MultiBlocListener(
         listeners: [
-          BlocListener<ShowFilterBottomSheetCubit, bool>(
-            listener: (context, shouldShowBottomSheet) {
-              if (shouldShowBottomSheet) {
+          BlocListener<AllCartoonsPageCubit, AllCartoonsPageState>(
+            listener: (context, state) {
+              if (state.shouldShowFilterSheet) {
                 final _imageTypeCubit = context.read<ImageTypeCubit>();
                 final _tagCubit = context.read<TagCubit>();
                 final _sortByCubit = context.read<SortByCubit>();
@@ -70,11 +70,7 @@ class TabFlow extends StatelessWidget {
                   ),
                 );
               }
-            },
-          ),
-          BlocListener<ShowCreateCartoonSheetCubit, bool>(
-            listener: (context, shouldShowCreateCartoonSheet) {
-              if (shouldShowCreateCartoonSheet) {
+              if (state.shouldShowCreateCartoonSheet) {
                 final _createCartoonPageCubit = CreateCartoonPageCubit();
                 showBottomSheet(
                   onComplete: _closeCartoonSheet,

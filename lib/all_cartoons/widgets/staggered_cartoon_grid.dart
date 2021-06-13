@@ -36,9 +36,9 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
         final currentScroll = _scrollController.position.pixels;
 
         if (currentScroll > height) {
-          context.read<ScrollHeaderCubit>().onScrollPastHeader();
+          context.read<AllCartoonsPageCubit>().onScrollPastHeader();
         } else {
-          context.read<ScrollHeaderCubit>().onScrollBeforeHeader();
+          context.read<AllCartoonsPageCubit>().onScrollBeforeHeader();
         }
 
         if ((maxScroll - currentScroll <= delta) && currentScroll > 0) {
@@ -84,7 +84,7 @@ class _StaggeredCartoonGridState extends State<StaggeredCartoonGrid> {
     );
 
     void _selectCartoon(PoliticalCartoon cartoon) {
-      context.read<SelectCartoonCubit>().selectCartoon(cartoon);
+      context.read<AllCartoonsPageCubit>().selectCartoon(cartoon);
     }
 
     Future<void> _refresh() async {

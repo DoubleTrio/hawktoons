@@ -16,15 +16,15 @@ import '../../mocks.dart';
 
 void main() {
   group('DrawerStackPage', () {
+    late AllCartoonsPageCubit allCartoonsPageCubit;
     late AppDrawerCubit appDrawerCubit;
     late AuthenticationBloc authenticationBloc;
     late LatestCartoonBloc latestCartoonBloc;
-    late ShowCreateCartoonSheetCubit showCreateCartoonSheetCubit;
-    late ShowFilterBottomSheetCubit showFilterBottomSheetCubit;
     late TabBloc tabBloc;
     late ThemeCubit themeCubit;
 
     setUpAll(() {
+      registerFallbackValue<AllCartoonsPageState>(FakeAllCartoonsPageState());
       registerFallbackValue<AppTab>(AppTab.latest);
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
@@ -35,19 +35,19 @@ void main() {
     });
 
     setUp(() {
+      allCartoonsPageCubit = MockAllCartoonsPageCubit();
       appDrawerCubit = MockAppDrawerCubit();
       authenticationBloc = MockAuthenticationBloc();
       latestCartoonBloc = MockLatestCartoonBloc();
-      showCreateCartoonSheetCubit = MockShowCreateCartoonSheetCubit();
-      showFilterBottomSheetCubit = MockShowBottomFilterSheetCubit();
       tabBloc = MockTabBloc();
       themeCubit = MockThemeCubit();
 
+      when(() => allCartoonsPageCubit.state).thenReturn(
+        const AllCartoonsPageState.initial()
+      );
       when(() => latestCartoonBloc.state).thenReturn(
         const DailyCartoonInProgress()
       );
-      when(() => showCreateCartoonSheetCubit.state).thenReturn(false);
-      when(() => showFilterBottomSheetCubit.state).thenReturn(false);
       when(() => tabBloc.state).thenReturn(AppTab.latest);
       when(() => themeCubit.state).thenReturn(ThemeMode.light);
       when(() => authenticationBloc.state).thenReturn(
@@ -60,11 +60,10 @@ void main() {
         when(() => appDrawerCubit.state).thenReturn(false);
         await tester.pumpApp(
           const DrawerStackView(),
+          allCartoonsPageCubit: allCartoonsPageCubit,
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
-          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -82,11 +81,10 @@ void main() {
         when(() => appDrawerCubit.state).thenReturn(false);
         await tester.pumpApp(
           const DrawerStackView(),
+          allCartoonsPageCubit: allCartoonsPageCubit,
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
-          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -105,11 +103,10 @@ void main() {
         when(() => appDrawerCubit.state).thenReturn(false);
         await tester.pumpApp(
           const DrawerStackView(),
+          allCartoonsPageCubit: allCartoonsPageCubit,
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
-          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -125,11 +122,10 @@ void main() {
         when(() => appDrawerCubit.state).thenReturn(false);
         await tester.pumpApp(
           const DrawerStackView(),
+          allCartoonsPageCubit: allCartoonsPageCubit,
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
-          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -151,11 +147,10 @@ void main() {
 
         await tester.pumpApp(
           const DrawerStackView(),
+          allCartoonsPageCubit: allCartoonsPageCubit,
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
-          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );
@@ -175,11 +170,10 @@ void main() {
 
         await tester.pumpApp(
           const DrawerStackView(),
+          allCartoonsPageCubit: allCartoonsPageCubit,
           appDrawerCubit: appDrawerCubit,
           authenticationBloc: authenticationBloc,
           latestCartoonBloc: latestCartoonBloc,
-          showCreateCartoonSheetCubit: showCreateCartoonSheetCubit,
-          showFilterBottomSheetCubit: showFilterBottomSheetCubit,
           tabBloc: tabBloc,
           themeCubit: themeCubit,
         );

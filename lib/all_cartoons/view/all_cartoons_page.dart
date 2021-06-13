@@ -29,19 +29,19 @@ class AllCartoonsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final shouldDisplayTitle = context
-      .watch<ScrollHeaderCubit>()
-      .state;
+      .watch<AllCartoonsPageCubit>()
+      .state.isScrolledPastHeader;
 
     final isAdmin = context.select<AuthenticationBloc, bool>(
       (bloc) => bloc.state.isAdmin
     );
 
     void _openCreateCartoonSheet() {
-      context.read<ShowCreateCartoonSheetCubit>().openSheet();
+      context.read<AllCartoonsPageCubit>().openCreateCartoonSheet();
     }
 
     void _openFilterSheet() {
-      context.read<ShowFilterBottomSheetCubit>().openSheet();
+      context.read<AllCartoonsPageCubit>().openFilterSheet();
     }
 
     void _openDrawer() {

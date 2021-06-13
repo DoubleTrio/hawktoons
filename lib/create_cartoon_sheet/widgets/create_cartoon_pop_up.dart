@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
 // import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/widgets/widgets.dart';
@@ -45,11 +45,11 @@ class _CreateCartoonPopUpState extends State<CreateCartoonPopUp> {
     //   return list;
     // }
 
-    void _onPageChanged(int page) {
-      context.read<CreateCartoonPageCubit>().setPage(
-        CreateCartoonPage.values[page]
-      );
-    }
+    // void _onPageChanged(int page) {
+    //   context.read<CreateCartoonPageCubit>().setPage(
+    //     CreateCartoonPage.values[page]
+    //   );
+    // }
 
     return CustomDraggableSheet(
       child: Center(
@@ -61,7 +61,7 @@ class _CreateCartoonPopUpState extends State<CreateCartoonPopUp> {
               child: PageView(
                 physics: const BouncingScrollPhysics(),
                 controller: _pageController,
-                onPageChanged: _onPageChanged,
+                // onPageChanged: _onPageChanged,
                 children: [
                 ],
               ),

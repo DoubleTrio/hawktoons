@@ -27,6 +27,7 @@ extension PumpApp on WidgetTester {
     FirestorePoliticalCartoonRepository? cartoonRepository,
     UserRepository? userRepository,
     AllCartoonsBloc? allCartoonsBloc,
+    AllCartoonsPageCubit? allCartoonsPageCubit,
     AppDrawerCubit? appDrawerCubit,
     AuthenticationBloc? authenticationBloc,
     CartoonViewCubit? cartoonViewCubit,
@@ -35,11 +36,7 @@ extension PumpApp on WidgetTester {
     ImageTypeCubit? imageTypeCubit,
     OnboardingCubit? onboardingCubit,
     PrimaryColorCubit? primaryColorCubit,
-    ScrollHeaderCubit? scrollHeaderCubit,
-    SelectCartoonCubit? selectCartoonCubit,
     SettingsScreenCubit? settingsScreenCubit,
-    ShowCreateCartoonSheetCubit? showCreateCartoonSheetCubit,
-    ShowFilterBottomSheetCubit? showFilterBottomSheetCubit,
     SortByCubit? sortByCubit,
     TagCubit? tagCubit,
     TabBloc? tabBloc,
@@ -47,6 +44,7 @@ extension PumpApp on WidgetTester {
   }) {
     registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
     registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
+    registerFallbackValue<AllCartoonsPageState>(FakeAllCartoonsPageState());
     registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
     registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
@@ -84,6 +82,9 @@ extension PumpApp on WidgetTester {
                 value: allCartoonsBloc ?? MockAllCartoonsBloc()
               ),
               BlocProvider.value(
+                value: allCartoonsPageCubit ?? MockAllCartoonsPageCubit()
+              ),
+              BlocProvider.value(
                 value: appDrawerCubit ?? MockAppDrawerCubit()
               ),
               BlocProvider.value(
@@ -110,21 +111,7 @@ extension PumpApp on WidgetTester {
               BlocProvider.value(value: tabBloc ?? MockTabBloc()),
               BlocProvider.value(value: tagCubit ?? MockTagCubit()),
               BlocProvider.value(
-                value: scrollHeaderCubit ?? MockScrollHeaderCubit()
-              ),
-              BlocProvider.value(
-                value: selectCartoonCubit ?? MockSelectCartoonCubit()
-              ),
-              BlocProvider.value(
                 value: settingsScreenCubit ?? MockSettingsScreenCubit()
-              ),
-              BlocProvider.value(
-                value: showCreateCartoonSheetCubit
-                  ?? MockShowCreateCartoonSheetCubit()
-              ),
-              BlocProvider.value(
-                value: showFilterBottomSheetCubit
-                  ?? MockShowBottomFilterSheetCubit()
               ),
               BlocProvider.value(value: sortByCubit ?? MockSortByCubit()),
               BlocProvider.value(value: imageTypeCubit ?? MockImageTypeCubit()),

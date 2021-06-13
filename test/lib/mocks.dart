@@ -35,7 +35,10 @@ class MockFirebaseUserRepository extends Mock
   implements FirebaseUserRepository {}
 
 class MockAppDrawerCubit extends MockCubit<bool>
-    implements AppDrawerCubit {}
+  implements AppDrawerCubit {}
+
+class MockAllCartoonsPageCubit extends MockCubit<AllCartoonsPageState>
+  implements AllCartoonsPageCubit {}
 
 class MockAllCartoonsBloc extends MockBloc<AllCartoonsEvent, AllCartoonsState>
   implements AllCartoonsBloc {}
@@ -63,20 +66,8 @@ class MockPrimaryColorCubit extends MockCubit<PrimaryColor>
 class MockOnboardingCubit extends MockCubit<OnboardingState>
   implements OnboardingCubit {}
 
-class MockSelectCartoonCubit extends MockCubit<SelectPoliticalCartoonState>
-  implements SelectCartoonCubit {}
-
-class MockScrollHeaderCubit extends MockCubit<bool>
-  implements ScrollHeaderCubit {}
-
 class MockSettingsScreenCubit extends MockCubit<SettingsScreen>
   implements SettingsScreenCubit {}
-
-class MockShowBottomFilterSheetCubit extends MockCubit<bool>
-  implements ShowFilterBottomSheetCubit {}
-
-class MockShowCreateCartoonSheetCubit extends MockCubit<bool>
-  implements ShowCreateCartoonSheetCubit {}
 
 class MockSortByCubit extends MockCubit<SortByMode> implements SortByCubit {}
 

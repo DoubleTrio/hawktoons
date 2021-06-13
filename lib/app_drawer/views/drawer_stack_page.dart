@@ -23,6 +23,9 @@ class DrawerStackPage extends Page<void> {
       cartoonRepository: _firebaseCartoonRepo,
       cartoonViewCubit: _cartoonViewCubit,
     );
+
+    final _allCartoonsPageBloc = AllCartoonsPageCubit();
+
     final _appDrawerCubit = AppDrawerCubit();
 
     final _imageTypeCubit = ImageTypeCubit();
@@ -32,11 +35,7 @@ class DrawerStackPage extends Page<void> {
 
     final _tabBloc = TabBloc();
     final _tagCubit = TagCubit();
-    final _scrollHeaderCubit = ScrollHeaderCubit();
-    final _selectCartoonCubit = SelectCartoonCubit();
     final _settingsPageCubit = SettingsScreenCubit();
-    final _showCreateCartoonSheetCubit = ShowCreateCartoonSheetCubit();
-    final _showBottomSheetCubit = ShowFilterBottomSheetCubit();
     final _sortByCubit = SortByCubit();
 
     final _sortByMode = _sortByCubit.state;
@@ -44,9 +43,9 @@ class DrawerStackPage extends Page<void> {
     final _tag = _tagCubit.state;
 
     final filters = CartoonFilters(
-        sortByMode: _sortByMode,
-        imageType: _imageType,
-        tag: _tag
+      sortByMode: _sortByMode,
+      imageType: _imageType,
+      tag: _tag
     );
 
     return PageRouteBuilder<void>(
@@ -56,20 +55,17 @@ class DrawerStackPage extends Page<void> {
           BlocProvider.value(value: _allCartoonsBloc
             ..add(LoadCartoons(filters))
           ),
-          BlocProvider.value(value: _appDrawerCubit),
-          BlocProvider.value(value: _cartoonViewCubit),
+          BlocProvider.value(value: _allCartoonsPageBloc),
+          BlocProvider.value(value: _appDrawerCubit), // DrawerStack
+          BlocProvider.value(value: _cartoonViewCubit), // Settings
           BlocProvider.value(value: _latestCartoonBloc
             ..add(const LoadLatestCartoon())
           ),
-          BlocProvider.value(value: _imageTypeCubit),
-          BlocProvider.value(value: _scrollHeaderCubit),
-          BlocProvider.value(value: _selectCartoonCubit),
-          BlocProvider.value(value: _settingsPageCubit),
-          BlocProvider.value(value: _showCreateCartoonSheetCubit),
-          BlocProvider.value(value: _showBottomSheetCubit),
-          BlocProvider.value(value: _sortByCubit),
-          BlocProvider.value(value: _tabBloc),
-          BlocProvider.value(value: _tagCubit),
+          BlocProvider.value(value: _imageTypeCubit), // Filter
+          BlocProvider.value(value: _settingsPageCubit), // Settings/ AllCartoons
+          BlocProvider.value(value: _sortByCubit), // Filter
+          BlocProvider.value(value: _tabBloc), // Tab
+          BlocProvider.value(value: _tagCubit), // Filter
         ],
         child: const DrawerStackView(),
       ),

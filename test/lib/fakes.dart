@@ -8,6 +8,7 @@ import 'package:mockito/mockito.dart';
 
 class FakeAllCartoonsState extends Fake implements AllCartoonsState {}
 class FakeAllCartoonsEvent extends Fake implements AllCartoonsEvent {}
+class FakeAllCartoonsPageState extends Fake implements AllCartoonsPageState {}
 class FakeAuthenticationState extends Fake implements AuthenticationState {}
 class FakeAuthenticationEvent extends Fake implements AuthenticationEvent {}
 class FakeLatestCartoonState extends Fake implements LatestCartoonState {}

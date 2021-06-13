@@ -18,14 +18,15 @@ void main() {
   final defaultAllCartoonsState = const AllCartoonsState.initial(
     view: CartoonView.staggered,
   );
+
   group('StaggeredCartoonGrid', () {
     late AllCartoonsBloc allCartoonsBloc;
-    late ScrollHeaderCubit scrollHeaderCubit;
-    late SelectCartoonCubit selectCartoonCubit;
+    late AllCartoonsPageCubit allCartoonsPageCubit;
 
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
+      registerFallbackValue<AllCartoonsPageState>(FakeAllCartoonsPageState());
       registerFallbackValue<SelectPoliticalCartoonState>(
         FakeSelectPoliticalCartoonState()
       );
@@ -33,13 +34,13 @@ void main() {
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
-      scrollHeaderCubit = MockScrollHeaderCubit();
-      selectCartoonCubit = MockSelectCartoonCubit();
+      allCartoonsPageCubit = MockAllCartoonsPageCubit();
 
       when(() => allCartoonsBloc.state)
         .thenReturn(defaultAllCartoonsState);
-      when(() => selectCartoonCubit.state)
-        .thenReturn(const SelectPoliticalCartoonState());
+      when(() => allCartoonsPageCubit.state).thenReturn(
+        const AllCartoonsPageState.initial()
+      );
     });
 
     tearDown(resetMocktailState);
@@ -55,7 +56,7 @@ void main() {
       await tester.pumpApp(
         const StaggeredCartoonGrid(),
         allCartoonsBloc: allCartoonsBloc,
-        selectCartoonCubit: selectCartoonCubit,
+        allCartoonsPageCubit: allCartoonsPageCubit,
       );
 
       expect(find.byType(StaggeredCartoonCard), findsNWidgets(3));
@@ -64,7 +65,7 @@ void main() {
         find.byType(StaggeredCartoonCard).first,
       );
 
-      verify(() => selectCartoonCubit.selectCartoon(mockPoliticalCartoon))
+      verify(() => allCartoonsPageCubit.selectCartoon(mockPoliticalCartoon))
         .called(1);
     });
 
@@ -80,7 +81,7 @@ void main() {
       await tester.pumpApp(
         const StaggeredCartoonGrid(),
         allCartoonsBloc: allCartoonsBloc,
-        selectCartoonCubit: selectCartoonCubit,
+        allCartoonsPageCubit: allCartoonsPageCubit,
       );
 
       expect(find.byType(CartoonCard), findsOneWidget);
@@ -97,7 +98,7 @@ void main() {
       await tester.pumpApp(
         const StaggeredCartoonGrid(),
         allCartoonsBloc: allCartoonsBloc,
-        scrollHeaderCubit: scrollHeaderCubit,
+        allCartoonsPageCubit: allCartoonsPageCubit,
       );
 
       await tester.drag(
@@ -109,8 +110,8 @@ void main() {
       );
 
       verifyInOrder([
-        scrollHeaderCubit.onScrollPastHeader,
-        scrollHeaderCubit.onScrollBeforeHeader,
+        allCartoonsPageCubit.onScrollPastHeader,
+        allCartoonsPageCubit.onScrollBeforeHeader,
       ]);
     });
 
@@ -125,8 +126,7 @@ void main() {
       await tester.pumpApp(
         const StaggeredCartoonGrid(),
         allCartoonsBloc: allCartoonsBloc,
-        selectCartoonCubit: selectCartoonCubit,
-        scrollHeaderCubit: scrollHeaderCubit,
+        allCartoonsPageCubit: allCartoonsPageCubit,
       );
 
       await tester.drag(

@@ -12,13 +12,13 @@ import '../../mocks.dart';
 void main() {
   group('CartoonFlow', () {
     late AllCartoonsBloc allCartoonsBloc;
+    late AllCartoonsPageCubit allCartoonsPageCubit;
     late AuthenticationBloc authenticationBloc;
-    late SelectCartoonCubit selectCartoonCubit;
-    late ScrollHeaderCubit scrollHeaderCubit;
 
     setUpAll(() {
       registerFallbackValue<AllCartoonsState>(FakeAllCartoonsState());
       registerFallbackValue<AllCartoonsEvent>(FakeAllCartoonsEvent());
+      registerFallbackValue<AllCartoonsPageState>(FakeAllCartoonsPageState());
       registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
       registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
       registerFallbackValue<SelectPoliticalCartoonState>(
@@ -28,9 +28,8 @@ void main() {
 
     setUp(() {
       allCartoonsBloc = MockAllCartoonsBloc();
+      allCartoonsPageCubit = MockAllCartoonsPageCubit();
       authenticationBloc = MockAuthenticationBloc();
-      selectCartoonCubit = MockSelectCartoonCubit();
-      scrollHeaderCubit = MockScrollHeaderCubit();
 
       when(() => allCartoonsBloc.state).thenReturn(
         const AllCartoonsState.initial(view: CartoonView.staggered).copyWith(
@@ -38,9 +37,9 @@ void main() {
           status: CartoonStatus.success,
         )
       );
-      when(() => selectCartoonCubit.state)
-        .thenReturn(const SelectPoliticalCartoonState());
-      when(() => scrollHeaderCubit.state).thenReturn(false);
+      when(() => allCartoonsPageCubit.state).thenReturn(
+        const AllCartoonsPageState.initial()
+      );
       when(() => authenticationBloc.state).thenReturn(
         const AuthenticationState(status: AuthenticationStatus.authenticated)
       );
@@ -50,24 +49,25 @@ void main() {
       await tester.pumpApp(
         const CartoonFlow(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        selectCartoonCubit: selectCartoonCubit,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
       expect(find.byType(AllCartoonsView), findsOneWidget);
     });
 
     testWidgets('shows DetailsPage', (tester) async {
-      when(() => selectCartoonCubit.state).thenReturn(
-        SelectPoliticalCartoonState(cartoon: mockPoliticalCartoon)
+      when(() => allCartoonsPageCubit.state).thenReturn(
+        const AllCartoonsPageState.initial().copyWith(
+          politicalCartoon: SelectPoliticalCartoonState(
+            cartoon: mockPoliticalCartoon
+          )
+        )
       );
-
       await tester.pumpApp(
         const CartoonFlow(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        selectCartoonCubit: selectCartoonCubit,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
 
       expect(find.byType(DetailsView), findsOneWidget);
@@ -77,12 +77,11 @@ void main() {
       await tester.pumpApp(
         const CartoonFlow(),
         allCartoonsBloc: allCartoonsBloc,
+        allCartoonsPageCubit: allCartoonsPageCubit,
         authenticationBloc: authenticationBloc,
-        selectCartoonCubit: selectCartoonCubit,
-        scrollHeaderCubit: scrollHeaderCubit,
       );
       await tester.tap(find.byType(StaggeredCartoonCard).first);
-      verify(() => selectCartoonCubit.selectCartoon(mockPoliticalCartoon))
+      verify(() => allCartoonsPageCubit.selectCartoon(mockPoliticalCartoon))
         .called(1);
     });
   });
