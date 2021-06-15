@@ -4,7 +4,7 @@ import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
-import 'package:hawktoons/create_cartoon_sheet/blocs/blocs.dart';
+import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
 import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
@@ -48,8 +48,9 @@ class MockAuthenticationBloc
   extends MockBloc<AuthenticationEvent, AuthenticationState>
   implements AuthenticationBloc {}
 
-class MockCreateCartoonPageCubit extends MockCubit<CreateCartoonPage>
-  implements CreateCartoonPageCubit {}
+class MockCreateCartoonSheetBloc extends
+  MockBloc<CreateCartoonSheetEvent, CreateCartoonSheetState>
+  implements CreateCartoonSheetBloc {}
 
 class MockLatestCartoonBloc
   extends MockBloc<LatestCartoonEvent, LatestCartoonState>

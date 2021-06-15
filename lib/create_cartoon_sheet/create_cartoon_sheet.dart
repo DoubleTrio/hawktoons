@@ -1,3 +1,4 @@
-export 'blocs/blocs.dart';
+export 'bloc/bloc.dart';
+export 'models/models.dart';
 export 'views/views.dart';
-export 'widgets/create_cartoon_pop_up.dart';
+export 'widgets/widgets.dart';

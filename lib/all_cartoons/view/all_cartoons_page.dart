@@ -5,7 +5,6 @@ import 'package:hawktoons/all_cartoons/all_cartoons.dart';
 import 'package:hawktoons/app_drawer/cubit/app_drawer_cubit.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/l10n/l10n.dart';
-import 'package:hawktoons/widgets/add_floating_action_button.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
 class AllCartoonsPage extends Page<void> {

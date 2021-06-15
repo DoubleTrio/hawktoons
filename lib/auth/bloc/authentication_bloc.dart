@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:hawktoons/auth/auth.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
-
-import 'authentication_event.dart';
-import 'authentication_state.dart';
 
 class AuthenticationBloc
   extends Bloc<AuthenticationEvent, AuthenticationState> {

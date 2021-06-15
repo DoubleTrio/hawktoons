@@ -8,7 +8,6 @@ import 'package:hawktoons/app_drawer/app_drawer.dart';
 import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
-import 'package:hawktoons/filters_sheet/cubit/filter_sheet_cubit.dart';
 import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
@@ -33,7 +32,7 @@ extension PumpApp on WidgetTester {
     AppDrawerCubit? appDrawerCubit,
     AppearancesCubit? appearancesCubit,
     AuthenticationBloc? authenticationBloc,
-    CreateCartoonPageCubit? createCartoonPageCubit,
+    CreateCartoonSheetBloc? createCartoonSheetBloc,
     LatestCartoonBloc? latestCartoonBloc,
     FilterSheetCubit? filterSheetCubit,
     OnboardingCubit? onboardingCubit,
@@ -46,6 +45,12 @@ extension PumpApp on WidgetTester {
     registerFallbackValue<AppearancesState>(FakeAppearancesState());
     registerFallbackValue<AuthenticationState>(FakeAuthenticationState());
     registerFallbackValue<AuthenticationEvent>(FakeAuthenticationEvent());
+    registerFallbackValue<CreateCartoonSheetState>(
+      FakeCreateCartoonSheetState()
+    );
+    registerFallbackValue<CreateCartoonSheetEvent>(
+        FakeCreateCartoonSheetEvent()
+    );
     registerFallbackValue<LatestCartoonState>(FakeLatestCartoonState());
     registerFallbackValue<LatestCartoonEvent>(FakeLatestCartoonEvent());
     registerFallbackValue<SelectPoliticalCartoonState>(
@@ -88,7 +93,7 @@ extension PumpApp on WidgetTester {
                 value: authenticationBloc ?? MockAuthenticationBloc()
               ),
               BlocProvider.value(
-                value: createCartoonPageCubit ?? MockCreateCartoonPageCubit()
+                value: createCartoonSheetBloc ?? MockCreateCartoonSheetBloc()
               ),
               BlocProvider.value(
                 value: filterSheetCubit ?? MockFiltersCubit()

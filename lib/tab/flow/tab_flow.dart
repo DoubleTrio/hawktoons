@@ -68,12 +68,12 @@ class TabFlow extends StatelessWidget {
                 );
               }
               if (state.shouldShowCreateCartoonSheet) {
-                final _createCartoonPageCubit = CreateCartoonPageCubit();
+                final _createCartoonSheetBloc = CreateCartoonSheetBloc();
                 showBottomSheet(
                   onComplete: _closeCartoonSheet,
                   child: MultiBlocProvider(
                     providers: [
-                      BlocProvider.value(value: _createCartoonPageCubit),
+                      BlocProvider.value(value: _createCartoonSheetBloc),
                     ],
                     child: const CreateCartoonPopUp()
                   ),
