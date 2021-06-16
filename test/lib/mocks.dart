@@ -10,6 +10,7 @@ import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
+import 'package:image_repository/image_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
@@ -31,6 +32,8 @@ class MockCartoonRepository extends Mock
 
 class MockFirebaseUserRepository extends Mock
   implements FirebaseUserRepository {}
+
+class MockImageRepository extends Mock implements CartoonImageRepository {}
 
 class MockAppDrawerCubit extends MockCubit<bool>
   implements AppDrawerCubit {}

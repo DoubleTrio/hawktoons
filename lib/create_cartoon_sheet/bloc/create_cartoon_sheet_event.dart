@@ -4,8 +4,8 @@ abstract class CreateCartoonSheetEvent extends Equatable {
   const CreateCartoonSheetEvent();
 }
 
-class UpdateFile extends CreateCartoonSheetEvent {
-  const UpdateFile();
+class UploadImage extends CreateCartoonSheetEvent {
+  const UploadImage();
 
   @override
   List<Object?> get props => [];

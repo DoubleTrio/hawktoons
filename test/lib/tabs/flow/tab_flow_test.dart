@@ -10,6 +10,7 @@ import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
+import 'package:image_repository/image_repository.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../fakes.dart';
@@ -25,6 +26,7 @@ void main() {
     late AllCartoonsPageCubit allCartoonsPageCubit;
     late AuthenticationBloc authenticationBloc;
     late FilterSheetCubit filterSheetCubit;
+    late CartoonImageRepository imageRepository;
     late LatestCartoonBloc latestCartoonBloc;
     late SettingsScreenCubit settingsScreenCubit;
     late TabBloc tabBloc;
@@ -48,6 +50,7 @@ void main() {
       allCartoonsBloc = MockAllCartoonsBloc();
       authenticationBloc = MockAuthenticationBloc();
       filterSheetCubit = MockFiltersCubit();
+      imageRepository = MockImageRepository();
       latestCartoonBloc = MockLatestCartoonBloc();
       tabBloc = MockTabBloc();
       settingsScreenCubit = MockSettingsScreenCubit();
@@ -207,6 +210,7 @@ void main() {
 
         await tester.pumpApp(
           const TabFlow(),
+          imageRepository: imageRepository,
           allCartoonsPageCubit: allCartoonsPageCubit,
           filterSheetCubit: filterSheetCubit,
           latestCartoonBloc: latestCartoonBloc,

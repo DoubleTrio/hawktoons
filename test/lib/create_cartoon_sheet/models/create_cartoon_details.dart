@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 void main() {
   group('CreateCartoonDetails', () {
@@ -10,11 +11,16 @@ void main() {
         CreateCartoonDetails(),
       );
       expect(
-        CreateCartoonDetails().copyWith(),
+        CreateCartoonDetails(
+          filePath: '123',
+          published: DateTime.now(),
+          author: 'author',
+          description: 'description',
+          imageType: ImageType.document,
+          tags: [Tag.tag1],
+        ).copyWith(),
         isNot(equals(
-          CreateCartoonSheetState.initial().copyWith(
-            page: CreateCartoonPage.author
-          )
+          CreateCartoonDetails().copyWith(),
         )),
       );
     });

@@ -6,6 +6,7 @@ import 'package:hawktoons/appearances/appearances.dart';
 import 'package:hawktoons/auth/auth.dart';
 import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
+import 'package:image_repository/image_repository.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class App extends StatelessWidget {
@@ -15,6 +16,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final _firebaseUserRepository = FirebaseUserRepository();
     final _firebaseCartoonRepository = FirestorePoliticalCartoonRepository();
+    final _imageRepository = CartoonImageRepository();
+
     final _appearancesCubit = AppearancesCubit();
     final _authBloc = AuthenticationBloc(
       userRepository: _firebaseUserRepository
@@ -28,6 +31,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider.value(
           value: _firebaseUserRepository,
+        ),
+        RepositoryProvider.value(
+          value: _imageRepository,
         ),
       ],
       child: MultiBlocProvider(

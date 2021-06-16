@@ -27,6 +27,8 @@ dependencies:
     git:
       url: https://github.com/DoubleTrio/political_cartoon_repository.git
       ref: main
+  image_repository:
+    path: packages/image_repository/
 #  political_cartoon_repository:
 #    path: ../../repository/political_cartoon_repository
 

@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
-// import 'package:hawktoons/l10n/l10n.dart';
 import 'package:hawktoons/widgets/widgets.dart';
 
 class CreateCartoonPopUp extends StatefulWidget {
@@ -13,11 +14,11 @@ class CreateCartoonPopUp extends StatefulWidget {
 
 class _CreateCartoonPopUpState extends State<CreateCartoonPopUp> {
   final int totalPages = CreateCartoonPage.values.length;
-  late PageController _pageController;
+  // late PageController _pageController;
 
   @override
   void initState() {
-    _pageController = PageController();
+    // _pageController = PageController();
     super.initState();
   }
 
@@ -51,22 +52,36 @@ class _CreateCartoonPopUpState extends State<CreateCartoonPopUp> {
     //   );
     // }
 
+    void loadImage() {
+      context.read<CreateCartoonSheetBloc>().add(const UploadImage());
+    }
+
+    final filePath = context.select<CreateCartoonSheetBloc, String?>((bloc) {
+      return bloc.state.details.filePath;
+    });
+
     return CustomDraggableSheet(
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.60,
-                child: PageView(
-                  physics: const BouncingScrollPhysics(),
-                  controller: _pageController,
-                  // onPageChanged: _onPageChanged,
-                  children: [
-                  ],
-                ),
+              // Container(
+              //   child: PageView(
+              //     physics: const BouncingScrollPhysics(),
+              //     controller: _pageController,
+              //     // onPageChanged: _onPageChanged,
+              //     children: [
+              //     ],
+              //   ),
+              // ),
+              if (filePath != null) Image.file(
+                File(filePath), height: 100, width: 300
               ),
-              const SizedBox(height: 60),
+              TextButton(
+                key: const Key('CreateCartoonSheet_UploadImageButton'),
+                onPressed: loadImage,
+                child: const Text('Upload')
+              )
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
               //   children: [

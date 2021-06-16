@@ -7,6 +7,8 @@ import 'package:hawktoons/filters_sheet/filters_sheet.dart';
 import 'package:hawktoons/latest_cartoon/latest_cartoon.dart';
 import 'package:hawktoons/settings/flow/settings_flow.dart';
 import 'package:hawktoons/tab/tab.dart';
+import 'package:image_repository/image_repository.dart';
+import 'package:political_cartoon_repository/political_cartoon_repository.dart';
 
 class TabFlow extends StatelessWidget {
   const TabFlow({Key? key}): super(key: key);
@@ -68,7 +70,11 @@ class TabFlow extends StatelessWidget {
                 );
               }
               if (state.shouldShowCreateCartoonSheet) {
-                final _createCartoonSheetBloc = CreateCartoonSheetBloc();
+                final _createCartoonSheetBloc = CreateCartoonSheetBloc(
+                  cartoonRepository:
+                    context.read<FirestorePoliticalCartoonRepository>(),
+                  imageRepository: context.read<CartoonImageRepository>()
+                );
                 showBottomSheet(
                   onComplete: _closeCartoonSheet,
                   child: MultiBlocProvider(

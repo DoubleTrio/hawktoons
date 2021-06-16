@@ -14,6 +14,7 @@ import 'package:hawktoons/latest_cartoon/bloc/latest_cartoon.dart';
 import 'package:hawktoons/onboarding/onboarding.dart';
 import 'package:hawktoons/settings/settings.dart';
 import 'package:hawktoons/tab/tab.dart';
+import 'package:image_repository/image_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:political_cartoon_repository/political_cartoon_repository.dart';
@@ -26,6 +27,7 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     ThemeMode? mode,
     FirestorePoliticalCartoonRepository? cartoonRepository,
+    CartoonImageRepository? imageRepository,
     UserRepository? userRepository,
     AllCartoonsBloc? allCartoonsBloc,
     AllCartoonsPageCubit? allCartoonsPageCubit,
@@ -70,6 +72,9 @@ extension PumpApp on WidgetTester {
           providers: [
             RepositoryProvider.value(
               value: cartoonRepository ?? MockCartoonRepository()
+            ),
+            RepositoryProvider.value(
+              value: imageRepository ?? MockImageRepository()
             ),
             RepositoryProvider.value(
               value: userRepository ?? MockFirebaseUserRepository()

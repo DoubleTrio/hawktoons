@@ -4,15 +4,15 @@ import 'package:hawktoons/create_cartoon_sheet/create_cartoon_sheet.dart';
 
 void main() {
   group('CreateCartoonSheetEvent', () {
-    group('UpdateFile', () {
+    group('UploadImage', () {
       test('supports value comparisons', () {
         expect(
-          UpdateFile(),
-          UpdateFile(),
+          UploadImage(),
+          UploadImage(),
         );
         expect(
-          UpdateFile().toString(),
-          UpdateFile().toString(),
+          UploadImage().toString(),
+          UploadImage().toString(),
         );
       });
     });
