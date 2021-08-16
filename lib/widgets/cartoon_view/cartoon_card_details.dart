@@ -168,13 +168,13 @@ class CartoonCardDetails extends StatelessWidget {
             type: cartoon.type,
             publishedString: cartoon.publishedString
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           if (cartoon.author != '') ...[
             CartoonCardAuthor(author: cartoon.author),
             const SizedBox(height: 12)
           ],
           CartoonPostedDate(timestamp: cartoon.timestamp),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           CartoonsTags(tags: cartoon.tags),
         ],
       ),

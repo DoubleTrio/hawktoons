@@ -21,7 +21,9 @@ class CartoonImageRepository implements ImageRepository {
   Future<PickedFile?> getImage() async {
     PickedFile? image = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      imageQuality: 100
+      imageQuality: 100,
+      maxWidth: 640,
+      maxHeight: 480,
     );
     return image;
   }

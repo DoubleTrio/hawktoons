@@ -37,6 +37,17 @@ class CreateCartoonSheetState extends Equatable {
     );
   }
 
+  CreateCartoonSheetState updatePage(CreateCartoonPage page) => copyWith(
+    page: page
+  );
+
+
+  CreateCartoonSheetState updateDetails(CreateCartoonDetails details) =>
+    copyWith(details: details);
+
+  CreateCartoonSheetState updateStatus(CreateCartoonStatus status) =>
+    copyWith(status: status);
+
   @override
   List<Object?> get props => [page, details];
 }
